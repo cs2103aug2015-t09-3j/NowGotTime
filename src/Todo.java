@@ -55,6 +55,13 @@ public class Todo extends Item {
 	
 	/*********************************  Mutators ********************************************/
 
+	public boolean updateDeadlineDate(String dateString) {
+	    return updateDate(deadline, dateString);
+	}
+	
+	public boolean updateDeadlineTime(String timeString) {
+        return updateTime(deadline, timeString);
+    }
 	
 	/********************************** Process Dates ****************************************/
 	

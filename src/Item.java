@@ -7,7 +7,7 @@ public class Item {
     private String additionalInfo;
     
     private static final String PATTERN_DATE = "dd MMM yyyy";
-    private static final String PATTERN_TIME = "kk:mm";
+    private static final String PATTERN_TIME = "HH:mm";
     
     private static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
     private static final SimpleDateFormat FORMAT_TIME = new SimpleDateFormat(PATTERN_TIME);
@@ -44,7 +44,7 @@ public class Item {
         try {
             Calendar time = Calendar.getInstance();
             time.setTime(FORMAT_TIME.parse(timeString));
-            calendar.set(Calendar.HOUR, time.get(Calendar.HOUR));
+            calendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
             calendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
         } catch (ParseException e) {
             return false;
