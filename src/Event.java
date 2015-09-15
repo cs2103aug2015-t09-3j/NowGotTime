@@ -7,14 +7,12 @@ import java.util.Calendar;
  * 
  */
 
-public class Event {
+public class Event extends Item {
 	private static final String START_DATE = "start";
 	private static final String END_DATE = "end";
 	
-	private String eventName;
-	private String addInfo;
-	private Calendar startDateNTime;
-	private Calendar endDateNTime;
+	private Calendar start;
+	private Calendar end;
 	
 	
 	/*********************************** Constructor ******************************************/
@@ -24,28 +22,19 @@ public class Event {
 	}
 	
 	public Event(String name, String startDate, String endDate, String startTime, String endTime, String additionalInfo ){
-		eventName = name;
-		addInfo = additionalInfo;
+		super(name, additionalInfo);
 		
-		startDateNTime = Calendar.getInstance();
-		endDateNTime = Calendar.getInstance();
+		start = Calendar.getInstance();
+		end = Calendar.getInstance();
 		
-		setCalendarDate(processStringDate(startDate), START_DATE);
-		setCalendarDate(processStringDate(endDate), END_DATE);
-		setCalendarTime(processStringTime(startTime), START_DATE);
-		setCalendarTime(processStringTime(endTime), END_DATE);
+		updateDate(start, startDate);
+		updateDate(start, endDate);
+		updateTime(end, startTime);
+		updateTime(end, endTime);
 		
 	}
 	
 	/*********************************** Accessors ********************************************/
-	
-	public String getEventName(){
-		return eventName;
-	}
-	
-	public String getAddInfo(){
-		return addInfo;
-	}
 	
 	public Calendar getStartDateCalendar(String calendarChoice){
 		Calendar calendar = chooseCalendar(calendarChoice);
@@ -69,24 +58,6 @@ public class Event {
 	
 /**************************************  Mutators ********************************************/
 	
-	// return true if successfully changed; return false if newName is an empty string. 
-	public boolean changeEventName(String newName){
-		if(newName.isEmpty()){
-			return false;
-		}
-		eventName = newName;
-		return true;
-	}
-
-	// return true if successfully changed; return false if newAddInfo is an empty string. 
-	public boolean changeAddInfo(String newAddInfo){
-		if(newAddInfo.isEmpty()){
-			return false;
-		}
-		addInfo = newAddInfo;
-		return true;
-	}
-
 	public boolean changeDate(String newDate, String calendarChoice){
 				
 		if(dateFormatIsCorrect(newDate)){
@@ -226,8 +197,8 @@ public class Event {
 /*********************************** Overriding Methods ***********************************/
 	
 	public String toString(){
-		return  getEventName() + "\n" 
-				+ getAddInfo() + "\n" 
+		return  getName() + "\n" 
+				+ getAdditionalInfo() + "\n" 
 				+ getStringDate(START_DATE) + "\n" 
 				+ getStringDate(END_DATE) + "\n" 
 				+ getStringTime(START_DATE) + "\n" 
@@ -238,10 +209,10 @@ public class Event {
 	
 	private Calendar chooseCalendar(String choice){
 		if(choice.equals(START_DATE)){
-			return startDateNTime;
+			return start;
 		}
 		else if(choice.equals(END_DATE)){
-			return endDateNTime;
+			return end;
 		}
 		else{
 			return Calendar.getInstance();
