@@ -62,7 +62,9 @@ public class Event {
 	
 	public String getStringTime(String choice){
 		Calendar calendar = chooseCalendar(choice);
-		return "" + calendar.get(Calendar.HOUR) + ("" + calendar.get(Calendar.MINUTE));
+		String hour = calendar.get(Calendar.HOUR) + "";
+		String minute = calendar.get(Calendar.MINUTE) + "";
+		return hour.concat(minute);
 	}
 	
 /**************************************  Mutators ********************************************/
