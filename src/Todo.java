@@ -1,7 +1,4 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Assumption is that the time and date format goes as follow:

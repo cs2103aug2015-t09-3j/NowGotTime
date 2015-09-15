@@ -44,6 +44,7 @@ public class Item {
         try {
             Calendar time = Calendar.getInstance();
             time.setTime(FORMAT_TIME.parse(timeString));
+            
             calendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
             calendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
         } catch (ParseException e) {
@@ -58,7 +59,7 @@ public class Item {
             date.setTime(FORMAT_DATE.parse(dateString));
             
             calendar.set(Calendar.DATE, date.get(Calendar.DATE));
-            calendar.set(Calendar.MONTH,date.get(Calendar.MONTH));
+            calendar.set(Calendar.MONTH, date.get(Calendar.MONTH));
             calendar.set(Calendar.YEAR, date.get(Calendar.YEAR));
         } catch (ParseException e) {
             return false;
