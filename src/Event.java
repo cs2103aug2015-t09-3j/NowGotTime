@@ -19,7 +19,11 @@ public class Event {
 	
 	/*********************************** Constructor ******************************************/
 	
-	public Event(String name, String additionalInfo, String startDate, String endDate, String startTime, String endTime ){
+	public Event(String name, String date, String startTime, String endTime, String additionalInfo){
+		this(name, date, date, startTime, endTime, additionalInfo);
+	}
+	
+	public Event(String name, String startDate, String endDate, String startTime, String endTime, String additionalInfo ){
 		eventName = name;
 		addInfo = additionalInfo;
 		
@@ -27,13 +31,13 @@ public class Event {
 		endDateNTime = Calendar.getInstance();
 		
 		setCalendarDate(processStringDate(startDate), START_DATE);
-		setCalendarDate(processStringDate(startDate), END_DATE);
+		setCalendarDate(processStringDate(endDate), END_DATE);
 		setCalendarTime(processStringTime(startTime), START_DATE);
 		setCalendarTime(processStringTime(endTime), END_DATE);
 		
 	}
 	
-	/*************public********************** Accessors ********************************************/
+	/*********************************** Accessors ********************************************/
 	
 	public String getEventName(){
 		return eventName;
@@ -201,8 +205,8 @@ public class Event {
 		}
 		
 		char[] splitTime = time.toCharArray();
-		int hours = Integer.parseInt( ("" + splitTime[0]) + splitTime[1]);
-		int minutes = Integer.parseInt( ("" + splitTime[2]) + splitTime[3]);
+		int hours = Integer.parseInt( ("" + splitTime[0]) + ("" + splitTime[1]));
+		int minutes = Integer.parseInt(("" + splitTime[2]) + ("" + splitTime[3]));
 		int[] numTime = {hours, minutes};
 		return numTime;
 	}
@@ -242,4 +246,3 @@ public class Event {
 		}
 	}
 }
-
