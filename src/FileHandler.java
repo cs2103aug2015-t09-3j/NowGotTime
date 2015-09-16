@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * The class will be in charge of data storage of events by month.
@@ -23,15 +22,8 @@ import java.util.HashMap;
  *
  */
 
-public class FileHandler {
+public class FileHandler implements FileManager{
 	private static final String EVENT_OVERVIEWER = "overviewer.txt";
-	private static final String EVENT_NAME = "eventName";
-	private static final String START_DATE = "startDate";
-	private static final String END_DATE = "endDate";
-	private static final String START_TIME = "startTime";
-	private static final String END_TIME = "endTime";
-	private static final String	ADDITIONAL_INFORMATION = "addInfo";	
-	
 	private File inputFile;
 	private ArrayList<String> availableMonths;
 	
@@ -40,65 +32,53 @@ public class FileHandler {
 		readOverviewerFile();
 	}
 	
-	public ArrayList<HashMap<String, String>> retrieveEventByDate(String date){
+	@Override
+	public ArrayList<Event> retrieveEventByDate(String date){
 		
-		ArrayList<HashMap<String, String>> eventBookByMonth = retrieveEventByMonth(date);
+		ArrayList<Event> eventBookByMonth = retrieveEventByMonth(date);
 		
-		ArrayList<HashMap<String, String>> eventBookByDate = filterEventsToSpecificDate(
-				date, eventBookByMonth);
+		ArrayList<Event> eventBookByDate = filterEventsToSpecificDate(date, eventBookByMonth);
 		
 		return eventBookByDate;
 	}
+	
+	@Override
+	public ArrayList<Todo> retrieveTodoByDate(String date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	public ArrayList<HashMap<String, String>> retrieveEventByMonth(String date){
-		String fileName = setFileName(date);
-		selectFileAsInputFile(fileName);
-		ArrayList<HashMap<String, String>> eventBook  = new ArrayList<HashMap<String, String>>();
-		
-		
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-			String lineOfText;
-			
-			while( (lineOfText = reader.readLine()) != null ){
-				HashMap<String, String> anEvent = new HashMap<String, String>();
-				anEvent.put(EVENT_NAME, lineOfText);
-				anEvent.put(START_DATE, reader.readLine());
-				anEvent.put(END_DATE, reader.readLine());
-				anEvent.put(START_TIME, reader.readLine());
-				anEvent.put(END_TIME, reader.readLine());
-				anEvent.put(ADDITIONAL_INFORMATION, reader.readLine());
-				
-				eventBook.add(anEvent);
-			}
-			
-			reader.close();		 
-			return eventBook;
-		}
-		catch (FileNotFoundException e) {
-			return eventBook;
-		}catch (IOException e) {
-			return eventBook;
-		}	
+	@Override
+	public ArrayList<Todo> retrieveUniversalTodo(String date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Event> retrieveProjectTimeLine(String projectName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
-	public void saveNewEventHandler(HashMap<String, String> event){
+	@Override
+	public boolean saveNewEventHandler(Event event){
 
 		boolean dateWillSpillOverMonth = false;
 		
-		String startDate = event.get(START_DATE);
+		String startDate = event.getStartDateString();
 		String fileName = setFileName(startDate);
 		if(!availableMonths.contains(fileName)){
 			createNewMonthFile(fileName);
 			updateOverviewFile(fileName);
+			return false;
 		}
 		
-		ArrayList<HashMap<String, String>> eventBook = retrieveEventByMonth(startDate);
+		ArrayList<Event> eventBook = retrieveEventByMonth(startDate);
 		eventBook.add(event);
 		sortEventsByDate();
 		saveEventBook(setFileName(startDate), eventBook);
 		
-		String endDate = event.get(END_DATE);
+		String endDate = event.getEndDateString();
 		if(!startDate.equals(endDate)){
 			//TODO: spill over days
 			
@@ -115,8 +95,80 @@ public class FileHandler {
 			sortEventsByDate();
 			saveEventBook(setFileName(startDate), eventBook);
 		}
-	
+		return true;
 	}
+	
+	@Override
+	public boolean saveEditedEventHandler(ArrayList<Event> eventBook) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean saveNewTodoHandler(Todo task) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean saveEditedTodoHandler(ArrayList<Todo> taskBook) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean createNewProject(String projectName) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean saveEditedProjectDetails(ArrayList<Event> projectBook) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ArrayList<String> getListOfExistingProject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	private ArrayList<Event> retrieveEventByMonth(String date){
+		
+		String fileName = setFileName(date);
+		selectFileAsInputFile(fileName);
+		
+		ArrayList<Event> eventBook  = new ArrayList<Event>();
+		String eventName, startDate, endDate, startTime, endTime, addInfo;
+		
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+			String lineOfText;
+			
+			while( (lineOfText = reader.readLine()) != null ){
+				eventName = lineOfText;
+				addInfo = reader.readLine();
+				startDate = reader.readLine();
+				endDate = reader.readLine();
+				startTime = reader.readLine();
+				endTime = reader.readLine();
+				
+				
+				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
+				eventBook.add(event);
+			}
+			
+			reader.close();		 
+			return eventBook;
+		}
+		catch (FileNotFoundException e) {
+			return eventBook;
+		}catch (IOException e) {
+			return eventBook;
+		}	
+	}
+	
 
 /************************************* Overview File ****************************************************/	
 	
@@ -185,12 +237,11 @@ public class FileHandler {
 	
 /************************************* Reading File ***************************************************/
 	
-	private ArrayList<HashMap<String, String>> filterEventsToSpecificDate(
-			String date, ArrayList<HashMap<String, String>> eventBookByMonth) {
-		ArrayList<HashMap<String, String>> eventBookByDate = new ArrayList<HashMap<String, String>>();
+	private ArrayList<Event> filterEventsToSpecificDate(String date, ArrayList<Event> eventBookByMonth) {
+		ArrayList<Event> eventBookByDate = new ArrayList<Event>();
 		
-		for(HashMap<String, String> anEvent : eventBookByMonth){
-			if( anEvent.get("startDate").equals(date)){
+		for(Event anEvent : eventBookByMonth){
+			if( anEvent.getStartDateString().toLowerCase().equals(date.toLowerCase())){
 				eventBookByDate.add(anEvent);
 			}
 		}
@@ -199,19 +250,17 @@ public class FileHandler {
 	
 /********************************** Writing on File ***************************************************/
 	
-	private boolean saveEventBook(String textFileName, ArrayList<HashMap<String, String>> eventBook){
+	private boolean saveEventBook(String textFileName, ArrayList<Event> eventBook){
 		
 		try{
 			File outfile = new File(textFileName);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
 			
-			for(HashMap<String, String> anEvent : eventBook){
-				writer.write(anEvent.get(EVENT_NAME)); writer.newLine();
-				writer.write(anEvent.get(START_DATE)); writer.newLine();
-				writer.write(anEvent.get(END_DATE)); writer.newLine();
-				writer.write(anEvent.get(START_TIME)); writer.newLine();
-				writer.write(anEvent.get(END_TIME)); writer.newLine();
-				writer.write(anEvent.get(ADDITIONAL_INFORMATION)); writer.newLine();
+			
+			
+			for(Event anEvent : eventBook){
+				writer.write(anEvent.toString()); 
+				writer.newLine();
 			}
 			writer.close();
 			return true;
@@ -225,5 +274,6 @@ public class FileHandler {
 	private void sortEventsByDate(){
 		
 	}
+
 
 }

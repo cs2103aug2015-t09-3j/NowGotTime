@@ -1,27 +1,21 @@
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public interface FileManager {
 	
-	// Retrieve events of a specific date
-	public ArrayList<HashMap<String, String>> retrieveEventByDate(String date); 
-	// Retrieve to-do tasks of a specific day
-	public ArrayList<HashMap<String, String>> retrieveTodoByDay(String date);
-	// Retrieve to-do tasks with no date
-	public ArrayList<HashMap<String, String>> retrieveUniversalTodo(String date);
-	// Retrieve a project time-line
-	public ArrayList<HashMap<String, String>> retrieveProjectTimeLine(String projectName);
+	public ArrayList<Event> retrieveEventByDate(String date); 
+	public ArrayList<Todo> retrieveTodoByDate(String date);
+	public ArrayList<Todo> retrieveUniversalTodo(String date);
+	public ArrayList<Event> retrieveProjectTimeLine(String projectName);
 	
-	// save new event
-	public boolean saveNewEventHandler(HashMap<String, String> event);
-	// save edited event
-	public boolean saveEditedEventHandler(HashMap<String, String> event);
-	// save new To-Do task
-	public boolean saveNewTodoHandler(HashMap<String, String> event);
-	// save edited To-Do task
-	public boolean saveEditedTodoHandler(HashMap<String, String> event);
-	// save new project group
-	public boolean saveNewProject(String projectName);
-	// save edited project details
-	public boolean saveEditedProjectDetails();	
+	public boolean saveNewEventHandler(Event event);
+	public boolean saveEditedEventHandler(ArrayList<Event> eventBook);
+	public boolean saveNewTodoHandler(Todo task);
+	public boolean saveEditedTodoHandler(ArrayList<Todo> taskBook);
+	
+	public boolean createNewProject(String projectName);
+	public boolean saveEditedProjectDetails(ArrayList<Event> projectBook);
+	
+	public ArrayList<String> getListOfExistingProject( );
+	
 }

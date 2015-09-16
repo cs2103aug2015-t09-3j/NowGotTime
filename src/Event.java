@@ -8,59 +8,58 @@ import java.util.Calendar;
  */
 
 public class Event extends Item {
-	
-	private Calendar start;
-	private Calendar end;
-	
-	
-	/*********************************** Constructor ******************************************/
-	
-	public Event(String name, String date, String startTime, String endTime, String additionalInfo){
-		this(name, date, date, startTime, endTime, additionalInfo);
-	}
-	
-	public Event(String name, String startDate, String endDate, String startTime, String endTime, String additionalInfo ){
-		super(name, additionalInfo);
-		
-		start = Calendar.getInstance();
-		end = Calendar.getInstance();
-		
-		updateDate(start, startDate);
-		updateTime(start, startTime);
-		updateDate(end, endDate);
-		updateTime(end, endTime);
-		
-	}
-	
-	/*********************************** Accessors ********************************************/
-	
-	public Calendar getStartCalendar(){
-	    return start;
-	}
-	
-	public Calendar getEndCalendar(){
+  
+  private Calendar start;
+  private Calendar end;
+  
+  /*********************************** Constructor ******************************************/
+  
+  public Event(String name, String date, String startTime, String endTime, String additionalInfo){
+    this(name, date, date, startTime, endTime, additionalInfo);
+  }
+  
+  public Event(String name, String startDate, String endDate, String startTime, String endTime, String additionalInfo ){
+    super(name, additionalInfo);
+    
+    start = Calendar.getInstance();
+    end = Calendar.getInstance();
+    
+    updateDate(start, startDate);
+    updateTime(start, startTime);
+    updateDate(end, endDate);
+    updateTime(end, endTime);
+    
+  }
+  
+  /*********************************** Accessors ********************************************/
+  
+  public Calendar getStartCalendar(){
+      return start;
+  }
+  
+  public Calendar getEndCalendar(){
         return end;
     }
-	
-	public String getStartDateString() {
-	    return getDateString(start);
-	}
-	
-	public String getEndDateString() {
+  
+  public String getStartDateString() {
+      return getDateString(start);
+  }
+  
+  public String getEndDateString() {
         return getDateString(end);
     }
-	
-	public String getStartTimeString() {
+  
+  public String getStartTimeString() {
         return getTimeString(start);
     }
     
     public String getEndTimeString() {
         return getTimeString(end);
     }
-	
+  
 /**************************************  Mutators ********************************************/
-	
-	public boolean updateStartDate(String dateString) {
+  
+  public boolean updateStartDate(String dateString) {
         return updateDate(start, dateString);
     }
     
@@ -75,22 +74,17 @@ public class Event extends Item {
     public boolean updateEndTime(String timeString) {
         return updateTime(end, timeString);
     }
-	
-/*********************************** Process Dates *******************************************/
-	
-/************************************* Process Time ****************************************/
 
 /*********************************** Overriding Methods ***********************************/
-	
-	public String toString(){
-		return  getName() + "\n" 
-				+ getAdditionalInfo() + "\n" 
-				+ getStartDateString() + "\n" 
-				+ getEndDateString() + "\n" 
-				+ getStartTimeString() + "\n" 
-				+ getEndTimeString();
-	}
-	
-/************************************ Other Methods ***************************************/
+  
+  public String toString(){
+    return  getName() + "\n" 
+        + getAdditionalInfo() + "\n" 
+        + getStartDateString() + "\n" 
+        + getEndDateString() + "\n" 
+        + getStartTimeString() + "\n" 
+        + getEndTimeString();
+  }
+
 
 }
