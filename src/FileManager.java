@@ -8,6 +8,7 @@ public interface FileManager {
 	public ArrayList<Todo> retrieveUniversalTodo(String date);
 	public ArrayList<Event> retrieveProjectTimeLine(String projectName);
 	
+	public boolean saveNewEventHandler(Event event);
 	public boolean saveEditedEventHandler(ArrayList<Event> eventBook);
 	public boolean saveNewTodoHandler(Todo task);
 	public boolean saveEditedTodoHandler(ArrayList<Todo> taskBook);
