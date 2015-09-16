@@ -12,7 +12,6 @@ public class Event extends Item {
 	private Calendar start;
 	private Calendar end;
 	
-	
 	/*********************************** Constructor ******************************************/
 	
 	public Event(String name, String date, String startTime, String endTime, String additionalInfo){
@@ -75,10 +74,6 @@ public class Event extends Item {
     public boolean updateEndTime(String timeString) {
         return updateTime(end, timeString);
     }
-	
-/*********************************** Process Dates *******************************************/
-	
-/************************************* Process Time ****************************************/
 
 /*********************************** Overriding Methods ***********************************/
 	
@@ -90,7 +85,6 @@ public class Event extends Item {
 				+ getStartTimeString() + "\n" 
 				+ getEndTimeString();
 	}
-	
-/************************************ Other Methods ***************************************/
+
 
 }
