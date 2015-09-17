@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class testFileManager {
+public class TestFileManager {
 	
 	public static Scanner scanner = new Scanner(System.in);
 	
