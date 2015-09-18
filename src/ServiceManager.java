@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 
 /**
  * The interface will be a blueprint of a service handler in charge of 
@@ -8,12 +6,23 @@ import java.util.Scanner;
  */
 public interface ServiceManager {
 	
-	// Create both floating and normal events
-	// Return true if successful, else return false
-	public boolean createEvent(Scanner sc);
-	public boolean delete(int index, ArrayList<HashMap<String, String>> eventBook);
-	public boolean edit(String date);
-	public ArrayList<HashMap<String, String>> viewDay(String date);
-	public HashMap<String, String> viewEvent(String eventName);
-	public ArrayList<HashMap<String, String>> viewToDoList(String taskName);
+	public boolean createEvent (ArrayList<String> eventDetails); 
+	public boolean createTask(ArrayList<String> taskDetails);
+	
+	public ArrayList<Event> viewEventByDate(String date);
+	public ArrayList<Todo> viewTaskByDate(String date);
+	
+	public boolean deleteEvent(String eventName);
+	public boolean deleteEvent(int eventIndex);
+	public boolean deleteTask(String task);
+	public boolean deleteTask(int taskIndex);
+	
+	public boolean editEvent(String eventName, int index, String update);
+	public boolean editTask(String taskName, int index, String update);
+	
+	public boolean viewEvent (String eventName);
+	public Event viewSpecificEvent (String eventName);
+	
+	public boolean viewTask (String taskName);
+	public Todo viewSpecificTask (String taskName);
 }
