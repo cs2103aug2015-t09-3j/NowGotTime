@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class FileHandler implements FileManager{
 	
-	private static final String EVENT_OVERVIEWER = "overviewer.txt";
+	private static final String EVENT_OVERVIEWER = "overview.txt";
 	private File inputFile;
 	private String eventPath;
 	private String todoPath;
@@ -37,6 +37,9 @@ public class FileHandler implements FileManager{
 	public FileHandler(){
 		new StartUpHandler();
 		readOverviewerFile();
+		System.out.println(eventPath);
+		System.out.println(todoPath);
+		System.out.println(projectPath);
 		
 		fEventH = new FileEventHandler(eventPath);
 		fProjH = new FileProjectHandler(projectPath);

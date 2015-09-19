@@ -26,8 +26,8 @@ public class FileEventHandler {
 	
 /*****************************************************************************************/		
 
-	public FileEventHandler(String baseDirectory){
-		this.baseDirectory = baseDirectory.concat("\\");
+	public FileEventHandler(String theBaseDirectory){
+		this.baseDirectory = theBaseDirectory.concat("\\");
 		readOverviewerFile();
 	}
 
