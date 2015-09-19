@@ -50,6 +50,14 @@ public class Todo extends Item {
 	    return getTimeString(deadline);
 	}
 	
+	public boolean hasDate(){
+		return hasDate;
+	}
+	
+	public boolean hasTime(){
+		return hasTime;
+	}
+	
 	/*********************************  Mutators ********************************************/
 
 	public boolean updateDeadlineDate(String dateString) {

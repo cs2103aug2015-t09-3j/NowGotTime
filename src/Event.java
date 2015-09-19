@@ -53,9 +53,9 @@ public class Event extends Item {
         return getTimeString(start);
     }
     
-    public String getEndTimeString() {
-        return getTimeString(end);
-    }
+  public String getEndTimeString() {
+	  return getTimeString(end);
+  }
   
 /**************************************  Mutators ********************************************/
   

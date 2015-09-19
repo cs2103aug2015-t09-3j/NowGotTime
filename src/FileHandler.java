@@ -152,8 +152,7 @@ public class FileHandler implements FileManager{
 				startDate = reader.readLine();
 				endDate = reader.readLine();
 				startTime = reader.readLine();
-				endTime = reader.readLine();
-				
+				endTime = reader.readLine();			
 				
 				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
 				eventBook.add(event);
@@ -167,6 +166,12 @@ public class FileHandler implements FileManager{
 		}catch (IOException e) {
 			return eventBook;
 		}	
+	}
+	
+	@Override
+	public boolean deleteProject(String projectName){
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 
