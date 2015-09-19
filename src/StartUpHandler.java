@@ -26,9 +26,9 @@ public class StartUpHandler {
 	private String eventPath;
 	private String projectPath;
 	
-	public static void main(String[] args){
-		StartUpHandler s = new StartUpHandler();
-	}
+//	public static void main(String[] args){
+//		StartUpHandler s = new StartUpHandler();
+//	}
 	
 	public StartUpHandler(){
 		if(!checkIfOverviewExist()){

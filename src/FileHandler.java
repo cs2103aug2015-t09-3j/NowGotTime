@@ -123,7 +123,7 @@ public class FileHandler implements FileManager{
 	}
 
 	@Override
-	public boolean saveEditedProjectDetails(ArrayList<Event> projectBook) {
+	public boolean saveEditedProjectDetails(ArrayList<Event> projectBook, String projectName) {
 		// TODO Auto-generated method stub
 		return false;
 	}
