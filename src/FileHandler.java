@@ -152,8 +152,7 @@ public class FileHandler implements FileManager{
 				startDate = reader.readLine();
 				endDate = reader.readLine();
 				startTime = reader.readLine();
-				endTime = reader.readLine();
-				
+				endTime = reader.readLine();			
 				
 				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
 				eventBook.add(event);
@@ -168,7 +167,6 @@ public class FileHandler implements FileManager{
 			return eventBook;
 		}	
 	}
-	
 
 /************************************* Overview File ****************************************************/	
 	
