@@ -17,6 +17,24 @@ public class ProjectHandler implements ProjectManager{
 
 		return project.createNewProject(projectName);
 	}
+	
+	@Override
+	public boolean addProjectEvent(Event eventName, String projectName) {
+		
+		// Don't create new project, in case user types wrongly. Prompt user to create proj first.
+		if (!listExistingProjects().contains(projectName))
+		{
+			return false;
+		}
+		
+		else
+		{
+			projectBook = viewProjectTimeline(projectName);
+			projectBook.add(eventName);
+			project.saveEditedProjectDetails(projectBook, projectName);
+			return true;
+		}
+	}
 
 	@Override
 	public boolean deleteProject(String projectName) {
@@ -55,7 +73,7 @@ public class ProjectHandler implements ProjectManager{
 	}
 
 	@Override
-	public boolean editProjectEvent(int eventIndex, int infoIndex, String newValue) {
+	public boolean editProjectEvent(int eventIndex, int infoIndex, String newValue, String projectName) {
 		
 		if (eventIndex <= 0 || eventIndex > projectBook.size())
 		{
@@ -69,7 +87,7 @@ public class ProjectHandler implements ProjectManager{
 			switch(infoIndex)
 			{
 				case (1):
-				{
+				{	
 					event.setName(newValue);
 					break;
 				}
@@ -105,15 +123,16 @@ public class ProjectHandler implements ProjectManager{
 				}
 			}
 			
+			project.saveEditedProjectDetails(projectBook, projectName);
 			return true;
 		}
 	}
 
 	@Override
-	public boolean editProjectEvent(String name, int infoIndex, String newValue) {
+	public boolean editProjectEvent(Event eventName, int infoIndex, String newValue, String projectName) {
 		
-		if (!projectBook.contains(name))
-		{
+		if (!projectBook.contains(eventName))
+		{	
 			return false;
 		}
 
@@ -122,8 +141,8 @@ public class ProjectHandler implements ProjectManager{
 			//Event event = projectBook.get(projectBook.indexOf(name));
 			
 			//recursion
-				int eventIndex = projectBook.indexOf(name);
-				return editProjectEvent(eventIndex, infoIndex, newValue);
+				int eventIndex = projectBook.indexOf(eventName);
+				return editProjectEvent(eventIndex, infoIndex, newValue, projectName);
 		}	
 		
 			//if recursion doesn't work:
@@ -190,8 +209,17 @@ public class ProjectHandler implements ProjectManager{
 	public ArrayList<Event> viewProjectTimeline(int index) {
 		// TODO Auto-generated method stub
 		
-		String projectName = projectList.get(index);
-		projectBook = project.retrieveProjectTimeLine(projectName);
-		return projectBook;
+		if (index < projectList.size())
+		{
+			String projectName = projectList.get(index);
+			projectBook = project.retrieveProjectTimeLine(projectName);
+			return projectBook;
+		}
+		
+		else
+		{
+			return null;
+		}
 	}
+	
 }
