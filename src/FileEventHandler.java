@@ -26,19 +26,19 @@ public class FileEventHandler {
 	
 /*****************************************************************************************/		
 
-	public FileEventHandler(String baseDirectory){
-		this.baseDirectory = baseDirectory.concat("\\");
+	public FileEventHandler(String theBaseDirectory){
+		this.baseDirectory = theBaseDirectory.concat("\\");
 		readOverviewerFile();
 	}
 
 	public boolean saveNewEventHandler(Event event){
 		
-		Calendar startDate = event.getStartCalendar();			//unpack date
-		Calendar endDate = event.getEndCalendar();
+		Calendar startDate = extractDate(event.getStartCalendar());			//unpack date
+		Calendar endDate = extractDate(event.getEndCalendar());
 		Calendar tempDate = (Calendar) startDate.clone();
 		
 		while(endDate.after(tempDate) || endDate.equals(tempDate)){
-
+			
 			if(needToChangeMonthFile(tempDate)){
 				save(event);				
 			}
@@ -51,8 +51,6 @@ public class FileEventHandler {
 			
 	public boolean saveEventBook(String date, ArrayList<Event> eventBook){
 		//TODO: consider the case when an edited event has date that over spill month
-		
-		
 		
 		try{
 			File outfile = new File(baseDirectory + setFileName(date));
@@ -79,33 +77,43 @@ public class FileEventHandler {
 	public ArrayList<Event> retrieveEventByDate(String date){
 		
 		ArrayList<Event> eventBookByMonth = retrieveEventByMonth(date);
-		
+	
 		ArrayList<Event> eventBookByDate = filterEventsToSpecificDate(date, eventBookByMonth);
 		
 		return eventBookByDate;
 	}
 	
 /*****************************************************************************************/	
-	
+		
 	private boolean currentDateIsInitialized(){
 		return currentDate != null;
+	}
+	
+	private Calendar extractDate(Calendar date){
+		Calendar newCalendar = Calendar.getInstance();
+		newCalendar.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+		return newCalendar;
 	}
 	
 	private ArrayList<Event> filterEventsToSpecificDate(String dateString, ArrayList<Event> eventBookByMonth) {
 		ArrayList<Event> eventBookByDate = new ArrayList<Event>();
 		Calendar date = Calendar.getInstance();
 		updateDate(date, dateString);
+		Calendar startDate, endDate;
 		
 		for(Event event: eventBookByMonth){
-			if( date.equals(event.getStartCalendar()) || date.equals(event.getEndCalendar()) ||
-					(date.after(event.getStartCalendar()) && date.before(event.getEndCalendar()) ) ){
+			date = extractDate(date);
+			startDate = extractDate(event.getStartCalendar());
+			endDate = extractDate(event.getEndCalendar());
+			
+			if( date.equals(startDate) || date.equals(endDate) || (date.after(startDate) && date.before(endDate) ) ){
 				eventBookByDate.add(event);
 			}
 		}
-
+		
 		return eventBookByDate;
 	}
-	
+
 	private boolean monthIsTheSame(Calendar date){
 
 		return (date.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH));
@@ -214,11 +222,12 @@ public class FileEventHandler {
 	}
 	
 	private String setFileName(Calendar date){
-		return parseMonth(date.get(Calendar.MONTH)).concat("" + date.get(Calendar.YEAR) + ".txt");
+		return date.get(Calendar.DAY_OF_MONTH) +  " " + 
+				parseMonth(date.get(Calendar.MONTH)) + " " + date.get(Calendar.YEAR);
 	}
 	
 	private void sortEventsByDate(){
-		//Collections.sort(currentWorkingMonthFile, new customComparator);
+		//Collections.sort(currentWorkingMonthFile, new TimeIgnoringComparator());
 	}
 	
 	private boolean updateOverviewFile(String fileName){
@@ -254,4 +263,5 @@ public class FileEventHandler {
         }
         return true;
     }
+
 }
