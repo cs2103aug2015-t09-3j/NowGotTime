@@ -21,6 +21,7 @@ import java.util.ArrayList;
  */
 
 public class FileHandler implements FileManager{
+	
 	private static final String EVENT_OVERVIEWER = "overviewer.txt";
 	private File inputFile;
 	private String eventPath;
@@ -29,38 +30,24 @@ public class FileHandler implements FileManager{
 	
 	private FileProjectHandler fProjH;
 	private FileEventHandler fEventH;
+	private FileTodoHandler fTodoH;
 	
-	
-/************************************* Public Methods ****************************************************/
+/******************************* Constructor *************************************/	
+
 	public FileHandler(){
 		new StartUpHandler();
 		readOverviewerFile();
 		
 		fEventH = new FileEventHandler(eventPath);
 		fProjH = new FileProjectHandler(projectPath);
-		
+		fTodoH = new FileTodoHandler(todoPath);
 	}
+	
+/********************************* Events ****************************************/
 	
 	@Override
 	public ArrayList<Event> retrieveEventByDate(String date){
 		return fEventH.retrieveEventByDate(date);
-	}
-	
-	@Override
-	public ArrayList<Todo> retrieveTodoByDate(String date) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Todo> retrieveUniversalTodo(String date) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Event> retrieveProjectTimeLine(String projectName) {
-		return fProjH.retrieveProject(projectName);
 	}
 	
 	@Override
@@ -69,23 +56,39 @@ public class FileHandler implements FileManager{
 	}
 	
 	@Override
-	public boolean saveEditedEventHandler(ArrayList<Event> eventBook) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean saveEditedEventHandler(String date, ArrayList<Event> eventBook) {
+		return fEventH.saveEventBook(date, eventBook);
+	}
+
+/********************************* Todo *****************************************/
+	
+	@Override
+	public ArrayList<Todo> retrieveTodoByDate(String date) {
+		return fTodoH.retrieveTodoEventByDate(date);
+	}
+	
+	@Override
+	public ArrayList<Todo> retrieveUniversalTodo(String date) {
+		return fTodoH.retrieveUniversalTodo();
 	}
 
 	@Override
 	public boolean saveNewTodoHandler(Todo task) {
-		// TODO Auto-generated method stub
-		return false;
+		return fTodoH.saveNewTodoHandler(task);
 	}
-
+	
 	@Override
-	public boolean saveEditedTodoHandler(ArrayList<Todo> taskBook) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean saveEditedTodoHandler(String date, ArrayList<Todo> taskBook) {
+		return fTodoH.savetoDoList(date, taskBook);
 	}
 
+/******************************** Project **************************************/
+	
+	@Override
+	public ArrayList<Event> retrieveProjectTimeLine(String projectName) {
+		return fProjH.retrieveProject(projectName);
+	}
+	
 	@Override
 	public boolean createNewProject(String projectName) {
 		return fProjH.createNewProject(projectName);
@@ -103,12 +106,8 @@ public class FileHandler implements FileManager{
 	
 	@Override
 	public boolean deleteProject(String projectName){
-		// TODO Auto-generated method stub
-		return false;
+		return fProjH.deleteProject(projectName);
 	}
-	
-
-/************************************* Overview File ****************************************************/	
 	
 	private void readOverviewerFile() {
 		inputFile = new File(EVENT_OVERVIEWER);	
@@ -129,88 +128,4 @@ public class FileHandler implements FileManager{
 		}
 	}
 	
-//	private boolean updateOverviewFile(String fileName){
-//		availableMonths.add(fileName);
-//		try{
-//			File outfile = new File(EVENT_OVERVIEWER);
-//			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
-//			
-//			for(String month : availableMonths){
-//				writer.write(month.trim());
-//				writer.newLine();
-//			}
-//			writer.close();
-//			return true;
-//	
-//		}catch(IOException e){
-//			System.out.println("File cannot be written.\n");
-//			return false;
-//		}
-//	}
-	
-/*********************************** File Manipulation *************************************************/	
-	
-//	private String setFileName(String date){
-//		String[] brokenUpDate = date.split(" ");
-//		return brokenUpDate[1].concat(brokenUpDate[2] + ".txt");	
-//	}
-//
-//	private void selectFileAsInputFile(String FileName){
-//		inputFile = new File(FileName);
-//	}
-//	
-//	private void createNewMonthFile(String textFileName){
-//
-//		try{
-//			File newFile = new File(textFileName);
-//			newFile.createNewFile();
-//			
-//		}catch(IOException e){
-//			
-//		}catch(SecurityException e){
-//			
-//		}
-//	}
-//	
-///************************************* Reading File ***************************************************/
-//	
-//	private ArrayList<Event> filterEventsToSpecificDate(String date, ArrayList<Event> eventBookByMonth) {
-//		ArrayList<Event> eventBookByDate = new ArrayList<Event>();
-//		
-//		for(Event anEvent : eventBookByMonth){
-//			if( anEvent.getStartDateString().toLowerCase().equals(date.toLowerCase())){
-//				eventBookByDate.add(anEvent);
-//			}
-//		}
-//		return eventBookByDate;
-//	}
-//	
-///********************************** Writing on File ***************************************************/
-//	
-//	private boolean saveEventBook(String textFileName, ArrayList<Event> eventBook){
-//		
-//		try{
-//			File outfile = new File(textFileName);
-//			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
-//			
-//			
-//			
-//			for(Event anEvent : eventBook){
-//				writer.write(anEvent.toString()); 
-//				writer.newLine();
-//			}
-//			writer.close();
-//			return true;
-//	
-//		}catch(IOException e){
-//			System.out.println("File cannot be written.\n");
-//			return false;
-//		}
-//	}
-//	
-//	private void sortEventsByDate(){
-//		
-//	}
-
-
 }

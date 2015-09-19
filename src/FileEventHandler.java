@@ -24,7 +24,6 @@ public class FileEventHandler {
 	private Calendar currentDate = null;
 	private ArrayList<Event> currentWorkingMonthFile = new ArrayList<Event>();
 	
-	
 /*****************************************************************************************/		
 
 	public FileEventHandler(String baseDirectory){
@@ -50,14 +49,16 @@ public class FileEventHandler {
 		return true;
 	}
 			
-	public boolean saveEventBook(String textFileName, ArrayList<Event> eventBook){
-		//TODO: think of the case when an edited event has date that over spill month
+	public boolean saveEventBook(String date, ArrayList<Event> eventBook){
+		//TODO: consider the case when an edited event has date that over spill month
+		
+		
 		
 		try{
-			File outfile = new File(baseDirectory + textFileName + ".txt");
+			File outfile = new File(baseDirectory + setFileName(date));
 			
 			if(!outfile.exists()){
-				updateOverviewFile(textFileName);
+				updateOverviewFile(setFileName(date));
 			}
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
@@ -213,7 +214,7 @@ public class FileEventHandler {
 	}
 	
 	private String setFileName(Calendar date){
-		return parseMonth(date.get(Calendar.MONTH)).concat("" + date.get(Calendar.YEAR));
+		return parseMonth(date.get(Calendar.MONTH)).concat("" + date.get(Calendar.YEAR) + ".txt");
 	}
 	
 	private void sortEventsByDate(){

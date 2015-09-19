@@ -5,12 +5,12 @@ public interface FileManager {
 	
 	public ArrayList<Event> retrieveEventByDate(String date); 
 	public boolean saveNewEventHandler(Event event);
-	public boolean saveEditedEventHandler(ArrayList<Event> eventBook);
+	public boolean saveEditedEventHandler(String date, ArrayList<Event> eventBook);
 	
 	public ArrayList<Todo> retrieveTodoByDate(String date);
 	public ArrayList<Todo> retrieveUniversalTodo(String date);
 	public boolean saveNewTodoHandler(Todo task);
-	public boolean saveEditedTodoHandler(ArrayList<Todo> taskBook);
+	public boolean saveEditedTodoHandler(String date, ArrayList<Todo> taskBook);
 	
 	public ArrayList<Event> retrieveProjectTimeLine(String projectName);
 	public boolean createNewProject(String projectName);
