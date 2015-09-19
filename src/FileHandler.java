@@ -167,6 +167,13 @@ public class FileHandler implements FileManager{
 			return eventBook;
 		}	
 	}
+	
+	@Override
+	public boolean deleteProject(String projectName){
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 
 /************************************* Overview File ****************************************************/	
 	
