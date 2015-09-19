@@ -33,9 +33,13 @@ public class FileEventHandler {
 
 	public boolean saveNewEventHandler(Event event){
 		
-		Calendar startDate = extractDate(event.getStartCalendar());			//unpack date
-		Calendar endDate = extractDate(event.getEndCalendar());
+		Calendar startDate = (Calendar) event.getStartCalendar().clone();			//unpack date
+		Calendar endDate = (Calendar) event.getEndCalendar().clone();
 		Calendar tempDate = (Calendar) startDate.clone();
+		
+		setZeroTime(startDate);
+		setZeroTime(endDate);
+		setZeroTime(tempDate);		
 		
 		while(endDate.after(tempDate) || endDate.equals(tempDate)){
 			
@@ -88,13 +92,7 @@ public class FileEventHandler {
 	private boolean currentDateIsInitialized(){
 		return currentDate != null;
 	}
-	
-	private Calendar extractDate(Calendar date){
-		Calendar newCalendar = Calendar.getInstance();
-		newCalendar.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
-		return newCalendar;
-	}
-	
+
 	private ArrayList<Event> filterEventsToSpecificDate(String dateString, ArrayList<Event> eventBookByMonth) {
 		ArrayList<Event> eventBookByDate = new ArrayList<Event>();
 		Calendar date = Calendar.getInstance();
@@ -102,9 +100,11 @@ public class FileEventHandler {
 		Calendar startDate, endDate;
 		
 		for(Event event: eventBookByMonth){
-			date = extractDate(date);
-			startDate = extractDate(event.getStartCalendar());
-			endDate = extractDate(event.getEndCalendar());
+			startDate = (Calendar) event.getStartCalendar().clone();
+			endDate = (Calendar) event.getEndCalendar().clone();
+			setZeroTime(date);
+			setZeroTime(startDate);
+			setZeroTime(endDate);
 			
 			if( date.equals(startDate) || date.equals(endDate) || (date.after(startDate) && date.before(endDate) ) ){
 				eventBookByDate.add(event);
@@ -226,6 +226,13 @@ public class FileEventHandler {
 				parseMonth(date.get(Calendar.MONTH)) + " " + date.get(Calendar.YEAR);
 	}
 	
+	private void setZeroTime(Calendar date){
+		date.set(Calendar.HOUR_OF_DAY, 0);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+	}
+	
 	private void sortEventsByDate(){
 		//Collections.sort(currentWorkingMonthFile, new TimeIgnoringComparator());
 	}
@@ -263,5 +270,10 @@ public class FileEventHandler {
         }
         return true;
     }
-
+	
+//	private Calendar extractDate(Calendar date){
+//		Calendar newCalendar = Calendar.getInstance();
+//		newCalendar.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+//		return newCalendar;
+//	}
 }

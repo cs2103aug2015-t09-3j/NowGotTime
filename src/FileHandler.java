@@ -37,9 +37,6 @@ public class FileHandler implements FileManager{
 	public FileHandler(){
 		new StartUpHandler();
 		readOverviewerFile();
-		System.out.println(eventPath);
-		System.out.println(todoPath);
-		System.out.println(projectPath);
 		
 		fEventH = new FileEventHandler(eventPath);
 		fProjH = new FileProjectHandler(projectPath);
@@ -82,7 +79,7 @@ public class FileHandler implements FileManager{
 	
 	@Override
 	public boolean saveEditedTodoHandler(String date, ArrayList<Todo> taskBook) {
-		return fTodoH.savetoDoList(date, taskBook);
+		return fTodoH.saveToDoList(date, taskBook);
 	}
 
 /******************************** Project **************************************/

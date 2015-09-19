@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class test {
 	public static void main(String[] args){
-			// FileHandler fh = new FileHandler();
+			FileHandler fh = new FileHandler();
 			test t = new test();
 			t.testFileTodoHandler();
 //			t.testFileProjectHandler();
@@ -18,7 +18,15 @@ public class test {
 		fth.saveNewTodoHandler(todo1);
 		fth.saveNewTodoHandler(todo2);
 		ArrayList<Todo> taskBook = fth.retrieveTodoEventByDate("20 Oct 2015");
+		//customPrinting(taskBook);
+		
+		taskBook.add(todo3);
+		fth.saveToDoList("20 oct 2015", taskBook);
+		taskBook = fth.retrieveTodoEventByDate("20 Oct 2015");
 		customPrinting(taskBook);
+		
+//		taskBook = fth.retrieveUniversalTodo();
+//		customPrinting(taskBook);
 	}
 	
 	public void testFileProjectHandler(){
