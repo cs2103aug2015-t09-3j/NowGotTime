@@ -33,10 +33,11 @@ public class FileTodoHandler {
 
 	public boolean saveNewTodoHandler(Todo todo){
 		if(todo.hasDate()){
-			String date = todo.getDeadlineTime();
+			String date = todo.getDeadlineDate();
 			ArrayList<Todo> toDoList = retrieveTodoByMonth(date);
 			toDoList.add(todo);
 			sortTodoByDate(toDoList);
+			saveToDoList(date, toDoList);
 		}
 		else{
 			saveAsUniversalTodo(todo);
@@ -44,7 +45,7 @@ public class FileTodoHandler {
 		return true;
 	}
 			
-	public boolean savetoDoList(String date, ArrayList<Todo> toDoList){
+	public boolean saveToDoList(String date, ArrayList<Todo> toDoList){
 		//TODO: think of the case when an edited event has date that over spill month
 		
 		try{
@@ -73,6 +74,10 @@ public class FileTodoHandler {
 	public ArrayList<Todo> retrieveTodoEventByDate(String date){
 		
 		ArrayList<Todo> toDoListByMonth = retrieveTodoByMonth(date);
+		
+		for(Todo t: toDoListByMonth){
+			System.out.println(t);
+		}
 		
 		ArrayList<Todo> toDoListByDate = filterEventsToSpecificDate(date, toDoListByMonth);
 		
@@ -153,12 +158,19 @@ public class FileTodoHandler {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			
-			while( (todoType = reader.readLine()) != null ){
+			while( (todoType = reader.readLine().trim()) != null ){
+				System.out.println("todoType: " + todoType);
 				todoName = reader.readLine();
+				System.out.println("todoName: " + todoName);
 				addInfo = reader.readLine();
+				System.out.println("AddInfo: " + addInfo);
+				
 				
 				if(isPartialType(todoType)){
+					System.out.println("Enter");
 					todoDate = reader.readLine();
+					
+					System.out.println(todoDate);
 					todo = new Todo(todoName, addInfo, todoDate);
 				
 				}else if(isCompleteType(todoType)){
@@ -169,7 +181,6 @@ public class FileTodoHandler {
 				}else{
 					todo = new Todo(todoName, addInfo);
 				}
-				
 				
 				toDoList.add(todo);
 			}
