@@ -81,7 +81,7 @@ public class FileProjectHandler {
 		if(!existingProjects.contains(projectName)){
 			return false;
 		}
-		Path path = Paths.get(baseDirectory + projectName);
+		Path path = Paths.get(baseDirectory + projectName + ".txt");
 		try {
 		    Files.delete(path);
 		    return true;
@@ -104,6 +104,7 @@ public class FileProjectHandler {
 
 		try{
 			File newFile = new File(baseDirectory + textFileName + ".txt");
+			existingProjects.add(textFileName);
 			return newFile.createNewFile();
 			
 		}catch(IOException e){

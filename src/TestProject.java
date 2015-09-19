@@ -6,9 +6,11 @@ public class TestProject {
 
 		ProjectHandler test = new ProjectHandler();
 		
-		System.out.println(test.createProject("projectdiva"));
+		System.out.println(test.createProject("projectdiva3"));
+		System.out.println(test.deleteProject("projectdiva3"));
+		//System.out.println(test.createProject("projectdiva2"));
+		//System.out.println(test.createProject("projectdiva2"));
 		
-		//Dear RX, I cant do anything, if i can't create a project. SAVE ME PREASE
 	}
 
 }
