@@ -171,23 +171,5 @@ public class FileProjectHandler {
 		//Collections.sort(currentWorkingMonthFile, new customComparator);
 	}
 	
-//	public static void main(String[] args){
-//		FileProjectHandler fph = new FileProjectHandler("C:\\Users\\RX.huang\\git\\main");
-//		fph.createNewProject("test");
-//		
-//		Event event1 = new Event("one", "10 mar 2015", "11 mar 2015", "09:00", "10:00", "nothing lah" );
-//		Event event2 = new Event("one", "15 mar 2015", "11 mar 2015", "09:00", "10:00", "nothing lah" );
-//		Event event3 = new Event("one", "20 mar 2015", "11 mar 2015", "09:00", "10:00", "nothing lah" );
-//		
-//		ArrayList<Event> book = new ArrayList<Event>();
-//		book.add(event1);
-//		book.add(event2);
-//		book.add(event3);
-//		
-//		fph.saveEditedProjectDetails(book, "test");
-//		ArrayList<Event> boob = fph.retrieveProject("test");
-//		for(Event event: boob){
-//			System.out.println(event);
-//		}
-//	}
+	
 }

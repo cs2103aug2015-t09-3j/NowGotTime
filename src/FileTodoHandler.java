@@ -33,10 +33,11 @@ public class FileTodoHandler {
 
 	public boolean saveNewTodoHandler(Todo todo){
 		if(todo.hasDate()){
-			String date = todo.getDeadlineTime();
+			String date = todo.getDeadlineDate();
 			ArrayList<Todo> toDoList = retrieveTodoByMonth(date);
 			toDoList.add(todo);
 			sortTodoByDate(toDoList);
+			saveToDoList(date, toDoList);
 		}
 		else{
 			saveAsUniversalTodo(todo);
@@ -44,7 +45,7 @@ public class FileTodoHandler {
 		return true;
 	}
 			
-	public boolean savetoDoList(String date, ArrayList<Todo> toDoList){
+	public boolean saveToDoList(String date, ArrayList<Todo> toDoList){
 		//TODO: think of the case when an edited event has date that over spill month
 		
 		try{
@@ -74,7 +75,11 @@ public class FileTodoHandler {
 		
 		ArrayList<Todo> toDoListByMonth = retrieveTodoByMonth(date);
 		
-		ArrayList<Todo> toDoListByDate = filterEventsToSpecificDate(date, toDoListByMonth);
+		for(Todo t: toDoListByMonth){
+			System.out.println(t);
+		}
+		
+		ArrayList<Todo> toDoListByDate = filterTodoToSpecificDate(date, toDoListByMonth);
 		
 		return toDoListByDate;
 	}
@@ -118,14 +123,20 @@ public class FileTodoHandler {
 			return BASIC_TODO_TYPE;
 		}
 	}
-
-	private ArrayList<Todo> filterEventsToSpecificDate(String dateString, ArrayList<Todo> toDoListByMonth) {
+	
+	private ArrayList<Todo> filterTodoToSpecificDate(String dateString, ArrayList<Todo> toDoListByMonth) {
 		ArrayList<Todo> toDoListByDate = new ArrayList<Todo>();
+		Calendar todoDate;
+	
 		Calendar date = Calendar.getInstance();
 		updateDate(date, dateString);
+		setZeroTime(date);
 		
 		for(Todo todo: toDoListByMonth){
-			if( date.equals( todo.getDeadline() ) ){
+			todoDate = (Calendar) todo.getDeadline().clone();
+			setZeroTime(todoDate);
+			
+			if( date.equals( todoDate ) ){
 				toDoListByDate.add(todo);
 			}
 		}
@@ -153,24 +164,29 @@ public class FileTodoHandler {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			
-			while( (todoType = reader.readLine()) != null ){
-				todoName = reader.readLine();
-				addInfo = reader.readLine();
+			while( !(todoType = reader.readLine().trim()).equals("no date") && !todoType.equals("no time") ){
 				
+				todoName = reader.readLine();
+				System.out.println("name " + todoName);
+				addInfo = reader.readLine();
+				System.out.println("Info " + addInfo);
+
 				if(isPartialType(todoType)){
 					todoDate = reader.readLine();
+					System.out.println("date " + todoDate);
 					todo = new Todo(todoName, addInfo, todoDate);
-				
+					
 				}else if(isCompleteType(todoType)){
 					todoDate = reader.readLine();
+					System.out.println("date " + todoDate);
 					todoTime = reader.readLine();
+					System.out.println("time " + todoTime);
+					
 					todo = new Todo(todoName, addInfo, todoDate, todoTime);
-				
+					
 				}else{
 					todo = new Todo(todoName, addInfo);
 				}
-				
-				
 				toDoList.add(todo);
 			}
 			
@@ -208,7 +224,22 @@ public class FileTodoHandler {
 		ArrayList<Todo> floatingtoDoList = retrieveUniversalTodo();
 		floatingtoDoList.add(todo);
 		
-		return true;
+		try{
+			File outfile = new File(baseDirectory + UNIVERSAL_TODO);
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
+			
+			for(Todo aTodo : floatingtoDoList){
+				writer.write(aTodo.getName()); writer.newLine();
+				writer.write(aTodo.getAdditionalInfo()); writer.newLine();
+			}
+			writer.close();
+			return true;
+	
+		}catch(IOException e){
+			System.out.println("File cannot be written.\n");
+			return false;
+		}
 	}
 
 	private void selectFileAsInputFile(String fileName){
@@ -218,6 +249,13 @@ public class FileTodoHandler {
 	private String setFileName(String date){
 		String[] brokenUpDate = date.split(" ");
 		return brokenUpDate[1].concat(brokenUpDate[2] + ".txt");	
+	}
+	
+	private void setZeroTime(Calendar date){
+		date.set(Calendar.HOUR_OF_DAY, 0);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
 	}
 	
 	private void sortTodoByDate(ArrayList<Todo> toDoList){
@@ -278,6 +316,11 @@ public class FileTodoHandler {
 //			case 11: return "Dec";
 //			default: return null;
 //		}
+//	}
+//	private Calendar extractDate(Calendar date){
+//		Calendar newCalendar = Calendar.getInstance();
+//		newCalendar.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+//		return newCalendar;
 //	}
 //	
 }
