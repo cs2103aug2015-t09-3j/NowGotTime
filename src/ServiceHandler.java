@@ -15,10 +15,29 @@ public class ServiceHandler implements ServiceManager{
 
 	@Override
 	public boolean createTask(ArrayList<String> taskDetails) {
-		// TODO Auto-generated method stub
-		return false;
+		int determineTodoType = taskDetails.size();
+		switch(determineTodoType)
+		{
+		case (2):
+		{
+			Todo newTask = new Todo(taskDetails.get(0), taskDetails.get(1));
+			return taskHandler.saveNewTodoHandler(newTask);
+		}
+		case (3):
+		{
+		Todo newTask = new Todo(taskDetails.get(0), taskDetails.get(1), taskDetails.get(2));
+			return taskHandler.saveNewTodoHandler(newTask);
+		}
+		case (4):{
+			Todo newTask = new Todo(taskDetails.get(0), taskDetails.get(1), taskDetails.get(2), taskDetails.get(3));
+			return taskHandler.saveNewTodoHandler(newTask);
+		}
+		default:{
+			return false;
+		}
+		}
 	}
-
+	
 	@Override
 	public ArrayList<Event> viewEventByDate(String date) {
 		return eventBook = eventHandler.retrieveEventByDate(date);
