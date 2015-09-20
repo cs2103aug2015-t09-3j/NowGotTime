@@ -11,10 +11,11 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class FileProjectHandler {
-	private static final String EVENT_OVERVIEWER = "projectOverviewer.txt";
+	private static final String PROJECT_OVERVIEWER = "projectOverviewer.txt";
 	private String baseDirectory;
 	private ArrayList<String> existingProjects;
 	private File inputFile;
@@ -81,6 +82,9 @@ public class FileProjectHandler {
 		if(!existingProjects.contains(projectName)){
 			return false;
 		}
+		existingProjects.remove(projectName);
+		updateOverviewFile();
+		
 		Path path = Paths.get(baseDirectory + projectName + ".txt");
 		try {
 		    Files.delete(path);
@@ -105,6 +109,7 @@ public class FileProjectHandler {
 		try{
 			File newFile = new File(baseDirectory + textFileName + ".txt");
 			existingProjects.add(textFileName);
+			updateOverviewFile();
 			return newFile.createNewFile();
 			
 		}catch(IOException e){
@@ -140,7 +145,7 @@ public class FileProjectHandler {
 	}
 	
 	private void readOverviewerFile() {
-		inputFile = new File( baseDirectory + EVENT_OVERVIEWER);	
+		inputFile = new File( baseDirectory + PROJECT_OVERVIEWER);	
 		existingProjects = new ArrayList<String>();
 		
 		try {
@@ -168,8 +173,29 @@ public class FileProjectHandler {
 	}
 	
 	private void sortEventsByDate(ArrayList<Event> projectBook){
-		//Collections.sort(currentWorkingMonthFile, new customComparator);
+		Collections.sort(projectBook, new customComparator());
 	}
 	
+	private boolean updateOverviewFile(){
+		try{
+			File outfile = new File(baseDirectory + PROJECT_OVERVIEWER);
+
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
+			
+			for(String projectName : existingProjects){
+				writer.write(projectName); 
+				writer.newLine();
+			}
+			writer.close();
+			return true;
+	
+		}catch(IOException e){
+			System.out.println("File cannot be written.\n");
+			return false;
+		}
+		
+	}
 	
 }
+
+	
