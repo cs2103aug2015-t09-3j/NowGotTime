@@ -45,8 +45,12 @@ public class ServiceHandler implements ServiceManager{
 
 	@Override
 	public ArrayList<Todo> viewTaskByDate(String date) {
-		// TODO Auto-generated method stub
-		return null;
+		return taskBook = taskHandler.retrieveTodoByDate(date);
+	}
+	
+	@Override
+	public ArrayList<Todo> viewTaskNoDate(String date) {
+		return taskBook = taskHandler.retrieveUniversalTodo(date);
 	}
 
 	@Override
@@ -68,15 +72,27 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	@Override
-	public boolean deleteTask(String taskName) {
+	public boolean deleteTaskWithDeadline(String taskName) {
 		for (Todo task:taskBook){
 			if (task.getName().equals(taskName)){
 				taskBook.remove(task);
-				taskHandler.saveEditedEventHandler(task.getDeadlineDate() ,taskBook);
+				taskHandler.saveEditedTodoHandler(task.getDeadlineDate(), taskBook);
 				return true;
 			}
 		}
 				return false;
+	}
+	
+	@Override
+	public boolean deleteTaskWithoutDeadline(String taskName) {
+		for (Todo task:taskBook){
+			if (task.getName().equals(taskName)){
+				taskBook.remove(task);
+				taskHandler.saveEditedTodoHandler(null, taskBook);   //rx, saveEditedTodoHandler needs 1 with no date?
+				return true;
+			}
+	}
+		return false;
 	}
 
 	@Override
