@@ -6,10 +6,15 @@ public class ServiceHandler implements ServiceManager{
 	private FileHandler taskHandler;
 	private ArrayList<Event> eventBook = new ArrayList<Event>();
 	private ArrayList<Todo> taskBook = new ArrayList<Todo>();
+	
+	public ServiceHandler (){
+		eventHandler = new FileHandler();
+		taskHandler = new FileHandler();
+	}
 
 	@Override
 	public boolean createEvent(ArrayList<String> eventDetails) {
-		 Event newEvent = new Event(eventDetails.get(0), eventDetails.get(1),eventDetails.get(2),eventDetails.get(3),eventDetails.get(4));
+		Event newEvent = new Event(eventDetails.get(0), eventDetails.get(1),eventDetails.get(2),eventDetails.get(3),eventDetails.get(4));
 		return eventHandler.saveNewEventHandler(newEvent);
 	}
 
@@ -25,7 +30,7 @@ public class ServiceHandler implements ServiceManager{
 		}
 		case (3):
 		{
-		Todo newTask = new Todo(taskDetails.get(0), taskDetails.get(1), taskDetails.get(2));
+			Todo newTask = new Todo(taskDetails.get(0), taskDetails.get(1), taskDetails.get(2));
 			return taskHandler.saveNewTodoHandler(newTask);
 		}
 		case (4):{
@@ -37,7 +42,7 @@ public class ServiceHandler implements ServiceManager{
 		}
 		}
 	}
-	
+
 	@Override
 	public ArrayList<Event> viewEventByDate(String date) {
 		return eventBook = eventHandler.retrieveEventByDate(date);
@@ -47,7 +52,7 @@ public class ServiceHandler implements ServiceManager{
 	public ArrayList<Todo> viewTaskByDate(String date) {
 		return taskBook = taskHandler.retrieveTodoByDate(date);
 	}
-	
+
 	@Override
 	public ArrayList<Todo> viewTaskNoDate(String date) {
 		return taskBook = taskHandler.retrieveUniversalTodo(date);
@@ -62,7 +67,7 @@ public class ServiceHandler implements ServiceManager{
 				return true;
 			}
 		}
-				return false;
+		return false;
 	}
 
 	@Override
@@ -80,9 +85,9 @@ public class ServiceHandler implements ServiceManager{
 				return true;
 			}
 		}
-				return false;
+		return false;
 	}
-	
+
 	@Override
 	public boolean deleteTaskWithoutDeadline(String taskName) {
 		for (Todo task:taskBook){
@@ -91,7 +96,7 @@ public class ServiceHandler implements ServiceManager{
 				taskHandler.saveEditedTodoHandler(null, taskBook);   //rx, saveEditedTodoHandler needs 1 with no date?
 				return true;
 			}
-	}
+		}
 		return false;
 	}
 
@@ -109,43 +114,43 @@ public class ServiceHandler implements ServiceManager{
 				Event _event = eventBook.get(eventIndex);
 				switch(infoIndex)
 				{
-					case (1):
-					{
-						_event.setName(newValue);
-						break;
-					}
-					
-					case (2):
-					{
-						_event.updateStartDate(newValue);
-						break;
-					}
-					
-					case (3):
-					{
-						_event.updateEndDate(newValue);
-						break;
-					}
-					
-					case (4):
-					{
-						_event.updateStartTime(newValue);
-						break;
-					}
-					
-					case (5):
-					{
-						_event.updateEndTime(newValue);
-						break;
-					}
-					
-					case (6):
-					{
-						_event.setAdditionalInfo(newValue);
-						break;
-					}
+				case (1):
+				{
+					_event.setName(newValue);
+					break;
 				}
-				
+
+				case (2):
+				{
+					_event.updateStartDate(newValue);
+					break;
+				}
+
+				case (3):
+				{
+					_event.updateEndDate(newValue);
+					break;
+				}
+
+				case (4):
+				{
+					_event.updateStartTime(newValue);
+					break;
+				}
+
+				case (5):
+				{
+					_event.updateEndTime(newValue);
+					break;
+				}
+
+				case (6):
+				{
+					_event.setAdditionalInfo(newValue);
+					break;
+				}
+				}
+
 				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
 				return true;
 			}
@@ -153,7 +158,7 @@ public class ServiceHandler implements ServiceManager{
 				eventIndex++;
 			}
 		}
-				return false;
+		return false;
 	}
 
 	@Override // needs discussion, shld i make a edit task without deadline? compare to deleteTask
@@ -164,31 +169,31 @@ public class ServiceHandler implements ServiceManager{
 				Todo _task = taskBook.get(taskIndex);
 				switch(index)
 				{
-					case (1):
-					{
-						_task.setAdditionalInfo(newValue);
-						break;
-					}
-					
-					case (2):
-					{
-						_task.updateDeadlineDate(newValue);
-						break;
-					}
-					
-					case (3):
-					{
-						_task.updateDeadlineTime(newValue);
-						break;
-					}
-			}
+				case (1):
+				{
+					_task.setAdditionalInfo(newValue);
+					break;
+				}
+
+				case (2):
+				{
+					_task.updateDeadlineDate(newValue);
+					break;
+				}
+
+				case (3):
+				{
+					_task.updateDeadlineTime(newValue);
+					break;
+				}
+				}
 				taskHandler.saveEditedTodoHandler(_task.getDeadlineDate(), taskBook); //possible to make date return null if its a task with no deadline?
 				return true;
 			}
-				else{
-			taskIndex++;
-		}
+			else{
+				taskIndex++;
 			}
+		}
 		return false;
 	}
 
@@ -196,7 +201,7 @@ public class ServiceHandler implements ServiceManager{
 	public boolean viewEvent(String date) {
 		if (eventBook.contains(eventHandler.retrieveEventByDate(date)))
 		{
-		return true;
+			return true;
 		}
 		else {
 			return false;
@@ -218,12 +223,12 @@ public class ServiceHandler implements ServiceManager{
 		}
 		return null;
 	}
-	
+
 	@Override
 	public boolean viewTask(String date) {
 		if (taskBook.contains(taskHandler.retrieveTodoByDate(date)))
 		{
-		return true;
+			return true;
 		}
 		else {
 			return false;
@@ -252,7 +257,7 @@ public class ServiceHandler implements ServiceManager{
 				}
 				taskIndex++;
 			}
-			
+
 		}
 		return null;
 	}
