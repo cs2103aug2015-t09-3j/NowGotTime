@@ -9,8 +9,8 @@ public class ServiceHandler implements ServiceManager{
 
 	@Override
 	public boolean createEvent(ArrayList<String> eventDetails) {
-		// TODO Auto-generated method stub
-		return false;
+		 Event newEvent = new Event(eventDetails.get(0), eventDetails.get(1),eventDetails.get(2),eventDetails.get(3),eventDetails.get(4));
+		return eventHandler.saveNewEventHandler(newEvent);
 	}
 
 	@Override
@@ -21,8 +21,7 @@ public class ServiceHandler implements ServiceManager{
 
 	@Override
 	public ArrayList<Event> viewEventByDate(String date) {
-		// TODO Auto-generated method stub
-		return null;
+		return eventBook = eventHandler.retrieveEventByDate(date);
 	}
 
 	@Override
@@ -54,6 +53,7 @@ public class ServiceHandler implements ServiceManager{
 		for (Todo task:taskBook){
 			if (task.getName().equals(taskName)){
 				taskBook.remove(task);
+				taskHandler.saveEditedEventHandler(task.getDeadlineDate() ,taskBook);
 				return true;
 			}
 		}
@@ -67,9 +67,58 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	@Override
-	public boolean editEvent(String eventName, int index, String update) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean editEvent(String eventName, int infoIndex, String newValue) {
+		int eventIndex = 0;
+		for (Event event:eventBook){
+			if (event.getName().equals(eventName)){
+				Event _event = eventBook.get(eventIndex);
+				switch(infoIndex)
+				{
+					case (1):
+					{
+						_event.setName(newValue);
+						break;
+					}
+					
+					case (2):
+					{
+						_event.updateStartDate(newValue);
+						break;
+					}
+					
+					case (3):
+					{
+						_event.updateEndDate(newValue);
+						break;
+					}
+					
+					case (4):
+					{
+						_event.updateStartTime(newValue);
+						break;
+					}
+					
+					case (5):
+					{
+						_event.updateEndTime(newValue);
+						break;
+					}
+					
+					case (6):
+					{
+						_event.setAdditionalInfo(newValue);
+						break;
+					}
+				}
+				
+				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook);
+				return true;
+			}
+			else {
+				eventIndex++;
+			}
+		}
+				return false;
 	}
 
 	@Override
