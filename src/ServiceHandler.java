@@ -128,17 +128,32 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	@Override
-	public boolean viewEvent(String eventName) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean viewEvent(String date) {
+		if (eventBook.contains(eventHandler.retrieveEventByDate(date)))
+		{
+		return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	@Override
-	public Event viewSpecificEvent(String eventName) {
-		// TODO Auto-generated method stub
+	public Event viewSpecificEvent(String eventName, String date) {
+		int eventIndex = 0;
+		if (viewEvent(date)==true){
+			eventBook = eventHandler.retrieveEventByDate(date);
+			for (Event event:eventBook){
+				if (event.getName().equals(eventName)){
+					Event _event = eventBook.get(eventIndex);
+					return _event;
+				}
+				eventIndex++;
+			}
+		}
 		return null;
 	}
-
+	
 	@Override
 	public boolean viewTask(String taskName) {
 		// TODO Auto-generated method stub
