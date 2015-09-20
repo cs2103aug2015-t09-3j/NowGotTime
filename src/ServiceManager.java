@@ -21,7 +21,7 @@ public interface ServiceManager {
 	public boolean editTask(String taskName, int index, String update);
 	
 	public boolean viewEvent (String eventName);
-	public Event viewSpecificEvent (String eventName);
+	public Event viewSpecificEvent (String eventName, String date);
 	
 	public boolean viewTask (String taskName);
 	public Todo viewSpecificTask (String taskName);
