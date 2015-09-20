@@ -2,6 +2,10 @@ import java.util.ArrayList;
 
 
 public class ServiceHandler implements ServiceManager{
+	private FileHandler eventHandler;
+	private FileHandler taskHandler;
+	private ArrayList<Event> eventBook = new ArrayList<Event>();
+	private ArrayList<Todo> taskBook = new ArrayList<Todo>();
 
 	@Override
 	public boolean createEvent(ArrayList<String> eventDetails) {
@@ -29,8 +33,14 @@ public class ServiceHandler implements ServiceManager{
 
 	@Override
 	public boolean deleteEvent(String eventName) {
-		// TODO Auto-generated method stub
-		return false;
+		for (Event event:eventBook){
+			if (event.getName().equals(eventName)){
+				eventBook.remove(event);
+				eventHandler.saveEditedEventHandler(event.getStartDateString() ,eventBook);
+				return true;
+			}
+		}
+				return false;
 	}
 
 	@Override
@@ -40,9 +50,14 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	@Override
-	public boolean deleteTask(String task) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteTask(String taskName) {
+		for (Todo task:taskBook){
+			if (task.getName().equals(taskName)){
+				taskBook.remove(task);
+				return true;
+			}
+		}
+				return false;
 	}
 
 	@Override
@@ -86,5 +101,4 @@ public class ServiceHandler implements ServiceManager{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
