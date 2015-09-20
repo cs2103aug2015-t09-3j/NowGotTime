@@ -11,6 +11,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class FileProjectHandler {
@@ -172,7 +173,7 @@ public class FileProjectHandler {
 	}
 	
 	private void sortEventsByDate(ArrayList<Event> projectBook){
-		//Collections.sort(currentWorkingMonthFile, new customComparator);
+		Collections.sort(projectBook, new customComparator());
 	}
 	
 	private boolean updateOverviewFile(){
@@ -196,3 +197,5 @@ public class FileProjectHandler {
 	}
 	
 }
+
+	

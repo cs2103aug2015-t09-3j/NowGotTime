@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class FileEventHandler {
@@ -55,7 +57,7 @@ public class FileEventHandler {
 			
 	public boolean saveEventBook(String date, ArrayList<Event> eventBook){
 		//TODO: consider the case when an edited event has date that over spill month
-		
+		sortEventsByDate(eventBook);
 		try{
 			File outfile = new File(baseDirectory + setFileName(date));
 			
@@ -207,7 +209,6 @@ public class FileEventHandler {
 	
 	private boolean save(Event event){
 		currentWorkingMonthFile.add(event);
-		sortEventsByDate();
 		saveEventBook(setFileName(currentDate), currentWorkingMonthFile);
 		return true;
 	}
@@ -233,8 +234,8 @@ public class FileEventHandler {
 		date.set(Calendar.MILLISECOND, 0);
 	}
 	
-	private void sortEventsByDate(){
-		//Collections.sort(currentWorkingMonthFile, new TimeIgnoringComparator());
+	private void sortEventsByDate(ArrayList<Event> eventBook){
+		Collections.sort(eventBook, new customComparator());
 	}
 	
 	private boolean updateOverviewFile(String fileName){
@@ -271,9 +272,45 @@ public class FileEventHandler {
         return true;
     }
 	
-//	private Calendar extractDate(Calendar date){
-//		Calendar newCalendar = Calendar.getInstance();
-//		newCalendar.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
-//		return newCalendar;
-//	}
+}
+
+class customComparator implements Comparator<Event>{
+	
+	Calendar startDate1, startDate2, endDate1, endDate2;
+	
+	@Override
+	public int compare(Event event1, Event event2) {
+		
+		setupCalendar(event1, event2);
+		
+		return compareStartDate();
+	}
+
+	private int compareStartDate() {
+		if(startDate1.before(startDate2)){
+			return -1;
+		}else if(startDate1.after(startDate2)){
+			return 1;
+		}else{
+			return compareEndDate();
+		}
+	}
+
+	private int compareEndDate() {
+		if(endDate1.before(endDate2)){
+			return -1;
+		}else if(endDate1.after(endDate2)){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
+	private void setupCalendar(Event event1, Event event2) {
+		startDate1 = (Calendar) event1.getStartCalendar().clone();
+		startDate2 = (Calendar) event2.getStartCalendar().clone();
+		endDate1 = (Calendar) event1.getEndCalendar().clone();
+		endDate2 = (Calendar) event2.getEndCalendar().clone();
+	}
+	
 }
