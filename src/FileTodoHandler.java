@@ -24,7 +24,7 @@ public class FileTodoHandler {
 	private File inputFile;
 	private ArrayList<String> availableMonths;	
 	
-/*****************************************************************************************/		
+/********************************** Public method for users *****************************************/		
 	
 	public FileTodoHandler(String baseDirectory){
 		this.baseDirectory = baseDirectory.concat("\\");
@@ -71,13 +71,9 @@ public class FileTodoHandler {
 		}
 	}
 	
-	public ArrayList<Todo> retrieveTodoEventByDate(String date){
+	public ArrayList<Todo> retrieveTodoByDate(String date){
 		
 		ArrayList<Todo> toDoListByMonth = retrieveTodoByMonth(date);
-		
-		for(Todo t: toDoListByMonth){
-			System.out.println(t);
-		}
 		
 		ArrayList<Todo> toDoListByDate = filterTodoToSpecificDate(date, toDoListByMonth);
 		
@@ -112,7 +108,7 @@ public class FileTodoHandler {
 		}	
 	}
 	
-/*****************************************************************************************/	
+/***************************** Hidden methods sorted alphabetically ********************************/	
 	
 	private String determineType(Todo todo) {
 		if(todo.hasDate() && todo.hasTime()){
@@ -123,6 +119,7 @@ public class FileTodoHandler {
 			return BASIC_TODO_TYPE;
 		}
 	}
+	
 	
 	private ArrayList<Todo> filterTodoToSpecificDate(String dateString, ArrayList<Todo> toDoListByMonth) {
 		ArrayList<Todo> toDoListByDate = new ArrayList<Todo>();
@@ -148,11 +145,13 @@ public class FileTodoHandler {
 		return type.equals(COMPLETE_TODO_TYPE);
 	}
 	
+	
 	private boolean isPartialType(String type){
 		return type.equals(PARTIAL_TODO_TYPE);
 	}
 	
- 	private ArrayList<Todo> retrieveTodoByMonth(String date){
+ 	
+	private ArrayList<Todo> retrieveTodoByMonth(String date){
 		
 		String fileName = setFileName(date);
 		selectFileAsInputFile(baseDirectory + fileName);
@@ -164,30 +163,25 @@ public class FileTodoHandler {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			
-			while( !(todoType = reader.readLine().trim()).equals("no date") && !todoType.equals("no time") ){
+			todoType = reader.readLine();
+			while( todoType != null){
 				
 				todoName = reader.readLine();
-				System.out.println("name " + todoName);
 				addInfo = reader.readLine();
-				System.out.println("Info " + addInfo);
-
+				todoDate = reader.readLine();
+				todoTime = reader.readLine();
+				
 				if(isPartialType(todoType)){
-					todoDate = reader.readLine();
-					System.out.println("date " + todoDate);
 					todo = new Todo(todoName, addInfo, todoDate);
-					
+				
 				}else if(isCompleteType(todoType)){
-					todoDate = reader.readLine();
-					System.out.println("date " + todoDate);
-					todoTime = reader.readLine();
-					System.out.println("time " + todoTime);
-					
 					todo = new Todo(todoName, addInfo, todoDate, todoTime);
 					
 				}else{
 					todo = new Todo(todoName, addInfo);
 				}
 				toDoList.add(todo);
+				todoType = reader.readLine();
 			}
 			
 			reader.close();		 
@@ -199,6 +193,7 @@ public class FileTodoHandler {
 			return toDoList;
 		}	
 	}
+	
 	
 	private void readOverviewerFile() {
 		inputFile = new File( baseDirectory + TODO_OVERVIEWER);	
@@ -219,6 +214,7 @@ public class FileTodoHandler {
 			// Do nothing
 		}
 	}
+	
 	
 	private boolean saveAsUniversalTodo(Todo todo) {
 		ArrayList<Todo> floatingtoDoList = retrieveUniversalTodo();
@@ -242,14 +238,17 @@ public class FileTodoHandler {
 		}
 	}
 
+	
 	private void selectFileAsInputFile(String fileName){
 		inputFile = new File(fileName);
 	}
 
+	
 	private String setFileName(String date){
 		String[] brokenUpDate = date.split(" ");
 		return brokenUpDate[1].concat(brokenUpDate[2] + ".txt");	
 	}
+	
 	
 	private void setZeroTime(Calendar date){
 		date.set(Calendar.HOUR_OF_DAY, 0);
@@ -258,9 +257,11 @@ public class FileTodoHandler {
 		date.set(Calendar.MILLISECOND, 0);
 	}
 	
+	
 	private void sortTodoByDate(ArrayList<Todo> toDoList){
 		//Collections.sort(currentWorkingMonthFile, new customComparator);
 	}
+	
 	
 	public boolean updateDate(Calendar calendar, String dateString) {
         try {
@@ -275,6 +276,7 @@ public class FileTodoHandler {
         }
         return true;
     }
+	
 	
 	private boolean updateOverviewFile(String fileName){
 		

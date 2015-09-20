@@ -3,6 +3,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -64,7 +69,7 @@ public class FileHandler implements FileManager{
 	
 	@Override
 	public ArrayList<Todo> retrieveTodoByDate(String date) {
-		return fTodoH.retrieveTodoEventByDate(date);
+		return fTodoH.retrieveTodoByDate(date);
 	}
 	
 	@Override
@@ -125,6 +130,37 @@ public class FileHandler implements FileManager{
 			// Do nothing
 		}catch (IOException e) {
 			// Do nothing
+		}
+	}
+
+/******************************** Testing **************************************/
+	public void clearAll(){
+		try {
+			
+			File dir = new File(todoPath);
+			for(File file: dir.listFiles()) file.delete(); 
+			Path path = Paths.get(todoPath);
+			Files.delete(path);
+			
+			dir = new File(eventPath);
+			for(File file: dir.listFiles()) file.delete(); 
+			path = Paths.get(eventPath);
+			Files.delete(path);
+			
+			dir = new File(projectPath);
+			for(File file: dir.listFiles()) file.delete();
+			path = Paths.get(projectPath);
+			Files.delete(path);
+			
+			path = Paths.get("overview.txt");
+			Files.delete(path);
+			
+		} catch (NoSuchFileException x) {
+			System.out.println("err no such file.");
+		} catch (DirectoryNotEmptyException x) {
+			System.out.println("err directory not empty.");
+		} catch (IOException x) {
+			System.out.println("err");
 		}
 	}
 	
