@@ -22,9 +22,9 @@ public interface ServiceManager {
 	public boolean editEvent(String eventName, int index, String update);
 	public boolean editTask(String taskName, int index, String update);
 	
-	public boolean viewEvent (String eventName);
+	public boolean viewEvent (String date);
 	public Event viewSpecificEvent (String eventName, String date);
 	
-	public boolean viewTask (String taskName);
-	public Todo viewSpecificTask (String taskName);
+	public boolean viewTask (String date);
+	public Todo viewSpecificTask (String taskName, String date);
 }

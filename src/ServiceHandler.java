@@ -71,7 +71,7 @@ public class ServiceHandler implements ServiceManager{
 		return false;
 	}
 
-	@Override
+	@Override // needs discussion,  shld i make 1 delete task only? compare to editTask
 	public boolean deleteTaskWithDeadline(String taskName) {
 		for (Todo task:taskBook){
 			if (task.getName().equals(taskName)){
@@ -146,7 +146,7 @@ public class ServiceHandler implements ServiceManager{
 					}
 				}
 				
-				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook);
+				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
 				return true;
 			}
 			else {
@@ -156,9 +156,39 @@ public class ServiceHandler implements ServiceManager{
 				return false;
 	}
 
-	@Override
-	public boolean editTask(String taskName, int index, String update) {
-		// TODO Auto-generated method stub
+	@Override // needs discussion, shld i make a edit task without deadline? compare to deleteTask
+	public boolean editTask(String taskName, int index, String newValue) {
+		int taskIndex = 0;
+		for (Todo task:taskBook){
+			if (task.getName().equals(taskName)){
+				Todo _task = taskBook.get(taskIndex);
+				switch(index)
+				{
+					case (1):
+					{
+						_task.setAdditionalInfo(newValue);
+						break;
+					}
+					
+					case (2):
+					{
+						_task.updateDeadlineDate(newValue);
+						break;
+					}
+					
+					case (3):
+					{
+						_task.updateDeadlineTime(newValue);
+						break;
+					}
+			}
+				taskHandler.saveEditedTodoHandler(_task.getDeadlineDate(), taskBook); //possible to make date return null if its a task with no deadline?
+				return true;
+			}
+				else{
+			taskIndex++;
+		}
+			}
 		return false;
 	}
 
@@ -190,14 +220,40 @@ public class ServiceHandler implements ServiceManager{
 	}
 	
 	@Override
-	public boolean viewTask(String taskName) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean viewTask(String date) {
+		if (taskBook.contains(taskHandler.retrieveTodoByDate(date)))
+		{
+		return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	@Override
-	public Todo viewSpecificTask(String taskName) {
-		// TODO Auto-generated method stub
+	public Todo viewSpecificTask(String taskName, String date) {
+		int taskIndex = 0;
+		if (viewTask(date)==true) {
+			taskBook = taskHandler.retrieveTodoByDate(date);
+			for (Todo task:taskBook){
+				if (task.getName().equals(taskName)){
+					Todo _task = taskBook.get(taskIndex);
+					return _task;
+				}
+				taskIndex++;
+			}
+		}
+		if (date == null) {
+			taskBook = taskHandler.retrieveUniversalTodo(date);  // same problem as viewTaskWithoutDeadlines, why date needed?
+			for (Todo task:taskBook){
+				if (task.getName().equals(taskName)){
+					Todo _task = taskBook.get(taskIndex);
+					return _task;
+				}
+				taskIndex++;
+			}
+			
+		}
 		return null;
 	}
 }
