@@ -16,6 +16,10 @@ public class Todo extends Item {
 	
 	/************************************ Constructor ***************************************/
 	
+	public Todo(String name) {
+	    this(name, "");
+	}
+	
 	public Todo(String name, String additionalInfo) {
 		this(name, additionalInfo, "", "");
 	}
@@ -41,11 +45,11 @@ public class Todo extends Item {
 	}
 	
 	public String getDeadlineDate(){
-		return getDateString(deadline);
+		return Helper.getDateString(deadline);
 	}
 	
 	public String getDeadlineTime(){
-	    return getTimeString(deadline);
+	    return Helper.getTimeString(deadline);
 	}
 	
 	public boolean hasDate(){

@@ -42,19 +42,19 @@ public class Event extends Item {
     }
   
   public String getStartDateString() {
-      return getDateString(start);
+      return Helper.getDateString(start);
   }
   
   public String getEndDateString() {
-        return getDateString(end);
-    }
+      return Helper.getDateString(end);
+  }
   
   public String getStartTimeString() {
-        return getTimeString(start);
-    }
+      return Helper.getTimeString(start);
+  }
     
   public String getEndTimeString() {
-	  return getTimeString(end);
+	  return Helper.getTimeString(end);
   }
   
 /**************************************  Mutators ********************************************/

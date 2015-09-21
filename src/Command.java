@@ -1,5 +1,8 @@
 
-public interface Command {
+public abstract class Command {
+
+    private boolean revertible;
+    private boolean requireConfirmation;
 
     public static Command parseCommand(String text) throws Exception {
         String commandType = Helper.getFirstWord(text);
@@ -21,16 +24,37 @@ public interface Command {
         return command;
     }
     
+    public boolean isRevertible() {
+        return revertible;
+    }
+
+
+    public void setRevertible(boolean revertible) {
+        this.revertible = revertible;
+    }
+
+
+    public boolean isRequireConfirmation() {
+        return requireConfirmation;
+    }
+
+
+    public void setRequireConfirmation(boolean requireConfirmation) {
+        this.requireConfirmation = requireConfirmation;
+    }
+
+    
+    
     /*
      * Execute this command
      * @return Feedback from execution
      */
-    public String execute() throws Exception;
+    public abstract String execute() throws Exception;
     
     /*
      * Revert this command
      * @return Feedback from execution
      */
-    public String revert() throws Exception;
+    public abstract String revert() throws Exception;
     
 }

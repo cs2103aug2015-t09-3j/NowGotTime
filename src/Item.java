@@ -1,4 +1,3 @@
-import java.util.Calendar;
 
 public class Item {
     private String name;
@@ -30,14 +29,6 @@ public class Item {
 
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
-    }
-    
-    public String getDateString(Calendar calendar) {
-        return Helper.FORMAT_DATE.format(calendar.getTime());
-    }
-    
-    public String getTimeString(Calendar calendar) {
-        return Helper.FORMAT_TIME.format(calendar.getTime());
     }
     
     

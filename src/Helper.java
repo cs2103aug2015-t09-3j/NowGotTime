@@ -14,6 +14,7 @@ public class Helper {
 
     /* Error messages */
     public static final String ERROR_INVALID_COMMAND = "unknown command '%1$s'";
+    public static final String ERROR_INVALID_ARGUMENTS = "invalid arguments for command %1$s";
     
     /* Date and time format */
     public static final String PATTERN_DATE = "dd MMM yyyy";
@@ -93,6 +94,14 @@ public class Helper {
             return false;
         }
         return true;
+    }
+    
+    public static String getDateString(Calendar calendar) {
+        return Helper.FORMAT_DATE.format(calendar.getTime());
+    }
+    
+    public static String getTimeString(Calendar calendar) {
+        return Helper.FORMAT_TIME.format(calendar.getTime());
     }
     
 }

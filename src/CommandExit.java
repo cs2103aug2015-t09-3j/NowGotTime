@@ -1,5 +1,5 @@
 
-public class CommandExit implements Command {
+public class CommandExit extends Command {
     
     CommandExit(String args) {
         
