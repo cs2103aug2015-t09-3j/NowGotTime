@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class FileTodoHandler {
 	private static final String BASIC_TODO_TYPE = "basic";
@@ -24,7 +26,7 @@ public class FileTodoHandler {
 	private File inputFile;
 	private ArrayList<String> availableMonths;	
 	
-/*****************************************************************************************/		
+/********************************** Public method for users *****************************************/		
 	
 	public FileTodoHandler(String baseDirectory){
 		this.baseDirectory = baseDirectory.concat("\\");
@@ -36,7 +38,6 @@ public class FileTodoHandler {
 			String date = todo.getDeadlineDate();
 			ArrayList<Todo> toDoList = retrieveTodoByMonth(date);
 			toDoList.add(todo);
-			sortTodoByDate(toDoList);
 			saveToDoList(date, toDoList);
 		}
 		else{
@@ -47,7 +48,8 @@ public class FileTodoHandler {
 			
 	public boolean saveToDoList(String date, ArrayList<Todo> toDoList){
 		//TODO: think of the case when an edited event has date that over spill month
-		
+
+		sortTodoByDate(toDoList);
 		try{
 			File outfile = new File(baseDirectory + setFileName(date));
 			
@@ -71,13 +73,9 @@ public class FileTodoHandler {
 		}
 	}
 	
-	public ArrayList<Todo> retrieveTodoEventByDate(String date){
+	public ArrayList<Todo> retrieveTodoByDate(String date){
 		
 		ArrayList<Todo> toDoListByMonth = retrieveTodoByMonth(date);
-		
-		for(Todo t: toDoListByMonth){
-			System.out.println(t);
-		}
 		
 		ArrayList<Todo> toDoListByDate = filterTodoToSpecificDate(date, toDoListByMonth);
 		
@@ -112,7 +110,7 @@ public class FileTodoHandler {
 		}	
 	}
 	
-/*****************************************************************************************/	
+/***************************** Class methods sorted alphabetically ********************************/	
 	
 	private String determineType(Todo todo) {
 		if(todo.hasDate() && todo.hasTime()){
@@ -123,7 +121,7 @@ public class FileTodoHandler {
 			return BASIC_TODO_TYPE;
 		}
 	}
-	
+
 	private ArrayList<Todo> filterTodoToSpecificDate(String dateString, ArrayList<Todo> toDoListByMonth) {
 		ArrayList<Todo> toDoListByDate = new ArrayList<Todo>();
 		Calendar todoDate;
@@ -152,7 +150,7 @@ public class FileTodoHandler {
 		return type.equals(PARTIAL_TODO_TYPE);
 	}
 	
- 	private ArrayList<Todo> retrieveTodoByMonth(String date){
+	private ArrayList<Todo> retrieveTodoByMonth(String date){
 		
 		String fileName = setFileName(date);
 		selectFileAsInputFile(baseDirectory + fileName);
@@ -164,30 +162,25 @@ public class FileTodoHandler {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			
-			while( !(todoType = reader.readLine().trim()).equals("no date") && !todoType.equals("no time") ){
+			todoType = reader.readLine();
+			while( todoType != null){
 				
 				todoName = reader.readLine();
-				System.out.println("name " + todoName);
 				addInfo = reader.readLine();
-				System.out.println("Info " + addInfo);
-
+				todoDate = reader.readLine();
+				todoTime = reader.readLine();
+				
 				if(isPartialType(todoType)){
-					todoDate = reader.readLine();
-					System.out.println("date " + todoDate);
 					todo = new Todo(todoName, addInfo, todoDate);
-					
+				
 				}else if(isCompleteType(todoType)){
-					todoDate = reader.readLine();
-					System.out.println("date " + todoDate);
-					todoTime = reader.readLine();
-					System.out.println("time " + todoTime);
-					
 					todo = new Todo(todoName, addInfo, todoDate, todoTime);
 					
 				}else{
 					todo = new Todo(todoName, addInfo);
 				}
 				toDoList.add(todo);
+				todoType = reader.readLine();
 			}
 			
 			reader.close();		 
@@ -259,7 +252,7 @@ public class FileTodoHandler {
 	}
 	
 	private void sortTodoByDate(ArrayList<Todo> toDoList){
-		//Collections.sort(currentWorkingMonthFile, new customComparator);
+		Collections.sort(toDoList, new customTodoComparator());
 	}
 	
 	public boolean updateDate(Calendar calendar, String dateString) {
@@ -295,32 +288,49 @@ public class FileTodoHandler {
 			return false;
 		}
 	}
-	
-//	private boolean isBasicType(String type){
-//		return type.equals(BASIC_TODO_TYPE);
-//	}
-//		
-//	private String parseMonth(int month){
-//		switch(month){
-//			case 0: return "Jan";
-//			case 1: return "Feb";
-//			case 2: return "Mar";
-//			case 3: return "Apr";
-//			case 4: return "May";
-//			case 5: return "Jun";
-//			case 6: return "Jul";
-//			case 7: return "Aug";
-//			case 8: return "Sep";
-//			case 9: return "Oct";
-//			case 10: return "Nov";
-//			case 11: return "Dec";
-//			default: return null;
-//		}
-//	}
-//	private Calendar extractDate(Calendar date){
-//		Calendar newCalendar = Calendar.getInstance();
-//		newCalendar.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
-//		return newCalendar;
-//	}
-//	
+
+/***********************************************************************************************/
+	class customTodoComparator implements Comparator<Todo>{
+		
+		Calendar date1, date2;
+		
+		@Override
+		public int compare(Todo task1, Todo task2) {
+			setupCalendar(task1, task2);
+			
+			if(task1.hasDate() && !task2.hasDate()){
+				return -1;
+			}else if(!task1.hasDate() && task2.hasDate() ){
+				return 1;
+			}else if(task1.hasDate() && task2.hasDate()){
+				return compareDateDirectly();
+			}else{
+				return compareDateWithoutTime();
+			}
+		}
+		
+		private int compareDateDirectly() {
+			
+			if(date1.before(date2)){
+				return -1;
+			}else if(date1.after(date2)){
+				return 1;
+			}else{
+				return 0;
+			}
+		}
+
+		private int compareDateWithoutTime() {
+			setZeroTime(date1);
+			setZeroTime(date2);
+			return compareDateDirectly();
+		}
+
+		private void setupCalendar(Todo task1, Todo task2) {
+			date1 = (Calendar) task1.getDeadline().clone();
+			date2 = (Calendar) task2.getDeadline().clone();
+			
+		}
+	}	
 }
+

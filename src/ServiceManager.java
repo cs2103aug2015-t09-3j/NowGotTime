@@ -11,18 +11,20 @@ public interface ServiceManager {
 	
 	public ArrayList<Event> viewEventByDate(String date);
 	public ArrayList<Todo> viewTaskByDate(String date);
+	public ArrayList<Todo> viewTaskNoDate(String date);
 	
 	public boolean deleteEvent(String eventName);
 	public boolean deleteEvent(int eventIndex);
-	public boolean deleteTask(String task);
+	public boolean deleteTaskWithDeadline(String task);
+	public boolean deleteTaskWithoutDeadline(String task);
 	public boolean deleteTask(int taskIndex);
 	
 	public boolean editEvent(String eventName, int index, String update);
 	public boolean editTask(String taskName, int index, String update);
 	
-	public boolean viewEvent (String eventName);
-	public Event viewSpecificEvent (String eventName);
+	public boolean viewEvent (String date);
+	public Event viewSpecificEvent (String eventName, String date);
 	
-	public boolean viewTask (String taskName);
-	public Todo viewSpecificTask (String taskName);
+	public boolean viewTask (String date);
+	public Todo viewSpecificTask (String taskName, String date);
 }
