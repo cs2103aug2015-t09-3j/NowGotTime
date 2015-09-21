@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,6 +42,22 @@ public class CommandEdit extends Command {
     }
     
     private String itemName;
+    public String getItemName() {
+        return itemName;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public String getNewValue() {
+        return newValue;
+    }
+
+    public String getOldValue() {
+        return oldValue;
+    }
+
     private String fieldName;
     private String newValue;
     private String oldValue;
@@ -62,6 +79,17 @@ public class CommandEdit extends Command {
         fieldName = result.get(FIELD_KEY);
         newValue = result.get(FIELD_VALUE);
         
+        // Validate the date format
+        if (fieldName == FIELD_START
+         || fieldName == FIELD_END
+         || fieldName == FIELD_DUE) {
+            try {
+                fieldName = fieldName.trim();
+                Helper.parseDateTime(fieldName);
+            } catch (ParseException e) {
+                throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            }
+        }
     }
     
     @Override
