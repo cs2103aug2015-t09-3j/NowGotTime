@@ -5,11 +5,11 @@ import java.util.regex.Pattern;
 
 public class CommandAdd extends Command {
     
-    private static final String KEYWORD = "start";
+    public static final String KEYWORD = "add";
     
     private static final String PATTERN_ADD_EVENT         = "\\s*\"(?<name>.+)\"\\s+on (?<start>.+) to (?<end>.+)";
     private static final String PATTERN_ADD_TODO          = "\\s*\"(?<name>.+)\"\\s+on (?<deadline>.+)";
-    private static final String PATTERN_ADD_FLOATING_TODO = "\\s*\"(?<name>.+)\"\\s+"; 
+    private static final String PATTERN_ADD_FLOATING_TODO = "\\s*\"(?<name>.+)\"\\s*"; 
     
     private static final Pattern REGEX_ADD_EVENT         = Pattern.compile(PATTERN_ADD_EVENT);
     private static final Pattern REGEX_ADD_TODO          = Pattern.compile(PATTERN_ADD_TODO);
@@ -23,13 +23,13 @@ public class CommandAdd extends Command {
     
     Item item;
     
-    private boolean parseAsEvent(String args) {
+    private static Event parseAsEvent(String args) {
         Matcher eventMatcher = REGEX_ADD_EVENT.matcher(args);
-        
         if (eventMatcher.matches()) {
             String name = eventMatcher.group(FIELD_NAME);
-            String start = eventMatcher.group(FIELD_START);
-            String end = eventMatcher.group(FIELD_END);
+            String start = eventMatcher.group(FIELD_START).trim();
+            String end = eventMatcher.group(FIELD_END).trim();
+            
             Calendar startCalendar = null;
             Calendar endCalendar = null; 
             try {
@@ -37,7 +37,7 @@ public class CommandAdd extends Command {
                 endCalendar = Helper.parseDateTime(end);
             } catch (ParseException e) {
                 // Invalid DateTime format
-                return false;
+                return null;
             }
             
             String startDate = Helper.getDateString(startCalendar);
@@ -46,15 +46,14 @@ public class CommandAdd extends Command {
             String endTime = Helper.getTimeString(endCalendar);
             
             
-            item = new Event(name, startDate, endDate, startTime, endTime);
-            return true;
+            return new Event(name, startDate, endDate, startTime, endTime, ""); // Remove empty string parameter once we delete additionalInformation
         }
         else {
-            return false;
+            return null;
         }
     }
     
-    private boolean parseAsTodo(String args) {
+    private static Todo parseAsTodo(String args) {
         Matcher todoMatcher = REGEX_ADD_TODO.matcher(args);
         
         if (todoMatcher.matches()) {
@@ -65,31 +64,29 @@ public class CommandAdd extends Command {
                 deadlineCalendar = Helper.parseDateTime(deadline);
             } catch (ParseException e) {
                 // Invalid DateTime format
-                return false;
+                return null;
             }
             
             String deadlineDate = Helper.getDateString(deadlineCalendar);
             String deadlineTime = Helper.getTimeString(deadlineCalendar);
             
-            item = new Todo(name, deadlineDate, deadlineTime);
-            return true;
+            return new Todo(name, "", deadlineDate, deadlineTime);  // Remove empty string parameter once we delete additionalInformation
         }
         else {
-            return false;
+            return null;
         }
     }
     
-    private boolean parseAsFloatingTodo(String args) {
+    private static Todo parseAsFloatingTodo(String args) {
         Matcher todoMatcher = REGEX_ADD_FLOATING_TODO.matcher(args);
         
         if (todoMatcher.matches()) {
             String name = todoMatcher.group(FIELD_NAME);
             
-            item = new Todo(name);
-            return true;
+            return new Todo(name);
         }
         else {
-            return false;
+            return null;
         }
     }
     
@@ -106,14 +103,17 @@ public class CommandAdd extends Command {
         // add eat again -> no deadline
         
         // Try to parse as event, todo, or floating todo
-        if (parseAsEvent(args)
-         || parseAsTodo(args)
-         || parseAsFloatingTodo(args));
+        if ((this.item = parseAsEvent(args)) != null);
+        else if ((this.item = parseAsTodo(args)) != null);
+        else if ((this.item = parseAsFloatingTodo(args)) != null);
         else {
             // parsing unsuccessful
             throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
-        
+    }
+    
+    public Item getItem() {
+        return this.item;
     }
 
     @Override

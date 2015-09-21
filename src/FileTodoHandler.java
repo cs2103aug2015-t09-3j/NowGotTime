@@ -35,7 +35,7 @@ public class FileTodoHandler {
 
 	public boolean saveNewTodoHandler(Todo todo){
 		if(todo.hasDate()){
-			String date = todo.getDeadlineDate();
+			String date = todo.getDeadlineDateString();
 			ArrayList<Todo> toDoList = retrieveTodoByMonth(date);
 			toDoList.add(todo);
 			saveToDoList(date, toDoList);

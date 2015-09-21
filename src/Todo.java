@@ -44,11 +44,11 @@ public class Todo extends Item {
 		return deadline;
 	}
 	
-	public String getDeadlineDate(){
+	public String getDeadlineDateString(){
 		return Helper.getDateString(deadline);
 	}
 	
-	public String getDeadlineTime(){
+	public String getDeadlineTimeString(){
 	    return Helper.getTimeString(deadline);
 	}
 	
@@ -81,7 +81,7 @@ public class Todo extends Item {
 		allDetails = allDetails.concat(getAdditionalInfo() + "\n");
 		
 		if (hasDate) {
-			allDetails = allDetails.concat(getDeadlineDate());
+			allDetails = allDetails.concat(getDeadlineDateString());
 		}
 		else {
 			allDetails = allDetails.concat("no date");
@@ -90,7 +90,7 @@ public class Todo extends Item {
 		allDetails = allDetails.concat("\n");
 		
 		if (hasTime) {
-			allDetails = allDetails.concat(getDeadlineTime());
+			allDetails = allDetails.concat(getDeadlineTimeString());
 		}
 		else {
 			allDetails = allDetails.concat("no time");

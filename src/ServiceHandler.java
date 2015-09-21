@@ -81,7 +81,7 @@ public class ServiceHandler implements ServiceManager{
 		for (Todo task:taskBook){
 			if (task.getName().equals(taskName)){
 				taskBook.remove(task);
-				taskHandler.saveEditedTodoHandler(task.getDeadlineDate(), taskBook);
+				taskHandler.saveEditedTodoHandler(task.getDeadlineDateString(), taskBook);
 				return true;
 			}
 		}
@@ -187,7 +187,7 @@ public class ServiceHandler implements ServiceManager{
 					break;
 				}
 				}
-				taskHandler.saveEditedTodoHandler(_task.getDeadlineDate(), taskBook); //possible to make date return null if its a task with no deadline?
+				taskHandler.saveEditedTodoHandler(_task.getDeadlineDateString(), taskBook); //possible to make date return null if its a task with no deadline?
 				return true;
 			}
 			else{
