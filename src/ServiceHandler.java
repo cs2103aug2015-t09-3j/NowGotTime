@@ -13,8 +13,7 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	@Override
-	public boolean createEvent(ArrayList<String> eventDetails) {
-		Event newEvent = new Event(eventDetails.get(0), eventDetails.get(1),eventDetails.get(2),eventDetails.get(3),eventDetails.get(4));
+	public boolean createEvent(Event newEvent) {
 		return eventHandler.saveNewEventHandler(newEvent);
 	}
 
@@ -107,7 +106,7 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	@Override
-	public boolean editEvent(String eventName, int infoIndex, String newValue) {
+	public boolean editEvent(String eventName, int infoIndex, String newValue) { // change to 3 methods
 		int eventIndex = 0;
 		for (Event event:eventBook){
 			if (event.getName().equals(eventName)){

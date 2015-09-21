@@ -6,7 +6,7 @@ import java.util.ArrayList;
  */
 public interface ServiceManager {
 	
-	public boolean createEvent (ArrayList<String> eventDetails); 
+	public boolean createEvent (Event newEvent); 
 	public boolean createTask(ArrayList<String> taskDetails);
 	
 	public ArrayList<Event> viewEventByDate(String date);
