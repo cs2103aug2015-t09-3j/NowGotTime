@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public interface ServiceManager {
 	
 	public boolean createEvent (Event newEvent); 
-	public boolean createTask(ArrayList<String> taskDetails);
+	public boolean createTask(Todo newTask);
 	
 	public ArrayList<Event> viewEventByDate(String date);
 	public ArrayList<Todo> viewTaskByDate(String date);
@@ -19,12 +19,20 @@ public interface ServiceManager {
 	public boolean deleteTaskWithoutDeadline(String task);
 	public boolean deleteTask(int taskIndex);
 	
-	public boolean editEvent(String eventName, int index, String update);
-	public boolean editTask(String taskName, int index, String update);
+	public boolean editEventName(String eventName, String newEventName);
+	public boolean editEventStartDate(String eventName, String newStartDate);
+	public boolean editEventEndDate(String eventName, String newStartDate);
+	public boolean editEventStartTime(String eventName, String newStartTime);
+	public boolean editEventEndTime(String eventName, String newEndTime);
 	
-	public boolean viewEvent (String date);
-	public Event viewSpecificEvent (String eventName, String date);
+	public boolean editTaskNameWithDeadline(String taskName, String newTaskName);
+	public boolean editTaskDeadlineWithDeadline(String taskName, String newDeadline);
+	public boolean editTaskTimeWithDeadline(String taskName, String newTime);
 	
-	public boolean viewTask (String date);
-	public Todo viewSpecificTask (String taskName, String date);
+	public boolean editTaskNameWithoutDeadline(String taskName, String newTaskName);
+	
+	public Event viewSpecificEvent (String eventName);
+	
+	public Todo viewSpecificTaskWithDeadline (String taskName);
+	public Todo viewSpecificTaskWithoutDeadline (String taskName);
 }
