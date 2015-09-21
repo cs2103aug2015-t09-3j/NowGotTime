@@ -12,8 +12,6 @@ public class Todo extends Item {
 	private Calendar deadline;
 	private boolean hasDate = true;
 	private boolean hasTime = true;
-	
-    
     
 	
 	/************************************ Constructor ***************************************/
@@ -31,8 +29,8 @@ public class Todo extends Item {
 	    
 		this.deadline = Calendar.getInstance();
 		
-		hasDate = updateDate(this.deadline, deadlineDate);
-		hasTime = updateTime(this.deadline, deadlineTime);
+		hasDate = Helper.updateDate(this.deadline, deadlineDate);
+		hasTime = Helper.updateTime(this.deadline, deadlineTime);
         
 	}
 	
@@ -61,11 +59,11 @@ public class Todo extends Item {
 	/*********************************  Mutators ********************************************/
 
 	public boolean updateDeadlineDate(String dateString) {
-	    return updateDate(deadline, dateString);
+	    return Helper.updateDate(deadline, dateString);
 	}
 	
 	public boolean updateDeadlineTime(String timeString) {
-        return updateTime(deadline, timeString);
+        return Helper.updateTime(deadline, timeString);
     }
 	
 	/********************************** Process Dates ****************************************/
@@ -78,19 +76,19 @@ public class Todo extends Item {
 		String allDetails = (getName() + "\n");
 		allDetails = allDetails.concat(getAdditionalInfo() + "\n");
 		
-		if(hasDate){
+		if (hasDate) {
 			allDetails = allDetails.concat(getDeadlineDate());
 		}
-		else{
+		else {
 			allDetails = allDetails.concat("no date");
 		}
 		
 		allDetails = allDetails.concat("\n");
 		
-		if(hasTime){
+		if (hasTime) {
 			allDetails = allDetails.concat(getDeadlineTime());
 		}
-		else{
+		else {
 			allDetails = allDetails.concat("no time");
 		}
 		return allDetails;
