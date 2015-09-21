@@ -21,7 +21,7 @@ public class ProjectHandler implements ProjectManager{
 	@Override
 	public boolean addProjectEvent(Event eventName, String projectName) {
 		
-		// Don't create new project, in case user types wrongly. Prompt user to create proj first.
+		// Don't create new project, in case user types wrongly. Stef, Prompt user to create proj first.
 		if (!listExistingProjects().contains(projectName))
 		{
 			return false;
