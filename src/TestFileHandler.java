@@ -23,6 +23,7 @@ import java.util.ArrayList;
  * ****************************
  * 	Events:
  * 		1) Spill over days and months for edited events
+ * 		2) Empty string name
  * 
  * 	Projects:
  * 		-
@@ -53,7 +54,6 @@ public class TestFileHandler {
 	
 	public void testFileTodoHandler(){
 
-		FileTodoHandler fth = new FileTodoHandler("C:\\Users\\RX.huang\\git\\main\\Todo");
 		System.out.println("This is to test the TodoHandler:");
 		System.out.println();
 		
@@ -78,19 +78,23 @@ public class TestFileHandler {
 		fh.saveNewTodoHandler(todo3);
 		System.out.println("Added todo3 as a new Todo.");
 		
+		fh.saveNewTodoHandler(todo4);
+		System.out.println("Added todo3 as a new Todo.");
+		
 		System.out.println("Retrieving to-do-list on 20 Oct 2015...");
 		ArrayList<Todo> taskBook = fh.retrieveTodoByDate("20 Oct 2015");
+		
 		System.out.println("To-do-list for 20 Oct 2015:");
 		customPrinting(taskBook);
-		System.out.println ("//************************** End **************************//");
 		
+		System.out.println ("//************************** End **************************//");
+	
 		System.out.println("Testing the edited todo add:");
 		System.out.println();
-		System.out.println("After retrieved the arraylist<todo>, we add in todo4.");
-		taskBook.add(todo4);
-		System.out.println("Stimulate process on the logic side: Added edited todo4 ");
+		System.out.println("After retrieved the arraylist<todo>, we edit todo4.");
+		taskBook.get(0).setAdditionalInfo("Hope this will work.");
 		
-		fth.saveToDoList("20 oct 2015", taskBook);
+		fh.saveEditedTodoHandler();
 		System.out.println("Saved whole todo arraylist with date into storage");
 		System.out.println();
 		
@@ -99,14 +103,29 @@ public class TestFileHandler {
 		
 		System.out.println("To-do-list for 20 Oct 2015:");
 		customPrinting(taskBook);
-		System.out.println ("//************************** End **************************//");
 		
+		System.out.println ("//************************** End **************************//");
 		System.out.println("Testing the retrieval of floating todo add:");
 		System.out.println();
-		taskBook = fth.retrieveUniversalTodo();
+		
+		Todo todo5 = new Todo("Watch this is hat", "nothing");
+		fh.saveNewTodoHandler(todo5);
+		
+		Todo todo6 = new Todo("not shown", "to delete");
+		fh.saveNewTodoHandler(todo6);
+		
+		taskBook = fh.retrieveUniversalTodo();
+		taskBook.remove(2);
+		fh.saveEditedTodoHandler();
+		
+		taskBook = fh.retrieveUniversalTodo();
+		
 		System.out.println("Floating to-do-list:");
 		customPrinting(taskBook);
+		
 		System.out.println ("//****************** End of test todo ********************//");
+		
+		
 		System.out.println();
 		
 	}
@@ -165,25 +184,28 @@ public class TestFileHandler {
 		System.out.println ("event2 created");
 		Event event3 = new Event("sleep", "31 aug 2015", "31 aug 2015", "03:00", "10:00", "lean on the left");
 		System.out.println ("event3 created");
+		Event event4 = new Event("Project", "24 aug 2015", "31 aug 2015", "20:00", "02:00", "chiong ah");
+		System.out.println ("event4 created");
 		System.out.println();
 		System.out.println ("Adding events into the storage in reverse time sequence");
+		fh.saveNewEventHandler(event4);
 		fh.saveNewEventHandler(event3);
 		fh.saveNewEventHandler(event2);
 		fh.saveNewEventHandler(event);
 		System.out.println ("Events added");
 		System.out.println();
-		System.out.println ("Creating the fourth event");
-		Event event4 = new Event("Project", "24 aug 2015", "31 aug 2015", "20:00", "02:00", "chiong ah");
-		System.out.println();
+		
 		System.out.println ("Retrieving events on 31 Aug 2015...");
 		ArrayList<Event> eventBook = fh.retrieveEventByDate("31 Aug 2015");
 		System.out.println();
 		
-		System.out.println ("Adding fourth event into event book.");
+		System.out.println ("Change event4 additional details.");
 		System.out.println ("This is to stimulate logic side editing of projects.");
-		eventBook.add(event4);
+		eventBook.get(3).setAdditionalInfo("I love coding.");
+		eventBook.get(2).setAdditionalInfo("Eat like pig.");
+		
 		System.out.println ("Save changes.");
-		fh.saveEditedEventHandler("31 aug 2015", eventBook);
+		fh.saveEditedEventHandler();
 		System.out.println();
 		
 		System.out.println ("Retrieving event on 31 Aug 2015.");
@@ -192,6 +214,19 @@ public class TestFileHandler {
 		customPrint(eventBook);
 		
 		System.out.println("Check if the events are sorted.");
+		System.out.println();
+		System.out.println("Test Delete.");
+		eventBook = fh.retrieveEventsToDelete();
+		eventBook.remove(0);
+		fh.saveEditedEventHandler();
+		System.out.println("Event deleted and saved");
+		System.out.println();
+		
+		System.out.println ("Retrieving event on 31 Aug 2015.");
+		eventBook = fh.retrieveEventByDate("31 Aug 2015");
+		System.out.println("Events on 31 Aug 2015:");
+		customPrint(eventBook);
+		
 		System.out.println ("//***************** End of test event *******************//");
 		System.out.println();
 	}

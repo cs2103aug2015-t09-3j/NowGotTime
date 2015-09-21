@@ -14,60 +14,38 @@ import java.util.Comparator;
 
 
 public class FileEventHandler {
-	private static final String EVENT_OVERVIEWER = "eventOverviewer.txt";
-	
+	private static final String UPCOMING_EVENTS = "Upcoming Events";
+	//TODO: handle past events
 	private static final String PATTERN_DATE = "dd MMM yyyy";
 	private static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
 	
 	private String baseDirectory;
 	private File inputFile;
-	private ArrayList<String> availableMonths;
 	
-	private Calendar currentDate = null;
-	private ArrayList<Event> currentWorkingMonthFile = new ArrayList<Event>();
+	private ArrayList<Event> allEvents;
 	
 /*****************************************************************************************/		
 
 	public FileEventHandler(String theBaseDirectory){
 		this.baseDirectory = theBaseDirectory.concat("\\");
-		readOverviewerFile();
+		retrieveEvent();
 	}
 
 	public boolean saveNewEventHandler(Event event){
-		
-		Calendar startDate = (Calendar) event.getStartCalendar().clone();			//unpack date
-		Calendar endDate = (Calendar) event.getEndCalendar().clone();
-		Calendar tempDate = (Calendar) startDate.clone();
-		
-		setZeroTime(startDate);
-		setZeroTime(endDate);
-		setZeroTime(tempDate);		
-		
-		while(endDate.after(tempDate) || endDate.equals(tempDate)){
-			
-			if(needToChangeMonthFile(tempDate)){
-				save(event);				
-			}
-			
-			tempDate.add(Calendar.DAY_OF_MONTH, 1);			
-		}
-		currentDate = null;	//reset
+		allEvents.add(event);
+		saveEventBook();
 		return true;
 	}
 			
-	public boolean saveEventBook(String date, ArrayList<Event> eventBook){
+	public boolean saveEventBook(){
 		//TODO: consider the case when an edited event has date that over spill month
-		sortEventsByDate(eventBook);
+		sortEventsByDate(allEvents);
 		try{
-			File outfile = new File(baseDirectory + setFileName(date));
-			
-			if(!outfile.exists()){
-				updateOverviewFile(setFileName(date));
-			}
+			File outfile = new File(baseDirectory + UPCOMING_EVENTS);
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
 			
-			for(Event anEvent : eventBook){
+			for(Event anEvent : allEvents){
 				writer.write(anEvent.toString()); 
 				writer.newLine();
 			}
@@ -82,26 +60,24 @@ public class FileEventHandler {
 	
 	public ArrayList<Event> retrieveEventByDate(String date){
 		
-		ArrayList<Event> eventBookByMonth = retrieveEventByMonth(date);
-	
-		ArrayList<Event> eventBookByDate = filterEventsToSpecificDate(date, eventBookByMonth);
+		ArrayList<Event> eventBookByDate = filterEventsToSpecificDate(date);
 		
 		return eventBookByDate;
 	}
 	
-/*****************************************************************************************/	
-		
-	private boolean currentDateIsInitialized(){
-		return currentDate != null;
+	public ArrayList<Event> retrieveEventsToDelete(){
+		return allEvents;
 	}
+	
+/*****************************************************************************************/	
 
-	private ArrayList<Event> filterEventsToSpecificDate(String dateString, ArrayList<Event> eventBookByMonth) {
+	private ArrayList<Event> filterEventsToSpecificDate(String dateString) {
 		ArrayList<Event> eventBookByDate = new ArrayList<Event>();
 		Calendar date = Calendar.getInstance();
 		updateDate(date, dateString);
 		Calendar startDate, endDate;
 		
-		for(Event event: eventBookByMonth){
+		for(Event event: allEvents){
 			startDate = (Calendar) event.getStartCalendar().clone();
 			endDate = (Calendar) event.getEndCalendar().clone();
 			setZeroTime(date);
@@ -116,49 +92,11 @@ public class FileEventHandler {
 		return eventBookByDate;
 	}
 
-	private boolean monthIsTheSame(Calendar date){
-
-		return (date.get(Calendar.MONTH) == currentDate.get(Calendar.MONTH));
-	}
-	
-	//return true if the month input date and the currentDate is different, else return true; 
-	private boolean needToChangeMonthFile(Calendar date){
+ 	private boolean retrieveEvent(){
 		
-		if(!currentDateIsInitialized() || !monthIsTheSame(date)){
-			currentDate = (Calendar) date.clone();
-			currentWorkingMonthFile = retrieveEventByMonth( date.get(Calendar.DAY_OF_MONTH) + " " 
-							 				   + parseMonth(date.get(Calendar.MONTH)) + " " 
-							 				   			  + date.get(Calendar.YEAR) );
-			return true;			
-		}else{
-			return false;
-		}
-	}
+		selectFileAsInputFile(baseDirectory.concat(UPCOMING_EVENTS));
 		
-	private String parseMonth(int month){
-		switch(month){
-			case 0: return "Jan";
-			case 1: return "Feb";
-			case 2: return "Mar";
-			case 3: return "Apr";
-			case 4: return "May";
-			case 5: return "Jun";
-			case 6: return "Jul";
-			case 7: return "Aug";
-			case 8: return "Sep";
-			case 9: return "Oct";
-			case 10: return "Nov";
-			case 11: return "Dec";
-			default: return null;
-		}
-	}
-	
- 	private ArrayList<Event> retrieveEventByMonth(String date){
-		
-		String fileName = setFileName(date);
-		selectFileAsInputFile(baseDirectory + fileName);
-		
-		ArrayList<Event> eventBook  = new ArrayList<Event>();
+		allEvents = new ArrayList<Event>();
 		String eventName, startDate, endDate, startTime, endTime, addInfo;
 		
 		try {
@@ -174,57 +112,22 @@ public class FileEventHandler {
 				endTime = reader.readLine();			
 				
 				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
-				eventBook.add(event);
+				allEvents.add(event);
 			}
 			
-			reader.close();		 
-			return eventBook;
+			reader.close();	
+			return true;
 		}
 		catch (FileNotFoundException e) {
-			return eventBook;
+			return false;
 		}catch (IOException e) {
-			return eventBook;
-		}	
-	}
-	
-	private void readOverviewerFile() {
-		inputFile = new File( baseDirectory + EVENT_OVERVIEWER);	
-		availableMonths = new ArrayList<String>();
-		
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-			String date;
-			
-			while((date = reader.readLine()) != (null)){
-				availableMonths.add(date);
-			}		
-			reader.close();		 
+			return true;
 		}
-		catch (FileNotFoundException e) {
-			// Do nothing
-		}catch (IOException e) {
-			// Do nothing
-		}
-	}
-	
-	private boolean save(Event event){
-		currentWorkingMonthFile.add(event);
-		saveEventBook(setFileName(currentDate), currentWorkingMonthFile);
-		return true;
-	}
-	
-	private void selectFileAsInputFile(String fileName){
-		inputFile = new File(fileName);
+
 	}
 
-	private String setFileName(String date){
-		String[] brokenUpDate = date.split(" ");
-		return brokenUpDate[1].concat(brokenUpDate[2] + ".txt");	
-	}
-	
-	private String setFileName(Calendar date){
-		return date.get(Calendar.DAY_OF_MONTH) +  " " + 
-				parseMonth(date.get(Calendar.MONTH)) + " " + date.get(Calendar.YEAR);
+	private void selectFileAsInputFile(String fileName){
+		inputFile = new File(fileName);
 	}
 	
 	private void setZeroTime(Calendar date){
@@ -237,27 +140,7 @@ public class FileEventHandler {
 	private void sortEventsByDate(ArrayList<Event> eventBook){
 		Collections.sort(eventBook, new customComparator());
 	}
-	
-	private boolean updateOverviewFile(String fileName){
-		
-		availableMonths.add(fileName);
-		try{
-			File outfile = new File(baseDirectory + EVENT_OVERVIEWER);
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
-			
-			for(String month : availableMonths){
-				writer.write(month.trim());
-				writer.newLine();
-			}
-			writer.close();
-			return true;
-	
-		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
-			return false;
-		}
-	}
-	
+
 	public boolean updateDate(Calendar calendar, String dateString) {
         try {
             Calendar date = Calendar.getInstance();
