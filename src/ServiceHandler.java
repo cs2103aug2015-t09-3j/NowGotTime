@@ -5,7 +5,8 @@ public class ServiceHandler implements ServiceManager{
 	private FileHandler eventHandler;
 	private FileHandler taskHandler;
 	private ArrayList<Event> eventBook = new ArrayList<Event>();
-	private ArrayList<Todo> taskBook = new ArrayList<Todo>();
+	private ArrayList<Todo> taskBookWithDeadline = new ArrayList<Todo>();
+	private ArrayList<Todo> taskBookNoDeadline = new ArrayList<Todo>();
 	
 	public ServiceHandler (){
 		eventHandler = new FileHandler();
@@ -13,34 +14,13 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	@Override
-	public boolean createEvent(ArrayList<String> eventDetails) {
-		Event newEvent = new Event(eventDetails.get(0), eventDetails.get(1),eventDetails.get(2),eventDetails.get(3),eventDetails.get(4));
+	public boolean createEvent(Event newEvent) {
 		return eventHandler.saveNewEventHandler(newEvent);
 	}
 
 	@Override
-	public boolean createTask(ArrayList<String> taskDetails) {
-		int determineTodoType = taskDetails.size();
-		switch(determineTodoType)
-		{
-		case (2):
-		{
-			Todo newTask = new Todo(taskDetails.get(0), taskDetails.get(1));
-			return taskHandler.saveNewTodoHandler(newTask);
-		}
-		case (3):
-		{
-			Todo newTask = new Todo(taskDetails.get(0), taskDetails.get(1), taskDetails.get(2));
-			return taskHandler.saveNewTodoHandler(newTask);
-		}
-		case (4):{
-			Todo newTask = new Todo(taskDetails.get(0), taskDetails.get(1), taskDetails.get(2), taskDetails.get(3));
-			return taskHandler.saveNewTodoHandler(newTask);
-		}
-		default:{
-			return false;
-		}
-		}
+	public boolean createTask(Todo newTask) {
+		return taskHandler.saveNewTodoHandler(newTask);
 	}
 
 	@Override
@@ -50,12 +30,12 @@ public class ServiceHandler implements ServiceManager{
 
 	@Override
 	public ArrayList<Todo> viewTaskByDate(String date) {
-		return taskBook = taskHandler.retrieveTodoByDate(date);
+		return taskBookWithDeadline = taskHandler.retrieveTodoByDate(date);
 	}
 
 	@Override
 	public ArrayList<Todo> viewTaskNoDate(String date) {
-		return taskBook = taskHandler.retrieveUniversalTodo(date);
+		return taskBookNoDeadline = taskHandler.retrieveUniversalTodo(date);
 	}
 
 	@Override
@@ -76,12 +56,12 @@ public class ServiceHandler implements ServiceManager{
 		return false;
 	}
 
-	@Override // needs discussion,  shld i make 1 delete task only? compare to editTask
+	@Override
 	public boolean deleteTaskWithDeadline(String taskName) {
-		for (Todo task:taskBook){
+		for (Todo task:taskBookWithDeadline){
 			if (task.getName().equals(taskName)){
-				taskBook.remove(task);
-				taskHandler.saveEditedTodoHandler(task.getDeadlineDateString(), taskBook);
+				taskBookWithDeadline.remove(task);
+				taskHandler.saveEditedTodoHandler(task.getDeadlineDateString(), taskBookWithDeadline);
 				return true;
 			}
 		}
@@ -90,10 +70,11 @@ public class ServiceHandler implements ServiceManager{
 
 	@Override
 	public boolean deleteTaskWithoutDeadline(String taskName) {
-		for (Todo task:taskBook){
+		for (Todo task:taskBookNoDeadline){
 			if (task.getName().equals(taskName)){
-				taskBook.remove(task);
-				taskHandler.saveEditedTodoHandler(null, taskBook);   //rx, saveEditedTodoHandler needs 1 with no date?
+				taskBookNoDeadline.remove(task);
+				//@rx needs new method with no date
+				//taskHandler.saveEditedTodoHandler(taskBookNoDeadline);
 				return true;
 			}
 		}
@@ -107,158 +88,202 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	@Override
-	public boolean editEvent(String eventName, int infoIndex, String newValue) {
+	public boolean editEventName(String eventName, String newEventName) {
 		int eventIndex = 0;
 		for (Event event:eventBook){
 			if (event.getName().equals(eventName)){
 				Event _event = eventBook.get(eventIndex);
-				switch(infoIndex)
-				{
-				case (1):
-				{
-					_event.setName(newValue);
-					break;
-				}
-
-				case (2):
-				{
-					_event.updateStartDate(newValue);
-					break;
-				}
-
-				case (3):
-				{
-					_event.updateEndDate(newValue);
-					break;
-				}
-
-				case (4):
-				{
-					_event.updateStartTime(newValue);
-					break;
-				}
-
-				case (5):
-				{
-					_event.updateEndTime(newValue);
-					break;
-				}
-
-				case (6):
-				{
-					_event.setAdditionalInfo(newValue);
-					break;
-				}
-				}
-
+				_event.setName(newEventName);
 				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
 				return true;
 			}
 			else {
-				eventIndex++;
+				eventIndex++; // finding index with same name as eventName passed in
 			}
 		}
-		return false;
+			return false;
 	}
-
-	@Override // needs discussion, shld i make a edit task without deadline? compare to deleteTask
-	public boolean editTask(String taskName, int index, String newValue) {
-		int taskIndex = 0;
-		for (Todo task:taskBook){
-			if (task.getName().equals(taskName)){
-				Todo _task = taskBook.get(taskIndex);
-				switch(index)
-				{
-				case (1):
-				{
-					_task.setAdditionalInfo(newValue);
-					break;
-				}
-
-				case (2):
-				{
-					_task.updateDeadlineDate(newValue);
-					break;
-				}
-
-				case (3):
-				{
-					_task.updateDeadlineTime(newValue);
-					break;
-				}
-				}
-				taskHandler.saveEditedTodoHandler(_task.getDeadlineDateString(), taskBook); //possible to make date return null if its a task with no deadline?
+	
+	@Override
+	public boolean editEventStartDate(String eventName, String newStartDate) {
+		int eventIndex = 0;
+		for (Event event:eventBook){
+			if (event.getName().equals(eventName)){
+				Event _event = eventBook.get(eventIndex);
+				_event.updateStartDate(newStartDate);
+				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
 				return true;
+			}
+			else {
+				eventIndex++; // finding index with same name as eventName passed in
+			}
+		}
+			return false;
+	}
+	
+	@Override
+	public boolean editEventEndDate(String eventName, String newEndDate) {
+		int eventIndex = 0;
+		for (Event event:eventBook){
+			if (event.getName().equals(eventName)){
+				Event _event = eventBook.get(eventIndex);
+				_event.updateEndDate(newEndDate);
+				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
+				return true;
+			}
+			else {
+				eventIndex++; // finding index with same name as eventName passed in
+			}
+		}
+			return false;
+	}
+	
+	@Override
+	public boolean editEventStartTime(String eventName, String newStartTime) {
+		int eventIndex = 0;
+		for (Event event:eventBook){
+			if (event.getName().equals(eventName)){
+				Event _event = eventBook.get(eventIndex);
+				_event.updateStartTime(newStartTime);
+				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
+				return true;
+			}
+			else {
+				eventIndex++; // finding index with same name as eventName passed in
+			}
+		}
+			return false;
+	}
+	
+	@Override
+	public boolean editEventEndTime(String eventName, String newEndTime) {
+		int eventIndex = 0;
+		for (Event event:eventBook){
+			if (event.getName().equals(eventName)){
+				Event _event = eventBook.get(eventIndex);
+				_event.updateEndTime(newEndTime);
+				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
+				return true;
+			}
+			else {
+				eventIndex++; // finding index with same name as eventName passed in
+			}
+		}
+			return false;
+	}
+	
+	@Override
+	public boolean editTaskNameWithDeadline(String taskName, String newTaskName) {
+		int taskIndex = 0;
+		for (Todo task:taskBookWithDeadline){
+			if (task.getName().equals(taskName)){
+				Todo _task = taskBookWithDeadline.get(taskIndex);
+				_task.setName(newTaskName);
+				taskHandler.saveEditedTodoHandler(_task.getDeadlineDateString() ,taskBookWithDeadline); 
+				return true;
+			}
+			else {
+				taskIndex++; // finding index with same name as taskName passed in
+			}
+		}
+			return false;
+	}
+	
+	@Override
+	public boolean editTaskDeadlineWithDeadline(String taskName, String newDeadline) {
+		int taskIndex = 0;
+		for (Todo task:taskBookWithDeadline){
+			if (task.getName().equals(taskName)){
+				Todo _task = taskBookWithDeadline.get(taskIndex);
+				_task.updateDeadlineDate(newDeadline);
+				taskHandler.saveEditedTodoHandler(_task.getDeadlineDateString() ,taskBookWithDeadline); 
+				return true;
+			}
+			else {
+				taskIndex++; // finding index with same name as taskName passed in
+			}
+		}
+			return false;
+	}
+	
+	@Override
+	public boolean editTaskTimeWithDeadline(String taskName, String newTime) {
+		int taskIndex = 0;
+		for (Todo task:taskBookWithDeadline){
+			if (task.getName().equals(taskName)){
+				Todo _task = taskBookWithDeadline.get(taskIndex);
+				_task.updateDeadlineTime(newTime);
+				taskHandler.saveEditedTodoHandler(_task.getDeadlineDateString() ,taskBookWithDeadline); 
+				return true;
+			}
+			else {
+				taskIndex++; // finding index with same name as taskName passed in
+			}
+		}
+			return false;
+	}
+	
+	@Override
+	public boolean editTaskNameWithoutDeadline(String taskName, String newTaskName) {
+		int taskIndex = 0;
+		for (Todo task:taskBookNoDeadline){
+			if (task.getName().equals(taskName)){
+				Todo _task = taskBookNoDeadline.get(taskIndex);
+				_task.setName(newTaskName);
+				//@rx needs new method with no date
+				//taskHandler.saveEditedTodoHandler(taskBookNoDeadline); 
+				return true;
+			}
+			else {
+				taskIndex++; // finding index with same name as taskName passed in
+			}
+		}
+			return false;
+	}
+	
+	@Override
+	public Event viewSpecificEvent (String eventName) {
+		int eventIndex = 0;
+		for (Event event:eventBook){
+			if (event.getName().equals(eventName)){
+				Event _event = eventBook.get(eventIndex);
+				return _event;
+			}
+			else {
+				eventIndex++;
+			}
+	}
+		return null; //@Stef returns null if no task found with same name as eventName passed in
+	}
+	
+	@Override
+	public Todo viewSpecificTaskWithDeadline(String taskName) {
+		int taskIndex = 0;
+		for (Todo task:taskBookWithDeadline){
+			if (task.getName().equals(taskName)){
+				Todo _task = taskBookWithDeadline.get(taskIndex);
+				return _task;
 			}
 			else{
 				taskIndex++;
 			}
 		}
-		return false;
+		return null; //@Stef returns null if no task found with same name as taskName passed in
 	}
 
-	@Override
-	public boolean viewEvent(String date) {
-		if (eventBook.contains(eventHandler.retrieveEventByDate(date)))
-		{
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
 
 	@Override
-	public Event viewSpecificEvent(String eventName, String date) {
-		int eventIndex = 0;
-		if (viewEvent(date)==true){
-			eventBook = eventHandler.retrieveEventByDate(date);
-			for (Event event:eventBook){
-				if (event.getName().equals(eventName)){
-					Event _event = eventBook.get(eventIndex);
-					return _event;
-				}
-				eventIndex++;
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public boolean viewTask(String date) {
-		if (taskBook.contains(taskHandler.retrieveTodoByDate(date)))
-		{
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	@Override
-	public Todo viewSpecificTask(String taskName, String date) {
+	public Todo viewSpecificTaskWithoutDeadline(String taskName){
 		int taskIndex = 0;
-		if (viewTask(date)==true) {
-			taskBook = taskHandler.retrieveTodoByDate(date);
-			for (Todo task:taskBook){
-				if (task.getName().equals(taskName)){
-					Todo _task = taskBook.get(taskIndex);
-					return _task;
-				}
+		for (Todo task:taskBookNoDeadline){
+			if (task.getName().equals(taskName)){
+				Todo _task = taskBookNoDeadline.get(taskIndex);
+				return _task;
+			}
+			else {
 				taskIndex++;
 			}
 		}
-		if (date == null) {
-			taskBook = taskHandler.retrieveUniversalTodo(date);  // same problem as viewTaskWithoutDeadlines, why date needed?
-			for (Todo task:taskBook){
-				if (task.getName().equals(taskName)){
-					Todo _task = taskBook.get(taskIndex);
-					return _task;
-				}
-				taskIndex++;
-			}
-
-		}
-		return null;
+		return null; //@Stef returns null if no task found with same name as taskName passed in
 	}
 }
