@@ -2,6 +2,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/*
+ * This class contains useful functions and constants
+ */
+
 public class Helper {
 
     /* Prompt messages */
@@ -48,10 +52,27 @@ public class Helper {
     
     /* Calendar Helper functions */
     
+    public static Calendar parseTime(String timeString) throws ParseException {
+        Calendar time = Calendar.getInstance();
+        time.setTime(FORMAT_TIME.parse(timeString));
+        return time;
+    }
+    
+    public static Calendar parseDate(String timeString) throws ParseException {
+        Calendar time = Calendar.getInstance();
+        time.setTime(FORMAT_DATE.parse(timeString));
+        return time;
+    }
+    
+    public static Calendar parseDateTime(String timeString) throws ParseException {
+        Calendar time = Calendar.getInstance();
+        time.setTime(FORMAT_DATE_TIME.parse(timeString));
+        return time;
+    }
+    
     public static boolean updateTime(Calendar calendar, String timeString) {
         try {
-            Calendar time = Calendar.getInstance();
-            time.setTime(FORMAT_TIME.parse(timeString));
+            Calendar time = parseTime(timeString);
             
             calendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY));
             calendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE));
@@ -63,8 +84,7 @@ public class Helper {
     
     public static boolean updateDate(Calendar calendar, String dateString) {
         try {
-            Calendar date = Calendar.getInstance();
-            date.setTime(FORMAT_DATE.parse(dateString));
+            Calendar date = parseDate(dateString);
             
             calendar.set(Calendar.DATE, date.get(Calendar.DATE));
             calendar.set(Calendar.MONTH, date.get(Calendar.MONTH));
