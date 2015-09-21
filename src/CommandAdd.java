@@ -8,7 +8,7 @@ public class CommandAdd extends Command {
     public static final String KEYWORD = "add";
     
     private static final String PATTERN_ADD_EVENT         = "\\s*\"(?<name>.+)\"\\s+on (?<start>.+) to (?<end>.+)";
-    private static final String PATTERN_ADD_TODO          = "\\s*\"(?<name>.+)\"\\s+on (?<deadline>.+)";
+    private static final String PATTERN_ADD_TODO          = "\\s*\"(?<name>.+)\"\\s+on (?<due>.+)";
     private static final String PATTERN_ADD_FLOATING_TODO = "\\s*\"(?<name>.+)\"\\s*"; 
     
     private static final Pattern REGEX_ADD_EVENT         = Pattern.compile(PATTERN_ADD_EVENT);
@@ -18,10 +18,10 @@ public class CommandAdd extends Command {
     private static final String FIELD_NAME     = "name";
     private static final String FIELD_START    = "start";
     private static final String FIELD_END      = "end";
-    private static final String FIELD_DEADLINE = "deadline";
+    private static final String FIELD_DEADLINE = "due";
     
     
-    Item item;
+    private Item item;
     
     private static Event parseAsEvent(String args) {
         Matcher eventMatcher = REGEX_ADD_EVENT.matcher(args);

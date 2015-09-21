@@ -14,6 +14,9 @@ public abstract class Command {
             case "add":
                 command = new CommandAdd(arguments);
                 break;
+            case "edit":
+                command = new CommandEdit(arguments);
+                break;
             case "exit":
                 command = new CommandExit(arguments);
                 break;
