@@ -2,10 +2,6 @@ public class TestServiceHandler {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-    	// This is to wipe data.
-    	FileHandler clear = new FileHandler();
-    	clear.clearAll();
-    	System.out.println("here");
         ServiceHandler test = new ServiceHandler();
         Event testEvent = new Event("study", "12 mar 2020", "08:00 ", "18:00", "");
         
