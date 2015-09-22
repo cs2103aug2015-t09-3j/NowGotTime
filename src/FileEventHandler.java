@@ -16,7 +16,7 @@ import java.util.Comparator;
 public class FileEventHandler {
 	private static final String EVENTS = "Upcoming Events";
 	private static final String HISTORY = "History.txt";
-	//TODO: handle past events
+	
 	private static final String PATTERN_DATE = "dd MMM yyyy";
 	private static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
 	
@@ -25,6 +25,8 @@ public class FileEventHandler {
 	
 	private ArrayList<Event> allEvents;
 	private ArrayList<Event> historyEvents;
+	
+	private Calendar todaysDate;
 	
 /*****************************************************************************************/		
 
@@ -42,7 +44,6 @@ public class FileEventHandler {
 	}
 			
 	public boolean saveEventBook(){
-		//TODO: consider the case when an edited event has date that over spill month
 		sortEventsByDate(allEvents);
 		try{
 			File outfile = new File(baseDirectory + EVENTS);
@@ -57,7 +58,8 @@ public class FileEventHandler {
 			return true;
 	
 		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
+			
+			System.out.println("File cannot be written.\n" + e.getMessage());
 			return false;
 		}
 	}
@@ -81,7 +83,16 @@ public class FileEventHandler {
 		updateDate(date, dateString);
 		Calendar startDate, endDate;
 		
-		for(Event event: allEvents){
+		ArrayList<Event> eventBook;
+		System.out.println(date.before(todaysDate));
+		if(date.before(todaysDate)){
+			System.out.println("Date is from the past");
+			eventBook = historyEvents;
+		}else{
+			eventBook = allEvents;
+		}
+		
+		for(Event event: eventBook){
 			startDate = (Calendar) event.getStartCalendar().clone();
 			endDate = (Calendar) event.getEndCalendar().clone();
 			setZeroTime(date);
@@ -92,21 +103,20 @@ public class FileEventHandler {
 				eventBookByDate.add(event);
 			}
 		}
-		
 		return eventBookByDate;
 	}
 	
 	private boolean pushPassedEventsToHistoryFile(){
-		Calendar todaysDate = Calendar.getInstance();
+		todaysDate = Calendar.getInstance();
 		setZeroTime(todaysDate);
 		boolean allEventsValid = true;
-//		int counter = 0;
+		int counter = 0;
 		
 		for(Event event: allEvents){
-//			System.out.println(counter);
+
 			if(event.getEndCalendar().before(todaysDate)){
 				historyEvents.add(event);
-//				counter++;
+				counter++;
 				allEventsValid = false;
 			}else{
 				break;
@@ -116,9 +126,9 @@ public class FileEventHandler {
 		if(allEventsValid){
 			return false;
 		}else{
-//			for(int i=0; i<counter; i++){
-//				allEvents.remove(0);
-//			}
+			for(int i=0; i<counter; i++){
+				allEvents.remove(0);
+			}
 			updateHistory();
 			return true;
 		}
@@ -200,7 +210,7 @@ public class FileEventHandler {
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
 			
-			for(Event anEvent : allEvents){
+			for(Event anEvent : historyEvents){
 				writer.write(anEvent.toString()); 
 				writer.newLine();
 			}

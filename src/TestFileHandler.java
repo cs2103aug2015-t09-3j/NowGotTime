@@ -176,13 +176,13 @@ public class TestFileHandler {
 		
 		System.out.println ("//***************** Start test event *******************//");
 		System.out.println ("Creating new events.....");
-		Event event = new Event("Dinner with Tim", "31 aug 2014", "1 sep 2014", "23:00", "02:00", "Prepare car");
+		Event event = new Event("Dinner with Tim", "31 aug 2016", "1 sep 2016", "23:00", "02:00", "Prepare car");
 		System.out.println ("event1 created");
-		Event event2 = new Event("Do coding", "31 aug 2014", "31 aug 2014", "12:00", "22:00", "In java");
+		Event event2 = new Event("Do coding", "31 aug 2016", "31 aug 2016", "12:00", "22:00", "In java");
 		System.out.println ("event2 created");
-		Event event3 = new Event("sleep", "31 aug 2014", "31 aug 2014", "03:00", "10:00", "lean on the left");
+		Event event3 = new Event("sleep", "31 aug 2016", "31 aug 2016", "03:00", "10:00", "lean on the left");
 		System.out.println ("event3 created");
-		Event event4 = new Event("Project", "24 aug 2014", "31 aug 2014", "20:00", "02:00", "chiong ah");
+		Event event4 = new Event("Project", "24 aug 2016", "31 aug 2016", "20:00", "02:00", "chiong ah");
 		System.out.println ("event4 created");
 		System.out.println();
 		System.out.println ("Adding events into the storage in reverse time sequence");
@@ -193,8 +193,8 @@ public class TestFileHandler {
 		System.out.println ("Events added");
 		System.out.println();
 		
-		System.out.println ("Retrieving events on 31 Aug 2015...");
-		ArrayList<Event> eventBook = fh.retrieveEventByDate("31 Aug 2014");
+		System.out.println ("Retrieving events on 31 Aug 2016...");
+		ArrayList<Event> eventBook = fh.retrieveEventByDate("31 Aug 2016");
 		System.out.println();
 		
 		System.out.println ("Change event4 additional details.");
@@ -206,9 +206,9 @@ public class TestFileHandler {
 		fh.saveEditedEventHandler();
 		System.out.println();
 		
-		System.out.println ("Retrieving event on 31 Aug 2015.");
-		eventBook = fh.retrieveEventByDate("31 Aug 2014");
-		System.out.println("Events on 31 Aug 2015:");
+		System.out.println ("Retrieving event on 31 Aug 2016.");
+		eventBook = fh.retrieveEventByDate("31 Aug 2016");
+		System.out.println("Events on 31 Aug 2016:");
 		customPrint(eventBook);
 		
 		System.out.println("Check if the events are sorted.");
@@ -220,9 +220,9 @@ public class TestFileHandler {
 		System.out.println("Event deleted and saved");
 		System.out.println();
 		
-		System.out.println ("Retrieving event on 31 Aug 2015.");
-		eventBook = fh.retrieveEventByDate("31 Aug 2014");
-		System.out.println("Events on 31 Aug 2015:");
+		System.out.println ("Retrieving event on 31 Aug 2016.");
+		eventBook = fh.retrieveEventByDate("31 Aug 2016");
+		System.out.println("Events on 31 Aug 2016:");
 		customPrint(eventBook);
 		
 		System.out.println ("//***************** End of test event *******************//");

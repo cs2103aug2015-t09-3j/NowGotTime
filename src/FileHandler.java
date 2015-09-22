@@ -69,7 +69,6 @@ public class FileHandler implements FileManager{
 		return fEventH.saveEventBook();
 	}
 
-
 /********************************* Todo *****************************************/
 	
 	@Override
