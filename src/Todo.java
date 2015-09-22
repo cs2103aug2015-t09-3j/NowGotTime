@@ -12,11 +12,13 @@ public class Todo extends Item {
 	private Calendar deadline;
 	private boolean hasDate = true;
 	private boolean hasTime = true;
-	
-    
     
 	
 	/************************************ Constructor ***************************************/
+	
+	public Todo(String name) {
+	    this(name, "");
+	}
 	
 	public Todo(String name, String additionalInfo) {
 		this(name, additionalInfo, "", "");
@@ -31,8 +33,8 @@ public class Todo extends Item {
 	    
 		this.deadline = Calendar.getInstance();
 		
-		hasDate = updateDate(this.deadline, deadlineDate);
-		hasTime = updateTime(this.deadline, deadlineTime);
+		hasDate = Helper.updateDate(this.deadline, deadlineDate);
+		hasTime = Helper.updateTime(this.deadline, deadlineTime);
         
 	}
 	
@@ -42,12 +44,12 @@ public class Todo extends Item {
 		return deadline;
 	}
 	
-	public String getDeadlineDate(){
-		return getDateString(deadline);
+	public String getDeadlineDateString(){
+		return Helper.getDateString(deadline);
 	}
 	
-	public String getDeadlineTime(){
-	    return getTimeString(deadline);
+	public String getDeadlineTimeString(){
+	    return Helper.getTimeString(deadline);
 	}
 	
 	public boolean hasDate(){
@@ -61,11 +63,11 @@ public class Todo extends Item {
 	/*********************************  Mutators ********************************************/
 
 	public boolean updateDeadlineDate(String dateString) {
-	    return updateDate(deadline, dateString);
+	    return Helper.updateDate(deadline, dateString);
 	}
 	
 	public boolean updateDeadlineTime(String timeString) {
-        return updateTime(deadline, timeString);
+        return Helper.updateTime(deadline, timeString);
     }
 	
 	/********************************** Process Dates ****************************************/
@@ -78,19 +80,19 @@ public class Todo extends Item {
 		String allDetails = (getName() + "\n");
 		allDetails = allDetails.concat(getAdditionalInfo() + "\n");
 		
-		if(hasDate){
-			allDetails = allDetails.concat(getDeadlineDate());
+		if (hasDate) {
+			allDetails = allDetails.concat(getDeadlineDateString());
 		}
-		else{
+		else {
 			allDetails = allDetails.concat("no date");
 		}
 		
 		allDetails = allDetails.concat("\n");
 		
-		if(hasTime){
-			allDetails = allDetails.concat(getDeadlineTime());
+		if (hasTime) {
+			allDetails = allDetails.concat(getDeadlineTimeString());
 		}
-		else{
+		else {
 			allDetails = allDetails.concat("no time");
 		}
 		return allDetails;

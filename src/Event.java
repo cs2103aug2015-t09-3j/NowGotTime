@@ -24,10 +24,10 @@ public class Event extends Item {
     start = Calendar.getInstance();
     end = Calendar.getInstance();
     
-    updateDate(start, startDate);
-    updateTime(start, startTime);
-    updateDate(end, endDate);
-    updateTime(end, endTime);
+    Helper.updateDate(start, startDate);
+    Helper.updateTime(start, startTime);
+    Helper.updateDate(end, endDate);
+    Helper.updateTime(end, endTime);
     
   }
   
@@ -42,37 +42,37 @@ public class Event extends Item {
     }
   
   public String getStartDateString() {
-      return getDateString(start);
+      return Helper.getDateString(start);
   }
   
   public String getEndDateString() {
-        return getDateString(end);
-    }
+      return Helper.getDateString(end);
+  }
   
   public String getStartTimeString() {
-        return getTimeString(start);
-    }
+      return Helper.getTimeString(start);
+  }
     
   public String getEndTimeString() {
-	  return getTimeString(end);
+	  return Helper.getTimeString(end);
   }
   
 /**************************************  Mutators ********************************************/
   
   public boolean updateStartDate(String dateString) {
-        return updateDate(start, dateString);
+        return Helper.updateDate(start, dateString);
     }
     
     public boolean updateStartTime(String timeString) {
-        return updateTime(start, timeString);
+        return Helper.updateTime(start, timeString);
     }
     
     public boolean updateEndDate(String dateString) {
-        return updateDate(end, dateString);
+        return Helper.updateDate(end, dateString);
     }
     
     public boolean updateEndTime(String timeString) {
-        return updateTime(end, timeString);
+        return Helper.updateTime(end, timeString);
     }
 
 /*********************************** Overriding Methods ***********************************/

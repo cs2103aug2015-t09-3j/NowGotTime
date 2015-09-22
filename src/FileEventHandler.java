@@ -14,7 +14,8 @@ import java.util.Comparator;
 
 
 public class FileEventHandler {
-	private static final String UPCOMING_EVENTS = "Upcoming Events";
+	private static final String EVENTS = "Upcoming Events";
+	private static final String HISTORY = "History.txt";
 	//TODO: handle past events
 	private static final String PATTERN_DATE = "dd MMM yyyy";
 	private static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
@@ -23,12 +24,15 @@ public class FileEventHandler {
 	private File inputFile;
 	
 	private ArrayList<Event> allEvents;
+	private ArrayList<Event> historyEvents;
 	
 /*****************************************************************************************/		
 
-	public FileEventHandler(String theBaseDirectory){
+ 	public FileEventHandler(String theBaseDirectory){
 		this.baseDirectory = theBaseDirectory.concat("\\");
-		retrieveEvent();
+		allEvents = retrieveEvent(EVENTS);
+		retrievePassedEvents();
+		pushPassedEventsToHistoryFile();
 	}
 
 	public boolean saveNewEventHandler(Event event){
@@ -41,7 +45,7 @@ public class FileEventHandler {
 		//TODO: consider the case when an edited event has date that over spill month
 		sortEventsByDate(allEvents);
 		try{
-			File outfile = new File(baseDirectory + UPCOMING_EVENTS);
+			File outfile = new File(baseDirectory + EVENTS);
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
 			
@@ -91,12 +95,41 @@ public class FileEventHandler {
 		
 		return eventBookByDate;
 	}
-
- 	private boolean retrieveEvent(){
+	
+	private boolean pushPassedEventsToHistoryFile(){
+		Calendar todaysDate = Calendar.getInstance();
+		setZeroTime(todaysDate);
+		boolean allEventsValid = true;
+		int counter = 0;
 		
-		selectFileAsInputFile(baseDirectory.concat(UPCOMING_EVENTS));
+		for(Event event: allEvents){
+			System.out.println(counter);
+			if(event.getEndCalendar().before(todaysDate)){
+				historyEvents.add(event);
+				counter++;
+				allEventsValid = false;
+			}else{
+				break;
+			}
+		}
 		
-		allEvents = new ArrayList<Event>();
+		if(allEventsValid){
+			return false;
+		}else{
+			for(int i=0; i<counter; i++){
+				allEvents.remove(0);
+			}
+			updateHistory();
+			return true;
+		}
+		
+	}
+ 	
+	private ArrayList<Event> retrieveEvent(String textFileName){
+		
+		selectFileAsInputFile(baseDirectory.concat(textFileName));
+		
+		ArrayList<Event> eventBook = new ArrayList<Event>();
 		String eventName, startDate, endDate, startTime, endTime, addInfo;
 		
 		try {
@@ -112,20 +145,25 @@ public class FileEventHandler {
 				endTime = reader.readLine();			
 				
 				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
-				allEvents.add(event);
+				eventBook.add(event);
 			}
 			
 			reader.close();	
-			return true;
+			return eventBook;
 		}
 		catch (FileNotFoundException e) {
-			return false;
+			return eventBook;
 		}catch (IOException e) {
-			return true;
+			return eventBook;
 		}
 
 	}
-
+ 	
+ 	private boolean retrievePassedEvents(){
+		historyEvents = retrieveEvent(HISTORY);
+		return true;
+	}
+ 	
 	private void selectFileAsInputFile(String fileName){
 		inputFile = new File(fileName);
 	}
@@ -141,7 +179,7 @@ public class FileEventHandler {
 		Collections.sort(eventBook, new customComparator());
 	}
 
-	public boolean updateDate(Calendar calendar, String dateString) {
+	private boolean updateDate(Calendar calendar, String dateString) {
         try {
             Calendar date = Calendar.getInstance();
             date.setTime(FORMAT_DATE.parse(dateString));
@@ -155,6 +193,26 @@ public class FileEventHandler {
         return true;
     }
 	
+	private boolean updateHistory(){
+		sortEventsByDate(historyEvents);
+		try{
+			File outfile = new File(baseDirectory + HISTORY);
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
+			
+			for(Event anEvent : allEvents){
+				writer.write(anEvent.toString()); 
+				writer.newLine();
+			}
+			writer.close();
+			return true;
+	
+		}catch(IOException e){
+			System.out.println("File cannot be written.\n");
+			return false;
+		}
+	}
+
 }
 
 class customComparator implements Comparator<Event>{
