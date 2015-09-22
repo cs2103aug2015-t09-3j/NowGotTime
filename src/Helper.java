@@ -16,8 +16,10 @@ public class Helper {
     /* Error messages */
     public static final String ERROR_INVALID_COMMAND = "unknown command '%1$s'";
     public static final String ERROR_INVALID_ARGUMENTS = "invalid arguments for command %1$s";
+    public static final String ERROR_INVALID_DATE_TIME = "invalid date/time format";
     public static final String ERROR_ADD_EVENT = "failed to add new event '%1$s'";
     public static final String ERROR_ADD_TODO = "failed to add new todo '%1$s'";
+    public static final String ERROR_NOT_FOUND = "cannot find event or todo with name '%1$s'";
     
     /* Date and time format */
     public static final String PATTERN_DATE = "dd MMM yyyy";
@@ -27,6 +29,11 @@ public class Helper {
     public static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
     public static final SimpleDateFormat FORMAT_TIME = new SimpleDateFormat(PATTERN_TIME);
     public static final SimpleDateFormat FORMAT_DATE_TIME = new SimpleDateFormat(PATTERN_DATE_TIME);
+    
+
+    public static final String DATE_TYPE = "date";
+    public static final String TIME_TYPE = "time";
+    public static final String DATE_TIME_TYPE = "datetime";
     
     /* String Manipulation Helper functions */
     
@@ -99,6 +106,21 @@ public class Helper {
         return true;
     }
     
+    public static boolean updateDateTime(Calendar calendar, String dateString) {
+        try {
+            Calendar date = parseDateTime(dateString);
+            
+            calendar.set(Calendar.DATE, date.get(Calendar.DATE));
+            calendar.set(Calendar.MONTH, date.get(Calendar.MONTH));
+            calendar.set(Calendar.YEAR, date.get(Calendar.YEAR));
+            calendar.set(Calendar.HOUR_OF_DAY, date.get(Calendar.HOUR_OF_DAY));
+            calendar.set(Calendar.MINUTE, date.get(Calendar.MINUTE));
+        } catch (ParseException e) {
+            return false;
+        }
+        return true;
+    }
+    
     public static String getDateString(Calendar calendar) {
         return Helper.FORMAT_DATE.format(calendar.getTime());
     }
@@ -106,5 +128,45 @@ public class Helper {
     public static String getTimeString(Calendar calendar) {
         return Helper.FORMAT_TIME.format(calendar.getTime());
     }
+    
+    public static String getDateTimeString(Calendar calendar) {
+        return Helper.FORMAT_DATE_TIME.format(calendar.getTime());
+    }
+    
+    public static String getCalendarStringType(String calendarString) {
+        try {
+            parseDateTime(calendarString);
+            return DATE_TIME_TYPE;
+        } catch (ParseException e) {
+            
+        }
+        try {
+            parseDate(calendarString);
+            return DATE_TYPE;
+        } catch (ParseException e) {
+            
+        }
+        try {
+            parseTime(calendarString);
+            return TIME_TYPE;
+        } catch (ParseException e) {
+            
+        }
+        return null;
+    }
+    
+    public static String getCalendarString(Calendar calendar, String type) {
+        switch (type) {
+            case (DATE_TIME_TYPE):
+                return getDateTimeString(calendar);
+            case (DATE_TYPE):
+                return getDateString(calendar);
+            case (TIME_TYPE):
+                return getTimeString(calendar);
+            default:
+                return null;
+        }
+    }
+    
     
 }

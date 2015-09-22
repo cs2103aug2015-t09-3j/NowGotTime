@@ -18,8 +18,8 @@ public class CommandExit extends Command {
 
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        // return empty string
+        return "";
     }
 
     @Override

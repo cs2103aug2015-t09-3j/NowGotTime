@@ -52,6 +52,10 @@ public class Todo extends Item {
 	    return Helper.getTimeString(deadline);
 	}
 	
+	public String getDeadlineDateTimeString(){
+        return Helper.getDateTimeString(deadline);
+    }
+	
 	public boolean hasDate(){
 		return hasDate;
 	}
@@ -68,6 +72,10 @@ public class Todo extends Item {
 	
 	public boolean updateDeadlineTime(String timeString) {
         return Helper.updateTime(deadline, timeString);
+    }
+	
+	public boolean updateDeadlineDateTime(String dateTimeString) {
+        return Helper.updateDateTime(deadline, dateTimeString);
     }
 	
 	/********************************** Process Dates ****************************************/

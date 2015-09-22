@@ -22,6 +22,7 @@ public class CommandEdit extends Command {
     private static final String FIELD_KEY      = "field";
     private static final String FIELD_VALUE    = "value";
     
+    
     private static HashMap<String, String> parseEdit(String args, Pattern REGEX_EDIT) {
         Matcher nameEditMatcher = REGEX_EDIT.matcher(args);
         if (nameEditMatcher.matches()) {
@@ -63,11 +64,8 @@ public class CommandEdit extends Command {
         if (fieldName == FIELD_START
          || fieldName == FIELD_END
          || fieldName == FIELD_DUE) {
-            try {
-                fieldName = fieldName.trim();
-                Helper.parseDateTime(fieldName);
-            } catch (ParseException e) {
-                throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            if (Helper.getCalendarStringType(newValue) == null) {
+                throw new Exception(Helper.ERROR_INVALID_DATE_TIME);
             }
         }
     }
@@ -95,8 +93,82 @@ public class CommandEdit extends Command {
     
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        Item item = null;
+        if ((item = serviceHandler.viewSpecificEvent(itemName)) != null);
+        else if ((item = serviceHandler.viewSpecificTaskWithDeadline(itemName)) != null);
+        else if ((item = serviceHandler.viewSpecificTaskWithoutDeadline(itemName)) != null);
+        else {
+            throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
+        }
+        
+        switch (fieldName) {
+            case (FIELD_NAME):
+                oldValue = item.getName();
+                if (item instanceof Event) { 
+                    serviceHandler.editEventName(itemName, newValue);
+                }
+                else {
+                    serviceHandler.editTaskNameWithDeadline(itemName, newValue);
+                }
+                break;
+            case (FIELD_START):
+                if (item instanceof Event) { 
+                    oldValue = ((Event) item).getStartDateTimeString();
+                    switch (Helper.getCalendarStringType(newValue)) {
+                        case (Helper.DATE_TYPE):
+                            serviceHandler.editEventStartDate(itemName, newValue);
+                            break;
+                        case (Helper.TIME_TYPE):
+                            serviceHandler.editEventStartTime(itemName, newValue);
+                            break;
+                        case (Helper.DATE_TIME_TYPE):
+                            serviceHandler.editEventStartDateTime(itemName, newValue);
+                            break;
+                    }
+                }
+                else {
+                    throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
+                }
+                break;
+            case (FIELD_END):
+                if (item instanceof Event) { 
+                    oldValue = ((Event) item).getEndDateTimeString();
+                    switch (Helper.getCalendarStringType(newValue)) {
+                        case (Helper.DATE_TYPE):
+                            serviceHandler.editEventEndDate(itemName, newValue);
+                            break;
+                        case (Helper.TIME_TYPE):
+                            serviceHandler.editEventEndTime(itemName, newValue);
+                            break;
+                        case (Helper.DATE_TIME_TYPE):
+                            serviceHandler.editEventEndDateTime(itemName, newValue);
+                            break;
+                    }
+                }
+                else {
+                    throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
+                }
+                break;
+            case (FIELD_DUE):
+                if (item instanceof Todo) { 
+                    oldValue = ((Todo) item).getDeadlineDateTimeString();
+                    switch (Helper.getCalendarStringType(newValue)) {
+                        case (Helper.DATE_TYPE):
+                            serviceHandler.editTaskDeadlineDate(itemName, newValue);
+                            break;
+                        case (Helper.TIME_TYPE):
+                            serviceHandler.editTaskDeadlineTime(itemName, newValue);
+                            break;
+                        case (Helper.DATE_TIME_TYPE):
+                            serviceHandler.editTaskDeadlineDateTime(itemName, newValue);
+                            break;
+                    }
+                }
+                else {
+                    throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
+                }
+                break;
+        }
     }
 
     @Override

@@ -57,6 +57,14 @@ public class Event extends Item {
 	  return Helper.getTimeString(end);
   }
   
+  public String getStartDateTimeString() {
+      return Helper.getDateTimeString(start);
+  }
+  
+  public String getEndDateTimeString() {
+      return Helper.getDateTimeString(end);
+  }
+  
 /**************************************  Mutators ********************************************/
   
   public boolean updateStartDate(String dateString) {
@@ -67,6 +75,10 @@ public class Event extends Item {
         return Helper.updateTime(start, timeString);
     }
     
+    public boolean updateStartDateTime(String dateTimeString) {
+        return Helper.updateDateTime(start, dateTimeString);
+    }
+    
     public boolean updateEndDate(String dateString) {
         return Helper.updateDate(end, dateString);
     }
@@ -74,6 +86,12 @@ public class Event extends Item {
     public boolean updateEndTime(String timeString) {
         return Helper.updateTime(end, timeString);
     }
+    
+    public boolean updateEndDateTime(String dateTimeString) {
+        return Helper.updateDateTime(start, dateTimeString);
+    }
+    
+    
 
 /*********************************** Overriding Methods ***********************************/
   
