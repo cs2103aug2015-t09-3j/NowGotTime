@@ -4,10 +4,38 @@ public class TestServiceHandler {
 		// TODO Auto-generated method stub
 
 		ServiceHandler test = new ServiceHandler();
+<<<<<<< HEAD
+		ArrayList<String> testEvent = new ArrayList<String>();
+		
+		testEvent.add("study");
+		testEvent.add("12 March 2020");
+		testEvent.add("08:00");
+		testEvent.add("18:00");
+		testEvent.add("no lunch required");
+		
+		ArrayList<String> testTask1 = new ArrayList<String>();
+		testTask1.add("study");
+		testTask1.add("no lunch required");
+		
+		ArrayList<String> testTask2 = new ArrayList<String>();
+		testTask2.add("study");
+		testTask2.add("no lunch required");
+		testTask2.add("12 March 2020");
+		
+		ArrayList<String> testTask3 = new ArrayList<String>();
+		testTask3.add("study");
+		testTask3.add("no lunch required");
+		testTask3.add("12 March 2020");
+		testTask3.add("1800");
+		
+		System.out.println(test.createEvent(testEvent));
+		System.out.println(test.viewEventByDate("12 mar 2020"));
+=======
 		//Event testEvent = new Event("study", "12 mar 2020", "08:00 ", "1800");
 		
 		//System.out.println(test.createEvent(testEvent));
 		System.out.println(test.viewEventByDate("12 March 2020"));
+>>>>>>> b47d06d045fd750de170963f2006de1347d8ce18
 		System.out.println(test.deleteEvent("study"));
 		
 /*		System.out.println(test.createTask(testTask1));

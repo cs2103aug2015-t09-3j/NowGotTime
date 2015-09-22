@@ -55,15 +55,20 @@ public class FileHandler implements FileManager{
 		return fEventH.retrieveEventByDate(date);
 	}
 	
+	public ArrayList<Event> retrieveEventsToDelete(){
+		return fEventH.retrieveEventsToDelete();
+	}
+	
 	@Override
 	public boolean saveNewEventHandler(Event event){
 		return fEventH.saveNewEventHandler(event);
 	}
 	
 	@Override
-	public boolean saveEditedEventHandler(String date, ArrayList<Event> eventBook) {
-		return fEventH.saveEventBook(date, eventBook);
+	public boolean saveEditedEventHandler() {
+		return fEventH.saveEventBook();
 	}
+
 
 /********************************* Todo *****************************************/
 	
@@ -72,9 +77,13 @@ public class FileHandler implements FileManager{
 		return fTodoH.retrieveTodoByDate(date);
 	}
 	
+	public ArrayList<Todo> retrieveTodoToDelete(){
+		return fTodoH.retrieveTodoToDelete();
+	}
+	
 	@Override
-	public ArrayList<Todo> retrieveUniversalTodo(String date) {
-		return fTodoH.retrieveUniversalTodo();
+	public ArrayList<Todo> retrieveUniversalTodo() {
+		return fTodoH.retrieveFloatingTodo();
 	}
 
 	@Override
@@ -83,8 +92,13 @@ public class FileHandler implements FileManager{
 	}
 	
 	@Override
-	public boolean saveEditedTodoHandler(String date, ArrayList<Todo> taskBook) {
-		return fTodoH.saveToDoList(date, taskBook);
+	public boolean saveEditedTodoHandler() {
+		return fTodoH.saveToDoList();
+	}
+	
+	@Override
+	public boolean saveEditedUniversalTodoHandler(){
+		return fTodoH.saveUniversalToDoList();
 	}
 
 /******************************** Project **************************************/
