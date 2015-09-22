@@ -21,7 +21,7 @@ public class CommandEdit extends Command {
     private static final String FIELD_KEY      = "field";
     private static final String FIELD_VALUE    = "value";
     
-    private HashMap<String, String> parseEdit(String args, Pattern REGEX_EDIT) {
+    private static HashMap<String, String> parseEdit(String args, Pattern REGEX_EDIT) {
         Matcher nameEditMatcher = REGEX_EDIT.matcher(args);
         if (nameEditMatcher.matches()) {
             String name = nameEditMatcher.group(FIELD_NAME);
@@ -41,7 +41,6 @@ public class CommandEdit extends Command {
         }
     }
     
-    private String itemName;
     public String getItemName() {
         return itemName;
     }
@@ -58,6 +57,7 @@ public class CommandEdit extends Command {
         return oldValue;
     }
 
+    private String itemName;
     private String fieldName;
     private String newValue;
     private String oldValue;
