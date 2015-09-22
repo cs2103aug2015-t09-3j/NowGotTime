@@ -61,6 +61,7 @@ public class ServiceHandler implements ServiceManager{
 
 	@Override
 	public boolean deleteTaskWithDeadline(String taskName) {
+
 		ArrayList<Todo> completeTodoList = taskHandler.retrieveTodoToDelete();		
 		
 		for (Todo task:completeTodoList){
@@ -78,9 +79,7 @@ public class ServiceHandler implements ServiceManager{
 		for (Todo task:taskBookNoDeadline){
 			if (task.getName().equals(taskName)){
 				taskBookNoDeadline.remove(task);
-				//@rx needs new method with no date
-				//taskHandler.saveEditedTodoHandler(taskBookNoDeadline);
-				return true;
+				return taskHandler.saveEditedTodoHandler();
 			}
 		}
 		return false;
