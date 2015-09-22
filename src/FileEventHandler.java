@@ -84,9 +84,7 @@ public class FileEventHandler {
 		Calendar startDate, endDate;
 		
 		ArrayList<Event> eventBook;
-		System.out.println(date.before(todaysDate));
 		if(date.before(todaysDate)){
-			System.out.println("Date is from the past");
 			eventBook = historyEvents;
 		}else{
 			eventBook = allEvents;
@@ -129,6 +127,7 @@ public class FileEventHandler {
 			for(int i=0; i<counter; i++){
 				allEvents.remove(0);
 			}
+			saveEventBook();
 			updateHistory();
 			return true;
 		}

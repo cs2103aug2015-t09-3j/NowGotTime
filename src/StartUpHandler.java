@@ -31,18 +31,40 @@ public class StartUpHandler {
 	private String todoPath;
 	private String eventPath;
 	private String projectPath;
+//	private String baseDirectory;
+//	private boolean firstStartUp = true;
 	
 //	public static void main(String[] args){
 //		StartUpHandler s = new StartUpHandler();
 //	}
 	
+
+	
 	public StartUpHandler(){
-		if(!checkIfOverviewExist()){
+		if(!overviewExist()){
 			atFirstStartUp();
 		}else{
 			checkDirectories();
 		}
 	}
+	
+//	public StartUpHandler(){
+//		if(overviewExist()){
+//			checkDirectories();
+//		}else{
+//			firstStartUp = false;
+//		}
+//	}	
+	
+//	public boolean isFirstStartUp(){
+//		return firstStartUp;
+//	}
+	
+//	public boolean setNewBaseDirectory(String theBaseDirectory){
+//		baseDirectory = theBaseDirectory;
+//		return atFirstStartUp();
+//		//TODO: remove old directory.
+//	}
 	
 	private boolean atFirstStartUp(){
 		todoPath = createDirectory(TODO);
@@ -75,7 +97,7 @@ public class StartUpHandler {
 		return true;
 	}
 
-	private boolean checkIfOverviewExist(){
+	private boolean overviewExist(){
 		File file = new File(OVERVIEW);
 		if(file.exists()){
 			return true;
@@ -86,7 +108,10 @@ public class StartUpHandler {
 	
 	//return String of directory path if created, else return null
 	private String createDirectory(String directoryName){
-		String baseDirectory = getJavaProjectDirectory();
+//		if(baseDirectory == null){
+			String baseDirectory = getJavaProjectDirectory();
+//		}
+		
 		String newDirectoryPath = baseDirectory.concat("\\" + directoryName);
 		if(makeNewDirectory(newDirectoryPath)){
 			return newDirectoryPath;
@@ -113,7 +138,7 @@ public class StartUpHandler {
 			return false;
 		}
 	}
-
+	
 	private String getJavaProjectDirectory(){
 		return System.getProperty("user.dir").toString();
 	}
@@ -121,9 +146,7 @@ public class StartUpHandler {
 	private boolean makeNewDirectory(String directoryName){
 		File file = new File(directoryName);
 		if (!file.exists()) {
-			if (file.mkdir()) {
-				return true;
-			}
+			return file.mkdir();
 		}
 		return false;
 	}
@@ -148,4 +171,6 @@ public class StartUpHandler {
 			return false;
 		}		
 	}
+
+	
 }

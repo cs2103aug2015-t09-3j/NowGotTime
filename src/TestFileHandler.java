@@ -8,13 +8,22 @@ import java.util.ArrayList;
  * 
  * After running, do refresh the NowGotTime package. You should be able to see
  * the folders and files created.
+ * ****************************
+ * Test cases to noted:       *
+ * ****************************
+ * 		1) cannot add date of the past.
+ * 		2) cannot edit events of the past.
+ * 		3) 
+ * 
+ * 
  * 
  * ****************************
  * Test cases solved:         *
  * ****************************
  * 	Events: 
  * 		1) Spill over days and months for .saveNewEventHandler(event)
- * 		2) 
+ * 		2) Spill over days and months for edited events
+ * 		3) 
  * 
  * 	Projects:
  * 		-
@@ -24,7 +33,7 @@ import java.util.ArrayList;
  * 	Events:
  * 		1) Spill over days and months for edited events
  * 		2) Empty string name
- * 
+ * 		3) delete 
  * 	Projects:
  * 		-
  * 
@@ -227,6 +236,7 @@ public class TestFileHandler {
 		
 		System.out.println ("//***************** End of test event *******************//");
 		System.out.println();
+
 	}
 	
 	private static void clearAllFiles(TestFileHandler testo) {

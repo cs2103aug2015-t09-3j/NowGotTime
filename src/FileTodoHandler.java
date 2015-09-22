@@ -19,6 +19,8 @@ public class FileTodoHandler {
 	
 	private static final String UNIVERSAL_TODO = "Universal Todo.txt";
 	private static final String UPCOMING_TODO = "Upcoming Todo.txt";
+	private static final String PAST_TODO = "Past Todo.txt";
+	private static final String PAST_UNIVERSAL_TODO = "Past Universal Todo.txt";
 	
 	private static final String PATTERN_DATE = "dd MMM yyyy";
 	private static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
@@ -26,16 +28,19 @@ public class FileTodoHandler {
 	private String baseDirectory;
 	private File inputFile;	
 	
-	private ArrayList<Todo> allTodo;
-	private ArrayList<Todo> universalTodo;
+	private ArrayList<Todo> allTodo = new ArrayList<Todo>();
+	private ArrayList<Todo> universalTodo = new ArrayList<Todo>();
+	private ArrayList<Todo> todoHistory = new ArrayList<Todo>();
+	private ArrayList<Todo> universalTodoHistory = new ArrayList<Todo>();
+	
+	private Calendar todaysDate;
 	
 /********************************** Public method for users *****************************************/		
 	
 	public FileTodoHandler(String baseDirectory){
 		this.baseDirectory = baseDirectory.concat("\\");
-		readTodoFile();
-		readUniversalTodoFile();
-		
+		retrievePassTasks();
+		pushPassedTodoToHistoryFile();
 	}
 
 	public boolean saveNewTodoHandler(Todo todo){
@@ -128,7 +133,15 @@ public class FileTodoHandler {
 		updateDate(date, dateString);
 		setZeroTime(date);
 		
-		for(Todo todo: allTodo){
+		ArrayList<Todo> myTodo;
+		
+		if(date.before(todaysDate)){
+			myTodo = todoHistory;
+		}else{
+			myTodo = allTodo;
+		}
+		
+		for(Todo todo: myTodo){
 			todoDate = (Calendar) todo.getDeadline().clone();
 			setZeroTime(todoDate);
 			
@@ -148,11 +161,41 @@ public class FileTodoHandler {
 		return type.equals(PARTIAL_TODO_TYPE);
 	}
 	
-	private boolean readTodoFile(){
+	private boolean pushPassedTodoToHistoryFile(){
+		todaysDate = Calendar.getInstance();
+		setZeroTime(todaysDate);
+		boolean allEventsValid = true;
+		int counter = 0;
 		
-		selectFileAsInputFile(baseDirectory + UPCOMING_TODO);
+		for(Todo todo: allTodo){
+
+			if(todo.getDeadline().before(todaysDate)){
+				todoHistory.add(todo);
+				counter++;
+				allEventsValid = false;
+			}else{
+				break;
+			}
+		}
 		
-		allTodo  = new ArrayList<Todo>();
+		if(allEventsValid){
+			return false;
+		}else{
+			for(int i=0; i<counter; i++){
+				allTodo.remove(0);
+			}
+			saveToDoList();
+			updateHistory();
+			return true;
+		}
+		
+	}
+	
+	private boolean readTodoFile(String type){
+		
+		selectFileAsInputFile(baseDirectory + type);
+				
+		ArrayList<Todo> myTodo = new ArrayList<Todo>();
 		String todoName, todoDate, todoTime, addInfo, todoType;
 		Todo todo;
 		
@@ -176,8 +219,14 @@ public class FileTodoHandler {
 				}else{
 					todo = new Todo(todoName, addInfo);
 				}
-				allTodo.add(todo);
+				myTodo.add(todo);
 				todoType = reader.readLine();
+			}
+			
+			if(type.equals(UPCOMING_TODO)){
+				allTodo = myTodo;
+			}else if(type.equals(PAST_TODO)){
+				todoHistory = myTodo;
 			}
 			
 			reader.close();		 
@@ -190,10 +239,10 @@ public class FileTodoHandler {
 		}	
 	}
 	
-	private boolean readUniversalTodoFile() {
+	private boolean readUniversalTodoFile(String type) {
 		
-		selectFileAsInputFile(baseDirectory + UNIVERSAL_TODO);
-		universalTodo = new ArrayList<Todo>();
+		selectFileAsInputFile(baseDirectory + type);
+		ArrayList<Todo> myUniversalTodo = new ArrayList<Todo>();
 		String todoName, addInfo;
 		
 		try {
@@ -205,8 +254,13 @@ public class FileTodoHandler {
 				addInfo = reader.readLine();
 				
 				Todo todo = new Todo(todoName, addInfo);
-				universalTodo.add(todo);
-
+				myUniversalTodo.add(todo);
+			}
+			
+			if(type.equals(UNIVERSAL_TODO)){
+				universalTodo = myUniversalTodo;
+			}else if(type.equals(PAST_UNIVERSAL_TODO)){
+				universalTodoHistory = myUniversalTodo;
 			}
 			
 			reader.close();		 
@@ -219,16 +273,24 @@ public class FileTodoHandler {
 		}	
 	}
 	
+	private boolean retrievePassTasks(){
+		readTodoFile(UPCOMING_TODO);
+		readTodoFile(PAST_TODO);
+		readUniversalTodoFile(UNIVERSAL_TODO);
+		readUniversalTodoFile(PAST_UNIVERSAL_TODO);
+		return true;
+	}
+	
 	private boolean saveAsUniversalTodo(Todo todo) {
-		ArrayList<Todo> floatingtoDoList = retrieveFloatingTodo();
-		floatingtoDoList.add(todo);
+		
+		universalTodo.add(todo);
 		
 		try{
 			File outfile = new File(baseDirectory + UNIVERSAL_TODO);
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
 			
-			for(Todo aTodo : floatingtoDoList){
+			for(Todo aTodo : universalTodo){
 				writer.write(aTodo.getName()); writer.newLine();
 				writer.write(aTodo.getAdditionalInfo()); writer.newLine();
 			}
@@ -270,6 +332,27 @@ public class FileTodoHandler {
         return true;
     }
 	
+	private boolean updateHistory(){
+		sortTodoByDate(todoHistory);
+		try{
+			File outfile = new File(baseDirectory +  PAST_TODO);
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
+			
+			for(Todo aTodo : todoHistory){
+				String todoType = determineType(aTodo);
+				writer.write(todoType); writer.newLine();
+				writer.write(aTodo.toString()); writer.newLine();
+			}
+			writer.close();
+			return true;
+	
+		}catch(IOException e){
+			System.out.println("File cannot be written.\n");
+			return false;
+		}
+	}
+
 /***********************************************************************************************/
 	class customTodoComparator implements Comparator<Todo>{
 		
