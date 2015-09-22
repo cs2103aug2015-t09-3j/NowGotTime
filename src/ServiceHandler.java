@@ -43,8 +43,7 @@ public class ServiceHandler implements ServiceManager{
 		for (Event event:eventBook){
 			if (event.getName().equals(eventName)){
 				eventBook.remove(event);
-				eventHandler.saveEditedEventHandler();
-				return true;
+				return eventHandler.saveEditedEventHandler();
 			}
 		}
 		return false;
@@ -61,8 +60,7 @@ public class ServiceHandler implements ServiceManager{
 		for (Todo task:taskBookWithDeadline){
 			if (task.getName().equals(taskName)){
 				taskBookWithDeadline.remove(task);
-				taskHandler.saveEditedTodoHandler();
-				return true;
+				return taskHandler.saveEditedTodoHandler();
 			}
 		}
 		return false;
@@ -73,9 +71,7 @@ public class ServiceHandler implements ServiceManager{
 		for (Todo task:taskBookNoDeadline){
 			if (task.getName().equals(taskName)){
 				taskBookNoDeadline.remove(task);
-				//@rx needs new method with no date
-				//taskHandler.saveEditedTodoHandler(taskBookNoDeadline);
-				return true;
+				return taskHandler.saveEditedTodoHandler();
 			}
 		}
 		return false;
