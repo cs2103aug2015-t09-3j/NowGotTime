@@ -1,4 +1,5 @@
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -116,13 +117,30 @@ public class CommandAdd extends Command {
     }
 
     @Override
-    public String execute() throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
+        
+        if (item instanceof Event) {
+            // add new event
+            if (serviceHandler.createEvent((Event)item)) {
+                return String.format(Helper.MESSAGE_ADD, item.getName());
+            }
+            else {
+                throw new Exception(String.format(Helper.ERROR_ADD_EVENT, item.getName()));
+            }
+        }
+        else {
+            // add new todo
+            if (serviceHandler.createTask((Todo)item)) {
+                return String.format(Helper.MESSAGE_ADD, item.getName());
+            }
+            else {
+                throw new Exception(String.format(Helper.ERROR_ADD_TODO, item.getName()));
+            }
+        }
     }
 
     @Override
-    public String revert() throws Exception {
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,13 +43,12 @@ public class CommandDelete extends Command {
     }
     
     @Override
-    public String execute() throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
+        return "";
     }
 
     @Override
-    public String revert() throws Exception {
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }

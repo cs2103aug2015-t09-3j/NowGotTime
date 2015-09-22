@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class CommandUndo extends Command {
 
@@ -16,13 +17,13 @@ public class CommandUndo extends Command {
     }
     
     @Override
-    public String execute() throws Exception {
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public String revert() throws Exception {
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }

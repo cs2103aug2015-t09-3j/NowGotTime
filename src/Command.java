@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public abstract class Command {
 
@@ -17,6 +18,12 @@ public abstract class Command {
             case "edit":
                 command = new CommandEdit(arguments);
                 break;
+            case "delete":
+                command = new CommandDelete(arguments);
+                break;
+            case "undo":
+                command = new CommandUndo(arguments);
+                break;
             case "exit":
                 command = new CommandExit(arguments);
                 break;
@@ -32,7 +39,7 @@ public abstract class Command {
     }
 
 
-    public void setRevertible(boolean revertible) {
+    protected void setRevertible(boolean revertible) {
         this.revertible = revertible;
     }
 
@@ -42,7 +49,7 @@ public abstract class Command {
     }
 
 
-    public void setRequireConfirmation(boolean requireConfirmation) {
+    protected void setRequireConfirmation(boolean requireConfirmation) {
         this.requireConfirmation = requireConfirmation;
     }
 
@@ -52,12 +59,12 @@ public abstract class Command {
      * Execute this command
      * @return Feedback from execution
      */
-    public abstract String execute() throws Exception;
+    public abstract String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception;
     
     /*
      * Revert this command
      * @return Feedback from execution
      */
-    public abstract String revert() throws Exception;
+    public abstract String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception;
     
 }

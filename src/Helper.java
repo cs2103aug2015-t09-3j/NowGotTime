@@ -11,10 +11,13 @@ public class Helper {
     /* Prompt messages */
     public static final String MESSAGE_WELCOME = "Welcome to NowGotTime";
     public static final String MESSAGE_PROMPT = "command: ";
+    public static final String MESSAGE_ADD = "'%1$s' successfully added";
 
     /* Error messages */
     public static final String ERROR_INVALID_COMMAND = "unknown command '%1$s'";
     public static final String ERROR_INVALID_ARGUMENTS = "invalid arguments for command %1$s";
+    public static final String ERROR_ADD_EVENT = "failed to add new event '%1$s'";
+    public static final String ERROR_ADD_TODO = "failed to add new todo '%1$s'";
     
     /* Date and time format */
     public static final String PATTERN_DATE = "dd MMM yyyy";

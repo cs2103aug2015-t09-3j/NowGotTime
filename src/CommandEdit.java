@@ -1,4 +1,5 @@
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,13 +94,13 @@ public class CommandEdit extends Command {
     }
     
     @Override
-    public String execute() throws Exception {
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public String revert() throws Exception {
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }

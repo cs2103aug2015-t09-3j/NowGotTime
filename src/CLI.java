@@ -5,10 +5,17 @@ public class CLI {
     
     private static Scanner stdin = null;
     private boolean shouldExit;
-    private static ArrayList<Command> history;
+    
+    private ServiceHandler serviceHandler = null;
+    private ProjectHandler projectHandler = null;
+    private ArrayList<Command> historyList;
+    
     
     public CLI() {
         stdin = new Scanner(System.in);
+        serviceHandler = new ServiceHandler();
+        projectHandler = new ProjectHandler();
+        historyList = new ArrayList<Command>();
         shouldExit = false;
     }
     
@@ -22,8 +29,12 @@ public class CLI {
         String feedback;
         try {
             command = Command.parseCommand(userResponse);
-            feedback = command.execute();
-            history.add(command);
+            feedback = command.execute(serviceHandler, projectHandler, historyList);
+            if (command.isRevertible()) {
+                // add to history list if project revertible
+                historyList.add(command);
+            }
+            
         } catch (Exception e) {
             // catch error message
             feedback = e.getMessage();
