@@ -40,15 +40,8 @@ public class FileTodoHandler {
 
 	public boolean saveNewTodoHandler(Todo todo){
 		if(todo.hasDate()){
-<<<<<<< HEAD
 			allTodo.add(todo);
 			saveToDoList();
-=======
-			String date = todo.getDeadlineDateString();
-			ArrayList<Todo> toDoList = retrieveTodoByMonth(date);
-			toDoList.add(todo);
-			saveToDoList(date, toDoList);
->>>>>>> b47d06d045fd750de170963f2006de1347d8ce18
 		}
 		else{
 			saveAsUniversalTodo(todo);
