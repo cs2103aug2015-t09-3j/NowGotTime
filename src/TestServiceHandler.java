@@ -2,7 +2,6 @@ public class TestServiceHandler {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-
         ServiceHandler test = new ServiceHandler();
         //Event testEvent = new Event("study", "12 mar 2020", "08:00 ", "18:00", "");
         Event testEvent1 = new Event("study 2020", "12 mar 2020", "18:00 ", "19:00", "");

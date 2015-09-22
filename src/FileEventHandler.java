@@ -100,13 +100,13 @@ public class FileEventHandler {
 		Calendar todaysDate = Calendar.getInstance();
 		setZeroTime(todaysDate);
 		boolean allEventsValid = true;
-		int counter = 0;
+//		int counter = 0;
 		
 		for(Event event: allEvents){
-			System.out.println(counter);
+//			System.out.println(counter);
 			if(event.getEndCalendar().before(todaysDate)){
 				historyEvents.add(event);
-				counter++;
+//				counter++;
 				allEventsValid = false;
 			}else{
 				break;
@@ -116,9 +116,9 @@ public class FileEventHandler {
 		if(allEventsValid){
 			return false;
 		}else{
-			for(int i=0; i<counter; i++){
-				allEvents.remove(0);
-			}
+//			for(int i=0; i<counter; i++){
+//				allEvents.remove(0);
+//			}
 			updateHistory();
 			return true;
 		}
