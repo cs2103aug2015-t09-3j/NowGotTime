@@ -4,10 +4,10 @@ public class TestServiceHandler {
         // TODO Auto-generated method stub
 
         ServiceHandler test = new ServiceHandler();
-        //Event testEvent = new Event("study", "12 mar 2020", "08:00 ", "1800");
+        Event testEvent = new Event("study", "12 mar 2020", "08:00 ", "18:00", "");
         
-        //System.out.println(test.createEvent(testEvent));
-        System.out.println(test.viewEventByDate("12 March 2020"));
+        System.out.println(test.createEvent(testEvent));
+        System.out.println(test.viewEventByDate("12 mar 2020"));
         System.out.println(test.deleteEvent("study"));
         
 /*      System.out.println(test.createTask(testTask1));

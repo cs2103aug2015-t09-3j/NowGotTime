@@ -35,7 +35,7 @@ public class ServiceHandler implements ServiceManager{
 
 	@Override
 	public ArrayList<Todo> viewTaskNoDate(String date) {
-		return taskBookNoDeadline = taskHandler.retrieveUniversalTodo(date);
+		return taskBookNoDeadline = taskHandler.retrieveUniversalTodo();
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class ServiceHandler implements ServiceManager{
 		for (Event event:eventBook){
 			if (event.getName().equals(eventName)){
 				eventBook.remove(event);
-				eventHandler.saveEditedEventHandler(event.getStartDateString() ,eventBook);
+				eventHandler.saveEditedEventHandler();
 				return true;
 			}
 		}
@@ -61,7 +61,7 @@ public class ServiceHandler implements ServiceManager{
 		for (Todo task:taskBookWithDeadline){
 			if (task.getName().equals(taskName)){
 				taskBookWithDeadline.remove(task);
-				taskHandler.saveEditedTodoHandler(task.getDeadlineDateString(), taskBookWithDeadline);
+				taskHandler.saveEditedTodoHandler();
 				return true;
 			}
 		}
@@ -94,7 +94,7 @@ public class ServiceHandler implements ServiceManager{
 			if (event.getName().equals(eventName)){
 				Event _event = eventBook.get(eventIndex);
 				_event.setName(newEventName);
-				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
+				eventHandler.saveEditedEventHandler(); 
 				return true;
 			}
 			else {
@@ -111,7 +111,7 @@ public class ServiceHandler implements ServiceManager{
 			if (event.getName().equals(eventName)){
 				Event _event = eventBook.get(eventIndex);
 				_event.updateStartDate(newStartDate);
-				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
+				eventHandler.saveEditedEventHandler(); 
 				return true;
 			}
 			else {
@@ -128,7 +128,7 @@ public class ServiceHandler implements ServiceManager{
 			if (event.getName().equals(eventName)){
 				Event _event = eventBook.get(eventIndex);
 				_event.updateEndDate(newEndDate);
-				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
+				eventHandler.saveEditedEventHandler(); 
 				return true;
 			}
 			else {
@@ -145,7 +145,7 @@ public class ServiceHandler implements ServiceManager{
 			if (event.getName().equals(eventName)){
 				Event _event = eventBook.get(eventIndex);
 				_event.updateStartTime(newStartTime);
-				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
+				eventHandler.saveEditedEventHandler(); 
 				return true;
 			}
 			else {
@@ -162,7 +162,7 @@ public class ServiceHandler implements ServiceManager{
 			if (event.getName().equals(eventName)){
 				Event _event = eventBook.get(eventIndex);
 				_event.updateEndTime(newEndTime);
-				eventHandler.saveEditedEventHandler(_event.getStartDateString() ,eventBook); 
+				eventHandler.saveEditedEventHandler(); 
 				return true;
 			}
 			else {
@@ -179,7 +179,7 @@ public class ServiceHandler implements ServiceManager{
 			if (task.getName().equals(taskName)){
 				Todo _task = taskBookWithDeadline.get(taskIndex);
 				_task.setName(newTaskName);
-				taskHandler.saveEditedTodoHandler(_task.getDeadlineDateString() ,taskBookWithDeadline); 
+				taskHandler.saveEditedTodoHandler(); 
 				return true;
 			}
 			else {
@@ -196,7 +196,7 @@ public class ServiceHandler implements ServiceManager{
 			if (task.getName().equals(taskName)){
 				Todo _task = taskBookWithDeadline.get(taskIndex);
 				_task.updateDeadlineDate(newDeadline);
-				taskHandler.saveEditedTodoHandler(_task.getDeadlineDateString() ,taskBookWithDeadline); 
+				taskHandler.saveEditedTodoHandler(); 
 				return true;
 			}
 			else {
@@ -213,7 +213,7 @@ public class ServiceHandler implements ServiceManager{
 			if (task.getName().equals(taskName)){
 				Todo _task = taskBookWithDeadline.get(taskIndex);
 				_task.updateDeadlineTime(newTime);
-				taskHandler.saveEditedTodoHandler(_task.getDeadlineDateString() ,taskBookWithDeadline); 
+				taskHandler.saveEditedTodoHandler(); 
 				return true;
 			}
 			else {
