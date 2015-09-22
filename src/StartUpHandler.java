@@ -1,5 +1,8 @@
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -19,6 +22,9 @@ import java.io.IOException;
 
 public class StartUpHandler {
 	
+	private static final String PROJECT = "Project";
+	private static final String EVENT = "Event";
+	private static final String TODO = "Todo";
 	private static final String END_OF_PATH_DIRECTORY = "<endOfPathDirectory>";
 	private static final String OVERVIEW = "overview.txt";
 	
@@ -33,9 +39,42 @@ public class StartUpHandler {
 	public StartUpHandler(){
 		if(!checkIfOverviewExist()){
 			atFirstStartUp();
+		}else{
+			checkDirectories();
 		}
 	}
 	
+	private boolean atFirstStartUp(){
+		todoPath = createDirectory(TODO);
+		eventPath = createDirectory(EVENT);
+		projectPath = createDirectory(PROJECT);
+		
+		if(todoPath != null && eventPath != null && projectPath!= null){
+			return createOverviewTextFile();
+		}
+		return false;
+	}
+	
+	//create directory if they are missing.
+	private boolean checkDirectories() {
+		
+		readOverviewFile();
+		
+		if( !(new File(todoPath)).exists() ){
+			createDirectory(TODO);
+		}
+		
+		if( !(new File(eventPath)).exists() ){
+			createDirectory(EVENT);
+		}
+		
+		if( !(new File(todoPath)).exists() ){
+			createDirectory(PROJECT);
+		}
+		
+		return true;
+	}
+
 	private boolean checkIfOverviewExist(){
 		File file = new File(OVERVIEW);
 		if(file.exists()){
@@ -44,22 +83,18 @@ public class StartUpHandler {
 			return false;
 		}
 	}
-
-	private boolean atFirstStartUp(){
-		todoPath = createDirectory("Todo");
-		eventPath = createDirectory("Event");
-		projectPath = createDirectory("Project");
-		
-		if(todoPath != null && eventPath != null && projectPath!= null){
-			return createOverviewTextFile();
+	
+	//return String of directory path if created, else return null
+	private String createDirectory(String directoryName){
+		String baseDirectory = getJavaProjectDirectory();
+		String newDirectoryPath = baseDirectory.concat("\\" + directoryName);
+		if(makeNewDirectory(newDirectoryPath)){
+			return newDirectoryPath;
+		}else{
+			return null;
 		}
-		return false;
 	}
-	 
-	private String getJavaProjectDirectory(){
-		return System.getProperty("user.dir").toString();
-	}
-	 
+	
 	private boolean createOverviewTextFile(){
 		try{
 			File outfile = new File(OVERVIEW);
@@ -78,6 +113,10 @@ public class StartUpHandler {
 			return false;
 		}
 	}
+
+	private String getJavaProjectDirectory(){
+		return System.getProperty("user.dir").toString();
+	}
 	
 	private boolean makeNewDirectory(String directoryName){
 		File file = new File(directoryName);
@@ -89,14 +128,24 @@ public class StartUpHandler {
 		return false;
 	}
 	 
-	//return String of directory path if created, else return null
-	private String createDirectory(String directoryName){
-		String baseDirectory = getJavaProjectDirectory();
-		String newDirectoryPath = baseDirectory.concat("\\" + directoryName);
-		if(makeNewDirectory(newDirectoryPath)){
-			return newDirectoryPath;
-		}else{
-			return null;
-		}
+	private boolean readOverviewFile(){
+		File outfile = new File(OVERVIEW);
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(outfile));
+			
+			todoPath = reader.readLine();
+			eventPath = reader.readLine();
+			projectPath = reader.readLine();
+			
+			reader.close();
+			return true;
+			
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}		
 	}
 }
