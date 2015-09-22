@@ -41,27 +41,6 @@ public class CommandEdit extends Command {
         }
     }
     
-    public String getItemName() {
-        return itemName;
-    }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public String getNewValue() {
-        return newValue;
-    }
-
-    public String getOldValue() {
-        return oldValue;
-    }
-
-    private String itemName;
-    private String fieldName;
-    private String newValue;
-    private String oldValue;
-    
     public CommandEdit(String args) throws Exception {
         this.setRequireConfirmation(false);
         this.setRevertible(true);
@@ -90,6 +69,27 @@ public class CommandEdit extends Command {
                 throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
             }
         }
+    }
+
+    private String itemName;
+    private String fieldName;
+    private String newValue;
+    private String oldValue;
+    
+    public String getItemName() {
+        return itemName;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public String getNewValue() {
+        return newValue;
+    }
+
+    public String getOldValue() {
+        return oldValue;
     }
     
     @Override

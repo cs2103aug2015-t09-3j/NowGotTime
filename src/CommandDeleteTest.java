@@ -17,7 +17,7 @@ public class CommandDeleteTest {
             cmd = new CommandDelete(args);
             fail("exception should be thrown");
         } catch (Exception e) {
-            assertEquals(String.format(Helper.ERROR_INVALID_ARGUMENTS, CommandEdit.KEYWORD), e.getMessage());
+            assertEquals(String.format(Helper.ERROR_INVALID_ARGUMENTS, CommandDelete.KEYWORD), e.getMessage());
         }
     }
 

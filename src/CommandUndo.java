@@ -1,20 +1,20 @@
 
-public class CommandExit extends Command {
+public class CommandUndo extends Command {
+
+    public static final String KEYWORD = "undo";
     
-    public static final String KEYWORD = "exit";
-    
-    public CommandExit(String args) throws Exception {
-        this.setRequireConfirmation(true);
+    public CommandUndo(String args) throws Exception {
+        this.setRequireConfirmation(false);
         this.setRevertible(false);
         
         if (args.trim().isEmpty());
         else {
-            // delete command accept no arguments
+            // undo command accept no arguments
             throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
         
     }
-
+    
     @Override
     public String execute() throws Exception {
         // TODO Auto-generated method stub
@@ -26,4 +26,5 @@ public class CommandExit extends Command {
         // TODO Auto-generated method stub
         return null;
     }
+
 }

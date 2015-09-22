@@ -3,19 +3,13 @@ import java.util.regex.Pattern;
 
 public class CommandDelete extends Command {
 
-    public static final String KEYWORD = "edit";
+    public static final String KEYWORD = "delete";
 
     private static final String PATTERN_DELETE = "\\s*\"(?<name>.+)\"\\s*";
 
     private static final Pattern REGEX_DELETE       = Pattern.compile(PATTERN_DELETE);
 
     private static final String FIELD_NAME = "name";
-    
-    private String itemName;
-    
-    public String getItemName() {
-        return itemName;
-    }
     
     private static String parseDelete(String args, Pattern REGEX_DELETE) {
         Matcher deleteMatcher = REGEX_DELETE.matcher(args);
@@ -39,6 +33,12 @@ public class CommandDelete extends Command {
             // parsing unsuccessful
             throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
+    }
+    
+    private String itemName;
+    
+    public String getItemName() {
+        return itemName;
     }
     
     @Override

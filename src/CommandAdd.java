@@ -20,9 +20,6 @@ public class CommandAdd extends Command {
     private static final String FIELD_END      = "end";
     private static final String FIELD_DEADLINE = "due";
     
-    
-    private Item item;
-    
     private static Event parseAsEvent(String args) {
         Matcher eventMatcher = REGEX_ADD_EVENT.matcher(args);
         if (eventMatcher.matches()) {
@@ -111,6 +108,8 @@ public class CommandAdd extends Command {
             throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
     }
+    
+    private Item item;
     
     public Item getItem() {
         return this.item;
