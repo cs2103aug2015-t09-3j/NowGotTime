@@ -37,11 +37,11 @@ public class TestServiceHandler {
 		System.out.println(test.viewEventByDate("31 aug 2016"));
 		System.out.println();
 		
-		//delete one event: "Dinner with Tim"
+		//delete one event: "Project"
 		System.out.println("Delete Project");
 		test.deleteEvent("Project");
 		
-		// check: "Dinner with Tim" should be gone
+		// check: "Project" should be gone
 		System.out.println(test.viewEventByDate("31 aug 2016"));
 		System.out.println();
 		System.out.println();
