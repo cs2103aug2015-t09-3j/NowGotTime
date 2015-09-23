@@ -116,11 +116,11 @@ public class ProjectHandler implements ProjectManager{
 					break;
 				}
 				
-				case (6):
+				/*case (6):
 				{
 					event.setAdditionalInfo(newValue);
 					break;
-				}
+				}*/
 			}
 			
 			project.saveEditedProjectDetails(projectBook, projectName);
