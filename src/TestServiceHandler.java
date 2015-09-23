@@ -66,7 +66,7 @@ public class TestServiceHandler {
 		//delete one task: What is shit
 		System.out.println("Delete What is shit");
 		test.deleteEvent("Dinner with Tim");
-		test.deleteTaskWithDeadline("What is shit");
+		test.deleteTask("What is shit");
 		
 		// check: "What is shit" should be gone
 		System.out.println(test.viewTaskByDate("20 oct 2016"));

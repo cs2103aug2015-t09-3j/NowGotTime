@@ -15,9 +15,7 @@ public interface ServiceManager {
 	
 	public boolean deleteEvent(String eventName);
 	public boolean deleteEvent(int eventIndex);
-	public boolean deleteTaskWithDeadline(String task);   // delete this
-	public boolean deleteTaskWithoutDeadline(String task);// delete this
-	// TODO implement this : public boolean deleteTask(String taskName);
+	public boolean deleteTask(String taskName);
 	public boolean deleteTask(int taskIndex);
 	
 	public boolean editEventName(String eventName, String newEventName);
@@ -25,21 +23,18 @@ public interface ServiceManager {
 	public boolean editEventEndDate(String eventName, String newStartDate);
 	public boolean editEventStartTime(String eventName, String newStartTime);
 	public boolean editEventEndTime(String eventName, String newEndTime);
-    // TODO implement this : public boolean editEventStartDateTime(String eventname, String newStartDateTime);
-    // TODO implement this : public boolean editEventEndDateTime(String eventname, String newStartDateTime);
+    public boolean editEventStartDateTime(String eventName, String newStartDateTime);
+    public boolean editEventEndDateTime(String eventName, String newEndDateTime);
 	
-	public boolean editTaskNameWithDeadline(String taskName, String newTaskName); // delete this
-	public boolean editTaskDeadlineWithDeadline(String taskName, String newDeadline); // delete this
-	public boolean editTaskTimeWithDeadline(String taskName, String newTime); // delete this
-	public boolean editTaskNameWithoutDeadline(String taskName, String newTaskName); // delete this
-	
-	// TODO implement this : public boolean editTaskName(String taskName, String newTaskName);
-    // TODO implement this : public boolean editTaskDeadlineTime(String taskName, String newDeadlineTime);
-    // TODO implement this : public boolean editTaskDeadlineDate(String taskName, String newDeadlineTime);
-    // TODO implement this : public boolean editTaskDeadlineDateTime(String taskName, String newDeadlineTime);
+    public boolean editTaskName(String taskName, String newTaskName);
+    public boolean editTaskDeadlineDate(String taskName, String newDeadlineDate);
+    public boolean editTaskDeadlineTime(String taskName, String newDeadlineTime);
+    public boolean editTaskDeadlineDateTime(String taskName, String newDeadlineDateTime);
 	
 	public Event viewSpecificEvent (String eventName);
 	
-	public Todo viewSpecificTaskWithDeadline (String taskName);
-	public Todo viewSpecificTaskWithoutDeadline (String taskName);
+	public Todo viewSpecificTask(String taskName);
+	//public Todo viewSpecificTaskWithDeadline (String taskName);
+	//public Todo viewSpecificTaskWithoutDeadline (String taskName);
+
 }

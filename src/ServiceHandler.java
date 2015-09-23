@@ -46,8 +46,7 @@ public class ServiceHandler implements ServiceManager{
 			
 			if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
 				completeEventBook.remove(event);
-				eventHandler.saveEditedEventHandler();
-				return true;
+				return eventHandler.saveEditedEventHandler();
 			}
 		}
 		return false;
@@ -60,24 +59,18 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	@Override
-	public boolean deleteTaskWithDeadline(String taskName) {
+	public boolean deleteTask(String taskName) {
 
 		ArrayList<Todo> completeTodoList = taskHandler.retrieveTodoToDelete();		
 		
-		for (Todo task:completeTodoList){
+		for (Todo task:completeTodoList){ // checking task with deadline
 			if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
 				completeTodoList.remove(task);
-				taskHandler.saveEditedTodoHandler();
-				return true;
+				return taskHandler.saveEditedTodoHandler();
 			}
 		}
-		return false;
-	}
-
-	@Override
-	public boolean deleteTaskWithoutDeadline(String taskName) {
 		for (Todo task:taskBookNoDeadline){
-			if (task.getName().equals(taskName)){
+			if (task.getName().toLowerCase().equals(taskName.toLowerCase())){ //checking task without deadline
 				taskBookNoDeadline.remove(task);
 				return taskHandler.saveEditedTodoHandler();
 			}
@@ -95,11 +88,10 @@ public class ServiceHandler implements ServiceManager{
 	public boolean editEventName(String eventName, String newEventName) {
 		int eventIndex = 0;
 		for (Event event:eventBook){
-			if (event.getName().equals(eventName)){
+			if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
 				Event _event = eventBook.get(eventIndex);
 				_event.setName(newEventName);
-				eventHandler.saveEditedEventHandler(); 
-				return true;
+				return eventHandler.saveEditedEventHandler();
 			}
 			else {
 				eventIndex++; // finding index with same name as eventName passed in
@@ -112,11 +104,10 @@ public class ServiceHandler implements ServiceManager{
 	public boolean editEventStartDate(String eventName, String newStartDate) {
 		int eventIndex = 0;
 		for (Event event:eventBook){
-			if (event.getName().equals(eventName)){
+			if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
 				Event _event = eventBook.get(eventIndex);
 				_event.updateStartDate(newStartDate);
-				eventHandler.saveEditedEventHandler(); 
-				return true;
+				return eventHandler.saveEditedEventHandler(); 
 			}
 			else {
 				eventIndex++; // finding index with same name as eventName passed in
@@ -129,11 +120,10 @@ public class ServiceHandler implements ServiceManager{
 	public boolean editEventEndDate(String eventName, String newEndDate) {
 		int eventIndex = 0;
 		for (Event event:eventBook){
-			if (event.getName().equals(eventName)){
+			if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
 				Event _event = eventBook.get(eventIndex);
 				_event.updateEndDate(newEndDate);
-				eventHandler.saveEditedEventHandler(); 
-				return true;
+				return eventHandler.saveEditedEventHandler(); 
 			}
 			else {
 				eventIndex++; // finding index with same name as eventName passed in
@@ -146,11 +136,10 @@ public class ServiceHandler implements ServiceManager{
 	public boolean editEventStartTime(String eventName, String newStartTime) {
 		int eventIndex = 0;
 		for (Event event:eventBook){
-			if (event.getName().equals(eventName)){
+			if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
 				Event _event = eventBook.get(eventIndex);
 				_event.updateStartTime(newStartTime);
-				eventHandler.saveEditedEventHandler(); 
-				return true;
+				return eventHandler.saveEditedEventHandler(); 
 			}
 			else {
 				eventIndex++; // finding index with same name as eventName passed in
@@ -163,11 +152,10 @@ public class ServiceHandler implements ServiceManager{
 	public boolean editEventEndTime(String eventName, String newEndTime) {
 		int eventIndex = 0;
 		for (Event event:eventBook){
-			if (event.getName().equals(eventName)){
+			if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
 				Event _event = eventBook.get(eventIndex);
 				_event.updateEndTime(newEndTime);
-				eventHandler.saveEditedEventHandler(); 
-				return true;
+				return eventHandler.saveEditedEventHandler(); 
 			}
 			else {
 				eventIndex++; // finding index with same name as eventName passed in
@@ -177,66 +165,73 @@ public class ServiceHandler implements ServiceManager{
 	}
 	
 	@Override
-	public boolean editTaskNameWithDeadline(String taskName, String newTaskName) {
+	public boolean editEventStartDateTime(String eventName, String newStartDateTime){
+		int eventIndex = 0;
+		for (Event event:eventBook){
+			if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
+				Event _event = eventBook.get(eventIndex);
+				_event.updateStartDateTime(newStartDateTime);
+				return eventHandler.saveEditedEventHandler(); 
+			}
+			else {
+				eventIndex++; // finding index with same name as eventName passed in
+			}
+		}
+			return false;
+	}
+	
+	@Override
+	public boolean editEventEndDateTime(String eventName, String newEndDateTime){
+		int eventIndex = 0;
+		for (Event event:eventBook){
+			if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
+				Event _event = eventBook.get(eventIndex);
+				_event.updateEndDateTime(newEndDateTime);
+				return eventHandler.saveEditedEventHandler(); 
+			}
+			else {
+				eventIndex++; // finding index with same name as eventName passed in
+			}
+		}
+			return false;
+	}
+	
+	
+	@Override
+	public boolean editTaskName(String taskName, String newTaskName) {
 		int taskIndex = 0;
-		for (Todo task:taskBookWithDeadline){
-			if (task.getName().equals(taskName)){
+		for (Todo task:taskBookWithDeadline){ //finding task with deadline
+			if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
 				Todo _task = taskBookWithDeadline.get(taskIndex);
 				_task.setName(newTaskName);
-				taskHandler.saveEditedTodoHandler(); 
-				return true;
+				return taskHandler.saveEditedTodoHandler(); 
 			}
 			else {
 				taskIndex++; // finding index with same name as taskName passed in
 			}
 		}
-			return false;
-	}
-	
-	@Override
-	public boolean editTaskDeadlineWithDeadline(String taskName, String newDeadline) {
-		int taskIndex = 0;
-		for (Todo task:taskBookWithDeadline){
-			if (task.getName().equals(taskName)){
-				Todo _task = taskBookWithDeadline.get(taskIndex);
-				_task.updateDeadlineDate(newDeadline);
-				taskHandler.saveEditedTodoHandler(); 
-				return true;
-			}
-			else {
-				taskIndex++; // finding index with same name as taskName passed in
-			}
-		}
-			return false;
-	}
-	
-	@Override
-	public boolean editTaskTimeWithDeadline(String taskName, String newTime) {
-		int taskIndex = 0;
-		for (Todo task:taskBookWithDeadline){
-			if (task.getName().equals(taskName)){
-				Todo _task = taskBookWithDeadline.get(taskIndex);
-				_task.updateDeadlineTime(newTime);
-				taskHandler.saveEditedTodoHandler(); 
-				return true;
-			}
-			else {
-				taskIndex++; // finding index with same name as taskName passed in
-			}
-		}
-			return false;
-	}
-	
-	@Override
-	public boolean editTaskNameWithoutDeadline(String taskName, String newTaskName) {
-		int taskIndex = 0;
-		for (Todo task:taskBookNoDeadline){
-			if (task.getName().equals(taskName)){
+		taskIndex = 0;
+		for (Todo task:taskBookNoDeadline){ //finding task without deadline
+			if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
 				Todo _task = taskBookNoDeadline.get(taskIndex);
 				_task.setName(newTaskName);
-				//@rx needs new method with no date
-				//taskHandler.saveEditedTodoHandler(taskBookNoDeadline); 
-				return true;
+				return taskHandler.saveEditedTodoHandler(); 
+			}
+			else {
+				taskIndex++; // finding index with same name as taskName passed in
+			}
+		}
+		return false; //task not found
+	}
+	
+	@Override
+	public boolean editTaskDeadlineDate(String taskName, String newDeadlineDate) {
+		int taskIndex = 0;
+		for (Todo task:taskBookWithDeadline){
+			if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
+				Todo _task = taskBookWithDeadline.get(taskIndex);
+				_task.updateDeadlineDate(newDeadlineDate);
+				return taskHandler.saveEditedTodoHandler(); 
 			}
 			else {
 				taskIndex++; // finding index with same name as taskName passed in
@@ -244,6 +239,39 @@ public class ServiceHandler implements ServiceManager{
 		}
 			return false;
 	}
+	
+	@Override
+	public boolean editTaskDeadlineTime(String taskName, String newDeadlineTime) {
+		int taskIndex = 0;
+		for (Todo task:taskBookWithDeadline){
+			if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
+				Todo _task = taskBookWithDeadline.get(taskIndex);
+				_task.updateDeadlineTime(newDeadlineTime);
+				return taskHandler.saveEditedTodoHandler(); 
+			}
+			else {
+				taskIndex++; // finding index with same name as taskName passed in
+			}
+		}
+			return false;
+	}
+	
+	@Override
+	public boolean editTaskDeadlineDateTime(String taskName, String newDeadlineDateTime){
+		int taskIndex = 0;
+		for (Todo task:taskBookWithDeadline){
+			if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
+				Todo _task = taskBookWithDeadline.get(taskIndex);
+				_task.updateDeadlineDateTime(newDeadlineDateTime);
+				return taskHandler.saveEditedTodoHandler(); 
+			}
+			else {
+				taskIndex++; // finding index with same name as taskName passed in
+			}
+		}
+			return false;
+	}
+
 	
 	@Override
 	public Event viewSpecificEvent (String eventName) {
@@ -260,7 +288,31 @@ public class ServiceHandler implements ServiceManager{
 		return null; //@Stef returns null if no task found with same name as eventName passed in
 	}
 	
-	@Override
+	public Todo viewSpecificTask(String taskName){
+		int taskIndex = 0;
+		for (Todo task:taskBookWithDeadline){ //checking taskbook with deadline
+			if (task.getName().equals(taskName)){
+				Todo _task = taskBookWithDeadline.get(taskIndex);
+				return _task;
+			}
+			else{
+				taskIndex++;
+			}
+		}
+		taskIndex = 0;
+		for (Todo task:taskBookNoDeadline){ //checking taskbook without deadline
+			if (task.getName().equals(taskName)){
+				Todo _task = taskBookNoDeadline.get(taskIndex);
+				return _task;
+			}
+			else {
+				taskIndex++;
+			}
+		}
+		return null; //@Stef returns null if no task found with same name as taskName passed in
+	}
+	
+/*	@Override
 	public Todo viewSpecificTaskWithDeadline(String taskName) {
 		int taskIndex = 0;
 		for (Todo task:taskBookWithDeadline){
@@ -290,4 +342,5 @@ public class ServiceHandler implements ServiceManager{
 		}
 		return null; //@Stef returns null if no task found with same name as taskName passed in
 	}
+*/
 }
