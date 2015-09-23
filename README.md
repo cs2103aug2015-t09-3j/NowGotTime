@@ -254,3 +254,30 @@ Then, type the command `edt` followed by the additional information you wish to 
 To delete, simply type `del` followed by the event number of the event you wish to delete.
 
 ![Viewing a project](manual/assets/event/EditDetailsAndDel.png)
+
+# Cheatsheet
+Command | Description
+--------| ------------
+`add "<EVENT>" on <START> to <END>` | add an event with name `<EVENT>`, start date `<START>` and end date `<END>`
+`add "<TODO>" on <DEADLINE>` | add a todo with name `<TODO>` and deadline `<DEADLINE>`
+`add "<TODO>"` | add a floating todo with name `<TODO>`
+`add project "<PROJECT>"` | add a project with name `<PROJECT>`
+`add "<EVENT>" to "<PROJECT>"` | add `<EVENT>` to `<PROJECT>`
+`delete "<EVENT>"` | delete an event with name `<EVENT>`
+`delete "<TODO>"` | delete a todo with name `<TODO>`
+`delete project "<PROJECT>"` | delete a project with name `<PROJECT>`
+`delete "<EVENT>" from "<PROJECT>"` | delete an event from project with name `<PROJECT>`
+`edit "<EVENT>" name "<NAME>"` | edit name of an event with initial name `<EVENT>`
+`edit "<EVENT>" start <START>` | edit start date/time/both of an event with name `<EVENT>`
+`edit "<EVENT>" end <END>` | edit end date/time/both of an event with name `<EVENT>`
+`edit "<TODO>" name "<NAME>"` | edit name of an event with initial name `<EVENT>`
+`edit "<TODO>" due <DEADLINE>` | edit deadline date/time/both of an event with name `<EVENT>`
+`edit project "<PROJECT>" "<NAME>"` | edit name of a project 
+`view <DATE>` | show events and todos that occurs on `<DATE>`
+`view "<EVENT>"` | show name, start, and end of `<EVENT>`
+`view "<TODO>"` | show name and deadline of `<TODO>`
+`view project "<PROJECT>"` | show events of `<PROJECT>`
+`undo` | undo last add, delete, or edit command
+`exit` | exit NowGotTime
+
+ 
