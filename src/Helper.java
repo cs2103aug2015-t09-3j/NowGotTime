@@ -12,6 +12,9 @@ public class Helper {
     public static final String MESSAGE_WELCOME = "Welcome to NowGotTime";
     public static final String MESSAGE_PROMPT = "command: ";
     public static final String MESSAGE_ADD = "'%1$s' successfully added";
+    public static final String MESSAGE_DELETE = "'%1$s' successfully deleted";
+    public static final String MESSAGE_EDIT = "'%1$s' successfully edited";
+    
 
     /* Error messages */
     public static final String ERROR_INVALID_COMMAND = "unknown command '%1$s'";

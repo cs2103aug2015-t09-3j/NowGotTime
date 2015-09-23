@@ -36,6 +36,11 @@ public class CommandDelete extends Command {
         }
     }
     
+    public CommandDelete(Item item) {
+        this.item = item;
+        this.itemName = item.getName();
+    }
+    
     private String itemName;
     private Item item;
     
@@ -57,12 +62,13 @@ public class CommandDelete extends Command {
         else {
             serviceHandler.deleteTask(itemName);
         }
+        return String.format(Helper.MESSAGE_DELETE, item.getName());
     }
 
     @Override
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        Command revertDeleteCommand = new CommandAdd(item);
+        return revertDeleteCommand.revert(serviceHandler, projectHandler, historyList);
     }
 
 }

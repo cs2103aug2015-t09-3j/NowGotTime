@@ -27,7 +27,7 @@ public class CommandUndo extends Command {
 
     @Override
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
-        // TODO Auto-generated method stub
+        // not revertible
         return null;
     }
 

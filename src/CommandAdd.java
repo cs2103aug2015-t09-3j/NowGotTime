@@ -110,6 +110,10 @@ public class CommandAdd extends Command {
         }
     }
     
+    public CommandAdd(Item item) {
+        this.item = item;
+    }
+    
     private Item item;
     
     public Item getItem() {
@@ -141,7 +145,7 @@ public class CommandAdd extends Command {
 
     @Override
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        Command revertAddCommand = new CommandDelete(item);
+        return revertAddCommand.execute(serviceHandler, projectHandler, historyList);
     }
 }

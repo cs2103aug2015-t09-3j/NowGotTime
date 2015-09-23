@@ -70,6 +70,12 @@ public class CommandEdit extends Command {
             }
         }
     }
+    
+    public CommandEdit(String itemName, String fieldName, String newValue) {
+        this.itemName = itemName;
+        this.fieldName = fieldName;
+        this.newValue = newValue;
+    }
 
     private String itemName;
     private String fieldName;
@@ -173,8 +179,8 @@ public class CommandEdit extends Command {
 
     @Override
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        Command revertEditCommand = new CommandEdit(itemName, fieldName, oldValue);
+        return revertEditCommand.execute(serviceHandler, projectHandler, historyList);
     }
 
 }
