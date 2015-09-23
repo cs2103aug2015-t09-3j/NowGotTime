@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.Stack;
 
 public abstract class Command {
 
@@ -59,12 +59,12 @@ public abstract class Command {
      * Execute this command
      * @return Feedback from execution
      */
-    public abstract String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception;
+    public abstract String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
     
     /*
      * Revert this command
      * @return Feedback from execution
      */
-    public abstract String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception;
+    public abstract String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
     
 }

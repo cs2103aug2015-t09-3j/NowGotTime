@@ -1,6 +1,7 @@
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -92,11 +93,10 @@ public class CommandEdit extends Command {
     }
     
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         Item item = null;
         if ((item = serviceHandler.viewSpecificEvent(itemName)) != null);
-        else if ((item = serviceHandler.viewSpecificTaskWithDeadline(itemName)) != null);
-        else if ((item = serviceHandler.viewSpecificTaskWithoutDeadline(itemName)) != null);
+        else if ((item = serviceHandler.viewSpecificTask(itemName)) != null);
         else {
             throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
         }
@@ -172,7 +172,7 @@ public class CommandEdit extends Command {
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }

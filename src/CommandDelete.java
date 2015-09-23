@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,18 +37,30 @@ public class CommandDelete extends Command {
     }
     
     private String itemName;
+    private Item item;
     
     public String getItemName() {
         return itemName;
     }
     
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
-        return "";
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
+        if ((item = serviceHandler.viewSpecificEvent(itemName)) != null);
+        else if ((item = serviceHandler.viewSpecificTask(itemName)) != null);
+        else {
+            throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
+        }
+        
+        if (item instanceof Event) {
+            serviceHandler.deleteEvent(itemName);
+        }
+        else {
+            serviceHandler.deleteTask(itemName);
+        }
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }

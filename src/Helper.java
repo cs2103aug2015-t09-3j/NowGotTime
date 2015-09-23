@@ -20,6 +20,7 @@ public class Helper {
     public static final String ERROR_ADD_EVENT = "failed to add new event '%1$s'";
     public static final String ERROR_ADD_TODO = "failed to add new todo '%1$s'";
     public static final String ERROR_NOT_FOUND = "cannot find event or todo with name '%1$s'";
+    public static final String ERROR_EMPTY_HISTORY = "cannot undo any previous command";
     
     /* Date and time format */
     public static final String PATTERN_DATE = "dd MMM yyyy";

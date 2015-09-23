@@ -1,5 +1,5 @@
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class CLI {
     
@@ -8,14 +8,14 @@ public class CLI {
     
     private ServiceHandler serviceHandler = null;
     private ProjectHandler projectHandler = null;
-    private ArrayList<Command> historyList;
+    private Stack<Command> historyList;
     
     
     public CLI() {
         stdin = new Scanner(System.in);
         serviceHandler = new ServiceHandler();
         projectHandler = new ProjectHandler();
-        historyList = new ArrayList<Command>();
+        historyList = new Stack<Command>();
         shouldExit = false;
     }
     

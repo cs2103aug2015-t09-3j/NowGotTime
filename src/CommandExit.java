@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.Stack;
 
 public class CommandExit extends Command {
     
@@ -17,13 +17,13 @@ public class CommandExit extends Command {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         // return empty string
         return "";
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, ArrayList<Command> historyList) throws Exception {
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }
