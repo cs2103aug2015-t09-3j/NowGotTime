@@ -31,6 +31,16 @@ public class Event extends Item {
     
   }
   
+  public Event(String name, String startDateTime, String endDateTime) {
+      super(name , "");
+      
+      start = Calendar.getInstance();
+      end = Calendar.getInstance();
+      
+      Helper.updateDateTime(start, startDateTime);
+      Helper.updateDateTime(end, endDateTime);
+  }
+  
   /*********************************** Accessors ********************************************/
   
   public Calendar getStartCalendar(){

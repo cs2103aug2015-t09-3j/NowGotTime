@@ -65,6 +65,7 @@ public class FileTodoHandler {
 			saveToDoList();
 		}
 		else{
+            allTodo.add(todo);
 			saveAsUniversalTodo(todo);
 		}
 		return true;

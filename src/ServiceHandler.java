@@ -15,11 +15,13 @@ public class ServiceHandler implements ServiceManager{
 
 	@Override
 	public boolean createEvent(Event newEvent) {
+	    if (viewSpecificEvent(newEvent.getName()) != null) return false;
 		return eventHandler.saveNewEventHandler(newEvent);
 	}
 
 	@Override
 	public boolean createTask(Todo newTask) {
+        if (viewSpecificTask(newTask.getName()) != null) return false;
 		return taskHandler.saveNewTodoHandler(newTask);
 	}
 
@@ -275,10 +277,11 @@ public class ServiceHandler implements ServiceManager{
 	
 	@Override
 	public Event viewSpecificEvent (String eventName) {
+        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
 		int eventIndex = 0;
-		for (Event event:eventBook){
+		for (Event event:completeEventBook){
 			if (event.getName().equals(eventName)){
-				Event _event = eventBook.get(eventIndex);
+				Event _event = completeEventBook.get(eventIndex);
 				return _event;
 			}
 			else {
@@ -289,23 +292,14 @@ public class ServiceHandler implements ServiceManager{
 	}
 	
 	public Todo viewSpecificTask(String taskName){
+        ArrayList<Todo> completeTaskBook = taskHandler.retrieveTodoToDelete();
 		int taskIndex = 0;
-		for (Todo task:taskBookWithDeadline){ //checking taskbook with deadline
+		for (Todo task:completeTaskBook){ //checking taskbook with deadline
 			if (task.getName().equals(taskName)){
-				Todo _task = taskBookWithDeadline.get(taskIndex);
+				Todo _task = completeTaskBook.get(taskIndex);
 				return _task;
 			}
 			else{
-				taskIndex++;
-			}
-		}
-		taskIndex = 0;
-		for (Todo task:taskBookNoDeadline){ //checking taskbook without deadline
-			if (task.getName().equals(taskName)){
-				Todo _task = taskBookNoDeadline.get(taskIndex);
-				return _task;
-			}
-			else {
 				taskIndex++;
 			}
 		}

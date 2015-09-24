@@ -129,6 +129,7 @@ public class CommandAdd extends Command {
                 return String.format(Helper.MESSAGE_ADD, item.getName());
             }
             else {
+                // name already exists
                 throw new Exception(String.format(Helper.ERROR_ADD_EVENT, item.getName()));
             }
         }
@@ -138,6 +139,7 @@ public class CommandAdd extends Command {
                 return String.format(Helper.MESSAGE_ADD, item.getName());
             }
             else {
+                // name already exists
                 throw new Exception(String.format(Helper.ERROR_ADD_TODO, item.getName()));
             }
         }

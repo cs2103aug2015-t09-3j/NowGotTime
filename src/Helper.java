@@ -20,8 +20,8 @@ public class Helper {
     public static final String ERROR_INVALID_COMMAND = "unknown command '%1$s'";
     public static final String ERROR_INVALID_ARGUMENTS = "invalid arguments for command %1$s";
     public static final String ERROR_INVALID_DATE_TIME = "invalid date/time format";
-    public static final String ERROR_ADD_EVENT = "failed to add new event '%1$s'";
-    public static final String ERROR_ADD_TODO = "failed to add new todo '%1$s'";
+    public static final String ERROR_ADD_EVENT = "failed to add new event, '%1$s' already exists";
+    public static final String ERROR_ADD_TODO = "failed to add new todo, '%1$s' already exists";
     public static final String ERROR_NOT_FOUND = "cannot find event or todo with name '%1$s'";
     public static final String ERROR_EMPTY_HISTORY = "cannot undo any previous command";
     
