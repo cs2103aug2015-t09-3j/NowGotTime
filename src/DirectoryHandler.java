@@ -20,7 +20,7 @@ import java.io.IOException;
  *  
  **/
 
-public class StartUpHandler {
+public class DirectoryHandler {
 	
 	private static final String PROJECT = "Project";
 	private static final String EVENT = "Event";
@@ -31,28 +31,20 @@ public class StartUpHandler {
 	private String todoPath;
 	private String eventPath;
 	private String projectPath;
-//	private String baseDirectory;
-//	private boolean firstStartUp = true;
+	private String baseDirectory;
+//	private boolean firstStartUp = false;
 	
 //	public static void main(String[] args){
-//		StartUpHandler s = new StartUpHandler();
+//		DirectoryHandler s = new DirectoryHandler();
 //	}
 	
-
+/********************* Public class methods **********************************/
 	
-	public StartUpHandler(){
-		if(!overviewExist()){
-			atFirstStartUp();
-		}else{
-			checkDirectories();
-		}
-	}
-	
-//	public StartUpHandler(){
+//	public DirectoryHandler(){
 //		if(overviewExist()){
-//			checkDirectories();
+//			checkDirectories(); 		//prevent program from crashing if any of the directories has been deleted. 
 //		}else{
-//			firstStartUp = false;
+//			firstStartUp = true;
 //		}
 //	}	
 	
@@ -60,18 +52,28 @@ public class StartUpHandler {
 //		return firstStartUp;
 //	}
 	
-//	public boolean setNewBaseDirectory(String theBaseDirectory){
-//		baseDirectory = theBaseDirectory;
-//		return atFirstStartUp();
-//		//TODO: remove old directory.
-//	}
+	public DirectoryHandler(){
+		if(!overviewExist()){
+			atFirstStartUp();
+		}else{
+			checkDirectories();
+		}
+	}
 	
+	public boolean setNewBaseDirectory(String theBaseDirectory){
+		baseDirectory = theBaseDirectory;
+		return atFirstStartUp();
+	}
+	
+/************************* Private class methods *****************************/
+	
+	//return true if directories have all been created, return false if some/all directories failed to be created.
 	private boolean atFirstStartUp(){
 		todoPath = createDirectory(TODO);
 		eventPath = createDirectory(EVENT);
 		projectPath = createDirectory(PROJECT);
 		
-		if(todoPath != null && eventPath != null && projectPath!= null){
+		if(todoPath != null && eventPath != null && projectPath != null){
 			return createOverviewTextFile();
 		}
 		return false;
@@ -90,7 +92,7 @@ public class StartUpHandler {
 			createDirectory(EVENT);
 		}
 		
-		if( !(new File(todoPath)).exists() ){
+		if( !(new File(projectPath)).exists() ){
 			createDirectory(PROJECT);
 		}
 		
@@ -108,9 +110,9 @@ public class StartUpHandler {
 	
 	//return String of directory path if created, else return null
 	private String createDirectory(String directoryName){
-//		if(baseDirectory == null){
-			String baseDirectory = getJavaProjectDirectory();
-//		}
+		if(baseDirectory == null){
+			baseDirectory = getJavaProjectDirectory();
+		}
 		
 		String newDirectoryPath = baseDirectory.concat("\\" + directoryName);
 		if(makeNewDirectory(newDirectoryPath)){
@@ -121,11 +123,11 @@ public class StartUpHandler {
 	}
 	
 	private boolean createOverviewTextFile(){
+		
 		try{
 			File outfile = new File(OVERVIEW);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
-			
-		
+					
 			writer.write(todoPath); writer.newLine();
 			writer.write(eventPath); writer.newLine();
 			writer.write(projectPath); writer.newLine();
@@ -172,5 +174,4 @@ public class StartUpHandler {
 		}		
 	}
 
-	
 }

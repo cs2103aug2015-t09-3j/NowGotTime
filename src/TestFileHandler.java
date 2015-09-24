@@ -54,7 +54,11 @@ public class TestFileHandler {
 		testo.testFileTodoHandler();
 		testo.testFileProjectHandler();
 		
-			
+		testo.changeDirect();
+	}
+	
+	private void changeDirect(){
+		fh.changeBaseDirectory("C:\\Users\\RX.huang\\Desktop");
 	}
 
 	private static void kickStart() {

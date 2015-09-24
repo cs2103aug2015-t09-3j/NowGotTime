@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class FileHandler implements FileManager{
 	
 	private static final String EVENT_OVERVIEWER = "overview.txt";
+		
 	private File inputFile;
 	private String eventPath;
 	private String todoPath;
@@ -37,10 +38,12 @@ public class FileHandler implements FileManager{
 	private FileEventHandler fEventH;
 	private FileTodoHandler fTodoH;
 	
+	private DirectoryHandler directHand;
+	
 /******************************* Constructor *************************************/	
 
 	public FileHandler(){
-		new StartUpHandler();
+		directHand = new DirectoryHandler();
 		readOverviewerFile();
 		
 		fEventH = new FileEventHandler(eventPath);
@@ -99,7 +102,11 @@ public class FileHandler implements FileManager{
 	public boolean saveEditedUniversalTodoHandler(){
 		return fTodoH.saveUniversalToDoList();
 	}
-
+	
+	public boolean saveAllEditedTodo(){
+		return fTodoH.saveToDoList() && fTodoH.saveUniversalToDoList();
+	}
+	
 /******************************** Project **************************************/
 	
 	@Override
@@ -147,26 +154,55 @@ public class FileHandler implements FileManager{
 	}
 
 /******************************** Testing **************************************/
+	
+	public boolean changeBaseDirectory(String newBaseDirectory){
+		/*TODO: read all projects first before clearing, because we do not by
+				default read all the existing projects */	
+		clearAll();
+		directHand.setNewBaseDirectory(newBaseDirectory);
+		fEventH.setNewDirectory(newBaseDirectory);
+		fTodoH.setNewDirectory(newBaseDirectory);
+		fProjH.setNewDirectory(newBaseDirectory);
+		saveAll();
+		return true;
+	}
+	
+	public boolean saveAll(){
+		return fEventH.saveEventBook() &&
+				fEventH.updateHistory() &&
+				fTodoH.saveToDoList() &&
+				fTodoH.updateHistory() &&
+				fTodoH.saveUniversalToDoList();
+		
+		//TODO: save all projects methods missing
+	}
+
 	public void clearAll(){
 		try {
 			
 			File dir = new File(todoPath);
-			for(File file: dir.listFiles()) file.delete(); 
+			if(dir.isDirectory() && dir.list().length > 0){
+				for(File file: dir.listFiles()) file.delete(); 
+			}
 			Path path = Paths.get(todoPath);
 			Files.delete(path);
 			
 			dir = new File(eventPath);
-			for(File file: dir.listFiles()) file.delete(); 
+			if(dir.isDirectory() && dir.list().length > 0){
+				for(File file: dir.listFiles()) file.delete(); 
+			}
 			path = Paths.get(eventPath);
 			Files.delete(path);
 			
 			dir = new File(projectPath);
-			for(File file: dir.listFiles()) file.delete();
+			if(dir.isDirectory() && dir.list().length > 0){
+				for(File file: dir.listFiles()) file.delete(); 
+			}
 			path = Paths.get(projectPath);
 			Files.delete(path);
 			
-			path = Paths.get("overview.txt");
-			Files.delete(path);
+//			path = Paths.get("overview.txt");
+//			Files.delete(path);
 			
 		} catch (NoSuchFileException x) {
 			System.out.println("err no such file.");

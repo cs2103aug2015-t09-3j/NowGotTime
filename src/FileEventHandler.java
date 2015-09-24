@@ -16,6 +16,8 @@ import java.util.Comparator;
 public class FileEventHandler {
 	private static final String EVENTS = "Upcoming Events";
 	private static final String HISTORY = "History.txt";
+	private static final String EVENT = "Event";
+	
 	
 	private static final String PATTERN_DATE = "dd MMM yyyy";
 	private static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
@@ -64,6 +66,11 @@ public class FileEventHandler {
 		}
 	}
 	
+	public boolean setNewDirectory(String newBaseDirectory){
+		baseDirectory = newBaseDirectory.concat("\\" + EVENT + "\\");
+		return true;
+	}
+	
 	public ArrayList<Event> retrieveEventByDate(String date){
 		
 		ArrayList<Event> eventBookByDate = filterEventsToSpecificDate(date);
@@ -73,6 +80,26 @@ public class FileEventHandler {
 	
 	public ArrayList<Event> retrieveEventsToDelete(){
 		return allEvents;
+	}
+	
+	public boolean updateHistory(){
+		sortEventsByDate(historyEvents);
+		try{
+			File outfile = new File(baseDirectory + HISTORY);
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
+			
+			for(Event anEvent : historyEvents){
+				writer.write(anEvent.toString()); 
+				writer.newLine();
+			}
+			writer.close();
+			return true;
+	
+		}catch(IOException e){
+			System.out.println("File cannot be written.\n");
+			return false;
+		}
 	}
 	
 /*****************************************************************************************/	
@@ -202,26 +229,6 @@ public class FileEventHandler {
         return true;
     }
 	
-	private boolean updateHistory(){
-		sortEventsByDate(historyEvents);
-		try{
-			File outfile = new File(baseDirectory + HISTORY);
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
-			
-			for(Event anEvent : historyEvents){
-				writer.write(anEvent.toString()); 
-				writer.newLine();
-			}
-			writer.close();
-			return true;
-	
-		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
-			return false;
-		}
-	}
-
 }
 
 class customComparator implements Comparator<Event>{

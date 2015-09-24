@@ -16,6 +16,8 @@ import java.util.Collections;
 
 public class FileProjectHandler {
 	private static final String PROJECT_OVERVIEWER = "projectOverviewer.txt";
+	private static final String PROJECT = "Project";
+	
 	private String baseDirectory;
 	private ArrayList<String> existingProjects;
 	private File inputFile;
@@ -25,6 +27,35 @@ public class FileProjectHandler {
 	public FileProjectHandler(String baseDirectory){
 		this.baseDirectory = baseDirectory.concat("\\");
 		readOverviewerFile();
+	}
+	
+	public boolean deleteProject(String projectName){
+		if(!existingProjects.contains(projectName)){
+			return false;
+		}
+		existingProjects.remove(projectName);
+		updateOverviewFile();
+		
+		Path path = Paths.get(baseDirectory + projectName + ".txt");
+		try {
+		    Files.delete(path);
+		    return true;
+		} catch (NoSuchFileException x) {
+		    System.err.format("%s: no such" + " file or directory%n", path);
+		    return false;
+		} catch (DirectoryNotEmptyException x) {
+		    System.err.format("%s not empty%n", path);
+		    return false;
+		} catch (IOException x) {
+		    // File permission problems are caught here.
+		    System.err.println(x);
+		    return false;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<String> getListOfExistingProjects(){
+		return (ArrayList<String>) existingProjects.clone();
 	}
 	
 	public ArrayList<Event> retrieveProject(String name){
@@ -72,36 +103,12 @@ public class FileProjectHandler {
 		sortEventsByDate(projectBook);
 		return overwriteSave(projectName, projectBook);
 	}
+	
+	public boolean setNewDirectory(String newBaseDirectory){
+		baseDirectory = newBaseDirectory.concat("\\" + PROJECT + "\\");
+		return true;
+	}
 
-	@SuppressWarnings("unchecked")
-	public ArrayList<String> getListOfExistingProjects(){
-		return (ArrayList<String>) existingProjects.clone();
-	}
-	
-	public boolean deleteProject(String projectName){
-		if(!existingProjects.contains(projectName)){
-			return false;
-		}
-		existingProjects.remove(projectName);
-		updateOverviewFile();
-		
-		Path path = Paths.get(baseDirectory + projectName + ".txt");
-		try {
-		    Files.delete(path);
-		    return true;
-		} catch (NoSuchFileException x) {
-		    System.err.format("%s: no such" + " file or directory%n", path);
-		    return false;
-		} catch (DirectoryNotEmptyException x) {
-		    System.err.format("%s not empty%n", path);
-		    return false;
-		} catch (IOException x) {
-		    // File permission problems are caught here.
-		    System.err.println(x);
-		    return false;
-		}
-	}
-	
 /*******************************************************************************/
 
 	private boolean createNewProjectFile(String textFileName){

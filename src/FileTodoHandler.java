@@ -21,6 +21,7 @@ public class FileTodoHandler {
 	private static final String UPCOMING_TODO = "Upcoming Todo.txt";
 	private static final String PAST_TODO = "Past Todo.txt";
 	private static final String PAST_UNIVERSAL_TODO = "Past Universal Todo.txt";
+	private static final String TODO = "Todo";
 	
 	private static final String PATTERN_DATE = "dd MMM yyyy";
 	private static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
@@ -42,7 +43,22 @@ public class FileTodoHandler {
 		retrievePassTasks();
 		pushPassedTodoToHistoryFile();
 	}
-
+	
+	public ArrayList<Todo> retrieveTodoByDate(String date){
+		
+		ArrayList<Todo> toDoListByDate = filterTodoToSpecificDate(date);
+		
+		return toDoListByDate;
+	}
+	
+	public ArrayList<Todo> retrieveFloatingTodo(){
+		return universalTodo;
+	}
+	
+	public ArrayList<Todo> retrieveTodoToDelete(){
+		return allTodo;
+	}
+	
 	public boolean saveNewTodoHandler(Todo todo){
 		if(todo.hasDate()){
 			allTodo.add(todo);
@@ -98,19 +114,30 @@ public class FileTodoHandler {
 		}
 	}
 	
-	public ArrayList<Todo> retrieveTodoByDate(String date){
-		
-		ArrayList<Todo> toDoListByDate = filterTodoToSpecificDate(date);
-		
-		return toDoListByDate;
+	public boolean setNewDirectory(String newBaseDirectory){
+		baseDirectory = newBaseDirectory.concat("\\" + TODO + "\\");
+		return true;
 	}
 	
-	public ArrayList<Todo> retrieveFloatingTodo(){
-		return universalTodo;
-	}
+	public boolean updateHistory(){
+		sortTodoByDate(todoHistory);
+		try{
+			File outfile = new File(baseDirectory +  PAST_TODO);
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
+			
+			for(Todo aTodo : todoHistory){
+				String todoType = determineType(aTodo);
+				writer.write(todoType); writer.newLine();
+				writer.write(aTodo.toString()); writer.newLine();
+			}
+			writer.close();
+			return true;
 	
-	public ArrayList<Todo> retrieveTodoToDelete(){
-		return allTodo;
+		}catch(IOException e){
+			System.out.println("File cannot be written.\n");
+			return false;
+		}
 	}
 	
 /***************************** Private methods sorted alphabetically ********************************/	
@@ -331,27 +358,6 @@ public class FileTodoHandler {
         }
         return true;
     }
-	
-	private boolean updateHistory(){
-		sortTodoByDate(todoHistory);
-		try{
-			File outfile = new File(baseDirectory +  PAST_TODO);
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
-			
-			for(Todo aTodo : todoHistory){
-				String todoType = determineType(aTodo);
-				writer.write(todoType); writer.newLine();
-				writer.write(aTodo.toString()); writer.newLine();
-			}
-			writer.close();
-			return true;
-	
-		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
-			return false;
-		}
-	}
 
 /***********************************************************************************************/
 	class customTodoComparator implements Comparator<Todo>{
