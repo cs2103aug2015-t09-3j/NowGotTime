@@ -11,7 +11,7 @@ public interface ServiceManager {
 	
 	public ArrayList<Event> viewEventByDate(String date);
 	public ArrayList<Todo> viewTaskByDate(String date);
-	public ArrayList<Todo> viewTaskNoDate(String date);
+	public ArrayList<Todo> viewTaskNoDate();
 	
 	public boolean deleteEvent(String eventName);
 	public boolean deleteEvent(int eventIndex);

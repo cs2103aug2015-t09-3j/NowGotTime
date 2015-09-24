@@ -1,5 +1,3 @@
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -114,9 +112,9 @@ public class CommandEdit extends Command {
                     serviceHandler.editEventName(itemName, newValue);
                 }
                 else {
-                    serviceHandler.editTaskNameWithDeadline(itemName, newValue);
+                    serviceHandler.editTaskName(itemName, newValue);
                 }
-                break;
+                return String.format(Helper.MESSAGE_EDIT, newValue);
             case (FIELD_START):
                 if (item instanceof Event) { 
                     oldValue = ((Event) item).getStartDateTimeString();
@@ -135,7 +133,7 @@ public class CommandEdit extends Command {
                 else {
                     throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
                 }
-                break;
+                return String.format(Helper.MESSAGE_EDIT, item.getName());
             case (FIELD_END):
                 if (item instanceof Event) { 
                     oldValue = ((Event) item).getEndDateTimeString();
@@ -154,7 +152,7 @@ public class CommandEdit extends Command {
                 else {
                     throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
                 }
-                break;
+                return String.format(Helper.MESSAGE_EDIT, item.getName());
             case (FIELD_DUE):
                 if (item instanceof Todo) { 
                     oldValue = ((Todo) item).getDeadlineDateTimeString();
@@ -173,8 +171,9 @@ public class CommandEdit extends Command {
                 else {
                     throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
                 }
-                break;
+                return String.format(Helper.MESSAGE_EDIT, item.getName());
         }
+        return String.format(Helper.MESSAGE_EDIT, item.getName());
     }
 
     @Override

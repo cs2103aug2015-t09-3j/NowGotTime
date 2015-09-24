@@ -34,7 +34,7 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	@Override
-	public ArrayList<Todo> viewTaskNoDate(String date) {
+	public ArrayList<Todo> viewTaskNoDate() {
 		return taskBookNoDeadline = taskHandler.retrieveUniversalTodo();
 	}
 
