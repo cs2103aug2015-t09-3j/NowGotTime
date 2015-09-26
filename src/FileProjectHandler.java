@@ -21,7 +21,8 @@ public class FileProjectHandler {
 	private String baseDirectory;
 	private ArrayList<String> existingProjects;
 	private File inputFile;
-
+	private ArrayList<ArrayList<Event>> projectBookShelf;
+	
 /*******************************************************************************/
 	
 	public FileProjectHandler(String baseDirectory){
@@ -108,15 +109,55 @@ public class FileProjectHandler {
 		baseDirectory = newBaseDirectory.concat("\\" + PROJECT + "\\");
 		return true;
 	}
-
+	
+	public boolean readAll(){
+		projectBookShelf = new ArrayList<ArrayList<Event>>();
+		for(String project: existingProjects){
+			ArrayList<Event> projectBook = retrieveProject(project);
+			projectBookShelf.add(projectBook);
+		}
+		
+		if(projectBookShelf.isEmpty()){
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean writeAll(){
+		updateOverviewFile();
+		
+		try {
+			for(int counter = 0; counter < existingProjects.size(); counter++){
+				
+				String projectName = existingProjects.get(counter);
+				ArrayList<Event> projectBook = projectBookShelf.get(counter);
+				
+				createNewProjectFile(projectName);
+				overwriteSave(projectName, projectBook);
+	
+			}
+			
+			return true;
+			
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 /*******************************************************************************/
 
 	private boolean createNewProjectFile(String textFileName){
 
 		try{
 			File newFile = new File(baseDirectory + textFileName + ".txt");
-			existingProjects.add(textFileName);
-			updateOverviewFile();
+				
+			if(!existingProjects.contains(textFileName)){
+				existingProjects.add(textFileName);
+				updateOverviewFile();
+			}
+			
 			return newFile.createNewFile();
 			
 		}catch(IOException e){

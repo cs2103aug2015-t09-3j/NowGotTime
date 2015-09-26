@@ -1,3 +1,7 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -248,6 +252,13 @@ public class TestFileHandler {
 		testo.fh.clearAll();
 		System.out.println("All data in storage wiped.");
 		System.out.println();
+		
+		Path path = Paths.get("overview.txt");
+		try {
+			Files.delete(path);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private static void customPrint(ArrayList<Event> stuff){

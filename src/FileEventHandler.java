@@ -14,7 +14,7 @@ import java.util.Comparator;
 
 
 public class FileEventHandler {
-	private static final String EVENTS = "Upcoming Events";
+	private static final String EVENTS = "Upcoming Events.txt";
 	private static final String HISTORY = "History.txt";
 	private static final String EVENT = "Event";
 	

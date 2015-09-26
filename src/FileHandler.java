@@ -153,11 +153,10 @@ public class FileHandler implements FileManager{
 		}
 	}
 
-/******************************** Testing **************************************/
+/****************************** Directory *************************************/
 	
 	public boolean changeBaseDirectory(String newBaseDirectory){
-		/*TODO: read all projects first before clearing, because we do not by
-				default read all the existing projects */	
+		fProjH.readAll();
 		clearAll();
 		directHand.setNewBaseDirectory(newBaseDirectory);
 		fEventH.setNewDirectory(newBaseDirectory);
@@ -172,9 +171,8 @@ public class FileHandler implements FileManager{
 				fEventH.updateHistory() &&
 				fTodoH.saveToDoList() &&
 				fTodoH.updateHistory() &&
-				fTodoH.saveUniversalToDoList();
-		
-		//TODO: save all projects methods missing
+				fTodoH.saveUniversalToDoList() &&
+				fProjH.writeAll();
 	}
 
 	public void clearAll(){
