@@ -63,7 +63,7 @@ public class ProjectHandler implements ProjectManager{
 		
 		if (index < projectBook.size())
 		{
-			projectBook.remove(index);
+			System.out.println("A " + projectBook.remove(index));
 			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
 			return true;
 		}
@@ -139,7 +139,49 @@ public class ProjectHandler implements ProjectManager{
 			{
 				// System.out.println("entered" + projectBook.indexOf(eventName) + " " + i);
 				int eventIndex = i;
+				/*Event event = projectBook.get(eventIndex);
+				switch(infoIndex)
+				{
+					case (1):
+					{
+						event.setName(newValue);
+						break;
+					}
+					
+					case (2):
+					{
+						event.updateStartDate(newValue); //Stef, for single date events, change both case 2 and 3
+						break;
+					}
+					
+					case (3):
+					{
+						event.updateEndDate(newValue);
+						break;
+					}
+					
+					case (4):
+					{
+						event.updateStartTime(newValue);
+						break;
+					}
+					
+					case (5):
+					{
+						event.updateEndTime(newValue);
+						break;
+					}
+					
+					/*case (6):
+					{
+						event.setAdditionalInfo(newValue);
+						break;
+					}
+				}*/
+				
 				return editProjectEvent(eventIndex, infoIndex, newValue, projectName);
+				//project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
+				//return true;
 			}
 		}
 		
