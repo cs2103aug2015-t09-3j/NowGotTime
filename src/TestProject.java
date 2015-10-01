@@ -9,6 +9,7 @@ public class TestProject {
 		Event pseudoEvent = new Event("eatpieday", "20 Nov 2015", "08:00", "18:00", "i love pies");
 		Event pseudoEvent2 = new Event("eatpieday2", "21 Nov 2015", "08:00", "18:00", "i love pies a lot");
 		
+		System.out.println(test.deleteProject("projectdiva2"));
 		System.out.println(test.createProject("projectdiva3"));
 		System.out.println(test.deleteProject("projectdiva3"));
 		System.out.println(test.createProject("projectdiva2"));
@@ -21,10 +22,10 @@ public class TestProject {
 		System.out.println(test.viewProjectTimeline("projectdiva2"));
 		System.out.println();
 		System.out.println(test.viewProjectTimeline(2));
-		System.out.println(test.viewProjectTimeline(1));
+		System.out.println(test.viewProjectTimeline(0));
 		
 		// Open file to check edited, lazy to view again. Too much scrolling involved.
-		System.out.println(test.editProjectEvent(1, 1, "myProjectDiva","projectdiva2"));
+		System.out.println(test.editProjectEvent(pseudoEvent, 1, "test","projectdiva2"));
 		test.editProjectEvent(1, 2, "21 October 2015", "projectdiva2");
 		test.editProjectEvent(1, 3, "22 November 2015", "projectdiva2");
 		test.editProjectEvent(1, 4, "09:00", "projectdiva2");

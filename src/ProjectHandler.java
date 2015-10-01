@@ -75,7 +75,7 @@ public class ProjectHandler implements ProjectManager{
 	@Override
 	public boolean editProjectEvent(int eventIndex, int infoIndex, String newValue, String projectName) {
 		
-		if (eventIndex <= 0 || eventIndex > projectBook.size())
+		if (eventIndex < 0 || eventIndex > projectBook.size())
 		{
 			return false;
 		}
@@ -130,8 +130,22 @@ public class ProjectHandler implements ProjectManager{
 
 	@Override
 	public boolean editProjectEvent(Event eventName, int infoIndex, String newValue, String projectName) {
+		//for testing: System.out.println("1" + projectBook);
+	
+		for (int i=0; i<projectBook.size(); i++)
+		{
+			// System.out.println(eventName.getName() + "compare " + projectBook.get(i).getName());
+			if (eventName.getName().equals(projectBook.get(i).getName()))
+			{
+				// System.out.println("entered" + projectBook.indexOf(eventName) + " " + i);
+				int eventIndex = i;
+				return editProjectEvent(eventIndex, infoIndex, newValue, projectName);
+			}
+		}
 		
-		if (!projectBook.contains(eventName))
+		return false;
+		
+		/* if (!projectBook.contains(eventName))
 		{	
 			return false;
 		}
@@ -141,9 +155,8 @@ public class ProjectHandler implements ProjectManager{
 			//Event event = projectBook.get(projectBook.indexOf(name));
 			
 			//recursion
-				int eventIndex = projectBook.indexOf(eventName);
-				return editProjectEvent(eventIndex, infoIndex, newValue, projectName);
-		}	
+				
+		}*/	
 		
 			//if recursion doesn't work:
 		
