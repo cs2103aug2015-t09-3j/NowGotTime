@@ -40,9 +40,9 @@ public class TestProject {
 		
 		System.out.println(test.viewProjectTimeline(0));
 		
-		//System.out.println(test.viewProjectTimeline(0));
-		//System.out.println(test.deleteProjectEvent(0, "projectdiva2"));
-		//System.out.println(test.deleteProjectEvent(pseudoEvent2.getName(), "projectdiva2"));
+		System.out.println(test.viewProjectTimeline(0));
+		System.out.println(test.deleteProjectEvent(0, "projectdiva2"));
+		System.out.println(test.deleteProjectEvent(pseudoEvent2.getName(), "projectdiva2"));
 	}
 
 }
