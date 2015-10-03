@@ -14,26 +14,23 @@ public class CommandEdit extends Command {
     private static final Pattern REGEX_EDIT_NAME       = Pattern.compile(PATTERN_EDIT_NAME);
     private static final Pattern REGEX_EDIT_DATE_TIME  = Pattern.compile(PATTERN_EDIT_DATE_TIME);
     
-    private static final String FIELD_NAME     = "name";
-    private static final String FIELD_START    = "start";
-    private static final String FIELD_END      = "end";
-    private static final String FIELD_DUE      = "due";
-    private static final String FIELD_KEY      = "field";
-    private static final String FIELD_VALUE    = "value";
+    private static final String MATCH_TITLE     = "name";
+    private static final String MATCH_KEY      = "field";
+    private static final String MATCH_VALUE    = "value";
     
     
     private static HashMap<String, String> parseEdit(String args, Pattern REGEX_EDIT) {
         Matcher nameEditMatcher = REGEX_EDIT.matcher(args);
         if (nameEditMatcher.matches()) {
-            String name = nameEditMatcher.group(FIELD_NAME);
-            String field = nameEditMatcher.group(FIELD_KEY);
-            String value = nameEditMatcher.group(FIELD_VALUE);
+            String name = nameEditMatcher.group(MATCH_TITLE);
+            String field = nameEditMatcher.group(MATCH_KEY);
+            String value = nameEditMatcher.group(MATCH_VALUE);
             
             HashMap<String, String> result = new HashMap<String, String>();
             
-            result.put(FIELD_NAME, name);
-            result.put(FIELD_KEY, field);
-            result.put(FIELD_VALUE, value);
+            result.put(MATCH_TITLE, name);
+            result.put(MATCH_KEY, field);
+            result.put(MATCH_VALUE, value);
             
             return result;
         }
@@ -55,14 +52,14 @@ public class CommandEdit extends Command {
             throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
         
-        itemName = result.get(FIELD_NAME);
-        fieldName = result.get(FIELD_KEY);
-        newValue = result.get(FIELD_VALUE);
+        itemName = result.get(MATCH_TITLE);
+        fieldName = result.get(MATCH_KEY);
+        newValue = result.get(MATCH_VALUE);
         
         // Validate the date format
-        if (fieldName == FIELD_START
-         || fieldName == FIELD_END
-         || fieldName == FIELD_DUE) {
+        if (fieldName == Helper.FIELD_START
+         || fieldName == Helper.FIELD_END
+         || fieldName == Helper.FIELD_DUE) {
             if (Helper.getCalendarStringType(newValue) == null) {
                 throw new Exception(Helper.ERROR_INVALID_DATE_TIME);
             }
@@ -106,7 +103,7 @@ public class CommandEdit extends Command {
         }
         
         switch (fieldName) {
-            case (FIELD_NAME):
+            case (Helper.FIELD_NAME):
                 oldValue = item.getName();
                 if (item instanceof Event) { 
                     serviceHandler.editEventName(itemName, newValue);
@@ -115,7 +112,7 @@ public class CommandEdit extends Command {
                     serviceHandler.editTaskName(itemName, newValue);
                 }
                 return String.format(Helper.MESSAGE_EDIT, newValue);
-            case (FIELD_START):
+            case (Helper.FIELD_START):
                 if (item instanceof Event) { 
                     oldValue = ((Event) item).getStartDateTimeString();
                     switch (Helper.getCalendarStringType(newValue)) {
@@ -134,7 +131,7 @@ public class CommandEdit extends Command {
                     throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
                 }
                 return String.format(Helper.MESSAGE_EDIT, item.getName());
-            case (FIELD_END):
+            case (Helper.FIELD_END):
                 if (item instanceof Event) { 
                     oldValue = ((Event) item).getEndDateTimeString();
                     switch (Helper.getCalendarStringType(newValue)) {
@@ -153,7 +150,7 @@ public class CommandEdit extends Command {
                     throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
                 }
                 return String.format(Helper.MESSAGE_EDIT, item.getName());
-            case (FIELD_DUE):
+            case (Helper.FIELD_DUE):
                 if (item instanceof Todo) { 
                     oldValue = ((Todo) item).getDeadlineDateTimeString();
                     switch (Helper.getCalendarStringType(newValue)) {

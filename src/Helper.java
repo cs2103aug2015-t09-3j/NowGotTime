@@ -33,11 +33,17 @@ public class Helper {
     public static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
     public static final SimpleDateFormat FORMAT_TIME = new SimpleDateFormat(PATTERN_TIME);
     public static final SimpleDateFormat FORMAT_DATE_TIME = new SimpleDateFormat(PATTERN_DATE_TIME);
-    
 
     public static final String DATE_TYPE = "date";
     public static final String TIME_TYPE = "time";
     public static final String DATE_TIME_TYPE = "datetime";
+    
+    public static final String FIELD_NAME     = "name";
+    public static final String FIELD_START    = "start";
+    public static final String FIELD_END      = "end";
+    public static final String FIELD_DUE      = "due";
+    public static final String FIELD_KEY      = "field";
+    public static final String FIELD_VALUE    = "value";
     
     /* String Manipulation Helper functions */
     

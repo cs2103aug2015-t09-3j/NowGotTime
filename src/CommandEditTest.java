@@ -6,15 +6,23 @@ public class CommandEditTest {
 
     /* parsing test for edit command */
 
-    String args = null;
-    CommandEdit cmd = null;
+    public void testParseEdit(String args, String expectedName, String expectedField, String expectedValue) {
+        try {
+            CommandEdit cmd = new CommandEdit(args);
+            assertEquals(cmd.getItemName(), expectedName);
+            assertEquals(cmd.getFieldName(), expectedField);
+            assertEquals(cmd.getNewValue(), expectedValue);
+        } catch (Exception e) {
+            fail("exception should not be thrown");
+        }
+    }
     
     @Test
     public void testCannotParseInvalidFormat() {
         try {
             // cannot parse invalid format
-            args = " eat again ";
-            cmd = new CommandEdit(args);
+            String args = " eat again ";
+            new CommandEdit(args);
             fail("exception should be thrown");
         } catch (Exception e) {
             assertEquals(String.format(Helper.ERROR_INVALID_ARGUMENTS, CommandEdit.KEYWORD), e.getMessage());
@@ -22,65 +30,25 @@ public class CommandEditTest {
     }
     
     @Test
-    public void testCanParseNameField() {
+    public void testCanParseEditField() {
         
-        try {
-            // can parse edit command on name
-            args = "\"eat again!\" name \"sleep again\"";
-            cmd = new CommandEdit(args);
-            
-            assertEquals(cmd.getItemName(), "eat again!");
-            assertEquals(cmd.getFieldName(), "name");
-            assertEquals(cmd.getNewValue(), "sleep again");
-            
-        } catch (Exception e) {
-            fail("exception should not be thrown");
-        }
+        // can parse name field
+        testParseEdit("\"eat again!\" name \"sleep again\"",
+                      "eat again!", "name", "sleep again");
         
-    }
-    
-    @Test
-    public void testCanParseDateField() {
+        // can parse start field
+        testParseEdit("\"eat again!\" start 15 September 2015 23:12",
+                      "eat again!", "start", "15 September 2015 23:12");
         
-        try {
-            // can parse edit command on start date
-            args = "\"eat again!\" start 15 September 2015 23:12";
-            cmd = new CommandEdit(args);
-            
-            assertEquals(cmd.getItemName(), "eat again!");
-            assertEquals(cmd.getFieldName(), "start");
-            assertEquals(cmd.getNewValue(), "15 September 2015 23:12");
-            
-        } catch (Exception e) {
-            fail("exception should not be thrown");
-        }
+        // can parse end field
+        testParseEdit("\"eat again!\" end 15 September 2015 23:12",
+                      "eat again!", "end", "15 September 2015 23:12");
         
-        try {
-            // can parse edit command on end date
-            args = "\"eat again!\" end 15 September 2015 23:12";
-            cmd = new CommandEdit(args);
-            
-            assertEquals(cmd.getItemName(), "eat again!");
-            assertEquals(cmd.getFieldName(), "end");
-            assertEquals(cmd.getNewValue(), "15 September 2015 23:12");
-            
-        } catch (Exception e) {
-            fail("exception should not be thrown");
-        }
-        
-        try {
-            // can parse edit command on due date
-            args = "\"eat again!\" due 15 September 2015 23:12";
-            cmd = new CommandEdit(args);
-            
-            assertEquals(cmd.getItemName(), "eat again!");
-            assertEquals(cmd.getFieldName(), "due");
-            assertEquals(cmd.getNewValue(), "15 September 2015 23:12");
-            
-        } catch (Exception e) {
-            fail("exception should not be thrown");
-        }
+        // can parse due field
+        testParseEdit("\"eat again!\" due 15 September 2015 23:12",
+                      "eat again!", "due", "15 September 2015 23:12");
         
     }
+   
 
 }
