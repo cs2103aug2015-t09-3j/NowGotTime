@@ -78,16 +78,16 @@ public class Helper {
         return time;
     }
     
-    public static Calendar parseDate(String timeString) throws ParseException {
-        Calendar time = Calendar.getInstance();
-        time.setTime(FORMAT_DATE.parse(timeString));
-        return time;
+    public static Calendar parseDate(String dateString) throws ParseException {
+        Calendar date = Calendar.getInstance();
+        date.setTime(FORMAT_DATE.parse(dateString));
+        return date;
     }
     
-    public static Calendar parseDateTime(String timeString) throws ParseException {
-        Calendar time = Calendar.getInstance();
-        time.setTime(FORMAT_DATE_TIME.parse(timeString));
-        return time;
+    public static Calendar parseDateTime(String dateTimeString) throws ParseException {
+        Calendar datetime = Calendar.getInstance();
+        datetime.setTime(FORMAT_DATE_TIME.parse(dateTimeString));
+        return datetime;
     }
     
     public static boolean updateTime(Calendar calendar, String timeString) {
@@ -176,6 +176,47 @@ public class Helper {
                 return null;
         }
     }
+    
+    public static boolean doesOccurOn(Item item, String dateString) {
+        try {
+            Calendar date = parseDate(dateString);
+            
+            if (item instanceof Event) {
+                Event event = (Event) item;
+                
+                updateTime(date, "00:00");
+                
+                // start before the date
+                if (event.getStartCalendar().after(date)) return false;
+                
+                updateTime(date, "23:59");
+
+                // end after the date
+                if (event.getEndCalendar().before(date)) return false;
+                
+                return true;
+            }
+            else {
+                Todo todo = (Todo) item;
+                
+                updateTime(date, "00:00");
+                
+                // deadline before the date
+                if (todo.getDeadline().after(date)) return false;
+                
+                updateTime(date, "23:59");
+                
+                // deadline after the date
+                if (todo.getDeadline().before(date)) return false;
+                
+                return true;
+            }
+            
+        } catch(ParseException e) {
+            return false;
+        }
+    }
+    
     
     
 }

@@ -24,6 +24,9 @@ public abstract class Command {
             case "undo":
                 command = new CommandUndo(arguments);
                 break;
+            case "view":
+                command = new CommandView(arguments);
+                break;
             case "exit":
                 command = new CommandExit(arguments);
                 break;

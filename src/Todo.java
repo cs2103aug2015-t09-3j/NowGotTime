@@ -9,7 +9,7 @@ import java.util.Calendar;
 
 public class Todo extends Item {
 	
-	private Calendar deadline;
+	private Calendar deadline = null;
 	private boolean hasDate = true;
 	private boolean hasTime = true;
     

@@ -27,17 +27,39 @@ public class ServiceHandler implements ServiceManager{
 
     @Override
     public ArrayList<Event> viewEventByDate(String date) {
-        return eventBook = eventHandler.retrieveEventByDate(date);
+        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> filteredEvents = new ArrayList<Event>();
+        for (Event event:completeEventBook){
+            if (Helper.doesOccurOn(event, date)) {
+                filteredEvents.add(event);
+            }
+        }
+        return filteredEvents;
     }
 
     @Override
     public ArrayList<Todo> viewTaskByDate(String date) {
-        return taskBookWithDeadline = taskHandler.retrieveTodoByDate(date);
+        ArrayList<Todo> completeTodoBook = taskHandler.retrieveTodoToDelete();
+        ArrayList<Todo> filteredTodos = new ArrayList<Todo>();
+        System.out.println(completeTodoBook);
+        for (Todo todo:completeTodoBook){
+            if (Helper.doesOccurOn(todo, date)) {
+                filteredTodos.add(todo);
+            }
+        }
+        return filteredTodos;
     }
 
     @Override
     public ArrayList<Todo> viewTaskNoDate() {
-        return taskBookNoDeadline = taskHandler.retrieveUniversalTodo();
+        ArrayList<Todo> completeTodoBook = taskHandler.retrieveTodoToDelete();
+        ArrayList<Todo> filteredTodos = new ArrayList<Todo>();
+        for (Todo todo:completeTodoBook){
+            if (!todo.hasDate()) {
+                filteredTodos.add(todo);
+            }
+        }
+        return filteredTodos;
     }
 
     @Override
