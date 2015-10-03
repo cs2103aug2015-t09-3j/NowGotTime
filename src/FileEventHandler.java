@@ -33,7 +33,7 @@ public class FileEventHandler {
 /*****************************************************************************************/		
 
  	public FileEventHandler(String theBaseDirectory){
-		this.baseDirectory = theBaseDirectory.concat("\\");
+		this.baseDirectory = theBaseDirectory.concat("/");
 		allEvents = retrieveEvent(EVENTS);
 		retrievePassedEvents();
 		pushPassedEventsToHistoryFile();
@@ -67,7 +67,7 @@ public class FileEventHandler {
 	}
 	
 	public boolean setNewDirectory(String newBaseDirectory){
-		baseDirectory = newBaseDirectory.concat("\\" + EVENT + "\\");
+		baseDirectory = newBaseDirectory.concat("/" + EVENT + "/");
 		return true;
 	}
 	

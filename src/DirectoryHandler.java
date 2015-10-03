@@ -114,7 +114,7 @@ public class DirectoryHandler {
 			baseDirectory = getJavaProjectDirectory();
 		}
 		
-		String newDirectoryPath = baseDirectory.concat("\\" + directoryName);
+		String newDirectoryPath = baseDirectory.concat("/" + directoryName);
 		if(makeNewDirectory(newDirectoryPath)){
 			return newDirectoryPath;
 		}else{

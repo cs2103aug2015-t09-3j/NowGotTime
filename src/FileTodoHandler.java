@@ -39,7 +39,7 @@ public class FileTodoHandler {
 /********************************** Public method for users *****************************************/		
 	
 	public FileTodoHandler(String baseDirectory){
-		this.baseDirectory = baseDirectory.concat("\\");
+		this.baseDirectory = baseDirectory.concat("/");
 		retrievePassTasks();
 		pushPassedTodoToHistoryFile();
 	}
@@ -116,7 +116,7 @@ public class FileTodoHandler {
 	}
 	
 	public boolean setNewDirectory(String newBaseDirectory){
-		baseDirectory = newBaseDirectory.concat("\\" + TODO + "\\");
+		baseDirectory = newBaseDirectory.concat("/" + TODO + "/");
 		return true;
 	}
 	

@@ -101,15 +101,18 @@ public class CommandEdit extends Command {
         else {
             throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
         }
-        
         switch (fieldName) {
             case (Helper.FIELD_NAME):
                 oldValue = item.getName();
                 if (item instanceof Event) { 
-                    serviceHandler.editEventName(itemName, newValue);
+                    if (!serviceHandler.editEventName(itemName, newValue)) {
+                        throw new Exception(Helper.ERROR_EDIT_DUPLICATE);
+                    }
                 }
                 else {
-                    serviceHandler.editTaskName(itemName, newValue);
+                    if (!serviceHandler.editTaskName(itemName, newValue)) {
+                        throw new Exception(Helper.ERROR_EDIT_DUPLICATE);
+                    }
                 }
                 return String.format(Helper.MESSAGE_EDIT, newValue);
             case (Helper.FIELD_START):
@@ -134,6 +137,7 @@ public class CommandEdit extends Command {
             case (Helper.FIELD_END):
                 if (item instanceof Event) { 
                     oldValue = ((Event) item).getEndDateTimeString();
+                    
                     switch (Helper.getCalendarStringType(newValue)) {
                         case (Helper.DATE_TYPE):
                             serviceHandler.editEventEndDate(itemName, newValue);

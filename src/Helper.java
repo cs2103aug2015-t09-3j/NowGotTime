@@ -22,6 +22,7 @@ public class Helper {
     public static final String ERROR_INVALID_DATE_TIME = "invalid date/time format";
     public static final String ERROR_ADD_EVENT = "failed to add new event, '%1$s' already exists";
     public static final String ERROR_ADD_TODO = "failed to add new todo, '%1$s' already exists";
+    public static final String ERROR_EDIT_DUPLICATE = "failed to edit, name already exists";
     public static final String ERROR_NOT_FOUND = "cannot find event or todo with name '%1$s'";
     public static final String ERROR_EMPTY_HISTORY = "cannot undo any previous command";
     
@@ -42,8 +43,6 @@ public class Helper {
     public static final String FIELD_START    = "start";
     public static final String FIELD_END      = "end";
     public static final String FIELD_DUE      = "due";
-    public static final String FIELD_KEY      = "field";
-    public static final String FIELD_VALUE    = "value";
     
     /* String Manipulation Helper functions */
     

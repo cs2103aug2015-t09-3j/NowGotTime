@@ -11,6 +11,8 @@ public class CommandTest {
     
     @Before
     public void setUp() throws Exception {
+        FileHandler clear = new FileHandler();
+        clear.clearAll();
         service = new ServiceHandler();
         project = new ProjectHandler();
         history = new Stack<Command>();

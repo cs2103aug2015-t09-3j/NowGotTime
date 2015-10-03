@@ -83,6 +83,7 @@ public class ServiceHandler implements ServiceManager{
     
     @Override
     public boolean editEventName(String eventName, String newEventName) {
+        if (!eventName.equals(newEventName) && viewSpecificEvent(newEventName) != null) return false;
         int eventIndex = 0;
         ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
         for (Event event:completeEventBook){
@@ -203,6 +204,7 @@ public class ServiceHandler implements ServiceManager{
     
     @Override
     public boolean editTaskName(String taskName, String newTaskName) {
+        if (!taskName.equals(newTaskName) && viewSpecificTask(newTaskName) != null) return false;
         int taskIndex = 0;
         ArrayList<Todo> completeTaskBook = taskHandler.retrieveTodoToDelete();
         for (Todo task:completeTaskBook){ //finding task with deadline

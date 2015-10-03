@@ -26,7 +26,7 @@ public class FileProjectHandler {
 /*******************************************************************************/
 	
 	public FileProjectHandler(String baseDirectory){
-		this.baseDirectory = baseDirectory.concat("\\");
+		this.baseDirectory = baseDirectory.concat("/");
 		readOverviewerFile();
 	}
 	
@@ -106,7 +106,7 @@ public class FileProjectHandler {
 	}
 	
 	public boolean setNewDirectory(String newBaseDirectory){
-		baseDirectory = newBaseDirectory.concat("\\" + PROJECT + "\\");
+		baseDirectory = newBaseDirectory.concat("/" + PROJECT + "/");
 		return true;
 	}
 	

@@ -98,7 +98,7 @@ public class Event extends Item {
     }
     
     public boolean updateEndDateTime(String dateTimeString) {
-        return Helper.updateDateTime(start, dateTimeString);
+        return Helper.updateDateTime(end, dateTimeString);
     }
     
     
