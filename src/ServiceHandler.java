@@ -4,9 +4,6 @@ import java.util.ArrayList;
 public class ServiceHandler implements ServiceManager{
     private FileHandler eventHandler;
     private FileHandler taskHandler;
-    private ArrayList<Event> eventBook = new ArrayList<Event>();
-    private ArrayList<Todo> taskBookWithDeadline = new ArrayList<Todo>();
-    private ArrayList<Todo> taskBookNoDeadline = new ArrayList<Todo>();
     
     public ServiceHandler (){
         eventHandler = new FileHandler();
@@ -27,39 +24,17 @@ public class ServiceHandler implements ServiceManager{
 
     @Override
     public ArrayList<Event> viewEventByDate(String date) {
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
-        ArrayList<Event> filteredEvents = new ArrayList<Event>();
-        for (Event event:completeEventBook){
-            if (Helper.doesOccurOn(event, date)) {
-                filteredEvents.add(event);
-            }
-        }
-        return filteredEvents;
+        return eventHandler.retrieveEventByDate(date);
     }
 
     @Override
     public ArrayList<Todo> viewTaskByDate(String date) {
-        ArrayList<Todo> completeTodoBook = taskHandler.retrieveTodoToDelete();
-        ArrayList<Todo> filteredTodos = new ArrayList<Todo>();
-        System.out.println(completeTodoBook);
-        for (Todo todo:completeTodoBook){
-            if (Helper.doesOccurOn(todo, date)) {
-                filteredTodos.add(todo);
-            }
-        }
-        return filteredTodos;
+        return taskHandler.retrieveTodoByDate(date);
     }
 
     @Override
     public ArrayList<Todo> viewTaskNoDate() {
-        ArrayList<Todo> completeTodoBook = taskHandler.retrieveTodoToDelete();
-        ArrayList<Todo> filteredTodos = new ArrayList<Todo>();
-        for (Todo todo:completeTodoBook){
-            if (!todo.hasDate()) {
-                filteredTodos.add(todo);
-            }
-        }
-        return filteredTodos;
+        return taskHandler.retrieveUniversalTodo();
     }
 
     @Override
@@ -325,35 +300,4 @@ public class ServiceHandler implements ServiceManager{
         return null; //@Stef returns null if no task found with same name as taskName passed in
     }
     
-/*  @Override
-    public Todo viewSpecificTaskWithDeadline(String taskName) {
-        int taskIndex = 0;
-        for (Todo task:taskBookWithDeadline){
-            if (task.getName().equals(taskName)){
-                Todo _task = taskBookWithDeadline.get(taskIndex);
-                return _task;
-            }
-            else{
-                taskIndex++;
-            }
-        }
-        return null; //@Stef returns null if no task found with same name as taskName passed in
-    }
-
-
-    @Override
-    public Todo viewSpecificTaskWithoutDeadline(String taskName){
-        int taskIndex = 0;
-        for (Todo task:taskBookNoDeadline){
-            if (task.getName().equals(taskName)){
-                Todo _task = taskBookNoDeadline.get(taskIndex);
-                return _task;
-            }
-            else {
-                taskIndex++;
-            }
-        }
-        return null; //@Stef returns null if no task found with same name as taskName passed in
-    }
-*/
 }
