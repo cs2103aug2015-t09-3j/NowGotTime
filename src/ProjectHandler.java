@@ -277,8 +277,23 @@ public class ProjectHandler implements ProjectManager{
 		}
 	}
 	
-	// Have a search function to search through project book (arraylist of events). Return arraylist of events
-	// containing the name.
-	// Change all the saves to saveAll.
-	// 
+	/*
+	 -Change from arraylist of events to arraylist of int (event IDs). Edit, add, del by ID as well.
+	 -Change all the saves to saveAll.
+	 -Change arraylist of events to arraylist of items => includes both to-dos and events.
+	
+	 -Have a search function to search through project book (arraylist of events). Return event ID.
+	 -Progress bar function, show % completed.
+	 -Progress function. => Hashmap in project (containing int(ID) and string(Addinfo)). [HM key = ID]
+			==> String Project Name, Int ID and String Addinfo passed to me.
+			==> setProgress (String progressString, String projectNAme, Int ID)
+	 -Progress (delete and edit) functions too.
+	 		==> deleteProgress (); and editProgress ();
+	 -Have a method to call RX for viewing. I pass ID to RX, RX returns name of event. 
+			==> I return Stef arraylist of string (events).
+	 
+	 **see phone picture. Note that Jon's event does not have additional info. only proj has. thus nid to
+	   add additional info into the event. BUT I DON'T SAVE IT, else Jon's events will also have additional
+	   info. Additional info is exclusive only to projects.**
+	*/
 }
