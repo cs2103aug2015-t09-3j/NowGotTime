@@ -277,4 +277,8 @@ public class ProjectHandler implements ProjectManager{
 		}
 	}
 	
+	// Have a search function to search through project book (arraylist of events). Return arraylist of events
+	// containing the name.
+	// Change all the saves to saveAll.
+	// 
 }
