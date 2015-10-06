@@ -1,5 +1,6 @@
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /*
@@ -25,6 +26,11 @@ public class Helper {
     public static final String ERROR_EDIT_DUPLICATE = "failed to edit, name already exists";
     public static final String ERROR_NOT_FOUND = "cannot find event or todo with name '%1$s'";
     public static final String ERROR_EMPTY_HISTORY = "cannot undo any previous command";
+    
+    public static final String FORMATTED_EVENT         = "[%1$s-%2$s] %3$s";
+    public static final String FORMATTED_TODO          = "[   by %1$s] %2$s";
+    public static final String FORMATTED_FLOATING_TODO = "[           ] %1$s";
+    
     
     /* Date and time format */
     public static final String PATTERN_DATE = "dd MMM yyyy";
@@ -215,6 +221,38 @@ public class Helper {
         } catch(ParseException e) {
             return false;
         }
+    }
+    
+    public static String getFormattedEventList(ArrayList<Event> eventList, String dateString) throws ParseException {
+        if (eventList.isEmpty()) return "   [ No events on this day ]\n";
+        StringBuilder formattedString = new StringBuilder();
+        
+        int index = 0;
+        for (Event event : eventList) {
+            index++;
+            formattedString.append(index);
+            formattedString.append(". ");
+            formattedString.append(event.toFormattedString(dateString));
+            formattedString.append("\n");
+        }
+        
+        return formattedString.toString();
+    }
+    
+    public static String getFormattedTodoList(ArrayList<Todo> todoList, String dateString) throws ParseException {
+        if (todoList.isEmpty()) return "   [ No todos on this day ]\n";
+        StringBuilder formattedString = new StringBuilder();
+        
+        int index = 0;
+        for (Todo todo : todoList) {
+            index++;
+            formattedString.append(index);
+            formattedString.append(". ");
+            formattedString.append(todo.toFormattedString(dateString));
+            formattedString.append("\n");
+        }
+        
+        return formattedString.toString();
     }
     
     

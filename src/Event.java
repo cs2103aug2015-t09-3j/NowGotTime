@@ -1,3 +1,4 @@
+import java.text.ParseException;
 import java.util.Calendar;
 
 /**
@@ -8,111 +9,129 @@ import java.util.Calendar;
  */
 
 public class Event extends Item {
-  
-  private Calendar start;
-  private Calendar end;
-  
-  /*********************************** Constructor ******************************************/
-  
-  public Event(String name, String date, String startTime, String endTime, String additionalInfo){
-    this(name, date, date, startTime, endTime, additionalInfo);
-  }
-  
-  public Event(String name, String startDate, String endDate, String startTime, String endTime, String additionalInfo ){
-    super(name, additionalInfo);
-    
-    start = Calendar.getInstance();
-    end = Calendar.getInstance();
-    
-    Helper.updateDate(start, startDate);
-    Helper.updateTime(start, startTime);
-    Helper.updateDate(end, endDate);
-    Helper.updateTime(end, endTime);
-    
-  }
-  
-  public Event(String name, String startDateTime, String endDateTime) {
-      super(name , "");
-      
-      start = Calendar.getInstance();
-      end = Calendar.getInstance();
-      
-      Helper.updateDateTime(start, startDateTime);
-      Helper.updateDateTime(end, endDateTime);
-  }
-  
-  /*********************************** Accessors ********************************************/
-  
-  public Calendar getStartCalendar(){
-      return start;
-  }
-  
-  public Calendar getEndCalendar(){
+
+    private Calendar start;
+    private Calendar end;
+
+    /*********************************** Constructor ******************************************/
+
+    public Event(String name, String date, String startTime, String endTime, String additionalInfo){
+        this(name, date, date, startTime, endTime, additionalInfo);
+    }
+
+    public Event(String name, String startDate, String endDate, String startTime, String endTime, String additionalInfo ){
+        super(name, additionalInfo);
+
+        start = Calendar.getInstance();
+        end = Calendar.getInstance();
+
+        Helper.updateDate(start, startDate);
+        Helper.updateTime(start, startTime);
+        Helper.updateDate(end, endDate);
+        Helper.updateTime(end, endTime);
+
+    }
+
+    public Event(String name, String startDateTime, String endDateTime) {
+        super(name , "");
+
+        start = Calendar.getInstance();
+        end = Calendar.getInstance();
+
+        Helper.updateDateTime(start, startDateTime);
+        Helper.updateDateTime(end, endDateTime);
+    }
+
+    /*********************************** Accessors ********************************************/
+
+    public Calendar getStartCalendar(){
+        return start;
+    }
+
+    public Calendar getEndCalendar(){
         return end;
     }
-  
-  public String getStartDateString() {
-      return Helper.getDateString(start);
-  }
-  
-  public String getEndDateString() {
-      return Helper.getDateString(end);
-  }
-  
-  public String getStartTimeString() {
-      return Helper.getTimeString(start);
-  }
-    
-  public String getEndTimeString() {
-	  return Helper.getTimeString(end);
-  }
-  
-  public String getStartDateTimeString() {
-      return Helper.getDateTimeString(start);
-  }
-  
-  public String getEndDateTimeString() {
-      return Helper.getDateTimeString(end);
-  }
-  
-/**************************************  Mutators ********************************************/
-  
-  public boolean updateStartDate(String dateString) {
+
+    public String getStartDateString() {
+        return Helper.getDateString(start);
+    }
+
+    public String getEndDateString() {
+        return Helper.getDateString(end);
+    }
+
+    public String getStartTimeString() {
+        return Helper.getTimeString(start);
+    }
+
+    public String getEndTimeString() {
+        return Helper.getTimeString(end);
+    }
+
+    public String getStartDateTimeString() {
+        return Helper.getDateTimeString(start);
+    }
+
+    public String getEndDateTimeString() {
+        return Helper.getDateTimeString(end);
+    }
+
+    /**************************************  Mutators ********************************************/
+
+    public boolean updateStartDate(String dateString) {
         return Helper.updateDate(start, dateString);
     }
-    
+
     public boolean updateStartTime(String timeString) {
         return Helper.updateTime(start, timeString);
     }
-    
+
     public boolean updateStartDateTime(String dateTimeString) {
         return Helper.updateDateTime(start, dateTimeString);
     }
-    
+
     public boolean updateEndDate(String dateString) {
         return Helper.updateDate(end, dateString);
     }
-    
+
     public boolean updateEndTime(String timeString) {
         return Helper.updateTime(end, timeString);
     }
-    
+
     public boolean updateEndDateTime(String dateTimeString) {
         return Helper.updateDateTime(end, dateTimeString);
     }
-    
-    
 
-/*********************************** Overriding Methods ***********************************/
-  
-  public String toString(){
-    return  getName() + "\n" 
-        + getAdditionalInfo() + "\n" 
-        + getStartDateString() + "\n" 
-        + getEndDateString() + "\n" 
-        + getStartTimeString() + "\n" 
-        + getEndTimeString();
-  }
 
+
+    /*********************************** Overriding Methods ***********************************/
+
+    public String toString(){
+        return  getName() + "\n" 
+                + getAdditionalInfo() + "\n" 
+                + getStartDateString() + "\n" 
+                + getEndDateString() + "\n" 
+                + getStartTimeString() + "\n" 
+                + getEndTimeString();
+    }
+
+    public String toFormattedString(String dateString) throws ParseException {
+        Calendar date = Helper.parseDate(dateString);
+
+        String startTime = "00:00";
+        String endTime = "23:59";
+
+        Helper.updateTime(date, startTime);
+        if (date.before(start)) {
+            startTime = getStartTimeString();
+        }
+
+        Helper.updateTime(date, endTime);
+        if (date.after(end)) {
+            endTime = getEndTimeString();
+        }
+
+        return String.format(Helper.FORMATTED_EVENT, startTime, endTime, getName());
+    }
 
 }

@@ -25,9 +25,20 @@ public class CommandView extends Command {
         ArrayList<Todo> todoList = serviceHandler.viewTaskByDate(dateString);
         ArrayList<Todo> floatingTodoList = serviceHandler.viewTaskNoDate();
         
-        // TODO return formatted string
+        StringBuilder feedback = new StringBuilder();
+        feedback.append("NowGotTime on " + dateString + "\n");
+        feedback.append("----------------------------------------\n");
+        feedback.append("--Event\n");
+        feedback.append(Helper.getFormattedEventList(eventList, dateString));
+        feedback.append("----------------------------------------\n");
+        feedback.append("--Todo\n");
+        feedback.append(Helper.getFormattedTodoList(todoList, dateString));
+        feedback.append("----------------------------------------\n");
+        feedback.append("--Floating Todo\n");
+        feedback.append(Helper.getFormattedTodoList(floatingTodoList, dateString));
+        feedback.append("----------------------------------------\n");
         
-        return null;
+        return feedback.toString();
     }
 
     @Override
