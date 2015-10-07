@@ -52,12 +52,6 @@ public class ServiceHandler implements ServiceManager{
     }
 
     @Override
-    public boolean deleteEvent(int eventIndex) {    //this is the by index way, for now don't do.
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
     public boolean deleteTask(String taskName) {
 
         ArrayList<Todo> completeTodoList = taskHandler.retrieveTodoToDelete();      
@@ -71,29 +65,117 @@ public class ServiceHandler implements ServiceManager{
         return false;
     }
 
-    @Override
-    public boolean deleteTask(int taskIndex) {      //this is the by index way, for now don't do.
-        // TODO Auto-generated method stub
-        return false;
-    }
+/*    @Override
+    public boolean editEvent(String eventName, String fieldName, String newInputs) {
+    	Event _event;
 
+    	switch(fieldName) {
+    	//case edit eventName
+    	case (Helper.FIELD_NAME): 
+    		if (!eventName.equals(newInputs) && viewSpecificEvent(newInputs) != null) {
+    			return false;
+    		}
+    	_event = findEvent(eventName);
+
+    	if (_event == null) {
+    		return false;
+    	}
+    	else {
+    		_event.setName(newInputs);
+    		return eventHandler.saveEditedEventHandler();
+    	}
+
+    	// case edit startDate
+    	case (Helper.FIELD_START + Helper.DATE_TYPE): 
+    		_event = findEvent(eventName);
+
+    	if (_event == null) {
+    		return false;
+    	}
+    	else {
+    		_event.updateStartDate(newInputs);
+    		return eventHandler.saveEditedEventHandler();
+    	}
+    	
+    	//case edit endDate
+    	case (Helper.FIELD_END + Helper.DATE_TYPE): 
+    		_event = findEvent(eventName);
+
+    	if (_event == null) {
+    		return false;
+    	}
+    	else {
+    		_event.updateEndDate(newInputs);
+    		return eventHandler.saveEditedEventHandler();
+    	}
+    	
+    	//case edit startTime
+    	case (Helper.FIELD_START + Helper.TIME_TYPE):
+    		_event = findEvent(eventName);
+
+    	if (_event == null) {
+    		return false;
+    	}
+    	else {
+    		_event.updateStartTime(newInputs);
+    		return eventHandler.saveEditedEventHandler();
+    	}	
+    	
+    	//case endDate
+    	case (Helper.FIELD_END + Helper.TIME_TYPE) : 
+    		_event = findEvent(eventName);
+
+    	if (_event == null) {
+    		return false;
+    	}
+    	else {
+    		_event.updateEndTime(newInputs);
+    		return eventHandler.saveEditedEventHandler();
+    	}
+    	
+    	//case startDateTime
+    	case (Helper.FIELD_START + Helper.DATE_TIME_TYPE): 
+    		_event = findEvent(eventName);
+
+    	if (_event == null) {
+    		return false;
+    	}
+    	else {
+    		_event.updateStartDateTime(newInputs);
+    		return eventHandler.saveEditedEventHandler();
+    	}	
+
+    	//case edit eventEndDateTime
+    	default : 
+    		_event = findEvent(eventName);
+
+    		if (_event == null) {
+    			return false;
+    		}
+    		else {
+    			_event.updateEndDateTime(newInputs);
+    			return eventHandler.saveEditedEventHandler();
+    		}	
+    	}
+    }
+*/
     
     @Override
     public boolean editEventName(String eventName, String newEventName) {
-        if (!eventName.equals(newEventName) && viewSpecificEvent(newEventName) != null) return false;
-        int eventIndex = 0;
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
-        for (Event event:completeEventBook){
-            if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
-                Event _event = completeEventBook.get(eventIndex);
-                _event.setName(newEventName);
-                return eventHandler.saveEditedEventHandler();
-            }
-            else {
-                eventIndex++; // finding index with same name as eventName passed in
-            }
-        }
-            return false;
+    	if (!eventName.equals(newEventName) && viewSpecificEvent(newEventName) != null) return false;
+    	int eventIndex = 0;
+    	ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+    	for (Event event:completeEventBook){
+    		if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
+    			Event _event = completeEventBook.get(eventIndex);
+    			_event.setName(newEventName);
+    			return eventHandler.saveEditedEventHandler();
+    		}
+    		else {
+    			eventIndex++; // finding index with same name as eventName passed in
+    		}
+    	}
+    	return false;
     }
     
     @Override
@@ -198,7 +280,64 @@ public class ServiceHandler implements ServiceManager{
             return false;
     }
     
-    
+ /*   @Override
+    public boolean editTask(String taskName, String fieldName, String newInputs){
+    	Todo _task;
+    	
+    	switch(fieldName) {
+    	//case edit taskName
+    	case (Helper.FIELD_NAME): 
+    		if (!taskName.equals(newInputs) && viewSpecificEvent(newInputs) != null) {
+    			return false;
+    		}
+    	_task = findTask(taskName);
+
+    	if (_task == null) {
+    		return false;
+    	}
+    	else {
+    		_task.setName(newInputs);
+    		return taskHandler.saveEditedEventHandler();
+    	}
+    	
+    	//case edit deadlineDate
+    	case (Helper.FIELD_END + Helper.DATE_TYPE):
+    	_task = findTask(taskName);
+
+    	if (_task == null) {
+    		return false;
+    	}
+    	else {
+    		_task.updateDeadlineDate(newInputs);
+    		return taskHandler.saveEditedEventHandler();
+    	}
+    	
+    	//case edit deadlineTime
+    	case (Helper.FIELD_END + Helper.TIME_TYPE):
+    		_task = findTask(taskName);
+
+    	if (_task == null) {
+    		return false;
+    	}
+    	else {
+    		_task.updateDeadlineTime(newInputs);
+    		return taskHandler.saveEditedEventHandler();
+    	}
+
+    	//case edit deadlineDateTime
+    	default :
+    		_task = findTask(taskName);
+
+    		if (_task == null) {
+    			return false;
+    		}
+    		else {
+    			_task.updateDeadlineDateTime(newInputs);
+    			return taskHandler.saveEditedEventHandler();
+    		}
+    	}
+    }
+*/    
     @Override
     public boolean editTaskName(String taskName, String newTaskName) {
         if (!taskName.equals(newTaskName) && viewSpecificTask(newTaskName) != null) return false;
@@ -299,5 +438,37 @@ public class ServiceHandler implements ServiceManager{
         }
         return null; //@Stef returns null if no task found with same name as taskName passed in
     }
+    
+/*    private Event findEvent(String eventName) {
+    	int eventIndex = 0;
+    	ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+    	
+    	for (Event event:completeEventBook){
+            if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
+                return completeEventBook.get(eventIndex);
+            }
+            else{
+            	eventIndex++;
+            }
+    	}
+    	return null;
+    }
+*/
+    
+/*    private Todo findTask(String taskName) {
+    	int taskIndex = 0;
+        ArrayList<Todo> completeTaskBook = taskHandler.retrieveTodoToDelete();
+        
+        for (Todo task:completeTaskBook){
+            if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
+                return completeTaskBook.get(taskIndex);
+            }
+            else {
+                taskIndex++; // finding index with same name as taskName passed in
+            }
+        }
+            return null;
+    }
+*/   
     
 }

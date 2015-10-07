@@ -14,10 +14,9 @@ public interface ServiceManager {
 	public ArrayList<Todo> viewTaskNoDate();
 	
 	public boolean deleteEvent(String eventName);
-	public boolean deleteEvent(int eventIndex);
 	public boolean deleteTask(String taskName);
-	public boolean deleteTask(int taskIndex);
 	
+	//public boolean editEvent(String eventName, String fieldName, String newInputs); 
 	public boolean editEventName(String eventName, String newEventName);
 	public boolean editEventStartDate(String eventName, String newStartDate);
 	public boolean editEventEndDate(String eventName, String newStartDate);
@@ -26,6 +25,7 @@ public interface ServiceManager {
     public boolean editEventStartDateTime(String eventName, String newStartDateTime);
     public boolean editEventEndDateTime(String eventName, String newEndDateTime);
 	
+    //public boolean editTask(String taskName, String fieldName, String newInputs); 
     public boolean editTaskName(String taskName, String newTaskName);
     public boolean editTaskDeadlineDate(String taskName, String newDeadlineDate);
     public boolean editTaskDeadlineTime(String taskName, String newDeadlineTime);
@@ -34,7 +34,5 @@ public interface ServiceManager {
 	public Event viewSpecificEvent (String eventName);
 	
 	public Todo viewSpecificTask(String taskName);
-	//public Todo viewSpecificTaskWithDeadline (String taskName);
-	//public Todo viewSpecificTaskWithoutDeadline (String taskName);
 
 }
