@@ -10,7 +10,9 @@ import java.util.Calendar;
 
 public class Todo extends Item {
 
-    private Calendar deadline = null;
+    private static final String DEFAULT_DATE = "01 Jan 0000";	// the earliest Date possible
+    
+	private Calendar deadline = null;
     private boolean hasDate = true;
     private boolean hasTime = true;
 
@@ -22,7 +24,7 @@ public class Todo extends Item {
     }
 
     public Todo(String name, String additionalInfo) {
-        this(name, additionalInfo, "", "");
+        this(name, additionalInfo, DEFAULT_DATE);
     }
 
     public Todo(String name, String additionalInfo, String deadlineDate) {
