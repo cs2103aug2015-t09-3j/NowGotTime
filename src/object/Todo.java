@@ -3,7 +3,8 @@ package object;
 import java.text.ParseException;
 import java.util.Calendar;
 
-import helper.Helper;
+import helper.CalendarHelper;
+import helper.CommonHelper;
 
 /**
  * Assumption is that the time and date format goes as follow:
@@ -40,8 +41,8 @@ public class Todo extends Item {
 
         this.deadline = Calendar.getInstance();
 
-        hasDate = Helper.updateDate(this.deadline, deadlineDate);
-        hasTime = Helper.updateTime(this.deadline, deadlineTime);
+        hasDate = CalendarHelper.updateDate(this.deadline, deadlineDate);
+        hasTime = CalendarHelper.updateTime(this.deadline, deadlineTime);
         	
         if(deadlineDate.equals(DEFAULT_DATE)){
         	hasDate = false;
@@ -55,15 +56,15 @@ public class Todo extends Item {
     }
 
     public String getDeadlineDateString(){
-        return Helper.getDateString(deadline);
+        return CalendarHelper.getDateString(deadline);
     }
 
     public String getDeadlineTimeString(){
-        return Helper.getTimeString(deadline);
+        return CalendarHelper.getTimeString(deadline);
     }
 
     public String getDeadlineDateTimeString(){
-        return Helper.getDateTimeString(deadline);
+        return CalendarHelper.getDateTimeString(deadline);
     }
 
     public boolean hasDate(){
@@ -77,19 +78,19 @@ public class Todo extends Item {
     /*********************************  Mutators ********************************************/
 
     public boolean updateDeadlineDate(String dateString) {
-        return Helper.updateDate(deadline, dateString);
+        return CalendarHelper.updateDate(deadline, dateString);
     }
 
     public boolean updateDeadlineTime(String timeString) {
-        return Helper.updateTime(deadline, timeString);
+        return CalendarHelper.updateTime(deadline, timeString);
     }
 
     public boolean updateDeadlineDateTime(String dateTimeString) {
-        return Helper.updateDateTime(deadline, dateTimeString);
+        return CalendarHelper.updateDateTime(deadline, dateTimeString);
     }
     
     public boolean updateDeadline(String calendarString) {
-        return Helper.updateCalendar(deadline, calendarString);
+        return CalendarHelper.updateCalendar(deadline, calendarString);
     }
 
     /********************************** Process Dates ****************************************/
@@ -125,10 +126,10 @@ public class Todo extends Item {
     public String toFormattedString(String dateString) throws ParseException {
         
         if (hasDate) {
-            return String.format(Helper.FORMATTED_TODO, getDeadlineTimeString(), getName());
+            return String.format(CommonHelper.FORMATTED_TODO, getDeadlineTimeString(), getName());
         }
         else {
-            return String.format(Helper.FORMATTED_FLOATING_TODO, getName());
+            return String.format(CommonHelper.FORMATTED_FLOATING_TODO, getName());
         }
     }
 

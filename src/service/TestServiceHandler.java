@@ -1,5 +1,5 @@
 package service;
-import helper.Helper;
+import helper.CommonHelper;
 import object.Event;
 import object.Todo;
 import storage.FileHandler;
@@ -16,10 +16,10 @@ public class TestServiceHandler {
         System.out.println(test.createEvent(testEvent1));
         System.out.println(test.viewEventByDate("12 mar 2020"));
         //System.out.println(test.deleteEvent("study"));
-        System.out.println(test.editEvent("study 2020", Helper.FIELD_NAME, "play"));
-        System.out.println(test.editEvent("play", Helper.FIELD_START, "13 mar 2020"));
-        System.out.println(test.editEvent("play", Helper.FIELD_START, "09:00"));
-        System.out.println(test.editEvent("play", Helper.FIELD_END, "09:01"));
+        System.out.println(test.editEvent("study 2020", CommonHelper.FIELD_NAME, "play"));
+        System.out.println(test.editEvent("play", CommonHelper.FIELD_START, "13 mar 2020"));
+        System.out.println(test.editEvent("play", CommonHelper.FIELD_START, "09:00"));
+        System.out.println(test.editEvent("play", CommonHelper.FIELD_END, "09:01"));
         System.out.println(test.viewEventByDate("12 mar 2020"));
         System.out.println(test.viewEventByDate("13 mar 2020"));
         

@@ -2,7 +2,8 @@ package object;
 import java.text.ParseException;
 import java.util.Calendar;
 
-import helper.Helper;
+import helper.CalendarHelper;
+import helper.CommonHelper;
 
 /**
  * Assumption is that the time and date format goes as follow:
@@ -28,10 +29,10 @@ public class Event extends Item {
         start = Calendar.getInstance();
         end = Calendar.getInstance();
 
-        Helper.updateDate(start, startDate);
-        Helper.updateTime(start, startTime);
-        Helper.updateDate(end, endDate);
-        Helper.updateTime(end, endTime);
+        CalendarHelper.updateDate(start, startDate);
+        CalendarHelper.updateTime(start, startTime);
+        CalendarHelper.updateDate(end, endDate);
+        CalendarHelper.updateTime(end, endTime);
 
     }
 
@@ -41,8 +42,8 @@ public class Event extends Item {
         start = Calendar.getInstance();
         end = Calendar.getInstance();
 
-        Helper.updateDateTime(start, startDateTime);
-        Helper.updateDateTime(end, endDateTime);
+        CalendarHelper.updateDateTime(start, startDateTime);
+        CalendarHelper.updateDateTime(end, endDateTime);
     }
 
     /*********************************** Accessors ********************************************/
@@ -56,61 +57,61 @@ public class Event extends Item {
     }
 
     public String getStartDateString() {
-        return Helper.getDateString(start);
+        return CalendarHelper.getDateString(start);
     }
 
     public String getEndDateString() {
-        return Helper.getDateString(end);
+        return CalendarHelper.getDateString(end);
     }
 
     public String getStartTimeString() {
-        return Helper.getTimeString(start);
+        return CalendarHelper.getTimeString(start);
     }
 
     public String getEndTimeString() {
-        return Helper.getTimeString(end);
+        return CalendarHelper.getTimeString(end);
     }
 
     public String getStartDateTimeString() {
-        return Helper.getDateTimeString(start);
+        return CalendarHelper.getDateTimeString(start);
     }
 
     public String getEndDateTimeString() {
-        return Helper.getDateTimeString(end);
+        return CalendarHelper.getDateTimeString(end);
     }
 
     /**************************************  Mutators ********************************************/
 
     public boolean updateStartDate(String dateString) {
-        return Helper.updateDate(start, dateString);
+        return CalendarHelper.updateDate(start, dateString);
     }
 
     public boolean updateStartTime(String timeString) {
-        return Helper.updateTime(start, timeString);
+        return CalendarHelper.updateTime(start, timeString);
     }
 
     public boolean updateStartDateTime(String dateTimeString) {
-        return Helper.updateDateTime(start, dateTimeString);
+        return CalendarHelper.updateDateTime(start, dateTimeString);
     }
 
     public boolean updateEndDate(String dateString) {
-        return Helper.updateDate(end, dateString);
+        return CalendarHelper.updateDate(end, dateString);
     }
 
     public boolean updateEndTime(String timeString) {
-        return Helper.updateTime(end, timeString);
+        return CalendarHelper.updateTime(end, timeString);
     }
 
     public boolean updateEndDateTime(String dateTimeString) {
-        return Helper.updateDateTime(end, dateTimeString);
+        return CalendarHelper.updateDateTime(end, dateTimeString);
     }
 
     public boolean updateStart(String calendarString) {
-        return Helper.updateCalendar(start, calendarString);
+        return CalendarHelper.updateCalendar(start, calendarString);
     }
     
     public boolean updateEnd(String calendarString) {
-        return Helper.updateCalendar(end, calendarString);
+        return CalendarHelper.updateCalendar(end, calendarString);
     }
 
 
@@ -127,22 +128,22 @@ public class Event extends Item {
     }
 
     public String toFormattedString(String dateString) throws ParseException {
-        Calendar date = Helper.parseDate(dateString);
+        Calendar date = CalendarHelper.parseDate(dateString);
 
         String startTime = "00:00";
         String endTime = "23:59";
 
-        Helper.updateTime(date, startTime);
+        CalendarHelper.updateTime(date, startTime);
         if (date.before(start)) {
             startTime = getStartTimeString();
         }
 
-        Helper.updateTime(date, endTime);
+        CalendarHelper.updateTime(date, endTime);
         if (date.after(end)) {
             endTime = getEndTimeString();
         }
 
-        return String.format(Helper.FORMATTED_EVENT, startTime, endTime, getName());
+        return String.format(CommonHelper.FORMATTED_EVENT, startTime, endTime, getName());
     }
 
 }

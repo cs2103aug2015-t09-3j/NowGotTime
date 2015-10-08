@@ -2,7 +2,7 @@ package command;
 
 import java.util.Stack;
 
-import helper.Helper;
+import helper.CommonHelper;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -12,8 +12,8 @@ public abstract class Command {
     private boolean requireConfirmation;
 
     public static Command parseCommand(String text) throws Exception {
-        String commandType = Helper.getFirstWord(text);
-        String arguments = Helper.removeFirstWord(text);
+        String commandType = CommonHelper.getFirstWord(text);
+        String arguments = CommonHelper.removeFirstWord(text);
         
         Command command;
         
@@ -38,7 +38,7 @@ public abstract class Command {
                 break;
             default:
                 // throw exception if it is not a valid command
-                throw new Exception(String.format(Helper.ERROR_INVALID_COMMAND, commandType));
+                throw new Exception(String.format(CommonHelper.ERROR_INVALID_COMMAND, commandType));
         }
         return command;
     }

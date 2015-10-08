@@ -2,7 +2,7 @@ package command;
 
 import java.util.Stack;
 
-import helper.Helper;
+import helper.CommonHelper;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -17,7 +17,7 @@ public class CommandExit extends Command {
         if (args.trim().isEmpty());
         else {
             // delete command accept no arguments
-            throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
         
     }

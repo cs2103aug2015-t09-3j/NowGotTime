@@ -1,5 +1,5 @@
 package service;
-import helper.Helper;
+import helper.CommonHelper;
 
 import java.util.ArrayList;
 
@@ -79,50 +79,50 @@ public class ServiceHandler implements ServiceManager{
 
     	switch(fieldName) {
         	//case edit eventName
-        	case (Helper.FIELD_NAME):
+        	case (CommonHelper.FIELD_NAME):
         		if (!eventName.equals(newInputs) && findEvent(newInputs) != null) {
-        			throw new Exception(Helper.ERROR_EDIT_DUPLICATE);
+        			throw new Exception(CommonHelper.ERROR_EDIT_DUPLICATE);
         		}
         	    _event = findEvent(eventName);
     
             	if (_event == null) {
-            		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
+            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, eventName));
             	}
             	else {
             	    oldValue = _event.getName();
             		_event.setName(newInputs);
-            		eventHandler.saveEditedEventHandler();
+            		eventHandler.saveAll();
             	}
             	break;
         	// case edit start
-        	case (Helper.FIELD_START): 
+        	case (CommonHelper.FIELD_START): 
         		_event = findEvent(eventName);
     
             	if (_event == null) {
-            		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
+            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, eventName));
             	}
             	else {
             	    oldValue = _event.getStartDateTimeString();
             		_event.updateStart(newInputs);
-            		eventHandler.saveEditedEventHandler();
+            		eventHandler.saveAll();
             	}
             	break;
         	//case edit end
-        	case (Helper.FIELD_END): 
+        	case (CommonHelper.FIELD_END): 
         		_event = findEvent(eventName);
     
             	if (_event == null) {
-            		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
+            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, eventName));
             	}
             	else {
                     oldValue = _event.getEndDateTimeString();
             		_event.updateEnd(newInputs);
-            		eventHandler.saveEditedEventHandler();
+            		eventHandler.saveAll();
             	}
             	break;
         	//case edit unexpected
         	default :
-        		throw new Exception(Helper.ERROR_UNEXPECTED);
+        		throw new Exception(CommonHelper.ERROR_UNEXPECTED);
     	}
     	return oldValue;
     }
@@ -135,37 +135,37 @@ public class ServiceHandler implements ServiceManager{
     	
     	switch(fieldName) {
         	//case edit taskName
-        	case (Helper.FIELD_NAME): 
+        	case (CommonHelper.FIELD_NAME): 
         		if (!taskName.equals(newInputs) && findTask(newInputs) != null) {
-        			throw new Exception(Helper.ERROR_EDIT_DUPLICATE);
+        			throw new Exception(CommonHelper.ERROR_EDIT_DUPLICATE);
         		}
             	_task = findTask(taskName);
         
             	if (_task == null) {
-            		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, taskName));
+            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, taskName));
             	}
             	else {
             	    oldValue = _task.getName();
             		_task.setName(newInputs);
-            		taskHandler.saveEditedEventHandler();
+            		taskHandler.saveAll();
             	}        
             	break;
         	//case edit deadline
-        	case (Helper.FIELD_DUE):
+        	case (CommonHelper.FIELD_DUE):
             	_task = findTask(taskName);
         
             	if (_task == null) {
-            		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, taskName));
+            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, taskName));
             	}
             	else {
             	    oldValue = _task.getDeadlineDateTimeString();
             		_task.updateDeadline(newInputs);
-            		taskHandler.saveEditedEventHandler();
+            		taskHandler.saveAll();
             	}
             	break;
         	//case edit unexpected
         	default :
-        	    throw new Exception(Helper.ERROR_UNEXPECTED);
+        	    throw new Exception(CommonHelper.ERROR_UNEXPECTED);
     	}
     	return oldValue;
     }

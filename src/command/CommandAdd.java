@@ -6,7 +6,8 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import helper.Helper;
+import helper.CalendarHelper;
+import helper.CommonHelper;
 import object.Event;
 import object.Item;
 import object.Todo;
@@ -40,17 +41,17 @@ public class CommandAdd extends Command {
             Calendar startCalendar = null;
             Calendar endCalendar = null; 
             try {
-                startCalendar = Helper.parseDateTime(start);
-                endCalendar = Helper.parseDateTime(end);
+                startCalendar = CalendarHelper.parseDateTime(start);
+                endCalendar = CalendarHelper.parseDateTime(end);
             } catch (ParseException e) {
                 // Invalid DateTime format
                 return null;
             }
             
-            String startDate = Helper.getDateString(startCalendar);
-            String startTime = Helper.getTimeString(startCalendar);
-            String endDate = Helper.getDateString(endCalendar);
-            String endTime = Helper.getTimeString(endCalendar);
+            String startDate = CalendarHelper.getDateString(startCalendar);
+            String startTime = CalendarHelper.getTimeString(startCalendar);
+            String endDate = CalendarHelper.getDateString(endCalendar);
+            String endTime = CalendarHelper.getTimeString(endCalendar);
             
             
             return new Event(name, startDate, endDate, startTime, endTime, ""); // Remove empty string parameter once we delete additionalInformation
@@ -68,14 +69,14 @@ public class CommandAdd extends Command {
             String deadline = todoMatcher.group(FIELD_DEADLINE);
             Calendar deadlineCalendar = null; 
             try {
-                deadlineCalendar = Helper.parseDateTime(deadline);
+                deadlineCalendar = CalendarHelper.parseDateTime(deadline);
             } catch (ParseException e) {
                 // Invalid DateTime format
                 return null;
             }
             
-            String deadlineDate = Helper.getDateString(deadlineCalendar);
-            String deadlineTime = Helper.getTimeString(deadlineCalendar);
+            String deadlineDate = CalendarHelper.getDateString(deadlineCalendar);
+            String deadlineTime = CalendarHelper.getTimeString(deadlineCalendar);
             
             return new Todo(name, "", deadlineDate, deadlineTime);  // Remove empty string parameter once we delete additionalInformation
         }
@@ -115,7 +116,7 @@ public class CommandAdd extends Command {
         else if ((this.item = parseAsFloatingTodo(args)) != null);
         else {
             // parsing unsuccessful
-            throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
     }
     
@@ -135,21 +136,21 @@ public class CommandAdd extends Command {
         if (item instanceof Event) {
             // add new event
             if (serviceHandler.createEvent((Event)item)) {
-                return String.format(Helper.MESSAGE_ADD, item.getName());
+                return String.format(CommonHelper.MESSAGE_ADD, item.getName());
             }
             else {
                 // name already exists
-                throw new Exception(String.format(Helper.ERROR_ADD_EVENT, item.getName()));
+                throw new Exception(String.format(CommonHelper.ERROR_ADD_EVENT, item.getName()));
             }
         }
         else {
             // add new todo
             if (serviceHandler.createTask((Todo)item)) {
-                return String.format(Helper.MESSAGE_ADD, item.getName());
+                return String.format(CommonHelper.MESSAGE_ADD, item.getName());
             }
             else {
                 // name already exists
-                throw new Exception(String.format(Helper.ERROR_ADD_TODO, item.getName()));
+                throw new Exception(String.format(CommonHelper.ERROR_ADD_TODO, item.getName()));
             }
         }
     }

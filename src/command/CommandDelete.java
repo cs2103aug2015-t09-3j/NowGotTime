@@ -4,7 +4,7 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import helper.Helper;
+import helper.CommonHelper;
 import object.Event;
 import object.Item;
 import project.ProjectHandler;
@@ -40,7 +40,7 @@ public class CommandDelete extends Command {
         
         if (itemName == null) {
             // parsing unsuccessful
-            throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
     }
     
@@ -61,7 +61,7 @@ public class CommandDelete extends Command {
         if ((item = serviceHandler.viewSpecificEvent(itemName)) != null);
         else if ((item = serviceHandler.viewSpecificTask(itemName)) != null);
         else {
-            throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
+            throw new Exception(String.format(CommonHelper.ERROR_NOT_FOUND, itemName));
         }
         
         if (item instanceof Event) {
@@ -70,7 +70,7 @@ public class CommandDelete extends Command {
         else {
             serviceHandler.deleteTask(itemName);
         }
-        return String.format(Helper.MESSAGE_DELETE, item.getName());
+        return String.format(CommonHelper.MESSAGE_DELETE, item.getName());
     }
 
     @Override

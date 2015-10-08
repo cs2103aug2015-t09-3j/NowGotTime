@@ -2,7 +2,7 @@ package command;
 
 import java.util.Stack;
 
-import helper.Helper;
+import helper.CommonHelper;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -17,7 +17,7 @@ public class CommandUndo extends Command {
         if (args.trim().isEmpty());
         else {
             // undo command accept no arguments
-            throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
         
     }
@@ -25,7 +25,7 @@ public class CommandUndo extends Command {
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         if (historyList.empty()) {
-            return Helper.ERROR_EMPTY_HISTORY;
+            return CommonHelper.ERROR_EMPTY_HISTORY;
         }
         Command lastCommand = historyList.pop();
         return lastCommand.revert(serviceHandler, projectHandler, historyList);

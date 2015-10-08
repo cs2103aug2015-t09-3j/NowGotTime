@@ -5,7 +5,8 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import helper.Helper;
+import helper.CalendarHelper;
+import helper.CommonHelper;
 import object.Event;
 import object.Item;
 import object.Todo;
@@ -58,7 +59,7 @@ public class CommandEdit extends Command {
         else if ((result = parseEdit(args, REGEX_EDIT_DATE_TIME)) != null);
         else {
             // parsing unsuccessful
-            throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
         
         itemName = result.get(MATCH_TITLE);
@@ -66,11 +67,11 @@ public class CommandEdit extends Command {
         newValue = result.get(MATCH_VALUE);
         
         // Validate the date format
-        if (fieldName == Helper.FIELD_START
-         || fieldName == Helper.FIELD_END
-         || fieldName == Helper.FIELD_DUE) {
-            if (Helper.getCalendarStringType(newValue) == null) {
-                throw new Exception(Helper.ERROR_INVALID_DATE_TIME);
+        if (fieldName == CommonHelper.FIELD_START
+         || fieldName == CommonHelper.FIELD_END
+         || fieldName == CommonHelper.FIELD_DUE) {
+            if (CalendarHelper.getCalendarStringType(newValue) == null) {
+                throw new Exception(CommonHelper.ERROR_INVALID_DATE_TIME);
             }
         }
     }
@@ -108,7 +109,7 @@ public class CommandEdit extends Command {
         if ((item = serviceHandler.viewSpecificEvent(itemName)) != null);
         else if ((item = serviceHandler.viewSpecificTask(itemName)) != null);
         else {
-            throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
+            throw new Exception(String.format(CommonHelper.ERROR_NOT_FOUND, itemName));
         }
         
         if (item instanceof Event) {
@@ -117,7 +118,7 @@ public class CommandEdit extends Command {
         else if (item instanceof Todo) {
             oldValue = serviceHandler.editTask(item.getName(), fieldName, newValue);
         }
-        return String.format(Helper.MESSAGE_EDIT, item.getName());    
+        return String.format(CommonHelper.MESSAGE_EDIT, item.getName());    
     }
 
     @Override
