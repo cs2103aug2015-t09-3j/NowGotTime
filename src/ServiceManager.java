@@ -16,7 +16,7 @@ public interface ServiceManager {
 	public boolean deleteEvent(String eventName);
 	public boolean deleteTask(String taskName);
 	
-	//public boolean editEvent(String eventName, String fieldName, String newInputs); 
+	public void editEvent(String eventName, String fieldName, String newInputs)throws Exception; 
 	public boolean editEventName(String eventName, String newEventName);
 	public boolean editEventStartDate(String eventName, String newStartDate);
 	public boolean editEventEndDate(String eventName, String newStartDate);
@@ -25,7 +25,7 @@ public interface ServiceManager {
     public boolean editEventStartDateTime(String eventName, String newStartDateTime);
     public boolean editEventEndDateTime(String eventName, String newEndDateTime);
 	
-    //public boolean editTask(String taskName, String fieldName, String newInputs); 
+    public void editTask(String taskName, String fieldName, String newInputs)throws Exception; 
     public boolean editTaskName(String taskName, String newTaskName);
     public boolean editTaskDeadlineDate(String taskName, String newDeadlineDate);
     public boolean editTaskDeadlineTime(String taskName, String newDeadlineTime);
