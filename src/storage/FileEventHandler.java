@@ -1,4 +1,5 @@
 package storage;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,7 +15,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import object.Event;
-
 
 public class FileEventHandler {
 	private static final String EVENTS = "Upcoming Events.txt";

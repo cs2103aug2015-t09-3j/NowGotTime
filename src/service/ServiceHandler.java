@@ -1,7 +1,8 @@
 package service;
+import helper.Helper;
+
 import java.util.ArrayList;
 
-import helper.Helper;
 import object.Event;
 import object.Todo;
 import storage.FileHandler;
@@ -51,7 +52,7 @@ public class ServiceHandler implements ServiceManager{
             
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 completeEventBook.remove(event);
-                return eventHandler.saveEditedEventHandler();
+                return eventHandler.saveAll();
             }
         }
         return false;
@@ -65,7 +66,7 @@ public class ServiceHandler implements ServiceManager{
         for (Todo task:completeTodoList){
             if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
                 completeTodoList.remove(task);
-                return taskHandler.saveEditedTodoHandler();
+                return taskHandler.saveAll();
             }
         }
         return false;
@@ -128,6 +129,7 @@ public class ServiceHandler implements ServiceManager{
 
     @Override
     public String editTask(String taskName, String fieldName, String newInputs) throws Exception{
+
     	Todo _task;
     	String oldValue;
     	

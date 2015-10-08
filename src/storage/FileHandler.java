@@ -217,7 +217,8 @@ public class FileHandler implements FileManager{
 				fTodoH.saveToDoList() &&
 				fTodoH.updateHistory() &&
 				fTodoH.saveUniversalToDoList() &&
-				fProjH.writeAll() && writeCounter();
+				fProjH.writeAll() && 
+				writeCounter();
 	}
 
 	public void clearAll(){

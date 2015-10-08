@@ -59,13 +59,13 @@ public class TestFileHandler {
 		kickStart();
 
 //		testo.testFileEventHandler();
-		testo.testFileTodoHandler();
-		testo.testFileProjectHandler();
-		
+//		testo.testFileTodoHandler();
+//		testo.testFileProjectHandler();
+//		
 //		testo.changeDirect();
+//		
 		
-		
-//		testo.testIndex();
+		testo.testIndex();
 		
 		
 	}
