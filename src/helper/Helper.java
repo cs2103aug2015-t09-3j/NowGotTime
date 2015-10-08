@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import object.Event;
-import object.Item;
 import object.Todo;
 
 /*
@@ -31,6 +30,7 @@ public class Helper {
     public static final String ERROR_EDIT_DUPLICATE = "failed to edit, name already exists";
     public static final String ERROR_NOT_FOUND = "cannot find event or todo with name '%1$s'";
     public static final String ERROR_EMPTY_HISTORY = "cannot undo any previous command";
+    public static final String ERROR_UNEXPECTED = "unexpected error";
     
     public static final String FORMATTED_EVENT         = "[%1$s-%2$s] %3$s";
     public static final String FORMATTED_TODO          = "[   by %1$s] %2$s";
@@ -141,6 +141,20 @@ public class Helper {
         return true;
     }
     
+    public static boolean updateCalendar(Calendar calendar, String calendarString) {
+        String stringType = getCalendarStringType(calendarString);
+        switch (stringType) {
+            case (DATE_TIME_TYPE):
+                return updateDateTime(calendar, calendarString);
+            case (DATE_TYPE):
+                return updateDate(calendar, calendarString);
+            case (TIME_TYPE):
+                return updateTime(calendar, calendarString);
+            default:
+                return false;
+        }
+    }
+    
     public static String getDateString(Calendar calendar) {
         return Helper.FORMAT_DATE.format(calendar.getTime());
     }
@@ -185,46 +199,6 @@ public class Helper {
                 return getTimeString(calendar);
             default:
                 return null;
-        }
-    }
-    
-    public static boolean doesOccurOn(Item item, String dateString) {
-        try {
-            Calendar date = parseDate(dateString);
-            
-            if (item instanceof Event) {
-                Event event = (Event) item;
-                
-                updateTime(date, "00:00");
-                
-                // start before the date
-                if (event.getStartCalendar().after(date)) return false;
-                
-                updateTime(date, "23:59");
-
-                // end after the date
-                if (event.getEndCalendar().before(date)) return false;
-                
-                return true;
-            }
-            else {
-                Todo todo = (Todo) item;
-                
-                updateTime(date, "00:00");
-                
-                // deadline before the date
-                if (todo.getDeadline().after(date)) return false;
-                
-                updateTime(date, "23:59");
-                
-                // deadline after the date
-                if (todo.getDeadline().before(date)) return false;
-                
-                return true;
-            }
-            
-        } catch(ParseException e) {
-            return false;
         }
     }
     

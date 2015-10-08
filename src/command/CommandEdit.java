@@ -110,80 +110,14 @@ public class CommandEdit extends Command {
         else {
             throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
         }
-        switch (fieldName) {
-            case (Helper.FIELD_NAME):
-                oldValue = item.getName();
-                if (item instanceof Event) { 
-                    if (!serviceHandler.editEventName(itemName, newValue)) {
-                        throw new Exception(Helper.ERROR_EDIT_DUPLICATE);
-                    }
-                }
-                else {
-                    if (!serviceHandler.editTaskName(itemName, newValue)) {
-                        throw new Exception(Helper.ERROR_EDIT_DUPLICATE);
-                    }
-                }
-                return String.format(Helper.MESSAGE_EDIT, newValue);
-            case (Helper.FIELD_START):
-                if (item instanceof Event) { 
-                    oldValue = ((Event) item).getStartDateTimeString();
-                    switch (Helper.getCalendarStringType(newValue)) {
-                        case (Helper.DATE_TYPE):
-                            serviceHandler.editEventStartDate(itemName, newValue);
-                            break;
-                        case (Helper.TIME_TYPE):
-                            serviceHandler.editEventStartTime(itemName, newValue);
-                            break;
-                        case (Helper.DATE_TIME_TYPE):
-                            serviceHandler.editEventStartDateTime(itemName, newValue);
-                            break;
-                    }
-                }
-                else {
-                    throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
-                }
-                return String.format(Helper.MESSAGE_EDIT, item.getName());
-            case (Helper.FIELD_END):
-                if (item instanceof Event) { 
-                    oldValue = ((Event) item).getEndDateTimeString();
-                    
-                    switch (Helper.getCalendarStringType(newValue)) {
-                        case (Helper.DATE_TYPE):
-                            serviceHandler.editEventEndDate(itemName, newValue);
-                            break;
-                        case (Helper.TIME_TYPE):
-                            serviceHandler.editEventEndTime(itemName, newValue);
-                            break;
-                        case (Helper.DATE_TIME_TYPE):
-                            serviceHandler.editEventEndDateTime(itemName, newValue);
-                            break;
-                    }
-                }
-                else {
-                    throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
-                }
-                return String.format(Helper.MESSAGE_EDIT, item.getName());
-            case (Helper.FIELD_DUE):
-                if (item instanceof Todo) { 
-                    oldValue = ((Todo) item).getDeadlineDateTimeString();
-                    switch (Helper.getCalendarStringType(newValue)) {
-                        case (Helper.DATE_TYPE):
-                            serviceHandler.editTaskDeadlineDate(itemName, newValue);
-                            break;
-                        case (Helper.TIME_TYPE):
-                            serviceHandler.editTaskDeadlineTime(itemName, newValue);
-                            break;
-                        case (Helper.DATE_TIME_TYPE):
-                            serviceHandler.editTaskDeadlineDateTime(itemName, newValue);
-                            break;
-                    }
-                }
-                else {
-                    throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
-                }
-                return String.format(Helper.MESSAGE_EDIT, item.getName());
+        
+        if (item instanceof Event) {
+            oldValue = serviceHandler.editEvent(item.getName(), fieldName, newValue);
         }
-        return String.format(Helper.MESSAGE_EDIT, item.getName());
+        else if (item instanceof Todo) {
+            oldValue = serviceHandler.editTask(item.getName(), fieldName, newValue);
+        }
+        return String.format(Helper.MESSAGE_EDIT, item.getName());    
     }
 
     @Override

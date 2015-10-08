@@ -87,6 +87,10 @@ public class Todo extends Item {
     public boolean updateDeadlineDateTime(String dateTimeString) {
         return Helper.updateDateTime(deadline, dateTimeString);
     }
+    
+    public boolean updateDeadline(String calendarString) {
+        return Helper.updateCalendar(deadline, calendarString);
+    }
 
     /********************************** Process Dates ****************************************/
 

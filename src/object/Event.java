@@ -105,6 +105,13 @@ public class Event extends Item {
         return Helper.updateDateTime(end, dateTimeString);
     }
 
+    public boolean updateStart(String calendarString) {
+        return Helper.updateCalendar(start, calendarString);
+    }
+    
+    public boolean updateEnd(String calendarString) {
+        return Helper.updateCalendar(end, calendarString);
+    }
 
 
     /*********************************** Overriding Methods ***********************************/
