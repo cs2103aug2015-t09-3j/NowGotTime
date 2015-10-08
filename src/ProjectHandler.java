@@ -63,7 +63,7 @@ public class ProjectHandler implements ProjectManager{
 		
 		if (index < projectBook.size())
 		{
-			System.out.println("A " + projectBook.remove(index));
+			//System.out.println("A " + projectBook.remove(index));
 			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
 			return true;
 		}
@@ -281,6 +281,7 @@ public class ProjectHandler implements ProjectManager{
 	 -Change from arraylist of events to arraylist of int (event IDs). Edit, add, del by ID as well.
 	 -Change all the saves to saveAll.
 	 -Change arraylist of events to arraylist of items => includes both to-dos and events.
+	 	--> Create event = 1 ID. I call event in projects by ID.(in Item.java)
 	
 	 -Have a search function to search through project book (arraylist of events). Return event ID.
 	 -Progress bar function, show % completed.
