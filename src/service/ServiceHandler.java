@@ -45,7 +45,7 @@ public class ServiceHandler implements ServiceManager{
 
     @Override
     public boolean deleteEvent(String eventName) {
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
         
         for (Event event:completeEventBook){
             
@@ -170,7 +170,7 @@ public class ServiceHandler implements ServiceManager{
     public boolean editEventName(String eventName, String newEventName) {
     	if (!eventName.equals(newEventName) && viewSpecificEvent(newEventName) != null) return false;
     	int eventIndex = 0;
-    	ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+    	ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
     	for (Event event:completeEventBook){
     		if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
     			Event _event = completeEventBook.get(eventIndex);
@@ -187,7 +187,7 @@ public class ServiceHandler implements ServiceManager{
     @Override
     public boolean editEventStartDate(String eventName, String newStartDate) {
         int eventIndex = 0;
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
         for (Event event:completeEventBook){
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
@@ -204,7 +204,7 @@ public class ServiceHandler implements ServiceManager{
     @Override
     public boolean editEventEndDate(String eventName, String newEndDate) {
         int eventIndex = 0;
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
         for (Event event:completeEventBook){
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
@@ -221,7 +221,7 @@ public class ServiceHandler implements ServiceManager{
     @Override
     public boolean editEventStartTime(String eventName, String newStartTime) {
         int eventIndex = 0;
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
         for (Event event:completeEventBook){
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
@@ -238,7 +238,7 @@ public class ServiceHandler implements ServiceManager{
     @Override
     public boolean editEventEndTime(String eventName, String newEndTime) {
         int eventIndex = 0;
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
         for (Event event:completeEventBook){
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
@@ -255,7 +255,7 @@ public class ServiceHandler implements ServiceManager{
     @Override
     public boolean editEventStartDateTime(String eventName, String newStartDateTime){
         int eventIndex = 0;
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
         for (Event event:completeEventBook){
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
@@ -272,7 +272,7 @@ public class ServiceHandler implements ServiceManager{
     @Override
     public boolean editEventEndDateTime(String eventName, String newEndDateTime){
         int eventIndex = 0;
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
         for (Event event:completeEventBook){
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
@@ -416,7 +416,7 @@ public class ServiceHandler implements ServiceManager{
     
     @Override
     public Event viewSpecificEvent (String eventName) {
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
         int eventIndex = 0;
         for (Event event:completeEventBook){
             if (event.getName().equals(eventName)){
@@ -447,7 +447,7 @@ public class ServiceHandler implements ServiceManager{
     
     private Event findEvent(String eventName) {
     	int eventIndex = 0;
-    	ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+    	ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
     	
     	for (Event event:completeEventBook){
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){

@@ -58,7 +58,7 @@ public class TestFileHandler {
 		clearAllFiles(testo);
 		kickStart();
 
-//		testo.testFileEventHandler();
+		testo.testFileEventHandler();
 		testo.testFileTodoHandler();
 		testo.testFileProjectHandler();
 		
@@ -95,8 +95,6 @@ public class TestFileHandler {
 		System.out.println ("Retrieving events on 31 Aug 2016...");
 		System.out.println(fh.retrieveEventByDate("31 Aug 2016"));
 	}
-	
-	
 	
 	private void changeDirect(){
 		fh.changeBaseDirectory("C:\\Users\\RX.huang\\Desktop");
@@ -268,7 +266,7 @@ public class TestFileHandler {
 		System.out.println("Check if the events are sorted.");
 		System.out.println();
 		System.out.println("Test Delete.");
-		eventBook = fh.retrieveEventsToDelete();
+		eventBook = fh.retrieveAllEvents();
 		eventBook.remove(0);
 		fh.saveEditedEventHandler();
 		System.out.println("Event deleted and saved");
