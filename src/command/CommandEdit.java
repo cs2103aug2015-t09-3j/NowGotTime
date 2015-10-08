@@ -1,15 +1,16 @@
-package parser;
+package command;
 
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import crudLogic.ServiceHandler;
-import objects.Event;
-import objects.Item;
-import objects.Todo;
-import projectlogic.ProjectHandler;
+import helper.Helper;
+import object.Event;
+import object.Item;
+import object.Todo;
+import project.ProjectHandler;
+import service.ServiceHandler;
 
 
 public class CommandEdit extends Command {

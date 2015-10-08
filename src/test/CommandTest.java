@@ -1,12 +1,14 @@
-package parser;
+package test;
 
 
 import java.util.Stack;
 
 import org.junit.Before;
 
-import projectlogic.ProjectHandler;
-import crudLogic.ServiceHandler;
+import command.Command;
+import command.CommandAdd;
+import project.ProjectHandler;
+import service.ServiceHandler;
 import storage.FileHandler;
 
 public class CommandTest {

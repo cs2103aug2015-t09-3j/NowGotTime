@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 
-import objects.Event;
+import object.Event;
 
 
 public class FileEventHandler {

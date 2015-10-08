@@ -1,12 +1,12 @@
-package parser;
+package helper;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import objects.Event;
-import objects.Item;
-import objects.Todo;
+import object.Event;
+import object.Item;
+import object.Todo;
 
 /*
  * This class contains useful functions and constants

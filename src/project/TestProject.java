@@ -1,5 +1,5 @@
-package projectlogic;
-import objects.Event;
+package project;
+import object.Event;
 
 
 public class TestProject {

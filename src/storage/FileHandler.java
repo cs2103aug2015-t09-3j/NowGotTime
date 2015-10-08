@@ -13,9 +13,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import objects.Event;
-import objects.Item;
-import objects.Todo;
+import object.Event;
+import object.Item;
+import object.Todo;
 
 /**
  * The class will be in charge of data storage of events by month.

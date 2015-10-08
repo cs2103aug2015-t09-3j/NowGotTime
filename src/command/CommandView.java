@@ -1,12 +1,13 @@
-package parser;
+package command;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
-import crudLogic.ServiceHandler;
-import objects.Event;
-import objects.Todo;
-import projectlogic.ProjectHandler;
+import helper.Helper;
+import object.Event;
+import object.Todo;
+import project.ProjectHandler;
+import service.ServiceHandler;
 
 public class CommandView extends Command {
 

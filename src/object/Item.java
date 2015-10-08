@@ -1,4 +1,4 @@
-package objects;
+package object;
 
 public class Item {
     private String name;

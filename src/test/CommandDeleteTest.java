@@ -1,8 +1,11 @@
-package parser;
+package test;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import command.CommandDelete;
+import helper.Helper;
 
 public class CommandDeleteTest extends CommandTest {
 

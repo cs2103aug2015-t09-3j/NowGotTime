@@ -1,8 +1,8 @@
-package crudLogic;
+package service;
 import java.util.ArrayList;
 
-import objects.Event;
-import objects.Todo;
+import object.Event;
+import object.Todo;
 
 /**
  * The interface will be a blueprint of a service handler in charge of 

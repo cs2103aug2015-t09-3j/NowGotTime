@@ -13,7 +13,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 
-import objects.Todo;
+import object.Todo;
 
 public class FileTodoHandler {
 	private static final String BASIC_TODO_TYPE = "basic";

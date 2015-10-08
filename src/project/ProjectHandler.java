@@ -1,7 +1,7 @@
-package projectlogic;
+package project;
 import java.util.ArrayList;
 
-import objects.Event;
+import object.Event;
 import storage.FileHandler;
 
 

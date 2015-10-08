@@ -1,10 +1,13 @@
-package parser;
+package test;
 
 import static org.junit.Assert.*;
-import objects.Event;
-import objects.Todo;
 
 import org.junit.Test;
+
+import command.CommandEdit;
+import helper.Helper;
+import object.Event;
+import object.Todo;
 
 public class CommandEditTest extends CommandTest {
 

@@ -1,8 +1,8 @@
 package storage;
 import java.util.ArrayList;
 
-import objects.Event;
-import objects.Todo;
+import object.Event;
+import object.Todo;
 
 
 /** Expend this to read description **/

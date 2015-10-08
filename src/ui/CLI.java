@@ -3,11 +3,11 @@ package ui;
 import java.util.Scanner;
 import java.util.Stack;
 
-import parser.Command;
-import parser.CommandExit;
-import parser.Helper;
-import projectlogic.ProjectHandler;
-import crudLogic.ServiceHandler;
+import command.Command;
+import command.CommandExit;
+import helper.Helper;
+import project.ProjectHandler;
+import service.ServiceHandler;
 
 public class CLI {
     

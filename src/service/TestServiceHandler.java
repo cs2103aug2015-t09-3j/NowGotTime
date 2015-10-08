@@ -1,6 +1,6 @@
-package crudLogic;
-import objects.Event;
-import objects.Todo;
+package service;
+import object.Event;
+import object.Todo;
 import storage.FileHandler;
 
 public class TestServiceHandler {

@@ -5,8 +5,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-import objects.Event;
-import objects.Todo;
+import object.Event;
+import object.Todo;
 
 /**
  * 

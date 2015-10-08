@@ -1,9 +1,9 @@
-package objects;
+package object;
 
 import java.text.ParseException;
 import java.util.Calendar;
 
-import parser.Helper;
+import helper.Helper;
 
 /**
  * Assumption is that the time and date format goes as follow:

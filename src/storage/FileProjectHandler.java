@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import objects.Event;
+import object.Event;
 
 
 public class FileProjectHandler {
