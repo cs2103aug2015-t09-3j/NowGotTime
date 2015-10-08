@@ -16,10 +16,11 @@ import java.util.Comparator;
 import object.Event;
 
 
-public class FileEventHandler extends FileHandler {
+public class FileEventHandler {
 	private static final String EVENTS = "Upcoming Events.txt";
 	private static final String HISTORY = "History.txt";
 	private static final String EVENT = "Event";
+	
 	
 	private static final String PATTERN_DATE = "dd MMM yyyy";
 	private static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
@@ -48,7 +49,6 @@ public class FileEventHandler extends FileHandler {
 	}
 			
 	public boolean saveEventBook(){
-		
 		sortEventsByDate(allEvents);
 		
 		try{
@@ -83,7 +83,7 @@ public class FileEventHandler extends FileHandler {
 		return eventBookByDate;
 	}
 	
-	public ArrayList<Event> retrieveAllEvents(){
+	public ArrayList<Event> retrieveEventsToDelete(){
 		return allEvents;
 	}
 	
@@ -221,28 +221,7 @@ public class FileEventHandler extends FileHandler {
 	private void sortEventsByDate(ArrayList<Event> eventBook){
 		Collections.sort(eventBook, new customComparator());
 	}
-	
-	private ArrayList<Event> synchronise(ArrayList<Event> itemSet1, ArrayList<Event> itemSet2){
-		
-		ArrayList<Event> syncList = new ArrayList<Event>();
-		
-		for(Event event1: itemSet1){
-			for(Event event2: itemSet2){
-				if(event1.getId() == event2.getId()){
-					syncList.add(event2);
-					itemSet2.remove(event2);
-					break;
-				}
-			}
-		}
-		
-		if(!itemSet2.isEmpty()){
-			syncList.addAll(itemSet2);
-		}
-		
-		return syncList;
-	}
-	
+
 	private boolean updateDate(Calendar calendar, String dateString) {
         try {
             Calendar date = Calendar.getInstance();

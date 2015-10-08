@@ -67,8 +67,8 @@ public class FileHandler implements FileManager{
 		return fEventH.retrieveEventByDate(date);
 	}
 	
-	public ArrayList<Event> retrieveAllEvents(){
-		return fEventH.retrieveAllEvents();
+	public ArrayList<Event> retrieveEventsToDelete(){
+		return fEventH.retrieveEventsToDelete();
 	}
 	
 	@Override
@@ -255,5 +255,30 @@ public class FileHandler implements FileManager{
 			System.out.println("err");
 		}
 	}
+
+/****************************** Item *************************************/
+	
+	protected ArrayList<Item> synchronise(ArrayList<Item> itemSet1, ArrayList<Item> itemSet2){
 		
+		ArrayList<Item> syncList = new ArrayList<Item>();
+		
+		for(Item item1: itemSet1){
+			for(Item item2: itemSet2){
+				if(item1.getId() == item2.getId()){
+					syncList.add(item2);
+					itemSet2.remove(item2);
+					break;
+				}
+			}
+		}
+		
+		if(!itemSet2.isEmpty()){
+			syncList.addAll(itemSet2);
+		}
+		
+		return syncList;
+	}
+	
+	
+	
 }
