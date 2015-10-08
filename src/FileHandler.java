@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 public class FileHandler implements FileManager{
 	
 	private static final String EVENT_OVERVIEWER = "overview.txt";
+	private static final String COUNTER = "Counter.txt";
 		
 	private File inputFile;
 	private String eventPath;
@@ -45,6 +48,7 @@ public class FileHandler implements FileManager{
 	public FileHandler(){
 		directHand = new DirectoryHandler();
 		readOverviewerFile();
+		readCounter();
 		
 		fEventH = new FileEventHandler(eventPath);
 		fProjH = new FileProjectHandler(projectPath);
@@ -136,7 +140,7 @@ public class FileHandler implements FileManager{
 	
 	private void readOverviewerFile() {
 		inputFile = new File(EVENT_OVERVIEWER);	
-			
+		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			
@@ -152,7 +156,43 @@ public class FileHandler implements FileManager{
 			// Do nothing
 		}
 	}
-
+	
+	private void readCounter(){
+		inputFile = new File(COUNTER);	
+		
+		try {
+			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+			
+			int counter = Integer.parseInt(reader.readLine());
+			Item.setCounter(counter);
+			
+			reader.close();		 
+		}
+		catch (FileNotFoundException e) {
+			// Do nothing
+		}catch (IOException e) {
+			// Do nothing
+		}
+	}
+	
+	private boolean writeCounter(){
+		try{
+			File outfile = new File(COUNTER);
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
+			
+			int counter = Item.getCounter();
+			writer.write(counter + ""); 
+			
+			writer.close();
+			return true;
+	
+		}catch(IOException e){
+			System.out.println("File cannot be written.\n");
+			return false;
+		}
+	}
+	
 /****************************** Directory *************************************/
 	
 	public boolean changeBaseDirectory(String newBaseDirectory){
@@ -172,7 +212,7 @@ public class FileHandler implements FileManager{
 				fTodoH.saveToDoList() &&
 				fTodoH.updateHistory() &&
 				fTodoH.saveUniversalToDoList() &&
-				fProjH.writeAll();
+				fProjH.writeAll() && writeCounter();
 	}
 
 	public void clearAll(){
@@ -210,5 +250,30 @@ public class FileHandler implements FileManager{
 			System.out.println("err");
 		}
 	}
+
+/****************************** Item *************************************/
+	
+	protected ArrayList<Item> synchronise(ArrayList<Item> itemSet1, ArrayList<Item> itemSet2){
+		
+		ArrayList<Item> syncList = new ArrayList<Item>();
+		
+		for(Item item1: itemSet1){
+			for(Item item2: itemSet2){
+				if(item1.getId() == item2.getId()){
+					syncList.add(item2);
+					itemSet2.remove(item2);
+					break;
+				}
+			}
+		}
+		
+		if(!itemSet2.isEmpty()){
+			syncList.addAll(itemSet2);
+		}
+		
+		return syncList;
+	}
+	
+	
 	
 }

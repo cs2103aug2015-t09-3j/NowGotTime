@@ -47,11 +47,12 @@ public class FileEventHandler {
 			
 	public boolean saveEventBook(){
 		sortEventsByDate(allEvents);
+		
 		try{
 			File outfile = new File(baseDirectory + EVENTS);
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
-			
+
 			for(Event anEvent : allEvents){
 				writer.write(anEvent.toString()); 
 				writer.newLine();
@@ -64,6 +65,7 @@ public class FileEventHandler {
 			System.out.println("File cannot be written.\n" + e.getMessage());
 			return false;
 		}
+		
 	}
 	
 	public boolean setNewDirectory(String newBaseDirectory){
@@ -166,21 +168,23 @@ public class FileEventHandler {
 		selectFileAsInputFile(baseDirectory.concat(textFileName));
 		
 		ArrayList<Event> eventBook = new ArrayList<Event>();
-		String eventName, startDate, endDate, startTime, endTime, addInfo;
+		String eventName, startDate, endDate, startTime, endTime, addInfo, ID;
 		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			String lineOfText;
 			
 			while( (lineOfText = reader.readLine()) != null ){
-				eventName = lineOfText;
-				addInfo = reader.readLine();
+				ID = lineOfText;
+				eventName = reader.readLine();
 				startDate = reader.readLine();
 				endDate = reader.readLine();
 				startTime = reader.readLine();
-				endTime = reader.readLine();			
+				endTime = reader.readLine();
+				addInfo = reader.readLine();
 				
 				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
+				event.setId(Integer.parseInt(ID));
 				eventBook.add(event);
 			}
 			

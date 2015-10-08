@@ -3,12 +3,12 @@ public class Item {
     private String name;
     private String additionalInfo;
 	private int id;
-	private static int counter;
+	private static int counter = 0;
     
     public Item(String name, String additionalInfo) {
         setName(name);
         setAdditionalInfo(additionalInfo);
-        setId(counter);
+        setId(counter++);
     }
     
     public String getName() {
@@ -38,16 +38,15 @@ public class Item {
     	return id;
     }
     
-    private void setId(int counter) {
+    public void setId(int counter) {
     	this.id = counter;
-    	incrementCounter();
     }
     
-    public int getCounter() {
+    public static int getCounter() {
     	return counter;
     }
     
-    private void incrementCounter() {
-    	counter++;
+    public static void setCounter(int count){
+    	counter = count;
     }
 }

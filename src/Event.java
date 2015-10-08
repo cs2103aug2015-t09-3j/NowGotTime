@@ -107,12 +107,13 @@ public class Event extends Item {
     /*********************************** Overriding Methods ***********************************/
 
     public String toString(){
-        return  getName() + "\n" 
-                + getAdditionalInfo() + "\n" 
+        return  getId() + "\n" 
+                + getName() + "\n" 
                 + getStartDateString() + "\n" 
                 + getEndDateString() + "\n" 
                 + getStartTimeString() + "\n" 
-                + getEndTimeString();
+                + getEndTimeString() + "\n" 
+                + getAdditionalInfo();
     }
 
     public String toFormattedString(String dateString) throws ParseException {

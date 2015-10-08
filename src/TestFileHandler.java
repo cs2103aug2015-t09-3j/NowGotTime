@@ -51,15 +51,48 @@ public class TestFileHandler {
 	
 	public static void main(String[] args){
 		
-		clearAllFiles(testo);
-		kickStart();
-
-		testo.testFileEventHandler();
-		testo.testFileTodoHandler();
-		testo.testFileProjectHandler();
+//		clearAllFiles(testo);
+//		kickStart();
+//
+//		testo.testFileEventHandler();
+//		testo.testFileTodoHandler();
+//		testo.testFileProjectHandler();
+//		
+//		testo.changeDirect();
 		
-		testo.changeDirect();
+		
+		testo.testIndex();
+		
+		
 	}
+	
+	private void testIndex(){
+		
+		System.out.println ("//***************** Start test index *******************//");
+		System.out.println ("Creating new events.....");
+		Event event = new Event("Dinner with Tim", "31 aug 2016", "1 sep 2016", "23:00", "02:00", "Prepare car");
+		System.out.println ("event1 created");
+		Event event2 = new Event("Do coding", "31 aug 2016", "31 aug 2016", "12:00", "22:00", "In java");
+		System.out.println ("event2 created");
+		Event event3 = new Event("sleep", "31 aug 2016", "31 aug 2016", "03:00", "10:00", "lean on the left");
+		System.out.println ("event3 created");
+		Event event4 = new Event("Project", "24 aug 2016", "31 aug 2016", "20:00", "02:00", "chiong ah");
+		System.out.println ("event4 created");
+		System.out.println();
+		System.out.println ("Adding events into the storage in reverse time sequence");
+		fh.saveNewEventHandler(event4);
+		fh.saveNewEventHandler(event3);
+		fh.saveNewEventHandler(event2);
+		fh.saveNewEventHandler(event);
+		System.out.println ("Events added");
+		System.out.println();
+		fh.saveAll();
+		
+		System.out.println ("Retrieving events on 31 Aug 2016...");
+		System.out.println(fh.retrieveEventByDate("31 Aug 2016"));
+	}
+	
+	
 	
 	private void changeDirect(){
 		fh.changeBaseDirectory("C:\\Users\\RX.huang\\Desktop");
