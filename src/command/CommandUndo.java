@@ -10,6 +10,9 @@ public class CommandUndo extends Command {
 
     public static final String KEYWORD = "undo";
     
+    /**
+     * Parses the arguments for undo command
+     */
     public CommandUndo(String args) throws Exception {
         this.setRequireConfirmation(false);
         this.setRevertible(false);
@@ -22,6 +25,9 @@ public class CommandUndo extends Command {
         
     }
     
+    /**
+     * Executes undo command, returns feedback string
+     */
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         if (historyList.empty()) {

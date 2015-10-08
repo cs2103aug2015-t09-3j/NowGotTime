@@ -11,6 +11,9 @@ public abstract class Command {
     private boolean revertible;
     private boolean requireConfirmation;
 
+    /**
+     * Returns Command object from parsed text
+     */
     public static Command parseCommand(String text) throws Exception {
         String commandType = CommonHelper.getFirstWord(text);
         String arguments = CommonHelper.removeFirstWord(text);
@@ -43,36 +46,43 @@ public abstract class Command {
         return command;
     }
     
+    /**
+     * Returns whether this command is revertible
+     */
     public boolean isRevertible() {
         return revertible;
     }
 
-
+    /**
+     * Set isRevertible
+     */
     protected void setRevertible(boolean revertible) {
         this.revertible = revertible;
     }
 
-
+    /**
+     * Returns whether this command require confirmation before execution
+     */
     public boolean isRequireConfirmation() {
         return requireConfirmation;
     }
 
-
+    /**
+     * Set requireConfirmation
+     */
     protected void setRequireConfirmation(boolean requireConfirmation) {
         this.requireConfirmation = requireConfirmation;
     }
 
     
     
-    /*
-     * Execute this command
-     * @return Feedback from execution
+    /**
+     * Executes this command
      */
     public abstract String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
     
-    /*
-     * Revert this command
-     * @return Feedback from execution
+    /**
+     * Reverts effect of this command
      */
     public abstract String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
     

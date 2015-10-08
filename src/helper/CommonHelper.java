@@ -41,8 +41,9 @@ public class CommonHelper {
     /* String Manipulation Helper functions */
     
     /**
-     * Return first word from given text
-     * @return The first word
+     * Returns first word of the specified text
+     * @param text a non-empty string
+     * @return the first word of the specified text
      */
     public static String getFirstWord(String text) {
         // Find the first whitespace position
@@ -56,14 +57,21 @@ public class CommonHelper {
     }
     
     /**
-     * Remove first word from text
-     * @return Text without its first word
+     * Returns a text with its first word removed
+     * @param text a non-empty string
+     * @return text without the first word
      */
     public static String removeFirstWord(String text) {
         String firstWord = getFirstWord(text);
         return text.substring(firstWord.length());
     }
     
+    /**
+     * Returns a formatted list of events
+     * @param eventList list of events
+     * @param dateString a valid date string
+     * @return formatted list of events
+     */
     public static String getFormattedEventList(ArrayList<Event> eventList, String dateString) throws ParseException {
         if (eventList.isEmpty()) return "   [ No events on this day ]\n";
         StringBuilder formattedString = new StringBuilder();
@@ -80,6 +88,12 @@ public class CommonHelper {
         return formattedString.toString();
     }
     
+    /**
+     * Returns a formatted list of todos
+     * @param todoList list of todos
+     * @param dateString a valid date string
+     * @return formatted list of todos
+     */
     public static String getFormattedTodoList(ArrayList<Todo> todoList, String dateString) throws ParseException {
         if (todoList.isEmpty()) return "   [ No todos on this day ]\n";
         StringBuilder formattedString = new StringBuilder();

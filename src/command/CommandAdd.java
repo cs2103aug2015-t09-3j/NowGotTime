@@ -98,6 +98,9 @@ public class CommandAdd extends Command {
         }
     }
     
+    /**
+     * Parses the arguments for add command
+     */
     public CommandAdd(String args) throws Exception {
         this.setRequireConfirmation(false);
         this.setRevertible(true);
@@ -120,16 +123,25 @@ public class CommandAdd extends Command {
         }
     }
     
+    /**
+     * Constructs this command from specified Item object
+     */
     public CommandAdd(Item item) {
         this.item = item;
     }
     
     private Item item;
     
+    /**
+     * Returns item object of this command
+     */
     public Item getItem() {
         return this.item;
     }
 
+    /**
+     * Executes add command, returns feedback string
+     */
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         
@@ -155,6 +167,9 @@ public class CommandAdd extends Command {
         }
     }
 
+    /**
+     * Delete the added command
+     */
     @Override
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         Command revertAddCommand = new CommandDelete(item);

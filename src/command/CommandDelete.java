@@ -32,6 +32,9 @@ public class CommandDelete extends Command {
         }
     }
     
+    /**
+     * Parses the arguments for delete command
+     */
     public CommandDelete(String args) throws Exception {
         this.setRequireConfirmation(true);
         this.setRevertible(true);
@@ -44,6 +47,9 @@ public class CommandDelete extends Command {
         }
     }
     
+    /**
+     * Constructs command from specified Item object
+     */
     public CommandDelete(Item item) {
         this.item = item;
         this.itemName = item.getName();
@@ -56,6 +62,9 @@ public class CommandDelete extends Command {
         return itemName;
     }
     
+    /**
+     * Executes delete command, returns feedback string
+     */
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         if ((item = serviceHandler.viewSpecificEvent(itemName)) != null);
@@ -73,6 +82,9 @@ public class CommandDelete extends Command {
         return String.format(CommonHelper.MESSAGE_DELETE, item.getName());
     }
 
+    /**
+     * Re-add the deleted command
+     */
     @Override
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         Command revertDeleteCommand = new CommandAdd(item);

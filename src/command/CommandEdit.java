@@ -49,6 +49,9 @@ public class CommandEdit extends Command {
         }
     }
     
+    /**
+     * Parses the arguments for edit command
+     */
     public CommandEdit(String args) throws Exception {
         this.setRequireConfirmation(false);
         this.setRevertible(true);
@@ -76,6 +79,9 @@ public class CommandEdit extends Command {
         }
     }
     
+    /**
+     * Constructs this command from specified itemName, fieldName, and newValue
+     */
     public CommandEdit(String itemName, String fieldName, String newValue) {
         this.itemName = itemName;
         this.fieldName = fieldName;
@@ -87,22 +93,37 @@ public class CommandEdit extends Command {
     private String newValue;
     private String oldValue;
     
+    /**
+     * Returns name of item that wants to be edited
+     */
     public String getItemName() {
         return itemName;
     }
 
+    /**
+     * Returns name of field that wants to be edited
+     */
     public String getFieldName() {
         return fieldName;
     }
 
+    /**
+     * Returns the new value
+     */
     public String getNewValue() {
         return newValue;
     }
 
+    /**
+     * Returns the old value
+     */
     public String getOldValue() {
         return oldValue;
     }
     
+    /**
+     * Executes edit command, returns feedback string
+     */
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         Item item = null;
@@ -121,6 +142,9 @@ public class CommandEdit extends Command {
         return String.format(CommonHelper.MESSAGE_EDIT, item.getName());    
     }
 
+    /**
+     * Reverts to initial value
+     */
     @Override
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         Command revertEditCommand = new CommandEdit(itemName, fieldName, oldValue);

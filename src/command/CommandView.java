@@ -16,6 +16,9 @@ public class CommandView extends Command {
     
     String dateString;
     
+    /**
+     * Parses the arguments for view command
+     */
     public CommandView(String args) throws Exception {
         this.setRequireConfirmation(false);
         this.setRevertible(false);
@@ -27,6 +30,9 @@ public class CommandView extends Command {
         }
     }
     
+    /**
+     * Executes view command, returns feedback string
+     */
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
             throws Exception {
