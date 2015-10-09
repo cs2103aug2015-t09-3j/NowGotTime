@@ -78,6 +78,7 @@ public class FileHandler implements FileManager{
 	
 	@Override
 	public boolean saveEditedEventHandler() {
+		writeCounter();
 		return fEventH.saveEventBook();
 	}
 
@@ -104,12 +105,14 @@ public class FileHandler implements FileManager{
 	
 	@Override
 	public boolean saveEditedTodoHandler() {
-		fTodoH.separateTodoTypes();////////////////////////////////////////
+		writeCounter();
+		fTodoH.separateTodoTypes();
 		return fTodoH.saveToDoList();
 	}
 	
 	@Override
 	public boolean saveEditedUniversalTodoHandler(){
+		writeCounter();
 		return fTodoH.saveUniversalToDoList();
 	}
 	
