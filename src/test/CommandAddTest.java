@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import command.CommandAdd;
-import helper.Helper;
+import helper.CommonHelper;
 import object.Event;
 import object.Item;
 import object.Todo;
@@ -62,7 +62,7 @@ public class CommandAddTest extends CommandTest {
             new CommandAdd(args);
             fail("exception should be thrown");
         } catch (Exception e) {
-            assertEquals(String.format(Helper.ERROR_INVALID_ARGUMENTS, CommandAdd.KEYWORD), e.getMessage());
+            assertEquals(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandAdd.KEYWORD), e.getMessage());
         }
     }
     
@@ -108,7 +108,7 @@ public class CommandAddTest extends CommandTest {
         String feedback = command.execute(service, project, history);
         
         // The feedback message should be success
-        assertEquals(feedback, String.format(Helper.MESSAGE_ADD, name));
+        assertEquals(feedback, String.format(CommonHelper.MESSAGE_ADD, name));
         // The added event should be the same event
         assertEquals(service.viewSpecificEvent(name), event);
     }
@@ -122,7 +122,7 @@ public class CommandAddTest extends CommandTest {
         String feedback = command.execute(service, project, history);
         
         // The feedback message should be success
-        assertEquals(feedback, String.format(Helper.MESSAGE_ADD, name));
+        assertEquals(feedback, String.format(CommonHelper.MESSAGE_ADD, name));
         // The added todo should be the same todo
         assertEquals(service.viewSpecificTask(name), todo);
     }
@@ -135,7 +135,7 @@ public class CommandAddTest extends CommandTest {
         String feedback = command.execute(service, project, history);
         
         // The feedback message should be success
-        assertEquals(feedback, String.format(Helper.MESSAGE_ADD, name));
+        assertEquals(feedback, String.format(CommonHelper.MESSAGE_ADD, name));
         // The added todo should be the same todo
         assertEquals(service.viewSpecificTask(name), todo);
     }

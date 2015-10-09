@@ -1,11 +1,12 @@
 package service;
+import helper.CommonHelper;
 import object.Event;
 import object.Todo;
 import storage.FileHandler;
 
 public class TestServiceHandler {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         // TODO Auto-generated method stub
         ServiceHandler test = new ServiceHandler();
         //Event testEvent = new Event("study", "12 mar 2020", "08:00 ", "18:00", "");
@@ -15,10 +16,10 @@ public class TestServiceHandler {
         System.out.println(test.createEvent(testEvent1));
         System.out.println(test.viewEventByDate("12 mar 2020"));
         //System.out.println(test.deleteEvent("study"));
-        System.out.println(test.editEventName("study 2020", "play"));
-        System.out.println(test.editEventStartDate("play", "13 mar 2020"));
-        System.out.println(test.editEventStartTime("play", "09:00"));
-        System.out.println(test.editEventEndTime("play", "09:01"));
+        System.out.println(test.editEvent("study 2020", CommonHelper.FIELD_NAME, "play"));
+        System.out.println(test.editEvent("play", CommonHelper.FIELD_START, "13 mar 2020"));
+        System.out.println(test.editEvent("play", CommonHelper.FIELD_START, "09:00"));
+        System.out.println(test.editEvent("play", CommonHelper.FIELD_END, "09:01"));
         System.out.println(test.viewEventByDate("12 mar 2020"));
         System.out.println(test.viewEventByDate("13 mar 2020"));
         

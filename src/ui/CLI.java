@@ -5,7 +5,7 @@ import java.util.Stack;
 
 import command.Command;
 import command.CommandExit;
-import helper.Helper;
+import helper.CommonHelper;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -56,10 +56,10 @@ public class CLI {
     
     public void start() {
         
-        System.out.println(Helper.MESSAGE_WELCOME);
+        System.out.println(CommonHelper.MESSAGE_WELCOME);
         
         while(!shouldExit) {
-            System.out.print(Helper.MESSAGE_PROMPT);
+            System.out.print(CommonHelper.MESSAGE_PROMPT);
             String userResponse = stdin.nextLine();
             String feedback = executeResponse(userResponse);
             System.out.println(feedback);

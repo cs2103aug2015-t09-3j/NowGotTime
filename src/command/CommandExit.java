@@ -2,7 +2,7 @@ package command;
 
 import java.util.Stack;
 
-import helper.Helper;
+import helper.CommonHelper;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -10,6 +10,9 @@ public class CommandExit extends Command {
     
     public static final String KEYWORD = "exit";
     
+    /**
+     * Parses the arguments for exit command
+     */
     public CommandExit(String args) throws Exception {
         this.setRequireConfirmation(true);
         this.setRevertible(false);
@@ -17,11 +20,14 @@ public class CommandExit extends Command {
         if (args.trim().isEmpty());
         else {
             // delete command accept no arguments
-            throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
         
     }
 
+    /**
+     * Executes edit command, returns feedback string
+     */
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         // return empty string

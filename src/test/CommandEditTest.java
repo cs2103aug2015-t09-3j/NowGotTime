@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import command.CommandEdit;
-import helper.Helper;
+import helper.CommonHelper;
 import object.Event;
 import object.Todo;
 
@@ -32,7 +32,7 @@ public class CommandEditTest extends CommandTest {
             new CommandEdit(args);
             fail("exception should be thrown");
         } catch (Exception e) {
-            assertEquals(String.format(Helper.ERROR_INVALID_ARGUMENTS, CommandEdit.KEYWORD), e.getMessage());
+            assertEquals(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandEdit.KEYWORD), e.getMessage());
         }
     }
     
@@ -68,37 +68,37 @@ public class CommandEditTest extends CommandTest {
         Event event = null;
         
         // test can edit start date
-        new CommandEdit(name, Helper.FIELD_START, "19 Jan 2015").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_START, "19 Jan 2015").execute(service, project, history);
         event = service.viewSpecificEvent(name);
         assertEquals(event.getStartDateTimeString(), "19 Jan 2015 10:00");
         
         // test can edit start time
-        new CommandEdit(name, Helper.FIELD_START, "13:00").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_START, "13:00").execute(service, project, history);
         event = service.viewSpecificEvent(name);
         assertEquals(event.getStartDateTimeString(), "19 Jan 2015 13:00");
         
         // test can edit start date and time
-        new CommandEdit(name, Helper.FIELD_START, "20 Sep 2015 13:00").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_START, "20 Sep 2015 13:00").execute(service, project, history);
         event = service.viewSpecificEvent(name);
         assertEquals(event.getStartDateTimeString(), "20 Sep 2015 13:00");
         
         // test can edit end date
-        new CommandEdit(name, Helper.FIELD_END, "19 Dec 2015").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_END, "19 Dec 2015").execute(service, project, history);
         event = service.viewSpecificEvent(name);
         assertEquals(event.getEndDateTimeString(), "19 Dec 2015 23:00");
         
         // test can edit end time
-        new CommandEdit(name, Helper.FIELD_END, "13:00").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_END, "13:00").execute(service, project, history);
         event = service.viewSpecificEvent(name);
         assertEquals(event.getEndDateTimeString(), "19 Dec 2015 13:00");
         
         // test can edit end date and time
-        new CommandEdit(name, Helper.FIELD_END, "20 Nov 2015 15:00").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_END, "20 Nov 2015 15:00").execute(service, project, history);
         event = service.viewSpecificEvent(name);
         assertEquals(event.getEndDateTimeString(), "20 Nov 2015 15:00");
         
         // test can edit name
-        new CommandEdit(name, Helper.FIELD_NAME, "eat meh").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_NAME, "eat meh").execute(service, project, history);
         assertNull(service.viewSpecificEvent(name));
         assertNotNull(service.viewSpecificEvent("eat meh"));
         
@@ -112,22 +112,22 @@ public class CommandEditTest extends CommandTest {
         Todo todo = null;
         
         // test can edit due date
-        new CommandEdit(name, Helper.FIELD_DUE, "19 Dec 2015").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_DUE, "19 Dec 2015").execute(service, project, history);
         todo = service.viewSpecificTask(name);
         assertEquals(todo.getDeadlineDateTimeString(), "19 Dec 2015 10:00");
         
         // test can edit due time
-        new CommandEdit(name, Helper.FIELD_DUE, "13:00").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_DUE, "13:00").execute(service, project, history);
         todo = service.viewSpecificTask(name);
         assertEquals(todo.getDeadlineDateTimeString(), "19 Dec 2015 13:00");
         
         // test can edit due date and time
-        new CommandEdit(name, Helper.FIELD_DUE, "20 Nov 2015 13:00").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_DUE, "20 Nov 2015 13:00").execute(service, project, history);
         todo = service.viewSpecificTask(name);
         assertEquals(todo.getDeadlineDateTimeString(), "20 Nov 2015 13:00");
         
         // test can edit name
-        new CommandEdit(name, Helper.FIELD_NAME, "eat meh meh").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_NAME, "eat meh meh").execute(service, project, history);
         assertNull(service.viewSpecificTask(name));
         assertNotNull(service.viewSpecificTask("eat meh meh"));
     }
@@ -137,7 +137,7 @@ public class CommandEditTest extends CommandTest {
         String name = "eat again lho";
         addTodo(name);
         
-        new CommandEdit(name, Helper.FIELD_NAME, "eat meh meh").execute(service, project, history);
+        new CommandEdit(name, CommonHelper.FIELD_NAME, "eat meh meh").execute(service, project, history);
         assertNull(service.viewSpecificTask(name));
         assertNotNull(service.viewSpecificTask("eat meh meh"));
     }
@@ -160,7 +160,7 @@ public class CommandEditTest extends CommandTest {
         assertNotNull(service.viewSpecificEvent(name2));
         
         try {
-            new CommandEdit(name2, Helper.FIELD_NAME, name1).execute(service, project, history);
+            new CommandEdit(name2, CommonHelper.FIELD_NAME, name1).execute(service, project, history);
             fail("exception should be thrown");
         } catch (Exception e) {
             
@@ -182,7 +182,7 @@ public class CommandEditTest extends CommandTest {
         assertNotNull(service.viewSpecificTask(name2));
         
         try {
-            new CommandEdit(name2, Helper.FIELD_NAME, name1).execute(service, project, history);
+            new CommandEdit(name2, CommonHelper.FIELD_NAME, name1).execute(service, project, history);
             fail("exception should be thrown");
         } catch (Exception e) {
             

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import command.CommandDelete;
-import helper.Helper;
+import helper.CommonHelper;
 
 public class CommandDeleteTest extends CommandTest {
 
@@ -22,7 +22,7 @@ public class CommandDeleteTest extends CommandTest {
             cmd = new CommandDelete(args);
             fail("exception should be thrown");
         } catch (Exception e) {
-            assertEquals(String.format(Helper.ERROR_INVALID_ARGUMENTS, CommandDelete.KEYWORD), e.getMessage());
+            assertEquals(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandDelete.KEYWORD), e.getMessage());
         }
     }
 
@@ -68,7 +68,7 @@ public class CommandDeleteTest extends CommandTest {
         String feedback = cmd.execute(service, project, history);
 
         // successfully deleted
-        assertEquals(feedback, String.format(Helper.MESSAGE_DELETE, name));
+        assertEquals(feedback, String.format(CommonHelper.MESSAGE_DELETE, name));
         
 
         // new event removed from the service
@@ -90,7 +90,7 @@ public class CommandDeleteTest extends CommandTest {
         String feedback = cmd.execute(service, project, history);
 
         // successfully deleted
-        assertEquals(feedback, String.format(Helper.MESSAGE_DELETE, name));
+        assertEquals(feedback, String.format(CommonHelper.MESSAGE_DELETE, name));
         
 
         // new todo removed from the service
@@ -110,7 +110,7 @@ public class CommandDeleteTest extends CommandTest {
         String feedback = cmd.execute(service, project, history);
 
         // successfully deleted
-        assertEquals(feedback, String.format(Helper.MESSAGE_DELETE, name));
+        assertEquals(feedback, String.format(CommonHelper.MESSAGE_DELETE, name));
         
 
         // new todo removed from the service

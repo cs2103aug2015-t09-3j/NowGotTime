@@ -1,5 +1,5 @@
 package service;
-import helper.Helper;
+import helper.CommonHelper;
 
 import java.util.ArrayList;
 
@@ -74,16 +74,62 @@ public class ServiceHandler implements ServiceManager{
     }
 
     @Override
-    public void editEvent(String eventName, String fieldName, String newInputs) throws Exception {
+    public String editEvent(String eventName, String fieldName, String newInputs) throws Exception {
     	Event _event;
+    	String oldValue;
 
     	switch(fieldName) {
-    	//case edit eventName
-    	case (Helper.FIELD_NAME): 
-    		if (!eventName.equals(newInputs) && viewSpecificEvent(newInputs) != null) {
-    			throw new Exception(Helper.ERROR_EDIT_DUPLICATE);
-    		}
-    	_event = findEvent(eventName);
+        	//case edit eventName
+        	case (CommonHelper.FIELD_NAME):
+        		if (!eventName.equals(newInputs) && findEvent(newInputs) != null) {
+        			throw new Exception(CommonHelper.ERROR_EDIT_DUPLICATE);
+        		}
+        	    _event = findEvent(eventName);
+    
+            	if (_event == null) {
+            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, eventName));
+            	}
+            	else {
+            	    oldValue = _event.getName();
+            		_event.setName(newInputs);
+            		eventHandler.saveAll();
+            	}
+            	break;
+        	// case edit start
+        	case (CommonHelper.FIELD_START): 
+        		_event = findEvent(eventName);
+    
+            	if (_event == null) {
+            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, eventName));
+            	}
+            	else {
+            	    oldValue = _event.getStartDateTimeString();
+            		_event.updateStart(newInputs);
+            		eventHandler.saveAll();
+            	}
+            	break;
+        	//case edit end
+        	case (CommonHelper.FIELD_END): 
+        		_event = findEvent(eventName);
+    
+            	if (_event == null) {
+            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, eventName));
+            	}
+            	else {
+                    oldValue = _event.getEndDateTimeString();
+            		_event.updateEnd(newInputs);
+            		eventHandler.saveAll();
+            	}
+            	break;
+        	//case edit unexpected
+        	default :
+        		throw new Exception(CommonHelper.ERROR_UNEXPECTED);
+    	}
+    	return oldValue;
+    }
+
+    @Override
+    public String editTask(String taskName, String fieldName, String newInputs) throws Exception{
 
     	if (_event == null) {
     		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
@@ -94,78 +140,78 @@ public class ServiceHandler implements ServiceManager{
     	}
 
     	// case edit startDate
-    	case (Helper.FIELD_START + Helper.DATE_TYPE): 
-    		_event = findEvent(eventName);
+    case (Helper.FIELD_START + Helper.DATE_TYPE): 
+    	_event = findEvent(eventName);
 
-    	if (_event == null) {
-    		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
-    	}
-    	else {
-    		_event.updateStartDate(newInputs);
-    		eventHandler.saveEditedEventHandler();
-    	}
-    	
-    	//case edit endDate
-    	case (Helper.FIELD_END + Helper.DATE_TYPE): 
-    		_event = findEvent(eventName);
-
-    	if (_event == null) {
-    		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
-    	}
-    	else {
-    		_event.updateEndDate(newInputs);
-    		eventHandler.saveEditedEventHandler();
-    	}
-    	
-    	//case edit startTime
-    	case (Helper.FIELD_START + Helper.TIME_TYPE):
-    		_event = findEvent(eventName);
-
-    	if (_event == null) {
-    		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
-    	}
-    	else {
-    		_event.updateStartTime(newInputs);
-    		eventHandler.saveEditedEventHandler();
-    	}	
-    	
-    	//case endDate
-    	case (Helper.FIELD_END + Helper.TIME_TYPE) : 
-    		_event = findEvent(eventName);
-
-    	if (_event == null) {
-    		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
-    	}
-    	else {
-    		_event.updateEndTime(newInputs);
-    		eventHandler.saveEditedEventHandler();
-    	}
-    	
-    	//case startDateTime
-    	case (Helper.FIELD_START + Helper.DATE_TIME_TYPE): 
-    		_event = findEvent(eventName);
-
-    	if (_event == null) {
-    		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
-    	}
-    	else {
-    		_event.updateStartDateTime(newInputs);
-    		eventHandler.saveEditedEventHandler();
-    	}	
-
-    	//case edit eventEndDateTime
-    	default : 
-    		_event = findEvent(eventName);
-
-    		if (_event == null) {
-    			throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
-    		}
-    		else {
-    			_event.updateEndDateTime(newInputs);
-    			eventHandler.saveEditedEventHandler();
-    		}	
-    	}
+    if (_event == null) {
+    	throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
     }
+    else {
+    	_event.updateStartDate(newInputs);
+    	eventHandler.saveEditedEventHandler();
+    }
+
+    //case edit endDate
+    case (Helper.FIELD_END + Helper.DATE_TYPE): 
+    	_event = findEvent(eventName);
+
+    if (_event == null) {
+    	throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
+    }
+    else {
+    	_event.updateEndDate(newInputs);
+    	eventHandler.saveEditedEventHandler();
+    }
+
+    //case edit startTime
+    case (Helper.FIELD_START + Helper.TIME_TYPE):
+    	_event = findEvent(eventName);
+
+    if (_event == null) {
+    	throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
+    }
+    else {
+    	_event.updateStartTime(newInputs);
+    	eventHandler.saveEditedEventHandler();
+    }	
+
+    //case endDate
+    case (Helper.FIELD_END + Helper.TIME_TYPE) : 
+    	_event = findEvent(eventName);
+
+    if (_event == null) {
+    	throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
+    }
+    else {
+    	_event.updateEndTime(newInputs);
+    	eventHandler.saveEditedEventHandler();
+    }
+
+    //case startDateTime
+    case (Helper.FIELD_START + Helper.DATE_TIME_TYPE): 
+    	_event = findEvent(eventName);
+
+    if (_event == null) {
+    	throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
+    }
+    else {
+    	_event.updateStartDateTime(newInputs);
+    	eventHandler.saveEditedEventHandler();
+    }	
+
+    //case edit eventEndDateTime
+    default : 
+    	_event = findEvent(eventName);
+
+    	if (_event == null) {
+    		throw new Exception (String.format(Helper.ERROR_NOT_FOUND, eventName));
+    	}
+    	else {
+    		_event.updateEndDateTime(newInputs);
+    		eventHandler.saveEditedEventHandler();
+    	}	
+    }
+}
 
     
     @Override
@@ -237,7 +283,6 @@ public class ServiceHandler implements ServiceManager{
             return false;
     }
     
-    @Override
     public boolean editEventEndTime(String eventName, String newEndTime) {
         int eventIndex = 0;
         ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
@@ -254,7 +299,6 @@ public class ServiceHandler implements ServiceManager{
             return false;
     }
     
-    @Override
     public boolean editEventStartDateTime(String eventName, String newStartDateTime){
         int eventIndex = 0;
         ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
@@ -271,7 +315,6 @@ public class ServiceHandler implements ServiceManager{
             return false;
     }
     
-    @Override
     public boolean editEventEndDateTime(String eventName, String newEndDateTime){
         int eventIndex = 0;
         ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
@@ -291,8 +334,10 @@ public class ServiceHandler implements ServiceManager{
     @Override
     public void editTask(String taskName, String fieldName, String newInputs) throws Exception{
     	Todo _task;
+    	String oldValue;
     	
     	switch(fieldName) {
+
     	//case edit taskName
     	case (Helper.FIELD_NAME): 
     		if (!taskName.equals(newInputs) && viewSpecificEvent(newInputs) != null) {
@@ -346,7 +391,6 @@ public class ServiceHandler implements ServiceManager{
     	}
     }
     
-    @Override
     public boolean editTaskName(String taskName, String newTaskName) {
         if (!taskName.equals(newTaskName) && viewSpecificTask(newTaskName) != null) return false;
         int taskIndex = 0;
@@ -364,7 +408,6 @@ public class ServiceHandler implements ServiceManager{
         return false; //task not found
     }
     
-    @Override
     public boolean editTaskDeadlineDate(String taskName, String newDeadlineDate) {
         int taskIndex = 0;
         ArrayList<Todo> completeTaskBook = taskHandler.retrieveTodoToDelete();
@@ -381,7 +424,6 @@ public class ServiceHandler implements ServiceManager{
             return false;
     }
     
-    @Override
     public boolean editTaskDeadlineTime(String taskName, String newDeadlineTime) {
         int taskIndex = 0;
         ArrayList<Todo> completeTaskBook = taskHandler.retrieveTodoToDelete();
@@ -398,7 +440,6 @@ public class ServiceHandler implements ServiceManager{
             return false;
     }
     
-    @Override
     public boolean editTaskDeadlineDateTime(String taskName, String newDeadlineDateTime){
         int taskIndex = 0;
         ArrayList<Todo> completeTaskBook = taskHandler.retrieveTodoToDelete();
@@ -414,7 +455,6 @@ public class ServiceHandler implements ServiceManager{
         }
             return false;
     }
-
     
     @Override
     public Event viewSpecificEvent (String eventName) {

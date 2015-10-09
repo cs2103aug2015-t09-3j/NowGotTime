@@ -4,7 +4,7 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import helper.Helper;
+import helper.CommonHelper;
 import object.Event;
 import object.Item;
 import project.ProjectHandler;
@@ -32,6 +32,9 @@ public class CommandDelete extends Command {
         }
     }
     
+    /**
+     * Parses the arguments for delete command
+     */
     public CommandDelete(String args) throws Exception {
         this.setRequireConfirmation(true);
         this.setRevertible(true);
@@ -40,10 +43,13 @@ public class CommandDelete extends Command {
         
         if (itemName == null) {
             // parsing unsuccessful
-            throw new Exception(String.format(Helper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
     }
     
+    /**
+     * Constructs command from specified Item object
+     */
     public CommandDelete(Item item) {
         this.item = item;
         this.itemName = item.getName();
@@ -56,12 +62,15 @@ public class CommandDelete extends Command {
         return itemName;
     }
     
+    /**
+     * Executes delete command, returns feedback string
+     */
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         if ((item = serviceHandler.viewSpecificEvent(itemName)) != null);
         else if ((item = serviceHandler.viewSpecificTask(itemName)) != null);
         else {
-            throw new Exception(String.format(Helper.ERROR_NOT_FOUND, itemName));
+            throw new Exception(String.format(CommonHelper.ERROR_NOT_FOUND, itemName));
         }
         
         if (item instanceof Event) {
@@ -70,9 +79,12 @@ public class CommandDelete extends Command {
         else {
             serviceHandler.deleteTask(itemName);
         }
-        return String.format(Helper.MESSAGE_DELETE, item.getName());
+        return String.format(CommonHelper.MESSAGE_DELETE, item.getName());
     }
 
+    /**
+     * Re-add the deleted command
+     */
     @Override
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         Command revertDeleteCommand = new CommandAdd(item);

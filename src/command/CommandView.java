@@ -3,7 +3,8 @@ package command;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import helper.Helper;
+import helper.CalendarHelper;
+import helper.CommonHelper;
 import object.Event;
 import object.Todo;
 import project.ProjectHandler;
@@ -15,17 +16,23 @@ public class CommandView extends Command {
     
     String dateString;
     
+    /**
+     * Parses the arguments for view command
+     */
     public CommandView(String args) throws Exception {
         this.setRequireConfirmation(false);
         this.setRevertible(false);
         
         dateString = args.trim();
         
-        if (Helper.getCalendarStringType(dateString) != Helper.DATE_TYPE) {
-            throw new Exception(Helper.ERROR_INVALID_DATE_TIME);
+        if (CalendarHelper.getCalendarStringType(dateString) != CalendarHelper.TYPE_DATE) {
+            throw new Exception(CommonHelper.ERROR_INVALID_DATE_TIME);
         }
     }
     
+    /**
+     * Executes view command, returns feedback string
+     */
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
             throws Exception {
@@ -37,13 +44,13 @@ public class CommandView extends Command {
         feedback.append("NowGotTime on " + dateString + "\n");
         feedback.append("----------------------------------------\n");
         feedback.append("--Event\n");
-        feedback.append(Helper.getFormattedEventList(eventList, dateString));
+        feedback.append(CommonHelper.getFormattedEventList(eventList, dateString));
         feedback.append("----------------------------------------\n");
         feedback.append("--Todo\n");
-        feedback.append(Helper.getFormattedTodoList(todoList, dateString));
+        feedback.append(CommonHelper.getFormattedTodoList(todoList, dateString));
         feedback.append("----------------------------------------\n");
         feedback.append("--Floating Todo\n");
-        feedback.append(Helper.getFormattedTodoList(floatingTodoList, dateString));
+        feedback.append(CommonHelper.getFormattedTodoList(floatingTodoList, dateString));
         feedback.append("----------------------------------------\n");
         
         return feedback.toString();

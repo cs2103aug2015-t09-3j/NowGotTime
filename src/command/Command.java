@@ -2,7 +2,7 @@ package command;
 
 import java.util.Stack;
 
-import helper.Helper;
+import helper.CommonHelper;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -11,9 +11,12 @@ public abstract class Command {
     private boolean revertible;
     private boolean requireConfirmation;
 
+    /**
+     * Returns Command object from parsed text
+     */
     public static Command parseCommand(String text) throws Exception {
-        String commandType = Helper.getFirstWord(text);
-        String arguments = Helper.removeFirstWord(text);
+        String commandType = CommonHelper.getFirstWord(text);
+        String arguments = CommonHelper.removeFirstWord(text);
         
         Command command;
         
@@ -38,41 +41,48 @@ public abstract class Command {
                 break;
             default:
                 // throw exception if it is not a valid command
-                throw new Exception(String.format(Helper.ERROR_INVALID_COMMAND, commandType));
+                throw new Exception(String.format(CommonHelper.ERROR_INVALID_COMMAND, commandType));
         }
         return command;
     }
     
+    /**
+     * Returns whether this command is revertible
+     */
     public boolean isRevertible() {
         return revertible;
     }
 
-
+    /**
+     * Set isRevertible
+     */
     protected void setRevertible(boolean revertible) {
         this.revertible = revertible;
     }
 
-
+    /**
+     * Returns whether this command require confirmation before execution
+     */
     public boolean isRequireConfirmation() {
         return requireConfirmation;
     }
 
-
+    /**
+     * Set requireConfirmation
+     */
     protected void setRequireConfirmation(boolean requireConfirmation) {
         this.requireConfirmation = requireConfirmation;
     }
 
     
     
-    /*
-     * Execute this command
-     * @return Feedback from execution
+    /**
+     * Executes this command
      */
     public abstract String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
     
-    /*
-     * Revert this command
-     * @return Feedback from execution
+    /**
+     * Reverts effect of this command
      */
     public abstract String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
     

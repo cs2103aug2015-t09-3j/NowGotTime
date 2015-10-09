@@ -20,21 +20,9 @@ public interface ServiceManager {
 	public boolean deleteEvent(String eventName);
 	public boolean deleteTask(String taskName);
 	
-	public void editEvent(String eventName, String fieldName, String newInputs)throws Exception; 
-	public boolean editEventName(String eventName, String newEventName);
-	public boolean editEventStartDate(String eventName, String newStartDate);
-	public boolean editEventEndDate(String eventName, String newStartDate);
-	public boolean editEventStartTime(String eventName, String newStartTime);
-	public boolean editEventEndTime(String eventName, String newEndTime);
-    public boolean editEventStartDateTime(String eventName, String newStartDateTime);
-    public boolean editEventEndDateTime(String eventName, String newEndDateTime);
-	
-    public void editTask(String taskName, String fieldName, String newInputs)throws Exception; 
-    public boolean editTaskName(String taskName, String newTaskName);
-    public boolean editTaskDeadlineDate(String taskName, String newDeadlineDate);
-    public boolean editTaskDeadlineTime(String taskName, String newDeadlineTime);
-    public boolean editTaskDeadlineDateTime(String taskName, String newDeadlineDateTime);
-	
+	public String editEvent(String eventName, String fieldName, String newInputs)throws Exception; 
+    public String editTask(String taskName, String fieldName, String newInputs)throws Exception; 
+    
 	public Event viewSpecificEvent (String eventName);
 	
 	public Todo viewSpecificTask(String taskName);

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import command.CommandUndo;
-import helper.Helper;
+import helper.CommonHelper;
 
 public class CommandUndoTest {
 
@@ -20,7 +20,7 @@ public class CommandUndoTest {
             cmd = new CommandUndo(args);
             fail("exception should be thrown");
         } catch (Exception e) {
-            assertEquals(String.format(Helper.ERROR_INVALID_ARGUMENTS, CommandUndo.KEYWORD), e.getMessage());
+            assertEquals(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandUndo.KEYWORD), e.getMessage());
         }
     }
     
