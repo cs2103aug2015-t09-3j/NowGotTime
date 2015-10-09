@@ -52,8 +52,8 @@ public class ServiceHandler implements ServiceManager{
             
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 completeEventBook.remove(event);
-               
-                return eventHandler.saveAll();
+
+                return eventHandler.saveEditedEventHandler();
             }
         }
         return false;
@@ -62,13 +62,12 @@ public class ServiceHandler implements ServiceManager{
     @Override
     public boolean deleteTask(String taskName) {
 
-        ArrayList<Todo> completeTodoList = taskHandler.retrieveTodoToDelete();      
-        System.out.println(completeTodoList); /////////////////////////////////////////////////////////
+        ArrayList<Todo> completeTodoList = taskHandler.retrieveTodoToDelete();    
         for (Todo task:completeTodoList){
             if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
                 completeTodoList.remove(task);
-                System.out.println(completeTodoList); /////////////////////////////////////////////////////////
-                return taskHandler.saveAll();
+
+                return taskHandler.saveEditedTodoHandler();
             }
         }
         return false;
@@ -91,7 +90,7 @@ public class ServiceHandler implements ServiceManager{
     	}
     	else {
     		_event.setName(newInputs);
-    		eventHandler.saveAll();
+    		eventHandler.saveEditedEventHandler();
     	}
 
     	// case edit startDate
@@ -103,7 +102,7 @@ public class ServiceHandler implements ServiceManager{
     	}
     	else {
     		_event.updateStartDate(newInputs);
-    		eventHandler.saveAll();
+    		eventHandler.saveEditedEventHandler();
     	}
     	
     	//case edit endDate
@@ -115,7 +114,7 @@ public class ServiceHandler implements ServiceManager{
     	}
     	else {
     		_event.updateEndDate(newInputs);
-    		eventHandler.saveAll();
+    		eventHandler.saveEditedEventHandler();
     	}
     	
     	//case edit startTime
@@ -127,7 +126,7 @@ public class ServiceHandler implements ServiceManager{
     	}
     	else {
     		_event.updateStartTime(newInputs);
-    		eventHandler.saveAll();
+    		eventHandler.saveEditedEventHandler();
     	}	
     	
     	//case endDate
@@ -139,7 +138,7 @@ public class ServiceHandler implements ServiceManager{
     	}
     	else {
     		_event.updateEndTime(newInputs);
-    		eventHandler.saveAll();
+    		eventHandler.saveEditedEventHandler();
     	}
     	
     	//case startDateTime
@@ -151,7 +150,7 @@ public class ServiceHandler implements ServiceManager{
     	}
     	else {
     		_event.updateStartDateTime(newInputs);
-    		eventHandler.saveAll();
+    		eventHandler.saveEditedEventHandler();
     	}	
 
     	//case edit eventEndDateTime
@@ -163,7 +162,7 @@ public class ServiceHandler implements ServiceManager{
     		}
     		else {
     			_event.updateEndDateTime(newInputs);
-    			eventHandler.saveAll();
+    			eventHandler.saveEditedEventHandler();
     		}	
     	}
     }
@@ -178,7 +177,7 @@ public class ServiceHandler implements ServiceManager{
     		if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
     			Event _event = completeEventBook.get(eventIndex);
     			_event.setName(newEventName);
-    			return eventHandler.saveAll();
+    			return eventHandler.saveEditedEventHandler();
     		}
     		else {
     			eventIndex++; // finding index with same name as eventName passed in
@@ -195,7 +194,7 @@ public class ServiceHandler implements ServiceManager{
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
                 _event.updateStartDate(newStartDate);
-                return eventHandler.saveAll(); 
+                return eventHandler.saveEditedEventHandler(); 
             }
             else {
                 eventIndex++; // finding index with same name as eventName passed in
@@ -212,7 +211,7 @@ public class ServiceHandler implements ServiceManager{
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
                 _event.updateEndDate(newEndDate);
-                return eventHandler.saveAll(); 
+                return eventHandler.saveEditedEventHandler(); 
             }
             else {
                 eventIndex++; // finding index with same name as eventName passed in
@@ -229,7 +228,7 @@ public class ServiceHandler implements ServiceManager{
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
                 _event.updateStartTime(newStartTime);
-                return eventHandler.saveAll(); 
+                return eventHandler.saveEditedEventHandler(); 
             }
             else {
                 eventIndex++; // finding index with same name as eventName passed in
@@ -246,7 +245,7 @@ public class ServiceHandler implements ServiceManager{
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
                 _event.updateEndTime(newEndTime);
-                return eventHandler.saveAll(); 
+                return eventHandler.saveEditedEventHandler(); 
             }
             else {
                 eventIndex++; // finding index with same name as eventName passed in
@@ -263,7 +262,7 @@ public class ServiceHandler implements ServiceManager{
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
                 _event.updateStartDateTime(newStartDateTime);
-                return eventHandler.saveAll(); 
+                return eventHandler.saveEditedEventHandler(); 
             }
             else {
                 eventIndex++; // finding index with same name as eventName passed in
@@ -280,7 +279,7 @@ public class ServiceHandler implements ServiceManager{
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 Event _event = completeEventBook.get(eventIndex);
                 _event.updateEndDateTime(newEndDateTime);
-                return eventHandler.saveAll(); 
+                return eventHandler.saveEditedEventHandler(); 
             }
             else {
                 eventIndex++; // finding index with same name as eventName passed in
@@ -306,7 +305,7 @@ public class ServiceHandler implements ServiceManager{
     	}
     	else {
     		_task.setName(newInputs);
-    		taskHandler.saveAll();
+    		taskHandler.saveEditedEventHandler();
     	}
     	
     	//case edit deadlineDate
@@ -318,7 +317,7 @@ public class ServiceHandler implements ServiceManager{
     	}
     	else {
     		_task.updateDeadlineDate(newInputs);
-    		taskHandler.saveAll();
+    		taskHandler.saveEditedEventHandler();
     	}
     	
     	//case edit deadlineTime
@@ -330,7 +329,7 @@ public class ServiceHandler implements ServiceManager{
     	}
     	else {
     		_task.updateDeadlineTime(newInputs);
-    		taskHandler.saveAll();
+    		taskHandler.saveEditedEventHandler();
     	}
 
     	//case edit deadlineDateTime
@@ -342,7 +341,7 @@ public class ServiceHandler implements ServiceManager{
     		}
     		else {
     			_task.updateDeadlineDateTime(newInputs);
-    			taskHandler.saveAll();
+    			taskHandler.saveEditedEventHandler();
     		}
     	}
     }
@@ -356,7 +355,7 @@ public class ServiceHandler implements ServiceManager{
             if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
                 Todo _task = completeTaskBook.get(taskIndex);
                 _task.setName(newTaskName);
-                return taskHandler.saveAll(); 
+                return taskHandler.saveEditedTodoHandler(); 
             }
             else {
                 taskIndex++; // finding index with same name as taskName passed in
@@ -373,7 +372,7 @@ public class ServiceHandler implements ServiceManager{
             if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
                 Todo _task = completeTaskBook.get(taskIndex);
                 _task.updateDeadlineDate(newDeadlineDate);
-                return taskHandler.saveAll(); 
+                return taskHandler.saveEditedTodoHandler(); 
             }
             else {
                 taskIndex++; // finding index with same name as taskName passed in
@@ -390,7 +389,7 @@ public class ServiceHandler implements ServiceManager{
             if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
                 Todo _task = completeTaskBook.get(taskIndex);
                 _task.updateDeadlineTime(newDeadlineTime);
-                return taskHandler.saveAll(); 
+                return taskHandler.saveEditedTodoHandler(); 
             }
             else {
                 taskIndex++; // finding index with same name as taskName passed in
@@ -407,7 +406,7 @@ public class ServiceHandler implements ServiceManager{
             if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
                 Todo _task = completeTaskBook.get(taskIndex);
                 _task.updateDeadlineDateTime(newDeadlineDateTime);
-                return taskHandler.saveAll(); 
+                return taskHandler.saveEditedTodoHandler(); 
             }
             else {
                 taskIndex++; // finding index with same name as taskName passed in

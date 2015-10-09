@@ -33,6 +33,7 @@ public class FileTodoHandler {
 	private File inputFile;	
 	
 	private ArrayList<Todo> allTodo = new ArrayList<Todo>();
+	private ArrayList<Todo> allTodoClone = new ArrayList<Todo>();
 	private ArrayList<Todo> universalTodo = new ArrayList<Todo>();
 	private ArrayList<Todo> todoHistory;
 	private ArrayList<Todo> universalTodoHistory = new ArrayList<Todo>();
@@ -64,10 +65,11 @@ public class FileTodoHandler {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Todo> retrieveTodoToDelete(){
 		
-		tempTodo = (ArrayList<Todo>) allTodo.clone();
-		tempUniversalTodo = (ArrayList<Todo>) universalTodo.clone();
+		ArrayList<Todo> tempTodo = (ArrayList<Todo>) allTodo.clone();
+		ArrayList<Todo> tempUniversalTodo = (ArrayList<Todo>) universalTodo.clone();
 		
-		ArrayList<Todo> allTodoClone = new ArrayList<Todo>();
+		allTodoClone.clear();
+		
 		allTodoClone.addAll(tempTodo);
 		allTodoClone.addAll(tempUniversalTodo);
 		return allTodoClone;
@@ -76,7 +78,7 @@ public class FileTodoHandler {
 	public boolean saveNewTodoHandler(Todo todo){
 		if(todo.hasDate()){
 			allTodo.add(todo);
-			saveToDoList(true);
+			saveToDoList();
 		}
 		else{
 			saveAsUniversalTodo(todo);
@@ -84,9 +86,7 @@ public class FileTodoHandler {
 		return true;
 	}
 			
-	public boolean saveToDoList(boolean saveNewTodo){
-		System.out.println("here?? 1");
-		System.out.println(allTodo);
+	public boolean saveToDoList(){
 		
 		sortTodoByDate(allTodo);
 		
@@ -111,7 +111,7 @@ public class FileTodoHandler {
 	}
 	
 	public boolean saveUniversalToDoList(){
-		System.out.println("here??2");
+		
 		sortTodoByDate(universalTodo);
 		
 		try{
@@ -134,21 +134,23 @@ public class FileTodoHandler {
 	
 	public boolean separateTodoTypes(){
 		
-		allTodo = tempTodo;
-		universalTodo = tempUniversalTodo;
-		return true;
-		
-//		allTodo.clear();
-//		universalTodo.clear();
-//		
-//		for(Todo todo: allTodoClone){
-//			if(todo.hasDate()){
-//				allTodo.add(todo);
-//			}else{
-//				universalTodo.add(todo);
-//			}
-//		}
+//		allTodo = tempTodo;
+//		universalTodo = tempUniversalTodo;
 //		return true;
+		
+		allTodo.clear();
+		universalTodo.clear();
+		for(Todo todo: allTodoClone){
+			if(todo.hasDate()){
+				allTodo.add(todo);
+			}else{
+				universalTodo.add(todo);
+			}
+		}
+		
+		
+		
+		return true;
 	}
 	
 	public boolean setNewDirectory(String newBaseDirectory){
@@ -250,7 +252,7 @@ public class FileTodoHandler {
 			for(int i=0; i<counter; i++){
 				allTodo.remove(0);
 			}
-			saveToDoList(false);
+			saveToDoList();
 			updateHistory();
 			return true;
 		}

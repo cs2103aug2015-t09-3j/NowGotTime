@@ -1,5 +1,4 @@
 package storage;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,15 +14,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import object.Event;
-
-/**
- * 
- * @author RX.huang
- *
- *	Things that has yet to be implemented:
- *	1) 
- */
-
 
 public class FileEventHandler {
 	private static final String EVENTS = "Upcoming Events.txt";
@@ -57,15 +47,11 @@ public class FileEventHandler {
 
 	public boolean saveNewEventHandler(Event event){
 		allEvents.add(event);
-		saveEventBook(true);
+		saveEventBook();
 		return true;
 	}
 			
-	public boolean saveEventBook(Boolean saveNewEvent){
-				
-		if(!saveNewEvent){
-			allEvents = allEventsClone;
-		}
+	public boolean saveEventBook(){
 		
 		sortEventsByDate(allEvents);
 		
@@ -103,10 +89,9 @@ public class FileEventHandler {
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<Event> retrieveEventsToDelete(){
-		allEventsClone = (ArrayList<Event>) allEvents.clone();
-		
-		return allEventsClone;
-		
+//		allEventsClone = (ArrayList<Event>) allEvents.clone();
+//		return allEventsClone;
+		return allEvents;
 	}
 	
 	public boolean updateHistory(){
@@ -183,7 +168,7 @@ public class FileEventHandler {
 			for(int i=0; i<counter; i++){
 				allEvents.remove(0);
 			}
-			saveEventBook(false);
+			saveEventBook();
 			updateHistory();
 			return true;
 		}
