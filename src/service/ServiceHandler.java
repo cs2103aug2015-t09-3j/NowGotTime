@@ -47,11 +47,12 @@ public class ServiceHandler implements ServiceManager{
     @Override
     public boolean deleteEvent(String eventName) {
         ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
-        
+      
         for (Event event:completeEventBook){
             
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
                 completeEventBook.remove(event);
+               
                 return eventHandler.saveAll();
             }
         }
@@ -62,10 +63,11 @@ public class ServiceHandler implements ServiceManager{
     public boolean deleteTask(String taskName) {
 
         ArrayList<Todo> completeTodoList = taskHandler.retrieveTodoToDelete();      
-        
+        System.out.println(completeTodoList); /////////////////////////////////////////////////////////
         for (Todo task:completeTodoList){
             if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
                 completeTodoList.remove(task);
+                System.out.println(completeTodoList); /////////////////////////////////////////////////////////
                 return taskHandler.saveAll();
             }
         }

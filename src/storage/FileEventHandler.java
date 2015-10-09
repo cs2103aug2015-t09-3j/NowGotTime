@@ -16,6 +16,15 @@ import java.util.Comparator;
 
 import object.Event;
 
+/**
+ * 
+ * @author RX.huang
+ *
+ *	Things that has yet to be implemented:
+ *	1) 
+ */
+
+
 public class FileEventHandler {
 	private static final String EVENTS = "Upcoming Events.txt";
 	private static final String HISTORY = "History.txt";
@@ -29,26 +38,35 @@ public class FileEventHandler {
 	private File inputFile;
 	
 	private ArrayList<Event> allEvents;
+	private ArrayList<Event> allEventsClone;
 	private ArrayList<Event> historyEvents;
 	
 	private Calendar todaysDate;
+
+/*************************************************************************************/
 	
 /*****************************************************************************************/		
 
  	public FileEventHandler(String theBaseDirectory){
 		this.baseDirectory = theBaseDirectory.concat("/");
 		allEvents = retrieveEvent(EVENTS);
+		allEventsClone = allEvents;
 		retrievePassedEvents();
 		pushPassedEventsToHistoryFile();
 	}
 
 	public boolean saveNewEventHandler(Event event){
 		allEvents.add(event);
-		saveEventBook();
+		saveEventBook(true);
 		return true;
 	}
 			
-	public boolean saveEventBook(){
+	public boolean saveEventBook(Boolean saveNewEvent){
+				
+		if(!saveNewEvent){
+			allEvents = allEventsClone;
+		}
+		
 		sortEventsByDate(allEvents);
 		
 		try{
@@ -83,8 +101,12 @@ public class FileEventHandler {
 		return eventBookByDate;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<Event> retrieveEventsToDelete(){
-		return allEvents;
+		allEventsClone = (ArrayList<Event>) allEvents.clone();
+		
+		return allEventsClone;
+		
 	}
 	
 	public boolean updateHistory(){
@@ -106,6 +128,8 @@ public class FileEventHandler {
 			return false;
 		}
 	}
+
+/*************************************************************************************/
 	
 /*****************************************************************************************/	
 
@@ -159,7 +183,7 @@ public class FileEventHandler {
 			for(int i=0; i<counter; i++){
 				allEvents.remove(0);
 			}
-			saveEventBook();
+			saveEventBook(false);
 			updateHistory();
 			return true;
 		}

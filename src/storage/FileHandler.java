@@ -78,7 +78,7 @@ public class FileHandler implements FileManager{
 	
 	@Override
 	public boolean saveEditedEventHandler() {
-		return fEventH.saveEventBook();
+		return fEventH.saveEventBook(false);
 	}
 
 /********************************* Todo *****************************************/
@@ -104,7 +104,7 @@ public class FileHandler implements FileManager{
 	
 	@Override
 	public boolean saveEditedTodoHandler() {
-		return fTodoH.saveToDoList();
+		return fTodoH.saveToDoList(false);
 	}
 	
 	@Override
@@ -113,7 +113,8 @@ public class FileHandler implements FileManager{
 	}
 	
 	public boolean saveAllEditedTodo(){
-		return fTodoH.saveToDoList() && fTodoH.saveUniversalToDoList();
+		fTodoH.separateTodoTypes();
+		return fTodoH.saveToDoList(false) && fTodoH.saveUniversalToDoList();
 	}
 	
 /******************************** Project **************************************/
@@ -212,13 +213,21 @@ public class FileHandler implements FileManager{
 	}
 	
 	public boolean saveAll(){
-		return fEventH.saveEventBook() &&
-				fEventH.updateHistory() &&
-				fTodoH.saveToDoList() &&
-				fTodoH.updateHistory() &&
-				fTodoH.saveUniversalToDoList() &&
-				fProjH.writeAll() && 
-				writeCounter();
+		System.out.println("YOZZZZZ");
+		fEventH.saveEventBook(false);
+		System.out.println("YOZZZZZ");
+		fEventH.updateHistory();
+		System.out.println("YOZZZZZ");
+		saveAllEditedTodo();
+		System.out.println("here??");
+		fTodoH.updateHistory();
+		
+		System.out.println("YOZZZZZ");
+		fProjH.writeAll();
+		System.out.println("hello");
+		
+		writeCounter();
+		return true;
 	}
 
 	public void clearAll(){

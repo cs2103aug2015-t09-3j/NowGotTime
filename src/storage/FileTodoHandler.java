@@ -34,8 +34,11 @@ public class FileTodoHandler {
 	
 	private ArrayList<Todo> allTodo = new ArrayList<Todo>();
 	private ArrayList<Todo> universalTodo = new ArrayList<Todo>();
-	private ArrayList<Todo> todoHistory = new ArrayList<Todo>();
+	private ArrayList<Todo> todoHistory;
 	private ArrayList<Todo> universalTodoHistory = new ArrayList<Todo>();
+	
+	ArrayList<Todo> tempTodo;
+	ArrayList<Todo> tempUniversalTodo;
 	
 	private Calendar todaysDate;
 	
@@ -43,7 +46,7 @@ public class FileTodoHandler {
 	
 	public FileTodoHandler(String baseDirectory){
 		this.baseDirectory = baseDirectory.concat("/");
-		retrievePassTasks();
+		retrievePassedTasks();
 		pushPassedTodoToHistoryFile();
 	}
 	
@@ -58,25 +61,35 @@ public class FileTodoHandler {
 		return universalTodo;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public ArrayList<Todo> retrieveTodoToDelete(){
-		return allTodo;
+		
+		tempTodo = (ArrayList<Todo>) allTodo.clone();
+		tempUniversalTodo = (ArrayList<Todo>) universalTodo.clone();
+		
+		ArrayList<Todo> allTodoClone = new ArrayList<Todo>();
+		allTodoClone.addAll(tempTodo);
+		allTodoClone.addAll(tempUniversalTodo);
+		return allTodoClone;
 	}
 	
 	public boolean saveNewTodoHandler(Todo todo){
 		if(todo.hasDate()){
 			allTodo.add(todo);
-			saveToDoList();
+			saveToDoList(true);
 		}
 		else{
-            allTodo.add(todo);
 			saveAsUniversalTodo(todo);
 		}
 		return true;
 	}
 			
-	public boolean saveToDoList(){
-
+	public boolean saveToDoList(boolean saveNewTodo){
+		System.out.println("here?? 1");
+		System.out.println(allTodo);
+		
 		sortTodoByDate(allTodo);
+		
 		try{
 			File outfile = new File(baseDirectory +  UPCOMING_TODO);
 			
@@ -98,7 +111,7 @@ public class FileTodoHandler {
 	}
 	
 	public boolean saveUniversalToDoList(){
-
+		System.out.println("here??2");
 		sortTodoByDate(universalTodo);
 		
 		try{
@@ -119,6 +132,25 @@ public class FileTodoHandler {
 		}
 	}
 	
+	public boolean separateTodoTypes(){
+		
+		allTodo = tempTodo;
+		universalTodo = tempUniversalTodo;
+		return true;
+		
+//		allTodo.clear();
+//		universalTodo.clear();
+//		
+//		for(Todo todo: allTodoClone){
+//			if(todo.hasDate()){
+//				allTodo.add(todo);
+//			}else{
+//				universalTodo.add(todo);
+//			}
+//		}
+//		return true;
+	}
+	
 	public boolean setNewDirectory(String newBaseDirectory){
 		baseDirectory = newBaseDirectory.concat("/" + TODO + "/");
 		return true;
@@ -126,12 +158,14 @@ public class FileTodoHandler {
 	
 	public boolean updateHistory(){
 		sortTodoByDate(todoHistory);
+		System.out.println("herere");
 		try{
 			File outfile = new File(baseDirectory +  PAST_TODO);
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
 			
 			for(Todo aTodo : todoHistory){
+				writer.write(aTodo.getId() + ""); writer.newLine();
 				String todoType = determineType(aTodo);
 				writer.write(todoType); writer.newLine();
 				writer.write(aTodo.toString()); writer.newLine();
@@ -196,7 +230,7 @@ public class FileTodoHandler {
 	private boolean pushPassedTodoToHistoryFile(){
 		todaysDate = Calendar.getInstance();
 		setZeroTime(todaysDate);
-		boolean allEventsValid = true;
+		boolean allTodoValid = true;
 		int counter = 0;
 		
 		for(Todo todo: allTodo){
@@ -204,19 +238,19 @@ public class FileTodoHandler {
 			if(todo.getDeadline().before(todaysDate)){
 				todoHistory.add(todo);
 				counter++;
-				allEventsValid = false;
+				allTodoValid = false;
 			}else{
 				break;
 			}
 		}
 		
-		if(allEventsValid){
+		if(allTodoValid){
 			return false;
 		}else{
 			for(int i=0; i<counter; i++){
 				allTodo.remove(0);
 			}
-			saveToDoList();
+			saveToDoList(false);
 			updateHistory();
 			return true;
 		}
@@ -310,7 +344,7 @@ public class FileTodoHandler {
 		}	
 	}
 	
-	private boolean retrievePassTasks(){
+	private boolean retrievePassedTasks(){
 		readTodoFile(UPCOMING_TODO);
 		readTodoFile(PAST_TODO);
 		readUniversalTodoFile(UNIVERSAL_TODO);
@@ -344,7 +378,7 @@ public class FileTodoHandler {
 	private void selectFileAsInputFile(String fileName){
 		inputFile = new File(fileName);
 	}
-
+	
 	private void setZeroTime(Calendar date){
 		date.set(Calendar.HOUR_OF_DAY, 0);
 		date.set(Calendar.MINUTE, 0);
@@ -353,7 +387,9 @@ public class FileTodoHandler {
 	}
 	
 	private void sortTodoByDate(ArrayList<Todo> toDoList){
-		Collections.sort(toDoList, new customTodoComparator());
+		if(!toDoList.isEmpty()){
+			Collections.sort(toDoList, new customTodoComparator());
+		}		
 	}
 	
 	public boolean updateDate(Calendar calendar, String dateString) {
