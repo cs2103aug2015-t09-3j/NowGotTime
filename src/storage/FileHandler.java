@@ -200,6 +200,7 @@ public class FileHandler implements FileManager{
 		}
 	}
 	
+	
 /****************************** Directory *************************************/
 	
 	public boolean changeBaseDirectory(String newBaseDirectory){
@@ -282,6 +283,25 @@ public class FileHandler implements FileManager{
 		return syncList;
 	}
 	
+	public Event retrieveEventById(int wantedId){
+		ArrayList<Event> allEvent = fEventH.retrieveEventsToDelete();
+		for(Event event: allEvent){
+			if(event.getId() == wantedId){
+				return event;
+			}
+		}
+		
+		return null;
+	}
 	
+	public Todo retrieveTaskById(int wantedId){
+		ArrayList<Todo> allTodo = fTodoH.retrieveTodoToDelete();
+		for(Todo todo: allTodo){
+			if(todo.getId() == wantedId){
+				return todo;
+			}
+		}
+		return null;
+	}
 	
 }
