@@ -17,36 +17,57 @@ public class ServiceHandler implements ServiceManager{
         taskHandler = new FileHandler();
     }
 
+    /**
+     * Runs the process of creating an Event
+     */
     @Override
     public boolean createEvent(Event newEvent) {
         if (viewSpecificEvent(newEvent.getName()) != null) return false;
         return eventHandler.saveNewEventHandler(newEvent);
     }
-
+    
+    /**
+     * Runs the process of creating a Todo
+     */
     @Override
     public boolean createTask(Todo newTask) {
         if (viewSpecificTask(newTask.getName()) != null) return false;
         return taskHandler.saveNewTodoHandler(newTask);
     }
-
+    
+    /**
+     * Returns an ArrayList<Event> containing details of the events on the date
+     * Returns an empty ArrayList<Event> if that date has no events 
+     */
     @Override
     public ArrayList<Event> viewEventByDate(String date) {
         return eventHandler.retrieveEventByDate(date);
     }
-
+    
+    /**
+     * Returns an ArrayList<Todo> containing details of the tasks on the date
+	 * Returns an empty ArrayList<ToDo> if that date has no events 
+     */
     @Override
     public ArrayList<Todo> viewTaskByDate(String date) {
         return taskHandler.retrieveTodoByDate(date);
     }
-
+    
+    /**
+     * Returns an ArrayList<Todo> containing floating tasks
+	 * Returns empty ArrayList<ToDo> if that date has no floating tasks
+     */
     @Override
     public ArrayList<Todo> viewTaskNoDate() {
         return taskHandler.retrieveUniversalTodo();
     }
 
+    /**
+     * Returns true when deleted, else return false
+     */
     @Override
     public boolean deleteEvent(String eventName) {
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
         
         for (Event event:completeEventBook){
             
@@ -58,10 +79,13 @@ public class ServiceHandler implements ServiceManager{
         return false;
     }
 
+    /**
+     * Returns true when deleted, else return false
+     */
     @Override
     public boolean deleteTask(String taskName) {
 
-        ArrayList<Todo> completeTodoList = taskHandler.retrieveTodoToDelete();      
+        ArrayList<Todo> completeTodoList = taskHandler.retrieveAllTodo();      
         
         for (Todo task:completeTodoList){
             if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
@@ -72,6 +96,9 @@ public class ServiceHandler implements ServiceManager{
         return false;
     }
 
+    /**
+     * Edits a field from existing event from the Arraylist<Event>by name
+     */
     @Override
     public String editEvent(String eventName, String fieldName, String newInputs) throws Exception {
     	Event _event;
@@ -127,6 +154,9 @@ public class ServiceHandler implements ServiceManager{
     	return oldValue;
     }
 
+    /**
+     *  Edits a field from existing task from the Arraylist<ToDo> by name.
+     */
     @Override
     public String editTask(String taskName, String fieldName, String newInputs) throws Exception{
 
@@ -170,9 +200,13 @@ public class ServiceHandler implements ServiceManager{
     	return oldValue;
     }
     
+    /**
+     * Checks if the event exist
+	 * Returns true when exist, else return false
+     */
     @Override
     public Event viewSpecificEvent (String eventName) {
-        ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+        ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
         int eventIndex = 0;
         for (Event event:completeEventBook){
             if (event.getName().equals(eventName)){
@@ -186,8 +220,13 @@ public class ServiceHandler implements ServiceManager{
         return null; //@Stef returns null if no task found with same name as eventName passed in
     }
     
+    /**
+     * Checks if the task exist
+	 * Returns true when exist, else return false
+     */
+    @Override
     public Todo viewSpecificTask(String taskName){
-        ArrayList<Todo> completeTaskBook = taskHandler.retrieveTodoToDelete();
+        ArrayList<Todo> completeTaskBook = taskHandler.retrieveAllTodo();
         int taskIndex = 0;
         for (Todo task:completeTaskBook){ //checking taskbook with deadline
             if (task.getName().equals(taskName)){
@@ -201,9 +240,10 @@ public class ServiceHandler implements ServiceManager{
         return null; //@Stef returns null if no task found with same name as taskName passed in
     }
     
+
     private Event findEvent(String eventName) {
     	int eventIndex = 0;
-    	ArrayList<Event> completeEventBook = eventHandler.retrieveEventsToDelete();
+    	ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
     	
     	for (Event event:completeEventBook){
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
@@ -216,10 +256,9 @@ public class ServiceHandler implements ServiceManager{
     	return null;
     }
 
-    
     private Todo findTask(String taskName) {
     	int taskIndex = 0;
-        ArrayList<Todo> completeTaskBook = taskHandler.retrieveTodoToDelete();
+        ArrayList<Todo> completeTaskBook = taskHandler.retrieveAllTodo();
         
         for (Todo task:completeTaskBook){
             if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
@@ -230,13 +269,5 @@ public class ServiceHandler implements ServiceManager{
             }
         }
             return null;
-    }
-
-	@Override
-	public boolean editEventName(String eventName, String newEventName) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-   
-    
+    }  
 }
