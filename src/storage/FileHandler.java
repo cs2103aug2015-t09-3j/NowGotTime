@@ -67,10 +67,13 @@ public class FileHandler implements FileManager{
 		return fEventH.retrieveEventByDate(date);
 	}
 	
-	public ArrayList<Event> retrieveEventsToDelete(){
+	public ArrayList<Event> retrieveAllEvents(){
 		return fEventH.retrieveEventsToDelete();
 	}
 	
+	/**
+	 * 
+	 */
 	@Override
 	public boolean saveNewEventHandler(Event event){
 		return fEventH.saveNewEventHandler(event);
@@ -89,7 +92,7 @@ public class FileHandler implements FileManager{
 		return fTodoH.retrieveTodoByDate(date);
 	}
 	
-	public ArrayList<Todo> retrieveTodoToDelete(){
+	public ArrayList<Todo> retrieveAllTodo(){
 		return fTodoH.retrieveTodoToDelete();
 	}
 	
