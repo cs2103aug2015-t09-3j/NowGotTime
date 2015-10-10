@@ -85,11 +85,11 @@ public interface FileManager {
 	public ArrayList<Event> retrieveEventByDate(String date); 
 	public boolean saveNewEventHandler(Event event);
 	public boolean saveEditedEventHandler();
-	public ArrayList<Event> retrieveEventsToDelete();
+	public ArrayList<Event> retrieveAllEvents();
 	
 	public ArrayList<Todo> retrieveTodoByDate(String date);
 	public ArrayList<Todo> retrieveUniversalTodo();
-	public ArrayList<Todo> retrieveTodoToDelete();
+	public ArrayList<Todo> retrieveAllTodo();
 	public boolean saveNewTodoHandler(Todo task);
 	public boolean saveEditedTodoHandler();
 	public boolean saveEditedUniversalTodoHandler();
