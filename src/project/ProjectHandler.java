@@ -120,11 +120,11 @@ public class ProjectHandler implements ProjectManager{
 					break;
 				}
 				
-				/*case (6):
+				case (6):
 				{
 					event.setAdditionalInfo(newValue);
 					break;
-				}*/
+				}
 			}
 			
 			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
@@ -138,50 +138,9 @@ public class ProjectHandler implements ProjectManager{
 	
 		for (int i=0; i<projectBook.size(); i++)
 		{
-			// System.out.println(eventName.getName() + "compare " + projectBook.get(i).getName());
 			if (eventName.getName().toLowerCase().equals(projectBook.get(i).getName().toLowerCase()))
 			{
-				// System.out.println("entered" + projectBook.indexOf(eventName) + " " + i);
 				int eventIndex = i;
-				/*Event event = projectBook.get(eventIndex);
-				switch(infoIndex)
-				{
-					case (1):
-					{
-						event.setName(newValue);
-						break;
-					}
-					
-					case (2):
-					{
-						event.updateStartDate(newValue); //Stef, for single date events, change both case 2 and 3
-						break;
-					}
-					
-					case (3):
-					{
-						event.updateEndDate(newValue);
-						break;
-					}
-					
-					case (4):
-					{
-						event.updateStartTime(newValue);
-						break;
-					}
-					
-					case (5):
-					{
-						event.updateEndTime(newValue);
-						break;
-					}
-					
-					/*case (6):
-					{
-						event.setAdditionalInfo(newValue);
-						break;
-					}
-				}*/
 				
 				return editProjectEvent(eventIndex, infoIndex, newValue, projectName);
 				//project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
@@ -190,64 +149,6 @@ public class ProjectHandler implements ProjectManager{
 		}
 		
 		return false;
-		
-		/* if (!projectBook.contains(eventName))
-		{	
-			return false;
-		}
-
-		else
-		{
-			//Event event = projectBook.get(projectBook.indexOf(name));
-			
-			//recursion
-				
-		}*/	
-		
-			//if recursion doesn't work:
-		
-			/*switch(infoIndex)
-			{
-				case (1):
-				{
-					event.setName(newValue);
-					break;
-				}
-				
-				case (2):
-				{
-					event.updateStartDate(newValue); //Stef, for single date events, change both case 2 and 3
-					break;
-				}
-				
-				case (3):
-				{
-					event.updateEndDate(newValue);
-					break;
-				}
-				
-				case (4):
-				{
-					event.updateStartTime(newValue);
-					break;
-				}
-				
-				case (5):
-				{
-					event.updateEndTime(newValue);
-					break;
-				}
-				
-				case (6):
-				{
-					event.setAdditionalInfo(newValue);
-					break;
-				}
-			}
-			
-			return true;
-		}*/
-			
 	}
 
 	@Override
