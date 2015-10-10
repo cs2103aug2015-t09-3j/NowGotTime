@@ -29,5 +29,7 @@ public interface ServiceManager {
 	public Todo viewSpecificTask(String taskName);
 	
 	public ArrayList<Item> search (String inputs);
+	
+	public Item deleteItem(int index) ;
 
 }

@@ -12,6 +12,7 @@ import storage.FileHandler;
 public class ServiceHandler implements ServiceManager{
     private FileHandler eventHandler;
     private FileHandler taskHandler;
+   	private ArrayList<Item> searchedItems = new ArrayList<Item>();
     
     public ServiceHandler (){
         eventHandler = new FileHandler();
@@ -252,7 +253,6 @@ public class ServiceHandler implements ServiceManager{
     	int taskIndex = 0;
     	ArrayList<Todo> completeTaskBook = taskHandler.retrieveAllTodo();
     	ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
-    	ArrayList<Item> searchedItems = new ArrayList<Item>();
     	
     	for (Event event:completeEventBook){
             if (event.getName().toLowerCase().contains(inputs.toLowerCase())){
@@ -273,6 +273,15 @@ public class ServiceHandler implements ServiceManager{
         }
     	return searchedItems;
     }
+    
+    /**
+     * Deletes an item after searching via the search index
+     */
+    @Override
+    public Item deleteItem(int index) {
+    	return searchedItems.remove(index);
+    }
+    
 
     private Event findEvent(String eventName) {
     	int eventIndex = 0;
