@@ -49,7 +49,10 @@ public class FileHandler implements FileManager{
 	private DirectoryHandler directHand;
 	
 /******************************* Constructor *************************************/	
-
+	
+	/**
+	 * Create a new instance of the FileHandler.
+	 */
 	public FileHandler(){
 		directHand = new DirectoryHandler();
 		readOverviewerFile();
@@ -62,23 +65,33 @@ public class FileHandler implements FileManager{
 	
 /********************************* Events ****************************************/
 	
+	/**
+	 * Retrieve a specific events by date
+	 */
 	@Override
 	public ArrayList<Event> retrieveEventByDate(String date){
 		return fEventH.retrieveEventByDate(date);
 	}
 	
+	/**
+	 * Retrieve an ArrayList of events to make changes/delete
+	 */
 	public ArrayList<Event> retrieveAllEvents(){
 		return fEventH.retrieveEventsToDelete();
 	}
 	
 	/**
-	 * 
+	 * Save a new Event
 	 */
 	@Override
 	public boolean saveNewEventHandler(Event event){
 		return fEventH.saveNewEventHandler(event);
 	}
 	
+	/**
+	 * Save any changes made to the ArrayList<Event> 
+	 * retrieved using the retrieveAllEvent() method
+	 */
 	@Override
 	public boolean saveEditedEventHandler() {
 		writeCounter();
@@ -87,25 +100,41 @@ public class FileHandler implements FileManager{
 
 /********************************* Todo *****************************************/
 	
+	/**
+	 * Retrieve a specific task by date
+	 */
 	@Override
 	public ArrayList<Todo> retrieveTodoByDate(String date) {
 		return fTodoH.retrieveTodoByDate(date);
 	}
 	
+	/**
+	 * Retrieve an ArrayList of tasks to make changes/delete
+	 */
 	public ArrayList<Todo> retrieveAllTodo(){
 		return fTodoH.retrieveTodoToDelete();
 	}
 	
+	/**
+	 * Retrieve all the floating Tasks available
+	 */
 	@Override
 	public ArrayList<Todo> retrieveUniversalTodo() {
 		return fTodoH.retrieveFloatingTodo();
 	}
-
+	
+	/**
+	 * Save a new task
+	 */
 	@Override
 	public boolean saveNewTodoHandler(Todo task) {
 		return fTodoH.saveNewTodoHandler(task);
 	}
 	
+	/**
+	 * Save any changes made to the ArrayList<Todo> retrieved using the 
+	 * retrieveAllTodo() method
+	 */
 	@Override
 	public boolean saveEditedTodoHandler() {
 		writeCounter();
@@ -113,12 +142,16 @@ public class FileHandler implements FileManager{
 		return fTodoH.saveToDoList();
 	}
 	
-	@Override
-	public boolean saveEditedUniversalTodoHandler(){
-		writeCounter();
-		return fTodoH.saveUniversalToDoList();
-	}
+//	@Override
+//	public boolean saveEditedUniversalTodoHandler(){
+//		writeCounter();
+//		return fTodoH.saveUniversalToDoList();
+//	}
 	
+	/**
+	 * Save all the Todo and Floating Todo into text files.
+	 * @return
+	 */
 	public boolean saveAllEditedTodo(){
 		fTodoH.separateTodoTypes();
 		return fTodoH.saveToDoList() && fTodoH.saveUniversalToDoList();
@@ -126,26 +159,41 @@ public class FileHandler implements FileManager{
 	
 /******************************** Project **************************************/
 	
+	/**
+	 * Retrieve all the events added to a project
+	 */
 	@Override
 	public ArrayList<Event> retrieveProjectTimeLine(String projectName) {
 		return fProjH.retrieveProject(projectName);
 	}
 	
+	/**
+	 * Create a new text file to store information of a new project
+	 */
 	@Override
 	public boolean createNewProject(String projectName) {
 		return fProjH.createNewProject(projectName);
 	}
-
+	
+	/**
+	 * Save any changes made to the ArrayList<Integer> retrieved using the retrieveProjectTimeLine( ) method
+	 */
 	@Override
 	public boolean saveEditedProjectDetails(ArrayList<Event> projectBook, String projectName) {
 		return fProjH.saveEditedProjectDetails(projectBook, projectName);
 	}
-
+	
+	/**
+	 * Retrieve the names of all the existing project 
+	 */
 	@Override
 	public ArrayList<String> getListOfExistingProject() {
 		return fProjH.getListOfExistingProjects();
 	}
 	
+	/**
+	 * Delete the entire project 
+	 */
 	@Override
 	public boolean deleteProject(String projectName){
 		return fProjH.deleteProject(projectName);
@@ -206,9 +254,13 @@ public class FileHandler implements FileManager{
 		}
 	}
 	
-	
 /****************************** Directory *************************************/
-	
+	/**
+	 * Take in a new directory for storage data to be stored and 
+	 * transfer all the existing files to the new directory.
+	 * @param newBaseDirectory
+	 * @return
+	 */
 	public boolean changeBaseDirectory(String newBaseDirectory){
 		fProjH.readAll();
 		clearAll();
@@ -220,6 +272,10 @@ public class FileHandler implements FileManager{
 		return true;
 	}
 	
+	/**
+	 * Save all the data available to the text files.
+	 * @return
+	 */
 	public boolean saveAll(){
 		return fEventH.saveEventBook() &&
 				fEventH.updateHistory() &&
@@ -229,7 +285,10 @@ public class FileHandler implements FileManager{
 				fProjH.writeAll() && writeCounter();
 
 	}
-
+	
+	/**
+	 * Delete all text files available
+	 */
 	public void clearAll(){
 		try {
 			
@@ -266,29 +325,12 @@ public class FileHandler implements FileManager{
 		}
 	}
 
-/****************************** Item *************************************/
-	
-	protected ArrayList<Item> synchronise(ArrayList<Item> itemSet1, ArrayList<Item> itemSet2){
-		
-		ArrayList<Item> syncList = new ArrayList<Item>();
-		
-		for(Item item1: itemSet1){
-			for(Item item2: itemSet2){
-				if(item1.getId() == item2.getId()){
-					syncList.add(item2);
-					itemSet2.remove(item2);
-					break;
-				}
-			}
-		}
-		
-		if(!itemSet2.isEmpty()){
-			syncList.addAll(itemSet2);
-		}
-		
-		return syncList;
-	}
-	
+/****************************** Item *****************************************/
+	/**
+	 * Retrieve event by the ID assigned. 
+	 * @param wantedId
+	 * @return
+	 */
 	public Event retrieveEventById(int wantedId){
 		ArrayList<Event> allEvent = fEventH.retrieveEventsToDelete();
 		for(Event event: allEvent){
@@ -300,6 +342,11 @@ public class FileHandler implements FileManager{
 		return null;
 	}
 	
+	/**
+	 * Retrieve task by the ID assigned
+	 * @param wantedId
+	 * @return
+	 */
 	public Todo retrieveTaskById(int wantedId){
 		ArrayList<Todo> allTodo = fTodoH.retrieveTodoToDelete();
 		for(Todo todo: allTodo){
