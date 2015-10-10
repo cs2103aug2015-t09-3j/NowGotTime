@@ -17,16 +17,14 @@ public class ProjectHandler implements ProjectManager{
 	
 	/**
 	 * Creates a Project ArrayList
-	 * Returns true if Project is created, false if the Project has existed or failed to create new Project
 	 */
 	@Override
 	public boolean createProject(String projectName) {
 		return project.createNewProject(projectName.toLowerCase());
 	}
 	
-	/*
+	/**
 	 * Adds an existing Event into Project ArrayList
-	 * Returns true if Event is added, false if unsuccessful
 	 */
 	@Override
 	public boolean addProjectEvent(Event eventName, String projectName) {
@@ -46,9 +44,8 @@ public class ProjectHandler implements ProjectManager{
 		}
 	}
 
-	/*
+	/**
 	 * Deletes an existing Project ArrayList
-	 * Returns true if Project is deleted, false if no such Project exists or failed to delete
 	 */
 	@Override
 	public boolean deleteProject(String projectName) {
@@ -56,9 +53,8 @@ public class ProjectHandler implements ProjectManager{
 		return project.deleteProject(projectName.toLowerCase());
 	}
 
-	/*
+	/**
 	 * Deletes an existing Event in the Project ArrayList by the event name
-	 * Returns true if Event is successfully deleted, false if no such Event exists or failed to delete
 	 */
 	@Override
 	public boolean deleteProjectEvent(String eventName, String projectName) {
@@ -76,9 +72,8 @@ public class ProjectHandler implements ProjectManager{
 		return false;
 	}
 
-	/*
+	/**
 	 * Deletes an existing Event in the Project ArrayList by the index
-	 * Returns true if Event is successfully deleted, false if no such Event exists or failed to delete
 	 */
 	@Override
 	public boolean deleteProjectEvent(int index, String projectName) {
@@ -94,9 +89,8 @@ public class ProjectHandler implements ProjectManager{
 			return false;
 	}
 
-	/*
+	/**
 	 * Edits an existing Event in the Project ArrayList by the index
-	 * Returns true if Event is successfully edited, false if failed to edit
 	 */
 	@Override
 	public boolean editProjectEvent(int eventIndex, int infoIndex, String newValue, String projectName) {
@@ -154,9 +148,8 @@ public class ProjectHandler implements ProjectManager{
 		}
 	}
 
-	/*
+	/**
 	 * Edits an existing Event in the Project ArrayList by the event name
-	 * Returns true if Event is successfully edited, false if failed to edit
 	 */
 	@Override
 	public boolean editProjectEvent(Event eventName, int infoIndex, String newValue, String projectName) {
@@ -177,8 +170,8 @@ public class ProjectHandler implements ProjectManager{
 		return false;
 	}
 
-	/*
-	 * Returns an ArrayList of existing Projects
+	/**
+	 * View an ArrayList of existing Projects
 	 */
 	@Override
 	public ArrayList<String> listExistingProjects() {
@@ -187,8 +180,8 @@ public class ProjectHandler implements ProjectManager{
 		return projectList;
 	}
 	
-	/*
-	 * Returns Project timeline (ArrayList of Events) by the Project name
+	/**
+	 * View Project timeline (ArrayList of Events) by the Project name
 	 */
 	@Override
 	public ArrayList<Event> viewProjectTimeline(String projectName) {
@@ -197,8 +190,8 @@ public class ProjectHandler implements ProjectManager{
 		return projectBook;
 	}
 
-	/*
-	 * Returns Project timeline (ArrayList of Events) by the Project index
+	/**
+	 * View Project timeline (ArrayList of Events) by the Project index
 	 */
 	@Override
 	public ArrayList<Event> viewProjectTimeline(int index) {
