@@ -2,6 +2,7 @@ package service;
 import java.util.ArrayList;
 
 import object.Event;
+import object.Item;
 import object.Todo;
 
 /**
@@ -26,5 +27,7 @@ public interface ServiceManager {
 	public Event viewSpecificEvent (String eventName);
 	
 	public Todo viewSpecificTask(String taskName);
+	
+	public ArrayList<Item> search (String inputs);
 
 }

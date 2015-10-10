@@ -4,6 +4,7 @@ import helper.CommonHelper;
 import java.util.ArrayList;
 
 import object.Event;
+import object.Item;
 import object.Todo;
 import storage.FileHandler;
 
@@ -228,7 +229,7 @@ public class ServiceHandler implements ServiceManager{
     public Todo viewSpecificTask(String taskName){
         ArrayList<Todo> completeTaskBook = taskHandler.retrieveAllTodo();
         int taskIndex = 0;
-        for (Todo task:completeTaskBook){ //checking taskbook with deadline
+        for (Todo task:completeTaskBook){
             if (task.getName().equals(taskName)){
                 Todo _task = completeTaskBook.get(taskIndex);
                 return _task;
@@ -240,6 +241,38 @@ public class ServiceHandler implements ServiceManager{
         return null; //@Stef returns null if no task found with same name as taskName passed in
     }
     
+    /**
+     * Search for a task or event
+     * Returns ArrayList<Item> if there are matches
+     * Returns null is there are no matches
+     */
+    @Override
+    public ArrayList<Item> search (String inputs){
+    	int eventIndex = 0;
+    	int taskIndex = 0;
+    	ArrayList<Todo> completeTaskBook = taskHandler.retrieveAllTodo();
+    	ArrayList<Event> completeEventBook = eventHandler.retrieveAllEvents();
+    	ArrayList<Item> searchedItems = new ArrayList<Item>();
+    	
+    	for (Event event:completeEventBook){
+            if (event.getName().toLowerCase().contains(inputs.toLowerCase())){
+                searchedItems.add(completeEventBook.get(eventIndex));
+            }
+            else{
+            	eventIndex++;
+            }
+    	}
+    	
+    	for (Todo task:completeTaskBook){
+            if (task.getName().contains(inputs)){
+                searchedItems.add(completeTaskBook.get(taskIndex));
+            }
+            else{
+                taskIndex++;
+            }
+        }
+    	return searchedItems;
+    }
 
     private Event findEvent(String eventName) {
     	int eventIndex = 0;

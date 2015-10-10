@@ -92,7 +92,6 @@ public interface FileManager {
 	public ArrayList<Todo> retrieveAllTodo();
 	public boolean saveNewTodoHandler(Todo task);
 	public boolean saveEditedTodoHandler();
-	public boolean saveEditedUniversalTodoHandler();
 	
 	public ArrayList<Event> retrieveProjectTimeLine(String projectName);
 	public boolean createNewProject(String projectName);

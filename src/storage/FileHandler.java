@@ -51,7 +51,7 @@ public class FileHandler implements FileManager{
 /******************************* Constructor *************************************/	
 	
 	/**
-	 * Create a new instance of the FileHandler.
+	 * Creates a new instance of the FileHandler.
 	 */
 	public FileHandler(){
 		directHand = new DirectoryHandler();
@@ -66,7 +66,7 @@ public class FileHandler implements FileManager{
 /********************************* Events ****************************************/
 	
 	/**
-	 * Retrieve a specific events by date
+	 * Retrieves a specific events by date
 	 */
 	@Override
 	public ArrayList<Event> retrieveEventByDate(String date){
@@ -74,14 +74,14 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Retrieve an ArrayList of events to make changes/delete
+	 * Retrieves an ArrayList of events to make changes/delete
 	 */
 	public ArrayList<Event> retrieveAllEvents(){
 		return fEventH.retrieveEventsToDelete();
 	}
 	
 	/**
-	 * Save a new Event
+	 * Saves a new Event
 	 */
 	@Override
 	public boolean saveNewEventHandler(Event event){
@@ -89,8 +89,8 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Save any changes made to the ArrayList<Event> 
-	 * retrieved using the retrieveAllEvent() method
+	 * Saves any changes made to the ArrayList<Event> retrieved 
+	 * using the retrieveAllEvent() method
 	 */
 	@Override
 	public boolean saveEditedEventHandler() {
@@ -101,7 +101,7 @@ public class FileHandler implements FileManager{
 /********************************* Todo *****************************************/
 	
 	/**
-	 * Retrieve a specific task by date
+	 * Retrieves a specific task by date
 	 */
 	@Override
 	public ArrayList<Todo> retrieveTodoByDate(String date) {
@@ -109,14 +109,14 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Retrieve an ArrayList of tasks to make changes/delete
+	 * Retrieves an ArrayList of tasks to make changes/delete
 	 */
 	public ArrayList<Todo> retrieveAllTodo(){
 		return fTodoH.retrieveTodoToDelete();
 	}
 	
 	/**
-	 * Retrieve all the floating Tasks available
+	 * Retrieves all the floating Tasks available
 	 */
 	@Override
 	public ArrayList<Todo> retrieveUniversalTodo() {
@@ -124,7 +124,7 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Save a new task
+	 * Saves a new task
 	 */
 	@Override
 	public boolean saveNewTodoHandler(Todo task) {
@@ -132,7 +132,7 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Save any changes made to the ArrayList<Todo> retrieved using the 
+	 * Saves any changes made to the ArrayList<Todo> retrieved using the 
 	 * retrieveAllTodo() method
 	 */
 	@Override
@@ -149,8 +149,7 @@ public class FileHandler implements FileManager{
 //	}
 	
 	/**
-	 * Save all the Todo and Floating Todo into text files.
-	 * @return
+	 * Saves all the Todo and Floating Todo into text files
 	 */
 	public boolean saveAllEditedTodo(){
 		fTodoH.separateTodoTypes();
@@ -160,7 +159,7 @@ public class FileHandler implements FileManager{
 /******************************** Project **************************************/
 	
 	/**
-	 * Retrieve all the events added to a project
+	 * Retrieves all the events added to a project
 	 */
 	@Override
 	public ArrayList<Event> retrieveProjectTimeLine(String projectName) {
@@ -168,7 +167,7 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Create a new text file to store information of a new project
+	 * Creates a new text file to store information of a new project
 	 */
 	@Override
 	public boolean createNewProject(String projectName) {
@@ -176,7 +175,7 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Save any changes made to the ArrayList<Integer> retrieved using the retrieveProjectTimeLine( ) method
+	 * Saves any changes made to the ArrayList<Integer> retrieved using the retrieveProjectTimeLine( ) method
 	 */
 	@Override
 	public boolean saveEditedProjectDetails(ArrayList<Event> projectBook, String projectName) {
@@ -184,7 +183,7 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Retrieve the names of all the existing project 
+	 * Retrieves the names of all the existing project 
 	 */
 	@Override
 	public ArrayList<String> getListOfExistingProject() {
@@ -192,7 +191,7 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Delete the entire project 
+	 * Deletes the entire project 
 	 */
 	@Override
 	public boolean deleteProject(String projectName){
@@ -256,8 +255,8 @@ public class FileHandler implements FileManager{
 	
 /****************************** Directory *************************************/
 	/**
-	 * Take in a new directory for storage data to be stored and 
-	 * transfer all the existing files to the new directory.
+	 * Takes in a new directory for storage data to be stored and 
+	 * transfers all the existing files to the new directory.
 	 * @param newBaseDirectory
 	 * @return
 	 */
@@ -273,7 +272,7 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Save all the data available to the text files.
+	 * Saves all the data available to the text files.
 	 * @return
 	 */
 	public boolean saveAll(){
@@ -287,7 +286,7 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Delete all text files available
+	 * Deletes all text files available
 	 */
 	public void clearAll(){
 		try {
@@ -327,7 +326,7 @@ public class FileHandler implements FileManager{
 
 /****************************** Item *****************************************/
 	/**
-	 * Retrieve event by the ID assigned. 
+	 * Retrieves event by the ID assigned. 
 	 * @param wantedId
 	 * @return
 	 */
@@ -343,7 +342,7 @@ public class FileHandler implements FileManager{
 	}
 	
 	/**
-	 * Retrieve task by the ID assigned
+	 * Retrieves task by the ID assigned
 	 * @param wantedId
 	 * @return
 	 */
