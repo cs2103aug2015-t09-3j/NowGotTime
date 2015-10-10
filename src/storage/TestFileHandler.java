@@ -268,7 +268,7 @@ public class TestFileHandler {
 		System.out.println("Check if the events are sorted.");
 		System.out.println();
 		System.out.println("Test Delete.");
-		eventBook = fh.retrieveEventsToDelete();
+		eventBook = fh.retrieveAllEvents();
 		eventBook.remove(0);
 		fh.saveEditedEventHandler();
 		System.out.println("Event deleted and saved");

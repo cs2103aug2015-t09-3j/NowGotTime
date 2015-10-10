@@ -18,7 +18,6 @@ public class CLI {
     private ProjectHandler projectHandler = null;
     private Stack<Command> historyList;
     
-    
     public CLI() {
         stdin = new Scanner(System.in);
         serviceHandler = new ServiceHandler();
@@ -27,11 +26,6 @@ public class CLI {
         shouldExit = false;
     }
     
-    /**
-     * Process user input
-     * @param userResponse Text entered by user
-     * @return Feedback from program
-     */
     private String executeResponse(String userResponse) {
         Command command = null;
         String feedback;
@@ -54,6 +48,9 @@ public class CLI {
         return feedback;
     }
     
+    /**
+     * Start command line interface
+     */
     public void start() {
         
         System.out.println(CommonHelper.MESSAGE_WELCOME);

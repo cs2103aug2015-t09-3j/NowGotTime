@@ -35,7 +35,7 @@ public class FileTodoHandler {
 	private ArrayList<Todo> allTodo = new ArrayList<Todo>();
 	private ArrayList<Todo> allTodoClone = new ArrayList<Todo>();
 	private ArrayList<Todo> universalTodo = new ArrayList<Todo>();
-	private ArrayList<Todo> todoHistory;
+	private ArrayList<Todo> todoHistory = new ArrayList<Todo>();
 	private ArrayList<Todo> universalTodoHistory = new ArrayList<Todo>();
 	
 	ArrayList<Todo> tempTodo;
