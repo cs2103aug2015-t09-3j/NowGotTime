@@ -15,13 +15,17 @@ public class ProjectHandler implements ProjectManager{
 		project = new FileHandler();
 	}
 	
+	/**
+	 * Creates a Project ArrayList
+	 */
 	@Override
 	public boolean createProject(String projectName) {
-		//check: file name too long and blank file name
-
 		return project.createNewProject(projectName.toLowerCase());
 	}
 	
+	/**
+	 * Adds an existing Event into Project ArrayList
+	 */
 	@Override
 	public boolean addProjectEvent(Event eventName, String projectName) {
 		
@@ -40,12 +44,18 @@ public class ProjectHandler implements ProjectManager{
 		}
 	}
 
+	/**
+	 * Deletes an existing Project ArrayList
+	 */
 	@Override
 	public boolean deleteProject(String projectName) {
 		
 		return project.deleteProject(projectName.toLowerCase());
 	}
 
+	/**
+	 * Deletes an existing Event in the Project ArrayList by the event name
+	 */
 	@Override
 	public boolean deleteProjectEvent(String eventName, String projectName) {
 		
@@ -62,6 +72,9 @@ public class ProjectHandler implements ProjectManager{
 		return false;
 	}
 
+	/**
+	 * Deletes an existing Event in the Project ArrayList by the index
+	 */
 	@Override
 	public boolean deleteProjectEvent(int index, String projectName) {
 		
@@ -76,6 +89,9 @@ public class ProjectHandler implements ProjectManager{
 			return false;
 	}
 
+	/**
+	 * Edits an existing Event in the Project ArrayList by the index
+	 */
 	@Override
 	public boolean editProjectEvent(int eventIndex, int infoIndex, String newValue, String projectName) {
 		
@@ -132,6 +148,9 @@ public class ProjectHandler implements ProjectManager{
 		}
 	}
 
+	/**
+	 * Edits an existing Event in the Project ArrayList by the event name
+	 */
 	@Override
 	public boolean editProjectEvent(Event eventName, int infoIndex, String newValue, String projectName) {
 		//for testing: System.out.println("1" + projectBook);
@@ -151,6 +170,9 @@ public class ProjectHandler implements ProjectManager{
 		return false;
 	}
 
+	/**
+	 * View an ArrayList of existing Projects
+	 */
 	@Override
 	public ArrayList<String> listExistingProjects() {
 		
@@ -158,6 +180,9 @@ public class ProjectHandler implements ProjectManager{
 		return projectList;
 	}
 	
+	/**
+	 * View Project timeline (ArrayList of Events) by the Project name
+	 */
 	@Override
 	public ArrayList<Event> viewProjectTimeline(String projectName) {
 		
@@ -165,6 +190,9 @@ public class ProjectHandler implements ProjectManager{
 		return projectBook;
 	}
 
+	/**
+	 * View Project timeline (ArrayList of Events) by the Project index
+	 */
 	@Override
 	public ArrayList<Event> viewProjectTimeline(int index) {
 		// TODO Auto-generated method stub
