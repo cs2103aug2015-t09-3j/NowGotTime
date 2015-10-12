@@ -10,6 +10,8 @@ import object.Todo;
  */
 
 public class CommonHelper {
+    
+    public static final String APP_TITLE = "NowGotTime";
 
     /* Prompt messages */
     public static final String MESSAGE_WELCOME = "Welcome to NowGotTime";
