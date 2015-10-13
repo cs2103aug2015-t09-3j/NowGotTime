@@ -6,6 +6,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -32,7 +34,7 @@ import command.CommandSearch;
 public class GUI extends Application {
     
     private String GUI_TITLE = "NowGotTime";
-    private int GUI_HEIGHT = 600;
+    private int GUI_HEIGHT = 500;
     private int GUI_WIDTH = 500; 
     private Insets BOX_PADDING = new Insets(10, 10, 10, 10);
     HBox statusBox;
@@ -121,9 +123,10 @@ public class GUI extends Application {
         displayBox.setPadding(BOX_PADDING);
         displayBox.setMinHeight(GUI_HEIGHT-130);
 
-        displayBox.getColumnConstraints().add(getColumn(10.0));
+        displayBox.getColumnConstraints().add(getColumn(7.0));
+        displayBox.getColumnConstraints().add(getColumn(5.0));
         displayBox.getColumnConstraints().add(getColumn(40.0));
-        displayBox.getColumnConstraints().add(getColumn(59.0));
+        displayBox.getColumnConstraints().add(getColumn(48.0));
         displayBox.getColumnConstraints().add(getColumn(1.0));
         
         return displayBox;
@@ -191,11 +194,20 @@ public class GUI extends Application {
         VBox upperBox = new VBox();
         upperBox.setPadding(new Insets(0, 0, 5, 0));
         
+        // make a scroll pane for display box
+        ScrollPane scrollBox = new ScrollPane();
+        scrollBox.setContent(displayBox);
+        scrollBox.fitToHeightProperty();
+        scrollBox.setPrefSize(200, GUI_HEIGHT-128);
+        scrollBox.setHbarPolicy(ScrollBarPolicy.NEVER);
+        scrollBox.setFitToWidth(true);
+        scrollBox.setStyle("-fx-background-radius: 4;");
+        
         // attach everything
         ioBox.getChildren().addAll(statusBox, promptBox);
-        upperBox.getChildren().addAll(titleBox, displayBox);
+        upperBox.getChildren().addAll(titleBox, scrollBox);
         ui.getChildren().addAll(upperBox, ioBox);
-        
+        ioBox.setMouseTransparent(true);
         
         return new Scene(ui, GUI_WIDTH, GUI_HEIGHT);
     }

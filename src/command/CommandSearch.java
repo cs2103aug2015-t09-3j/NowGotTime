@@ -62,7 +62,7 @@ public class CommandSearch extends Command {
         int listNumber = 0;
         int matchesNumber = filteredItem.size();
         
-        displayBox.add(GUI.getText("Found " + matchesNumber + " item(s):", Color.GREY, 14), 0, rowIndex++, 5, 1);
+        displayBox.add(GUI.getText("Found " + matchesNumber + " item(s):", Color.GREEN, 14), 0, rowIndex++, 5, 1);
         
         for (Item item : filteredItem) {
             String date;
@@ -81,7 +81,7 @@ public class CommandSearch extends Command {
                 Text dateString = null;
                 
                 if (item instanceof Todo && !((Todo)item).hasDate()) {
-                    dateString = GUI.getText("Floating Task", Color.BLACK, 16);
+                    dateString = GUI.getText("Task", Color.BLACK, 16);
                 }
                 else {
                     dateString = GUI.getText(date, Color.BLACK, 16);
@@ -91,7 +91,8 @@ public class CommandSearch extends Command {
             }
             listNumber++;
             
-            Text numberingText = GUI.getText(String.valueOf(listNumber) + ". ", Color.GREY, 14);
+            Text numberingText = GUI.getText(String.valueOf(listNumber), Color.BLACK, 14);
+            Text markText = GUI.getText("\u2714", Color.GREEN, 16);
             Text nameText = GUI.getText(item.getName(), Color.GREY, 14);
             
             String timeString = "";
@@ -115,8 +116,9 @@ public class CommandSearch extends Command {
             Text timeText = GUI.getText(timeString, Color.GREY, 14);
 
             displayBox.add(numberingText, 0, rowIndex);
-            displayBox.add(nameText, 1, rowIndex);
-            displayBox.add(timeText, 2, rowIndex);
+            displayBox.add(markText, 1, rowIndex);
+            displayBox.add(nameText, 2, rowIndex);
+            displayBox.add(timeText, 3, rowIndex);
             
             rowIndex++;
             previousDate = date;
