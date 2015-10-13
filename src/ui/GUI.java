@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
+import java.util.Calendar;
 import java.util.Stack;
 
 import command.Command;
@@ -211,6 +212,12 @@ public class GUI extends Application {
         return new Scene(ui, GUI_WIDTH, GUI_HEIGHT);
     }
     
+    private void viewToday() throws Exception {
+        Command viewCommand = new CommandView(Calendar.getInstance());
+        viewCommand.execute(serviceHandler, projectHandler, historyList);
+        viewCommand.display(serviceHandler, projectHandler, displayBox);
+    }
+    
     private void configureHandler() {
         serviceHandler = new ServiceHandler();
         projectHandler = new ProjectHandler();
@@ -218,12 +225,13 @@ public class GUI extends Application {
     }
     
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws Exception {
 	    configureHandler();
 	    
 	    primaryStage.setTitle(GUI_TITLE);
 	    Scene ui = getUserInterface();
 	    
+	    viewToday();
 	    primaryStage.setScene(ui);
 	    primaryStage.show();
 	}
