@@ -1,6 +1,7 @@
 package command;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Stack;
 
@@ -38,16 +39,25 @@ public class CommandView extends Command {
         }
     }
     
-    public void display(GridPane displayBox) {
+    public CommandView(Calendar date) {
+        dateString = CalendarHelper.getDateString(date);
+        mergedList = new ArrayList<Item>();
+    }
+    
+    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) {
         displayBox.getChildren().clear();
         
         Collections.sort(mergedList);
         
-        String previousDate = null;
+        String previousDate = dateString;
         
         int rowIndex = 0;
-        int listNumber = 0;
         
+        rowIndex++;
+        rowIndex++;
+        Text dateText = GUI.getText((dateString.equals("01 Jan 0001") ? "Task" : dateString), Color.BLACK, 16);
+        displayBox.add(dateText, 1, rowIndex++, 5, 1);
+        displayBox.add(new Separator(), 0, rowIndex++, 5, 1);
         
         for (Item item : mergedList) {
             String date, time;
@@ -64,14 +74,10 @@ public class CommandView extends Command {
             else {
                 date = ((Todo)item).getDeadlineDateString();
                 time = ((Todo)item).getDeadlineTimeString();
-                
             }
             
-            
             if (!date.equals(previousDate)) {
-                Separator separator = new Separator();
-                rowIndex++;
-                rowIndex++;
+                
                 // create row for date
                 Text dateString = null;
                 
@@ -81,10 +87,11 @@ public class CommandView extends Command {
                 else {
                     dateString = GUI.getText(date, Color.BLACK, 16);
                 }
+                rowIndex++;
+                rowIndex++;
                 displayBox.add(dateString, 1, rowIndex++, 5, 1);
-                displayBox.add(separator, 0, rowIndex++, 5, 1);
+                displayBox.add(new Separator(), 0, rowIndex++, 5, 1);
             }
-            listNumber++;
             
             Text markText = GUI.getText("\u2714", Color.GREEN, 16);
             Text nameText = GUI.getText(item.getName(), Color.GREY, 14);
@@ -105,7 +112,6 @@ public class CommandView extends Command {
                 if (((Todo)item).hasDate())
                     timeString += ((Todo)item).getDeadlineTimeString();
             }
-            
 
             Text timeText = GUI.getText(timeString, Color.GREY, 14);
 
@@ -161,5 +167,6 @@ public class CommandView extends Command {
         // view command cannot be reverted
         return null;
     }
+
 
 }

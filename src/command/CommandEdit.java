@@ -1,5 +1,6 @@
 package command;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -7,6 +8,7 @@ import java.util.regex.Pattern;
 
 import helper.CalendarHelper;
 import helper.CommonHelper;
+import javafx.scene.layout.GridPane;
 import object.Event;
 import object.Item;
 import object.Todo;
@@ -121,12 +123,14 @@ public class CommandEdit extends Command {
         return oldValue;
     }
     
+    Item item;
+    
     /**
      * Executes edit command, returns feedback string
      */
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
-        Item item = null;
+        item = null;
         if ((item = serviceHandler.viewSpecificEvent(itemName)) != null);
         else if ((item = serviceHandler.viewSpecificTask(itemName)) != null);
         else {
@@ -149,6 +153,21 @@ public class CommandEdit extends Command {
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         Command revertEditCommand = new CommandEdit(itemName, fieldName, oldValue);
         return revertEditCommand.execute(serviceHandler, projectHandler, historyList);
+    }
+    
+    @Override
+    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
+        Calendar date;
+        if (item instanceof Event) {
+            date = ((Event)item).getStartCalendar();
+        }
+        else {
+            date = ((Todo)item).getDeadline();
+        }
+        
+        Command viewCommand = new CommandView(date);
+        viewCommand.execute(serviceHandler, projectHandler, new Stack<Command>());
+        viewCommand.display(serviceHandler, projectHandler, displayBox);
     }
 
 }

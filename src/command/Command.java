@@ -3,6 +3,7 @@ package command;
 import java.util.Stack;
 
 import helper.CommonHelper;
+import javafx.scene.layout.GridPane;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -77,7 +78,7 @@ public abstract class Command {
         this.requireConfirmation = requireConfirmation;
     }
 
-    
+    public abstract void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception;
     
     /**
      * Executes this command

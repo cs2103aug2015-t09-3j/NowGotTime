@@ -3,6 +3,7 @@ package command;
 import java.util.Stack;
 
 import helper.CommonHelper;
+import javafx.scene.layout.GridPane;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -38,5 +39,12 @@ public class CommandExit extends Command {
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox)
+            throws Exception {
+        // TODO Auto-generated method stub
+        
     }
 }

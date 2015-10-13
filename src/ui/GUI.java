@@ -61,13 +61,7 @@ public class GUI extends Application {
             feedback = command.execute(serviceHandler, projectHandler, historyList);
             statusBox.setStyle(CSS_SUCCESS);
             prompt.clear();
-            if (command instanceof CommandSearch) {
-                ((CommandSearch)command).display(displayBox);
-            }
-            
-            if (command instanceof CommandView) {
-                ((CommandView)command).display(displayBox);
-            }
+            command.display(serviceHandler, projectHandler, displayBox);
             
             if (command.isRevertible()) {
                 // add to history list if project revertible

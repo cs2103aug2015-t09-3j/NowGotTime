@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import helper.CalendarHelper;
 import helper.CommonHelper;
+import javafx.scene.layout.GridPane;
 import object.Event;
 import object.Item;
 import object.Todo;
@@ -174,5 +175,19 @@ public class CommandAdd extends Command {
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         Command revertAddCommand = new CommandDelete(item);
         return revertAddCommand.execute(serviceHandler, projectHandler, historyList);
+    }
+
+    @Override
+    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
+        Calendar date;
+        if (item instanceof Event) {
+            date = ((Event)item).getStartCalendar();
+        }
+        else {
+            date = ((Todo)item).getDeadline();
+        }
+        Command viewCommand = new CommandView(date);
+        viewCommand.execute(serviceHandler, projectHandler, new Stack<Command>());
+        viewCommand.display(serviceHandler, projectHandler, displayBox);
     }
 }

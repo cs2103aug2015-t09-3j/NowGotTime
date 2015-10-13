@@ -1,12 +1,15 @@
 package command;
 
+import java.util.Calendar;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import helper.CommonHelper;
+import javafx.scene.layout.GridPane;
 import object.Event;
 import object.Item;
+import object.Todo;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -89,6 +92,21 @@ public class CommandDelete extends Command {
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         Command revertDeleteCommand = new CommandAdd(item);
         return revertDeleteCommand.revert(serviceHandler, projectHandler, historyList);
+    }
+
+    @Override
+    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
+        Calendar date;
+        if (item instanceof Event) {
+            date = ((Event)item).getStartCalendar();
+        }
+        else {
+            date = ((Todo)item).getDeadline();
+        }
+        
+        Command viewCommand = new CommandView(date);
+        viewCommand.execute(serviceHandler, projectHandler, new Stack<Command>());
+        viewCommand.display(serviceHandler, projectHandler, displayBox);
     }
 
 }

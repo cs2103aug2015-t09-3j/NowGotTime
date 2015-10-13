@@ -50,7 +50,8 @@ public class CommandSearch extends Command {
     
     private ArrayList<Item> filteredItem;
     
-    public void display(GridPane displayBox) {
+    @Override
+    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
         
         displayBox.getChildren().clear();
         
