@@ -2,6 +2,7 @@ package service;
 import helper.CommonHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import object.Event;
 import object.Item;
@@ -268,6 +269,8 @@ public class ServiceHandler implements ServiceManager{
             }
             taskIndex++;
         }
+    	Collections.sort(searchedItems);
+    	
     	return searchedItems;
     }
     

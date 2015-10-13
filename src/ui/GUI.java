@@ -30,6 +30,7 @@ import java.util.Stack;
 
 import command.Command;
 import command.CommandSearch;
+import command.CommandView;
 
 public class GUI extends Application {
     
@@ -62,6 +63,10 @@ public class GUI extends Application {
             prompt.clear();
             if (command instanceof CommandSearch) {
                 ((CommandSearch)command).display(displayBox);
+            }
+            
+            if (command instanceof CommandView) {
+                ((CommandView)command).display(displayBox);
             }
             
             if (command.isRevertible()) {
@@ -144,7 +149,7 @@ public class GUI extends Application {
     }
     
     private HBox getStatusBox() {
-        status = new Text("");
+        status = new Text("Hi there!");
         status.setFont(getFont(14));
         status.setFill(Color.WHITE);
         status.setTextAlignment(TextAlignment.CENTER);

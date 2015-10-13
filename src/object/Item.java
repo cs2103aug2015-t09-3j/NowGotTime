@@ -84,16 +84,33 @@ public abstract class Item implements Comparable<Item> {
             if (other instanceof Event) {
                 return ((Event)this).getStartCalendar().compareTo(((Event)other).getStartCalendar());
             }
-            else {
+            else if (((Todo)other).hasDate()){
                 return ((Event)this).getStartCalendar().compareTo(((Todo)other).getDeadline());
+            }
+            else {
+                return -1;
+            }
+        }
+        else if (((Todo)this).hasDate()) {
+            if (other instanceof Event) {
+                return ((Todo)this).getDeadline().compareTo(((Event)other).getStartCalendar());
+            }
+            else if (((Todo)other).hasDate()) {
+                return ((Todo)this).getDeadline().compareTo(((Todo)other).getDeadline());
+            }
+            else {
+                return -1;
             }
         }
         else {
             if (other instanceof Event) {
-                return ((Todo)this).getDeadline().compareTo(((Event)other).getStartCalendar());
+                return 1;
+            }
+            else if (((Todo)other).hasDate()) {
+                return 1;
             }
             else {
-                return ((Todo)this).getDeadline().compareTo(((Todo)other).getDeadline());
+                return this.getName().compareTo(other.getName());
             }
         }
     }
