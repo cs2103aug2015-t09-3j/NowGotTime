@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import project.ProjectHandler;
 import service.ServiceHandler;
 import ui.GUI;
+import ui.Main;
 import helper.CommonHelper;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
@@ -131,9 +132,12 @@ public class CommandSearch extends Command {
             throws Exception {
         
         filteredItem = serviceHandler.search(keyword);
-        
-        return "Got it!";
-        //return CommonHelper.getFormattedItemList(filteredItem);
+        if (Main.mode == "GUI") {
+            return "Got it!";
+        }
+        else {
+            return CommonHelper.getFormattedItemList(filteredItem);
+        }
     }
 
     @Override

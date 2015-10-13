@@ -17,6 +17,7 @@ import object.Todo;
 import project.ProjectHandler;
 import service.ServiceHandler;
 import ui.GUI;
+import ui.Main;
 
 public class CommandView extends Command {
 
@@ -140,25 +141,26 @@ public class CommandView extends Command {
         mergedList.addAll(todoList);
         mergedList.addAll(floatingTodoList);
         
-        return "Got it!";
-                
-        /*
+        if (Main.mode == "GUI") {
+            return "Got it!";
+        }
+        else {
         
-        StringBuilder feedback = new StringBuilder();
-        feedback.append("NowGotTime on " + dateString + "\n");
-        feedback.append("----------------------------------------\n");
-        feedback.append("--Event\n");
-        feedback.append(CommonHelper.getFormattedEventList(eventList, dateString));
-        feedback.append("----------------------------------------\n");
-        feedback.append("--Todo\n");
-        feedback.append(CommonHelper.getFormattedTodoList(todoList, dateString));
-        feedback.append("----------------------------------------\n");
-        feedback.append("--Floating Todo\n");
-        feedback.append(CommonHelper.getFormattedTodoList(floatingTodoList, dateString));
-        feedback.append("----------------------------------------\n");
-        
-        return feedback.toString();
-        */
+            StringBuilder feedback = new StringBuilder();
+            feedback.append("NowGotTime on " + dateString + "\n");
+            feedback.append("----------------------------------------\n");
+            feedback.append("--Event\n");
+            feedback.append(CommonHelper.getFormattedEventList(eventList, dateString));
+            feedback.append("----------------------------------------\n");
+            feedback.append("--Todo\n");
+            feedback.append(CommonHelper.getFormattedTodoList(todoList, dateString));
+            feedback.append("----------------------------------------\n");
+            feedback.append("--Floating Todo\n");
+            feedback.append(CommonHelper.getFormattedTodoList(floatingTodoList, dateString));
+            feedback.append("----------------------------------------\n");
+            
+            return feedback.toString();
+        }
     }
 
     @Override
