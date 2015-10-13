@@ -34,7 +34,6 @@ public class GUI extends Application {
     private ProjectHandler projectHandler = null;
     private Stack<Command> historyList;
     
-    
     private String executeResponse(String userResponse) {
         Command command = null;
         String feedback;
