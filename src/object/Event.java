@@ -145,5 +145,12 @@ public class Event extends Item {
 
         return String.format(CommonHelper.FORMATTED_EVENT, startTime, endTime, getName());
     }
+    
+    public String toFormattedString() throws ParseException {
+        String startDateTime = getStartDateTimeString();
+        String endDateTime = getEndDateTimeString();
+        
+        return String.format(CommonHelper.FORMATTED_EVENT, startDateTime, endDateTime, getName());
+    }
 
 }

@@ -1,6 +1,8 @@
 package object;
 
-public class Item {
+import java.text.ParseException;
+
+public abstract class Item {
     private String name;
     private String additionalInfo;
 	private int id;
@@ -74,4 +76,7 @@ public class Item {
     public static void setCounter(int count){
     	counter = count;
     }
+    
+    public abstract String toFormattedString() throws ParseException;
+    
 }

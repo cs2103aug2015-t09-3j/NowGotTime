@@ -3,6 +3,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import object.Event;
+import object.Item;
 import object.Todo;
 
 /*
@@ -104,6 +105,22 @@ public class CommonHelper {
             formattedString.append(index);
             formattedString.append(". ");
             formattedString.append(todo.toFormattedString(dateString));
+            formattedString.append("\n");
+        }
+        
+        return formattedString.toString();
+    }
+    
+    public static String getFormattedItemList(ArrayList<Item> list) throws ParseException {
+        if (list.isEmpty()) return "   [ No results found ]\n";
+        StringBuilder formattedString = new StringBuilder();
+        
+        int index = 0;
+        for (Item item : list) {
+            index++;
+            formattedString.append(index);
+            formattedString.append(". ");
+            formattedString.append(item.toFormattedString());
             formattedString.append("\n");
         }
         

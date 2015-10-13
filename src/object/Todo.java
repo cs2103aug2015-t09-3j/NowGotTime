@@ -132,5 +132,16 @@ public class Todo extends Item {
             return String.format(CommonHelper.FORMATTED_FLOATING_TODO, getName());
         }
     }
+    
+    public String toFormattedString() throws ParseException {
+        String dueDateTime = getDeadlineDateTimeString();
+        
+        if (hasDate) {
+            return String.format(CommonHelper.FORMATTED_TODO, dueDateTime, getName());
+        }
+        else {
+            return String.format(CommonHelper.FORMATTED_FLOATING_TODO, getName());
+        }
+    }
 
 }

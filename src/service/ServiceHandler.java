@@ -258,18 +258,14 @@ public class ServiceHandler implements ServiceManager{
             if (event.getName().toLowerCase().contains(inputs.toLowerCase())){
                 searchedItems.add(completeEventBook.get(eventIndex));
             }
-            else{
-            	eventIndex++;
-            }
+            eventIndex++;
     	}
     	
     	for (Todo task:completeTaskBook){
-            if (task.getName().contains(inputs)){
+            if (task.getName().toLowerCase().contains(inputs.toLowerCase())){
                 searchedItems.add(completeTaskBook.get(taskIndex));
             }
-            else{
-                taskIndex++;
-            }
+            taskIndex++;
         }
     	return searchedItems;
     }

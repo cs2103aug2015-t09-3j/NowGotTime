@@ -36,6 +36,9 @@ public abstract class Command {
             case "view":
                 command = new CommandView(arguments);
                 break;
+            case "search":
+                command = new CommandSearch(arguments);
+                break;
             case "exit":
                 command = new CommandExit(arguments);
                 break;
