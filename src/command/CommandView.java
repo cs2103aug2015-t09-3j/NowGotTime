@@ -141,7 +141,7 @@ public class CommandView extends Command {
         mergedList.addAll(todoList);
         mergedList.addAll(floatingTodoList);
         
-        if (Main.mode == "GUI") {
+        if (Main.mode.equals("GUI")) {
             return "Got it!";
         }
         else {

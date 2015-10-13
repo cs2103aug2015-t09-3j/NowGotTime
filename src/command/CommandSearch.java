@@ -132,7 +132,7 @@ public class CommandSearch extends Command {
             throws Exception {
         
         filteredItem = serviceHandler.search(keyword);
-        if (Main.mode == "GUI") {
+        if (Main.mode.equals("GUI")) {
             return "Got it!";
         }
         else {
