@@ -6,8 +6,14 @@ package ui;
 public class Main {
 
     public static void main(String[] args) {
-        CLI ui = new CLI();
-        ui.start();
+        
+        if (args.length == 0) {
+            CLI ui = new CLI();
+            ui.start();
+        }
+        else {
+            GUI.main(args);
+        }
     }
 
 }

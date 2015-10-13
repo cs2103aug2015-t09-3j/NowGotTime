@@ -23,6 +23,7 @@ import helper.CommonHelper;
 
 public class GUI extends Application {
     
+    private String GUI_TITLE = "NowGotTime";
     private int GUI_HEIGHT = 300;
     private int GUI_WIDTH = 400; 
     private Insets BOX_PADDING = new Insets(10, 10, 10, 10);
@@ -100,7 +101,7 @@ public class GUI extends Application {
 	public void start(Stage primaryStage) {
 	    configureHandler();
 	    
-	    primaryStage.setTitle(CommonHelper.APP_TITLE);
+	    primaryStage.setTitle(GUI_TITLE);
 	    Scene ui = getUserInterface();
 	    
 	    primaryStage.setScene(ui);
