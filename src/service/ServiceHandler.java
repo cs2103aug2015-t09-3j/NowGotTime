@@ -249,6 +249,7 @@ public class ServiceHandler implements ServiceManager{
      */
     @Override
     public ArrayList<Item> search (String inputs){
+        searchedItems.clear();
     	int eventIndex = 0;
     	int taskIndex = 0;
     	ArrayList<Todo> completeTaskBook = taskHandler.retrieveAllTodo();

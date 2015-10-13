@@ -2,7 +2,7 @@ package object;
 
 import java.text.ParseException;
 
-public abstract class Item {
+public abstract class Item implements Comparable<Item> {
     private String name;
     private String additionalInfo;
 	private int id;
@@ -78,5 +78,24 @@ public abstract class Item {
     }
     
     public abstract String toFormattedString() throws ParseException;
+    
+    public int compareTo(Item other) {
+        if (this instanceof Event) {
+            if (other instanceof Event) {
+                return ((Event)this).getStartCalendar().compareTo(((Event)other).getStartCalendar());
+            }
+            else {
+                return ((Event)this).getStartCalendar().compareTo(((Todo)other).getDeadline());
+            }
+        }
+        else {
+            if (other instanceof Event) {
+                return ((Todo)this).getDeadline().compareTo(((Event)other).getStartCalendar());
+            }
+            else {
+                return ((Todo)this).getDeadline().compareTo(((Todo)other).getDeadline());
+            }
+        }
+    }
     
 }

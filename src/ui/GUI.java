@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
@@ -25,15 +27,16 @@ import service.ServiceHandler;
 import java.util.Stack;
 
 import command.Command;
+import command.CommandSearch;
 
 public class GUI extends Application {
     
     private String GUI_TITLE = "NowGotTime";
-    private int GUI_HEIGHT = 400;
+    private int GUI_HEIGHT = 600;
     private int GUI_WIDTH = 500; 
     private Insets BOX_PADDING = new Insets(10, 10, 10, 10);
     HBox statusBox;
-    Text feedback;
+    GridPane displayBox;
     Text status;
     Text title;
     TextField prompt;
@@ -54,6 +57,11 @@ public class GUI extends Application {
             command = Command.parseCommand(userResponse);
             feedback = command.execute(serviceHandler, projectHandler, historyList);
             statusBox.setStyle(CSS_SUCCESS);
+            prompt.clear();
+            if (command instanceof CommandSearch) {
+                ((CommandSearch)command).display(displayBox);
+            }
+            
             if (command.isRevertible()) {
                 // add to history list if project revertible
                 historyList.add(command);
@@ -72,8 +80,16 @@ public class GUI extends Application {
         field.setText(text);
     }
     
-    private Font getFont(int size) {
+    private static Font getFont(int size) {
         return Font.font("Lucida Grande", FontWeight.NORMAL, size);
+    }
+    
+    public static Text getText(String string, Color color, int size) {
+        Text text = new Text(string);
+        text.setFill(color);
+        text.setFont(getFont(size));
+        text.setTextAlignment(TextAlignment.CENTER);
+        return text;
     }
     
     private HBox getTitleBox() {
@@ -88,20 +104,29 @@ public class GUI extends Application {
         
         return titleBox;
     }
+
+    private ColumnConstraints getColumn(double percentage) {
+
+        ColumnConstraints column = new ColumnConstraints();
+        column.setPercentWidth(percentage);
+        
+        return column;
+    }
     
-    private HBox getFeedbackBox() {
-        feedback = new Text("");
-        feedback.setFill(Color.GRAY);
-        feedback.setFont(getFont(20));
-        feedback.setTextAlignment(TextAlignment.CENTER);
+    private GridPane getDisplayBox() {
         
-        HBox feedbackBox = new HBox(feedback);
-        feedbackBox.setAlignment(Pos.TOP_CENTER);
-        feedbackBox.setStyle("-fx-background-color: white; -fx-background-radius: 3;");
-        feedbackBox.setPadding(new Insets(5, 0, 5, 0));
-        feedbackBox.setMinHeight(GUI_HEIGHT-130);
+        GridPane displayBox = new GridPane();
+        displayBox.setVgap(3);
+        displayBox.setStyle("-fx-background-color: white; -fx-background-radius: 3;");
+        displayBox.setPadding(BOX_PADDING);
+        displayBox.setMinHeight(GUI_HEIGHT-130);
+
+        displayBox.getColumnConstraints().add(getColumn(10.0));
+        displayBox.getColumnConstraints().add(getColumn(40.0));
+        displayBox.getColumnConstraints().add(getColumn(59.0));
+        displayBox.getColumnConstraints().add(getColumn(1.0));
         
-        return feedbackBox;
+        return displayBox;
     }
     
     private HBox getPromptBox() {
@@ -136,7 +161,6 @@ public class GUI extends Application {
             public void handle(KeyEvent event) {
                 if (event.getCode().equals(KeyCode.ENTER)) {
                     displayText(status, executeResponse(prompt.getText()));
-                    prompt.clear();
                 }
             }
         });
@@ -151,8 +175,9 @@ public class GUI extends Application {
 
         // create ui component
         HBox titleBox = getTitleBox();
-        HBox feedbackBox = getFeedbackBox();
         HBox promptBox = getPromptBox();
+        
+        displayBox = getDisplayBox();
         statusBox = getStatusBox();
 
         // add enter key handler;
@@ -163,13 +188,13 @@ public class GUI extends Application {
         ioBox.setAlignment(Pos.BOTTOM_CENTER);
         
         // setup display box
-        VBox displayBox = new VBox();
-        displayBox.setPadding(new Insets(0, 0, 5, 0));
+        VBox upperBox = new VBox();
+        upperBox.setPadding(new Insets(0, 0, 5, 0));
         
         // attach everything
         ioBox.getChildren().addAll(statusBox, promptBox);
-        displayBox.getChildren().addAll(titleBox, feedbackBox);
-        ui.getChildren().addAll(displayBox, ioBox);
+        upperBox.getChildren().addAll(titleBox, displayBox);
+        ui.getChildren().addAll(upperBox, ioBox);
         
         
         return new Scene(ui, GUI_WIDTH, GUI_HEIGHT);
