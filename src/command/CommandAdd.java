@@ -1,6 +1,5 @@
 package command;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -39,13 +38,13 @@ public class CommandAdd extends Command {
             String start = eventMatcher.group(FIELD_START).trim();
             String end = eventMatcher.group(FIELD_END).trim();
             
-            Calendar startCalendar = null;
-            Calendar endCalendar = null; 
-            try {
-                startCalendar = CalendarHelper.parseDateTime(start);
-                endCalendar = CalendarHelper.parseDateTime(end);
-            } catch (ParseException e) {
-                // Invalid DateTime format
+            Calendar startCalendar = Calendar.getInstance();
+            Calendar endCalendar = Calendar.getInstance();
+            
+            if (!CalendarHelper.updateCalendar(startCalendar, start)) {
+                return null;
+            }
+            if (!CalendarHelper.updateCalendar(endCalendar, end)) {
                 return null;
             }
             
@@ -68,11 +67,9 @@ public class CommandAdd extends Command {
         if (todoMatcher.matches()) {
             String name = todoMatcher.group(FIELD_NAME);
             String deadline = todoMatcher.group(FIELD_DEADLINE);
-            Calendar deadlineCalendar = null; 
-            try {
-                deadlineCalendar = CalendarHelper.parseDateTime(deadline);
-            } catch (ParseException e) {
-                // Invalid DateTime format
+            Calendar deadlineCalendar = Calendar.getInstance();
+            
+            if (!CalendarHelper.updateCalendar(deadlineCalendar, deadline)) {
                 return null;
             }
             
