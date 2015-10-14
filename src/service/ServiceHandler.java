@@ -289,6 +289,7 @@ public class ServiceHandler implements ServiceManager{
     	
     	for (Event event:completeEventBook){
             if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
+            	assert(eventIndex >= 0);
                 return completeEventBook.get(eventIndex);
             }
             else{
@@ -304,6 +305,7 @@ public class ServiceHandler implements ServiceManager{
         
         for (Todo task:completeTaskBook){
             if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
+            	assert(taskIndex >= 0);
                 return completeTaskBook.get(taskIndex);
             }
             else {
