@@ -39,11 +39,11 @@ public class CommandAdd extends Command {
             String end = eventMatcher.group(FIELD_END).trim();
             
             Calendar startCalendar = Calendar.getInstance();
-            Calendar endCalendar = Calendar.getInstance();
-            
             if (!CalendarHelper.updateCalendar(startCalendar, start)) {
                 return null;
             }
+            
+            Calendar endCalendar = (Calendar) startCalendar.clone();
             if (!CalendarHelper.updateCalendar(endCalendar, end)) {
                 return null;
             }
@@ -67,8 +67,8 @@ public class CommandAdd extends Command {
         if (todoMatcher.matches()) {
             String name = todoMatcher.group(FIELD_NAME);
             String deadline = todoMatcher.group(FIELD_DEADLINE);
-            Calendar deadlineCalendar = Calendar.getInstance();
             
+            Calendar deadlineCalendar = Calendar.getInstance();
             if (!CalendarHelper.updateCalendar(deadlineCalendar, deadline)) {
                 return null;
             }
