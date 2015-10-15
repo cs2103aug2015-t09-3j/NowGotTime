@@ -134,11 +134,11 @@ public class ProjectHandler implements ProjectManager{
 				}
 				
 				case (6): {
-					event.setAdditionalInfo(newValue);
+					map.put(id, newValue);
 					break;
 				}
 			}
-			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase(), );
+			project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
 			return true;
 		}
 	}
@@ -249,24 +249,23 @@ public class ProjectHandler implements ProjectManager{
 		}
 	}
 	
-	/*
-	 -Change from arraylist of events to arraylist of int (event IDs). Edit, add, del by ID as well.
-	 -Change all the saves to saveAll.
-	 -Change arraylist of events to arraylist of items => includes both to-dos and events.
-	 	--> Create event = 1 ID. I call event in projects by ID.(in Item.java)
+	@Override
+	public ArrayList<Event> viewEventProgressTimeline(String projectName) {
+		
+		ArrayList<Integer> arrayListOfId = viewProjectTimeline(projectName);
+		ArrayList<Event> eventProgress = new ArrayList<Event>();
+		
+		for (int id : arrayListOfId) {
+			Event event = project.retrieveEventById(id);
+			String progressMessage = map.get(id);
+			event.setAdditionalInfo(progressMessage);
+			eventProgress.add(event);
+		}
+		return eventProgress;
+	}
 	
+	/*
 	 -Have a search function to search through project book (arraylist of events). Return event ID.
 	 -Progress bar function, show % completed.
-	 -Progress function. => Hashmap in project (containing int(ID) and string(Addinfo)). [HM key = ID]
-			==> String Project Name, Int ID and String Addinfo passed to me.
-			==> setProgress (String progressString, String projectNAme, Int ID)
-	 -Progress (delete and edit) functions too.
-	 		==> deleteProgress (); and editProgress ();
-	 -Have a method to call RX for viewing. I pass ID to RX, RX returns name of event. 
-			==> I return Stef arraylist of string (events).
-	 
-	 **see phone picture. Note that Jon's event does not have additional info. only proj has. thus nid to
-	   add additional info into the event. BUT I DON'T SAVE IT, else Jon's events will also have additional
-	   info. Additional info is exclusive only to projects.**
 	*/
 }
