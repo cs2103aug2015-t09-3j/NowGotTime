@@ -30,14 +30,13 @@ public class ProjectHandler implements ProjectManager{
 	public boolean addProjectEvent(Event eventName, String projectName) {
 		
 		// Don't create new project, in case user types wrongly. Stef, Prompt user to create proj first.
-		if (!listExistingProjects().contains(projectName.toLowerCase()))
-		{
+		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return false;
-		}
-		
-		else
-		{
+		} else {
 			projectBook = viewProjectTimeline(projectName.toLowerCase());
+			
+			assert(eventName != null): "eventName is empty";
+			
 			projectBook.add(eventName);
 			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
 			return true;
@@ -49,7 +48,6 @@ public class ProjectHandler implements ProjectManager{
 	 */
 	@Override
 	public boolean deleteProject(String projectName) {
-		
 		return project.deleteProject(projectName.toLowerCase());
 	}
 
@@ -58,17 +56,13 @@ public class ProjectHandler implements ProjectManager{
 	 */
 	@Override
 	public boolean deleteProjectEvent(String eventName, String projectName) {
-		
-		for (Event anEvent : projectBook)
-		{
-			if (anEvent.getName().toLowerCase().equals(eventName.toLowerCase()))
-			{
+		for (Event anEvent : projectBook) {
+			if (anEvent.getName().toLowerCase().equals(eventName.toLowerCase())) {
 				projectBook.remove(anEvent);
 				project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
 				return true;
 			}
 		}
-		
 		return false;
 	}
 
@@ -77,16 +71,13 @@ public class ProjectHandler implements ProjectManager{
 	 */
 	@Override
 	public boolean deleteProjectEvent(int index, String projectName) {
-		
-		if (index < projectBook.size())
-		{
-			//System.out.println("A " + projectBook.remove(index));
+		if (index < projectBook.size()) {
+			//System.out.println("CHECK: " + projectBook.remove(index));
 			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
 			return true;
-		}
-		
-		else
+		} else {
 			return false;
+		}
 	}
 
 	/**
@@ -94,55 +85,42 @@ public class ProjectHandler implements ProjectManager{
 	 */
 	@Override
 	public boolean editProjectEvent(int eventIndex, int infoIndex, String newValue, String projectName) {
-		
-		if (eventIndex < 0 || eventIndex > projectBook.size())
-		{
+		if (eventIndex < 0 || eventIndex > projectBook.size()) {
 			return false;
-		}
-
-		else
-		{
+		} else {
 			Event event = projectBook.get(eventIndex);
 			
-			switch(infoIndex)
-			{
-				case (1):
-				{	
+			switch(infoIndex) {
+				case (1): {	
 					event.setName(newValue);
 					break;
 				}
 				
-				case (2):
-				{
-					event.updateStartDate(newValue); //Stef, for single date events, change both case 2 and 3
+				case (2): {
+					event.updateStartDate(newValue); 
 					break;
 				}
 				
-				case (3):
-				{
+				case (3): {
 					event.updateEndDate(newValue);
 					break;
 				}
 				
-				case (4):
-				{
+				case (4): {
 					event.updateStartTime(newValue);
 					break;
 				}
 				
-				case (5):
-				{
+				case (5): {
 					event.updateEndTime(newValue);
 					break;
 				}
 				
-				case (6):
-				{
+				case (6): {
 					event.setAdditionalInfo(newValue);
 					break;
 				}
 			}
-			
 			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
 			return true;
 		}
@@ -155,19 +133,15 @@ public class ProjectHandler implements ProjectManager{
 	public boolean editProjectEvent(Event eventName, int infoIndex, String newValue, String projectName) {
 		//for testing: System.out.println("1" + projectBook);
 	
-		for (int i=0; i<projectBook.size(); i++)
-		{
-			if (eventName.getName().toLowerCase().equals(projectBook.get(i).getName().toLowerCase()))
-			{
+		for (int i=0; i<projectBook.size(); i++) {
+			if (eventName.getName().toLowerCase().equals(projectBook.get(i).getName().toLowerCase())) {
 				int eventIndex = i;
 				
 				return editProjectEvent(eventIndex, infoIndex, newValue, projectName);
 				//project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
 				//return true;
 			}
-		}
-		
-		return false;
+		} return false;
 	}
 
 	/**
@@ -197,15 +171,11 @@ public class ProjectHandler implements ProjectManager{
 	public ArrayList<Event> viewProjectTimeline(int index) {
 		// TODO Auto-generated method stub
 		
-		if (index < projectList.size())
-		{
+		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
 			projectBook = project.retrieveProjectTimeLine(projectName);
 			return projectBook;
-		}
-		
-		else
-		{
+		} else {
 			return null;
 		}
 	}
