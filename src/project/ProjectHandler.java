@@ -58,7 +58,8 @@ public class ProjectHandler implements ProjectManager{
 		for (int savedId : projectBook) {
 			if (savedId == id) {
 				projectBook.remove(id);
-				project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
+				map.remove(id);
+				project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
 				return true;
 			}
 		} return false;
