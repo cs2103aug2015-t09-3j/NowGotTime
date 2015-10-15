@@ -108,7 +108,7 @@ public class CommandAddTest extends CommandTest {
         String feedback = command.execute(service, project, history);
         
         // The feedback message should be success
-        assertEquals(feedback, String.format(CommonHelper.MESSAGE_ADD, name));
+        assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_CREATED, name));
         // The added event should be the same event
         assertEquals(service.viewSpecificEvent(name), event);
     }
@@ -122,7 +122,7 @@ public class CommandAddTest extends CommandTest {
         String feedback = command.execute(service, project, history);
         
         // The feedback message should be success
-        assertEquals(feedback, String.format(CommonHelper.MESSAGE_ADD, name));
+        assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_CREATED, name));
         // The added todo should be the same todo
         assertEquals(service.viewSpecificTask(name), todo);
     }
@@ -135,42 +135,9 @@ public class CommandAddTest extends CommandTest {
         String feedback = command.execute(service, project, history);
         
         // The feedback message should be success
-        assertEquals(feedback, String.format(CommonHelper.MESSAGE_ADD, name));
+        assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_CREATED, name));
         // The added todo should be the same todo
         assertEquals(service.viewSpecificTask(name), todo);
-    }
-    
-    @Test
-    public void testCannotAddEventWithSameName() {
-        try {
-            testCanAddEvent();
-            testCanAddEvent();
-            fail("shouldnt be able to add same name");
-        } catch (Exception e) {
-            
-        }
-    }
-    
-    @Test
-    public void testCannotAddTodoWithSameName() {
-        try {
-            testCanAddTodo();
-            testCanAddTodo();
-            fail("shouldnt be able to add same name");
-        } catch (Exception e) {
-            
-        }
-    }
-    
-    @Test
-    public void testCannotAddFloatingTodoWithSameName() {
-        try {
-            testCanAddFloatingTodo();
-            testCanAddFloatingTodo();
-            fail("shouldnt be able to add same name");
-        } catch (Exception e) {
-            
-        }
     }
 
 }

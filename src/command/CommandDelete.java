@@ -73,7 +73,7 @@ public class CommandDelete extends Command {
         if ((item = serviceHandler.viewSpecificEvent(itemName)) != null);
         else if ((item = serviceHandler.viewSpecificTask(itemName)) != null);
         else {
-            throw new Exception(String.format(CommonHelper.ERROR_NOT_FOUND, itemName));
+            throw new Exception(String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, itemName));
         }
         
         if (item instanceof Event) {
@@ -82,7 +82,7 @@ public class CommandDelete extends Command {
         else {
             serviceHandler.deleteTask(itemName);
         }
-        return String.format(CommonHelper.MESSAGE_DELETE, item.getName());
+        return String.format(CommonHelper.SUCCESS_ITEM_DELETED, item.getName());
     }
 
     /**

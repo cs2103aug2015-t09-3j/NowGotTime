@@ -25,7 +25,6 @@ public class ServiceHandler implements ServiceManager{
      */
     @Override
     public boolean createEvent(Event newEvent) {
-        if (viewSpecificEvent(newEvent.getName()) != null) return false;
         return eventHandler.saveNewEventHandler(newEvent);
     }
     
@@ -34,7 +33,6 @@ public class ServiceHandler implements ServiceManager{
      */
     @Override
     public boolean createTask(Todo newTask) {
-        if (viewSpecificTask(newTask.getName()) != null) return false;
         return taskHandler.saveNewTodoHandler(newTask);
     }
     
@@ -105,18 +103,15 @@ public class ServiceHandler implements ServiceManager{
     @Override
     public String editEvent(String eventName, String fieldName, String newInputs) throws Exception {
     	Event _event;
-    	String oldValue;
+    	String oldValue = null;
 
     	switch(fieldName) {
         	//case edit eventName
         	case (CommonHelper.FIELD_NAME):
-        		if (!eventName.equals(newInputs) && findEvent(newInputs) != null) {
-        			throw new Exception(CommonHelper.ERROR_EDIT_DUPLICATE);
-        		}
         	    _event = findEvent(eventName);
     
             	if (_event == null) {
-            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, eventName));
+            		throw new Exception (String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, eventName));
             	}
             	else {
             	    oldValue = _event.getName();
@@ -129,7 +124,7 @@ public class ServiceHandler implements ServiceManager{
         		_event = findEvent(eventName);
     
             	if (_event == null) {
-            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, eventName));
+            		throw new Exception (String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, eventName));
             	}
             	else {
             	    oldValue = _event.getStartDateTimeString();
@@ -142,7 +137,7 @@ public class ServiceHandler implements ServiceManager{
         		_event = findEvent(eventName);
     
             	if (_event == null) {
-            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, eventName));
+            		throw new Exception (String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, eventName));
             	}
             	else {
                     oldValue = _event.getEndDateTimeString();
@@ -152,7 +147,7 @@ public class ServiceHandler implements ServiceManager{
             	break;
         	//case edit unexpected
         	default :
-        		throw new Exception(CommonHelper.ERROR_UNEXPECTED);
+        	    assert(false);
     	}
     	return oldValue;
     }
@@ -164,18 +159,15 @@ public class ServiceHandler implements ServiceManager{
     public String editTask(String taskName, String fieldName, String newInputs) throws Exception{
 
     	Todo _task;
-    	String oldValue;
+    	String oldValue = null;
     	
     	switch(fieldName) {
         	//case edit taskName
-        	case (CommonHelper.FIELD_NAME): 
-        		if (!taskName.equals(newInputs) && findTask(newInputs) != null) {
-        			throw new Exception(CommonHelper.ERROR_EDIT_DUPLICATE);
-        		}
+        	case (CommonHelper.FIELD_NAME):
             	_task = findTask(taskName);
         
             	if (_task == null) {
-            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, taskName));
+            		throw new Exception (String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, taskName));
             	}
             	else {
             	    oldValue = _task.getName();
@@ -188,7 +180,7 @@ public class ServiceHandler implements ServiceManager{
             	_task = findTask(taskName);
         
             	if (_task == null) {
-            		throw new Exception (String.format(CommonHelper.ERROR_NOT_FOUND, taskName));
+            		throw new Exception (String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, taskName));
             	}
             	else {
             	    oldValue = _task.getDeadlineDateTimeString();
@@ -198,7 +190,7 @@ public class ServiceHandler implements ServiceManager{
             	break;
         	//case edit unexpected
         	default :
-        	    throw new Exception(CommonHelper.ERROR_UNEXPECTED);
+        	    assert(false);
     	}
     	return oldValue;
     }

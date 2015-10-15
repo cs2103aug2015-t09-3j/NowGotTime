@@ -15,20 +15,27 @@ public class CommonHelper {
     /* Prompt messages */
     public static final String MESSAGE_WELCOME = "Welcome to NowGotTime";
     public static final String MESSAGE_PROMPT = "command: ";
-    public static final String MESSAGE_ADD = "'%1$s' successfully added";
-    public static final String MESSAGE_DELETE = "'%1$s' successfully deleted";
-    public static final String MESSAGE_EDIT = "'%1$s' successfully edited";
-
+    
+    /* Success messages */
+    public static final String SUCCESS_ITEM_CREATED      = "'%1$s' added";
+    public static final String SUCCESS_PROJECT_CREATED   = "project '%1$s' created";
+    public static final String SUCCESS_ITEM_DELETED      = "'%1$s' deleted";
+    public static final String SUCCESS_PROJECT_DELETED   = "project '%1$s' deleted";
+    public static final String SUCCESS_ITEM_EDITED       = "'%1$s' %2$s changed to '%3$s'";
+    public static final String SUCCESS_PROJECT_EDITED    = "project '%1$s' changed to '%2$s'";
+    public static final String SUCCESS_SEARCHED          = "Got it!";
+    public static final String SUCCESS_SAVE_CHANGED      = "save directory moved to '%1$s";
+    
     /* Error messages */
-    public static final String ERROR_INVALID_COMMAND = "unknown command '%1$s'";
-    public static final String ERROR_INVALID_ARGUMENTS = "invalid arguments for command %1$s";
-    public static final String ERROR_INVALID_DATE_TIME = "invalid date/time format";
-    public static final String ERROR_ADD_EVENT = "failed to add new event, '%1$s' already exists";
-    public static final String ERROR_ADD_TODO = "failed to add new todo, '%1$s' already exists";
-    public static final String ERROR_EDIT_DUPLICATE = "failed to edit, name already exists";
-    public static final String ERROR_NOT_FOUND = "cannot find event or todo with name '%1$s'";
-    public static final String ERROR_EMPTY_HISTORY = "cannot undo any previous command";
-    public static final String ERROR_UNEXPECTED = "unexpected error";
+    public static final String ERROR_INVALID_COMMAND    = "unknown command '%1$s'";
+    public static final String ERROR_INVALID_ARGUMENTS  = "invalid arguments for command '%1$s'";
+    public static final String ERROR_DUPLICATE_PROJECT  = "project '%1$s' already exists";
+    public static final String ERROR_START_AFTER_END    = "start of event cannot be after end of event";
+    public static final String ERROR_INDEX_OUT_OF_BOUND = "index not exists";
+    public static final String ERROR_ITEM_NOT_FOUND     = "'%1$s' not found";
+    public static final String ERROR_PROJECT_NOT_FOUND  = "project '%1$s' not found";
+    public static final String ERROR_EMPTY_HISTORY      = "cannot undo any previous command";
+    public static final String ERROR_INVALID_PATH       = "invalid new save directory";
     
     public static final String FORMATTED_EVENT         = "[%1$s-%2$s] %3$s";
     public static final String FORMATTED_TODO          = "[   by %1$s] %2$s";

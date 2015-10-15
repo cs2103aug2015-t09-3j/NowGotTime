@@ -68,7 +68,7 @@ public class CommandDeleteTest extends CommandTest {
         String feedback = cmd.execute(service, project, history);
 
         // successfully deleted
-        assertEquals(feedback, String.format(CommonHelper.MESSAGE_DELETE, name));
+        assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_DELETED, name));
         
 
         // new event removed from the service
@@ -90,7 +90,7 @@ public class CommandDeleteTest extends CommandTest {
         String feedback = cmd.execute(service, project, history);
 
         // successfully deleted
-        assertEquals(feedback, String.format(CommonHelper.MESSAGE_DELETE, name));
+        assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_DELETED, name));
         
 
         // new todo removed from the service
@@ -110,7 +110,7 @@ public class CommandDeleteTest extends CommandTest {
         String feedback = cmd.execute(service, project, history);
 
         // successfully deleted
-        assertEquals(feedback, String.format(CommonHelper.MESSAGE_DELETE, name));
+        assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_DELETED, name));
         
 
         // new todo removed from the service

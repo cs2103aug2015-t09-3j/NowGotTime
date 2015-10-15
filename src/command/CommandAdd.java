@@ -144,24 +144,12 @@ public class CommandAdd extends Command {
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         
         if (item instanceof Event) {
-            // add new event
-            if (serviceHandler.createEvent((Event)item)) {
-                return String.format(CommonHelper.MESSAGE_ADD, item.getName());
-            }
-            else {
-                // name already exists
-                throw new Exception(String.format(CommonHelper.ERROR_ADD_EVENT, item.getName()));
-            }
+            serviceHandler.createEvent((Event)item);
+            return String.format(CommonHelper.SUCCESS_ITEM_CREATED, item.getName());
         }
         else {
-            // add new todo
-            if (serviceHandler.createTask((Todo)item)) {
-                return String.format(CommonHelper.MESSAGE_ADD, item.getName());
-            }
-            else {
-                // name already exists
-                throw new Exception(String.format(CommonHelper.ERROR_ADD_TODO, item.getName()));
-            }
+            serviceHandler.createTask((Todo)item);
+            return String.format(CommonHelper.SUCCESS_ITEM_CREATED, item.getName());
         }
     }
 

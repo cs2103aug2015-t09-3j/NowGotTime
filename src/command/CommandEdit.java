@@ -76,7 +76,7 @@ public class CommandEdit extends Command {
          || fieldName == CommonHelper.FIELD_END
          || fieldName == CommonHelper.FIELD_DUE) {
             if (CalendarHelper.getCalendarStringType(newValue) == null) {
-                throw new Exception(CommonHelper.ERROR_INVALID_DATE_TIME);
+                throw new Exception(CommonHelper.ERROR_INVALID_ARGUMENTS);
             }
         }
     }
@@ -134,7 +134,7 @@ public class CommandEdit extends Command {
         if ((item = serviceHandler.viewSpecificEvent(itemName)) != null);
         else if ((item = serviceHandler.viewSpecificTask(itemName)) != null);
         else {
-            throw new Exception(String.format(CommonHelper.ERROR_NOT_FOUND, itemName));
+            throw new Exception(String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, itemName));
         }
         
         if (item instanceof Event) {
@@ -143,7 +143,7 @@ public class CommandEdit extends Command {
         else if (item instanceof Todo) {
             oldValue = serviceHandler.editTask(item.getName(), fieldName, newValue);
         }
-        return String.format(CommonHelper.MESSAGE_EDIT, item.getName());    
+        return String.format(CommonHelper.SUCCESS_ITEM_EDITED, item.getName(), fieldName, newValue);    
     }
 
     /**

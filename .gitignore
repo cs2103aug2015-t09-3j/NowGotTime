@@ -5,3 +5,8 @@
 /bin/
 /doc/
 *.md
+/dist/
+/build/
+/projectRefs/
+/externalLibs/
+/project/

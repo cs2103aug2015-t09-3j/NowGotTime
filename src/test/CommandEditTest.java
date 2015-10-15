@@ -142,52 +142,6 @@ public class CommandEditTest extends CommandTest {
         assertNotNull(service.viewSpecificTask("eat meh meh"));
     }
     
-    @Test
-    public void testDuplicateEventNameCannotExist() throws Exception {
-        // cannot add multiple events with same name
-        String name1 = "eat again";
-        String startDateTime1 = "21 Sep 2015 10:00";
-        String endDateTime1 = "22 Sep 2015 23:00";
-        
-        String name2 = "eat again2";
-        String startDateTime2 = "21 Sep 2015 10:00";
-        String endDateTime2 = "22 Sep 2015 23:00";
-        
-        addEvent(name1, startDateTime1, endDateTime1);
-        addEvent(name2, startDateTime2, endDateTime2);
-        
-        assertNotNull(service.viewSpecificEvent(name1));
-        assertNotNull(service.viewSpecificEvent(name2));
-        
-        try {
-            new CommandEdit(name2, CommonHelper.FIELD_NAME, name1).execute(service, project, history);
-            fail("exception should be thrown");
-        } catch (Exception e) {
-            
-        }
-    }
-    
-    @Test
-    public void testDuplicateTaskNameCannotExist() throws Exception {
-        // cannot add multiple events with same name
-        String name1 = "eat again";
-        
-        String name2 = "eat again2";
-        String deadlineDateTime2 = "21 Sep 2015 23:00";
-        
-        addTodo(name1);
-        addTodo(name2, deadlineDateTime2);
-        
-        assertNotNull(service.viewSpecificTask(name1));
-        assertNotNull(service.viewSpecificTask(name2));
-        
-        try {
-            new CommandEdit(name2, CommonHelper.FIELD_NAME, name1).execute(service, project, history);
-            fail("exception should be thrown");
-        } catch (Exception e) {
-            
-        }
-    }
    
 
 }

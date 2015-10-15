@@ -23,6 +23,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -229,6 +230,8 @@ public class GUI extends Application {
 	    configureHandler();
 	    
 	    primaryStage.setTitle(GUI_TITLE);
+	    primaryStage.initStyle(StageStyle.UNIFIED);
+	    
 	    Scene ui = getUserInterface();
 	    
 	    viewToday();
@@ -238,6 +241,7 @@ public class GUI extends Application {
 
 
     public static void main(String[] args) {
+        Main.mode = "GUI";
 		launch(args);
 	}
 }

@@ -36,7 +36,7 @@ public class CommandView extends Command {
         mergedList = new ArrayList<Item>();
         
         if (CalendarHelper.getCalendarStringType(dateString) != CalendarHelper.TYPE_DATE) {
-            throw new Exception(CommonHelper.ERROR_INVALID_DATE_TIME);
+            throw new Exception(CommonHelper.ERROR_INVALID_ARGUMENTS);
         }
     }
     
