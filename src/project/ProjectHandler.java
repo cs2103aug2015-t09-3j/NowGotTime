@@ -9,7 +9,7 @@ public class ProjectHandler implements ProjectManager{
 
 	private FileHandler project;
 	// String in HashMap => Progress
-	private HashMap<Integer, String> map = new HashMap<Integer, String>();
+	private HashMap<Integer, String> map;
 	private ArrayList<Integer> projectBook = new ArrayList<Integer>();
 	private ArrayList<String> projectList = new ArrayList<String>();
 		
@@ -36,7 +36,7 @@ public class ProjectHandler implements ProjectManager{
 		} else {
 			projectBook = viewProjectTimeline(projectName.toLowerCase());
 			projectBook.add(eventId);
-			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
+			project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
 			return true;
 		}
 	}
@@ -137,7 +137,7 @@ public class ProjectHandler implements ProjectManager{
 					break;
 				}
 			}
-			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
+			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase(), );
 			return true;
 		}
 	}
@@ -191,6 +191,8 @@ public class ProjectHandler implements ProjectManager{
 	/**
 	 * Edits an existing Event in the Project ArrayList by the event name
 	 */
+	
+	/*
 	@Override
 	public boolean editProjectEvent(Event eventName, int infoIndex, String newValue, String projectName) {
 		//for testing: System.out.println("1" + projectBook);
@@ -205,6 +207,7 @@ public class ProjectHandler implements ProjectManager{
 			}
 		} return false;
 	}
+	*/
 
 	/**
 	 * View an ArrayList of existing Projects
@@ -219,25 +222,26 @@ public class ProjectHandler implements ProjectManager{
 	/**
 	 * View Project timeline (ArrayList of Events) by the Project name
 	 */
+	
+	
 	@Override
 	public ArrayList<Integer> viewProjectTimeline(String projectName) {
 		
 		projectBook = project.retrieveProjectTimeLine(projectName.toLowerCase());
+		map = project.retrieveProjectProgress();
 		return projectBook;
-		
-		project.
 	}
 
 	/**
 	 * View Project timeline (ArrayList of Events) by the Project index
 	 */
 	@Override
-	public ArrayList<Event> viewProjectTimeline(int index) {
-		// TODO Auto-generated method stub
+	public ArrayList<Integer> viewProjectTimeline(int index) {
 		
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
 			projectBook = project.retrieveProjectTimeLine(projectName);
+			map = project.retrieveProjectProgress();
 			return projectBook;
 		} else {
 			return null;
