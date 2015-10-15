@@ -160,4 +160,8 @@ public class CalendarHelper {
         return null;
     }
     
+    public static boolean isCalendarString(String calendarString) {
+        return getCalendarStringType(calendarString) != null;
+    }
+    
 }
