@@ -29,13 +29,13 @@ public class ProjectHandler implements ProjectManager{
 	 * Adds an existing Event by ID into Project ArrayList
 	 */
 	@Override
-	public boolean addProjectEvent(int eventId, String projectName) {
+	public boolean addProjectEvent(int id, String projectName) {
 
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return false;
 		} else {
 			projectBook = viewProjectTimeline(projectName.toLowerCase());
-			projectBook.add(eventId);
+			projectBook.add(id);
 			project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
 			return true;
 		}
