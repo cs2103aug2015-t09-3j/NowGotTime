@@ -11,27 +11,17 @@ public class ProjectHandler implements ProjectManager{
 	// String in HashMap => Progress
 	private HashMap<Integer, String> map;
 	private ArrayList<Integer> projectBook = new ArrayList<Integer>();
-	private ArrayList<String> projectList = new ArrayList<String>();
 		
 	public ProjectHandler (){
 		project = new FileHandler();
-	}
-	
-	/**
-	 * Creates a Project ArrayList
-	 */
-	@Override
-	public boolean createProject(String projectName) {
-		return project.createNewProject(projectName.toLowerCase());
-	}
+	}		
 	
 	/**
 	 * Adds an existing Event by ID into Project ArrayList
 	 */
 	@Override
 	public boolean addProjectEvent(int id, String projectName) {
-
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+		if (id < 0) {
 			return false;
 		} else {
 			projectBook = viewProjectTimeline(projectName.toLowerCase());
@@ -39,14 +29,6 @@ public class ProjectHandler implements ProjectManager{
 			project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
 			return true;
 		}
-	}
-
-	/**
-	 * Deletes an existing Project ArrayList
-	 */
-	@Override
-	public boolean deleteProject(String projectName) {
-		return project.deleteProject(projectName.toLowerCase());
 	}
 
 	/**
@@ -210,15 +192,6 @@ public class ProjectHandler implements ProjectManager{
 	}
 	*/
 
-	/**
-	 * View an ArrayList of existing Projects
-	 */
-	@Override
-	public ArrayList<String> listExistingProjects() {
-		
-		projectList = project.getListOfExistingProject();
-		return projectList;
-	}
 	
 	/**
 	 * View Project timeline (ArrayList of Events) by the Project name
@@ -236,6 +209,7 @@ public class ProjectHandler implements ProjectManager{
 	/**
 	 * View Project timeline (ArrayList of Events) by the Project index
 	 */
+	/*
 	@Override
 	public ArrayList<Integer> viewProjectTimeline(int index) {
 		
@@ -248,6 +222,7 @@ public class ProjectHandler implements ProjectManager{
 			return null;
 		}
 	}
+	*/
 	
 	@Override
 	public ArrayList<Event> viewEventProgressTimeline(String projectName) {
