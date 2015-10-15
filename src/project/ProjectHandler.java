@@ -1,5 +1,5 @@
 package project;
-import java.util.ArrayList;
+import java.util.*;
 
 import object.Event;
 import storage.FileHandler;
@@ -8,7 +8,9 @@ import storage.FileHandler;
 public class ProjectHandler implements ProjectManager{
 
 	private FileHandler project;
-	private ArrayList<Event> projectBook = new ArrayList<Event>();
+	// String in HashMap => Progress
+	private HashMap<Integer, String> map = new HashMap<Integer, String>();
+	private ArrayList<Integer> projectBook = new ArrayList<Integer>();
 	private ArrayList<String> projectList = new ArrayList<String>();
 		
 	public ProjectHandler (){
@@ -24,20 +26,16 @@ public class ProjectHandler implements ProjectManager{
 	}
 	
 	/**
-	 * Adds an existing Event into Project ArrayList
+	 * Adds an existing Event by ID into Project ArrayList
 	 */
 	@Override
-	public boolean addProjectEvent(Event eventName, String projectName) {
-		
-		// Don't create new project, in case user types wrongly. Stef, Prompt user to create proj first.
+	public boolean addProjectEvent(int eventId, String projectName) {
+
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return false;
 		} else {
 			projectBook = viewProjectTimeline(projectName.toLowerCase());
-			
-			assert(eventName != null): "eventName is empty";
-			
-			projectBook.add(eventName);
+			projectBook.add(eventId);
 			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
 			return true;
 		}
