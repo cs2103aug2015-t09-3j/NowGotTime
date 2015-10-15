@@ -12,9 +12,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
-
-import object.Event;
+import java.util.HashMap;
 
 
 public class FileProjectHandler {
@@ -24,7 +22,9 @@ public class FileProjectHandler {
 	private String baseDirectory;
 	private ArrayList<String> existingProjects;
 	private File inputFile;
-	private ArrayList<ArrayList<Event>> projectBookShelf;
+	private ArrayList<ArrayList<Integer>> projectBookShelf;
+	ArrayList<HashMap<Integer, String>> progressBookShelf;
+	private HashMap<Integer, String> progressBook;
 	
 /*******************************************************************************/
 	
@@ -62,38 +62,68 @@ public class FileProjectHandler {
 		return (ArrayList<String>) existingProjects.clone();
 	}
 	
-	public ArrayList<Event> retrieveProject(String name){
+	public ArrayList<Integer> retrieveProject(String name){
 		
 		String fileName = setFileName(name);
 		selectFileAsInputFile(baseDirectory + fileName);
 		
-		ArrayList<Event> projectBook  = new ArrayList<Event>();
-		String eventName, startDate, endDate, startTime, endTime, addInfo;
+		ArrayList<Integer> projectBook = new ArrayList<Integer>();
+		progressBook = new HashMap<Integer, String>();
+		String addInfo;
+		int id;
 		
-		try {
+		try{
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			String lineOfText;
 			
-			while( (lineOfText = reader.readLine()) != null ){
-				eventName = lineOfText;
+			while( (lineOfText = reader.readLine()) != null){
+				id = Integer.parseInt(lineOfText);
 				addInfo = reader.readLine();
-				startDate = reader.readLine();
-				endDate = reader.readLine();
-				startTime = reader.readLine();
-				endTime = reader.readLine();			
 				
-				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
-				projectBook.add(event);
+				projectBook.add(id);
+				progressBook.put(id, addInfo);
 			}
+			reader.close();
+			return projectBook;
 			
-			reader.close();		 
+		}catch(FileNotFoundException e){
+			return projectBook;
+		}catch(IOException e){
 			return projectBook;
 		}
-		catch (FileNotFoundException e) {
-			return projectBook;
-		}catch (IOException e) {
-			return projectBook;
-		}	
+		 
+//		ArrayList<Event> projectBook  = new ArrayList<Event>();
+//		String eventName, startDate, endDate, startTime, endTime, addInfo;
+//		
+//		try {
+//			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+//			String lineOfText;
+//			
+//			while( (lineOfText = reader.readLine()) != null ){
+//				eventName = lineOfText;
+//				addInfo = reader.readLine();
+//				startDate = reader.readLine();
+//				endDate = reader.readLine();
+//				startTime = reader.readLine();
+//				endTime = reader.readLine();			
+//				
+//				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
+//				projectBook.add(event);
+//			}
+//			
+//			reader.close();		 
+//			return projectBook;
+//		}
+//		catch (FileNotFoundException e) {
+//			return projectBook;
+//		}catch (IOException e) {
+//			return projectBook;
+//		}	
+	}
+	
+	//new
+	public HashMap<Integer, String> retrieveProjectProgress(){
+		return progressBook;
 	}
 	
 	public boolean createNewProject(String projectName){
@@ -103,9 +133,30 @@ public class FileProjectHandler {
 		return false;
 	}
 	
-	public boolean saveEditedProjectDetails(ArrayList<Event> projectBook, String projectName){
-		sortEventsByDate(projectBook);
-		return overwriteSave(projectName, projectBook);
+	//will not sort the events by date.
+	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, HashMap<Integer, String> progressBook, String projectName){
+		
+		try{
+			File outfile = new File(baseDirectory + projectName + ".txt");
+			
+			if(!outfile.exists()){
+				return false; 
+			}
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
+			
+			for(Integer id : projectBook){
+				writer.write(id.toString()); writer.newLine();
+				writer.write(progressBook.get(id)); writer.newLine();
+			}
+			writer.close();
+			return true;
+	
+		}catch(IOException e){
+			System.out.println("File cannot be written.\n");
+			return false;
+		}
+		
 	}
 	
 	public boolean setNewDirectory(String newBaseDirectory){
@@ -114,10 +165,14 @@ public class FileProjectHandler {
 	}
 	
 	public boolean readAll(){
-		projectBookShelf = new ArrayList<ArrayList<Event>>();
+		projectBookShelf = new ArrayList<ArrayList<Integer>>();
+		progressBookShelf = new ArrayList<HashMap<Integer, String>>();
+		
 		for(String project: existingProjects){
-			ArrayList<Event> projectBook = retrieveProject(project);
+			ArrayList<Integer> projectBook = retrieveProject(project);
+			HashMap<Integer, String> progressBook = retrieveProjectProgress();
 			projectBookShelf.add(projectBook);
+			progressBookShelf.add(progressBook);
 		}
 		
 		if(projectBookShelf.isEmpty()){
@@ -134,11 +189,10 @@ public class FileProjectHandler {
 			for(int counter = 0; counter < existingProjects.size(); counter++){
 				
 				String projectName = existingProjects.get(counter);
-				ArrayList<Event> projectBook = projectBookShelf.get(counter);
-				
+				ArrayList<Integer> projectBook = projectBookShelf.get(counter);
+				HashMap<Integer, String> progressBook = progressBookShelf.get(counter);
 				createNewProjectFile(projectName);
-				overwriteSave(projectName, projectBook);
-	
+				saveEditedProjectDetails(projectBook, progressBook, projectName);
 			}
 			
 			return true;
@@ -170,30 +224,6 @@ public class FileProjectHandler {
 		}
 	}
 	
-	private boolean overwriteSave(String projectName, ArrayList<Event> projectBook) {
-		
-		try{
-			File outfile = new File(baseDirectory + projectName + ".txt");
-			
-			if(!outfile.exists()){
-				return false; 
-			}
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
-			
-			for(Event anEvent : projectBook){
-				writer.write(anEvent.toString()); 
-				writer.newLine();
-			}
-			writer.close();
-			return true;
-	
-		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
-			return false;
-		}
-		
-	}
 	
 	private void readOverviewerFile() {
 		inputFile = new File( baseDirectory + PROJECT_OVERVIEWER);	
@@ -223,10 +253,6 @@ public class FileProjectHandler {
 		return (projectName + ".txt");	
 	}
 	
-	private void sortEventsByDate(ArrayList<Event> projectBook){
-		Collections.sort(projectBook, new customComparator());
-	}
-	
 	private boolean updateOverviewFile(){
 		try{
 			File outfile = new File(baseDirectory + PROJECT_OVERVIEWER);
@@ -248,5 +274,3 @@ public class FileProjectHandler {
 	}
 	
 }
-
-	

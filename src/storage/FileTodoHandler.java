@@ -277,7 +277,7 @@ public class FileTodoHandler {
 				todoName = reader.readLine();
 				todoDate = reader.readLine();
 				todoTime = reader.readLine();
-				addInfo = reader.readLine();
+				addInfo = "";
 				
 				if(isPartialType(todoType)){
 					todo = new Todo(todoName, addInfo, todoDate);
@@ -323,7 +323,7 @@ public class FileTodoHandler {
 			while( (lineOfText = reader.readLine()) != null ){
 				Id = lineOfText;
 				todoName = reader.readLine();
-				addInfo = reader.readLine();
+				addInfo = "";
 				Todo todo = new Todo(todoName, addInfo);
 				todo.setId(Integer.parseInt(Id));
 				myUniversalTodo.add(todo);
@@ -366,7 +366,6 @@ public class FileTodoHandler {
 			for(Todo aTodo : universalTodo){
 				writer.write(aTodo.getId() + ""); writer.newLine();
 				writer.write(aTodo.getName()); writer.newLine();
-				writer.write(aTodo.getAdditionalInfo()); writer.newLine();
 			}
 			writer.close();
 			return true;

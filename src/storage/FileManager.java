@@ -1,5 +1,6 @@
 package storage;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import object.Event;
 import object.Todo;
@@ -93,9 +94,10 @@ public interface FileManager {
 	public boolean saveNewTodoHandler(Todo task);
 	public boolean saveEditedTodoHandler();
 	
-	public ArrayList<Event> retrieveProjectTimeLine(String projectName);
+	public ArrayList<Integer> retrieveProjectTimeLine(String projectName);
+	public HashMap<Integer, String> retrieveProjectProgress();
 	public boolean createNewProject(String projectName);
-	public boolean saveEditedProjectDetails(ArrayList<Event> projectBook, String projectName);
+	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, HashMap<Integer, String> progressBook, String projectName);
 	public ArrayList<String> getListOfExistingProject( );
 	public boolean deleteProject(String projectName);
 	

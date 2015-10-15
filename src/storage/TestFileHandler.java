@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import object.Event;
 import object.Todo;
@@ -55,16 +56,14 @@ public class TestFileHandler {
 	
 	public static void main(String[] args){
 		
-		clearAllFiles(testo);
-		kickStart();
+//		clearAllFiles(testo);
+//		kickStart();
 
 //		testo.testFileEventHandler();
-		testo.testFileTodoHandler();
+//		testo.testFileTodoHandler();
 		testo.testFileProjectHandler();
 		
 //		testo.changeDirect();
-		
-		
 //		testo.testIndex();
 		
 		
@@ -95,9 +94,7 @@ public class TestFileHandler {
 		System.out.println ("Retrieving events on 31 Aug 2016...");
 		System.out.println(fh.retrieveEventByDate("31 Aug 2016"));
 	}
-	
-	
-	
+
 	private void changeDirect(){
 		fh.changeBaseDirectory("C:\\Users\\RX.huang\\Desktop");
 	}
@@ -179,37 +176,75 @@ public class TestFileHandler {
 	}
 	
 	public void testFileProjectHandler(){
-		System.out.println ("//***************** Start test project *******************//");
 		
-		System.out.println("Create new project: Software development");
+		//Create new project: Software development" 
 		fh.createNewProject("Software development");
-		System.out.println("Project \"Software development\" has been created.");
-		System.out.println();
 		
-		System.out.println("Creating events to put into project.");
-		Event event1 = new Event("Brainstorming", "10 mar 2015", "11 mar 2015", "09:00", "15:00", "Brainstorm features");
-		Event event2 = new Event("Split work", "14 mar 2015", "14 mar 2015", "09:00", "10:00", "I will do storage handling");
-		Event event3 = new Event("Project meeting", "20 mar 2015", "21 mar 2015", "20:00", "03:00", "Meet up for code review.");
-		System.out.println();
+		//retrieve project to work on it
+		ArrayList<Integer> projectBook = fh.retrieveProjectTimeLine("Software development");
+		HashMap<Integer, String> progressBook = fh.retrieveProjectProgress();
 		
-		System.out.println("Retrieving projecting: \"Software development\"");
-		System.out.println("Adding events into project");
-		System.out.println("Saving project.");
-		ArrayList<Event> book = fh.retrieveProjectTimeLine("Software development");
-		book.add(event3);
-		book.add(event1);
-		book.add(event2);
-		fh.saveEditedProjectDetails(book, "Software development");
-		System.out.println();
+		//adding a new event id into the project
+		int newEventId = 2;
+		projectBook.add(newEventId);
 		
-		System.out.println("Retrieving projecting: \"Software development\"");
-		System.out.println("Events in \"Software development\" project:");
-		ArrayList<Event> projectBook = fh.retrieveProjectTimeLine("Software development");
-		for(Event event: projectBook){
-			System.out.println(event);
-			System.out.println();
-		}
 		
+		//adding a new progress to an event in the project.
+		String newProgress = "This is the string that contains the progress of the event";
+		progressBook.put(newEventId, newProgress);
+		
+		//save
+		fh.saveEditedProjectDetails(projectBook, progressBook, "Software development");
+		
+		//Imagine we exit here. so all the data will be reseted.
+		projectBook.clear();
+		progressBook.clear();
+		
+		//retrieve saved data
+		projectBook = fh.retrieveProjectTimeLine("Software development");
+		progressBook = fh.retrieveProjectProgress();
+		
+		
+		System.out.println(projectBook);
+		System.out.println(progressBook);
+		
+		
+//		
+//		System.out.println ("//***************** Start test project *******************//");
+//		
+//		System.out.println("Creating events to put into project.");
+//		Event event1 = new Event("Brainstorming", "10 mar 2015", "11 mar 2015", "09:00", "15:00", "Brainstorm features");
+//		Event event2 = new Event("Split work", "14 mar 2015", "14 mar 2015", "09:00", "10:00", "I will do storage handling");
+//		Event event3 = new Event("Project meeting", "20 mar 2015", "21 mar 2015", "20:00", "03:00", "Meet up for code review.");
+//		System.out.println();
+//		fh.saveNewEventHandler(event1);
+//		fh.saveNewEventHandler(event2);
+//		fh.saveNewEventHandler(event3);
+//		
+//		System.out.println("Create new project: Software development");
+//		fh.createNewProject("Software development");
+//		System.out.println("Project \"Software development\" has been created.");
+//		System.out.println();
+//		
+//		
+//		System.out.println("Retrieving projecting: \"Software development\"");
+//		System.out.println("Adding events into project");
+//		System.out.println("Saving project.");
+//		ArrayList<Event> book = fh.retrieveProjectTimeLine("Software development");
+//		book.add(event3);
+//		book.add(event1);
+//		book.add(event2);
+//		fh.saveEditedProjectDetails(book, "Software development");
+//		System.out.println();
+//		
+//		System.out.println("Retrieving projecting: \"Software development\"");
+//		System.out.println("Events in \"Software development\" project:");
+//		ArrayList<Event> projectBook = fh.retrieveProjectTimeLine("Software development");
+//		for(Event event: projectBook){
+//			System.out.println(event);
+//			System.out.println();
+//		}
+//		
 		System.out.println ("//************************** End **************************//");
 		
 		System.out.println ("Test delete project: ");

@@ -1,10 +1,10 @@
 package object;
 
-import java.text.ParseException;
-import java.util.Calendar;
-
 import helper.CalendarHelper;
 import helper.CommonHelper;
+
+import java.text.ParseException;
+import java.util.Calendar;
 
 /**
  * Assumption is that the time and date format goes as follow:
@@ -117,9 +117,7 @@ public class Todo extends Item {
         else {
             allDetails = allDetails.concat("no time");
         }
-        
-        allDetails = allDetails.concat("\n" + getAdditionalInfo());
-        
+                
         return allDetails;
     }
 

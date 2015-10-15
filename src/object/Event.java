@@ -1,9 +1,9 @@
 package object;
-import java.text.ParseException;
-import java.util.Calendar;
-
 import helper.CalendarHelper;
 import helper.CommonHelper;
+
+import java.text.ParseException;
+import java.util.Calendar;
 
 /**
  * Assumption is that the time and date format goes as follow:
@@ -123,8 +123,7 @@ public class Event extends Item {
                 + getStartDateString() + "\n" 
                 + getEndDateString() + "\n" 
                 + getStartTimeString() + "\n" 
-                + getEndTimeString() + "\n" 
-                + getAdditionalInfo();
+                + getEndTimeString();
     }
 
     public String toFormattedString(String dateString) throws ParseException {
