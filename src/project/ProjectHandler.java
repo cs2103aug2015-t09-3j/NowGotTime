@@ -263,7 +263,7 @@ public class ProjectHandler implements ProjectManager{
 		}
 		return eventProgress;
 	}
-	
+
 	/*
 	 -Have a search function to search through project book (arraylist of events). Return event ID.
 	 -Progress bar function, show % completed.
