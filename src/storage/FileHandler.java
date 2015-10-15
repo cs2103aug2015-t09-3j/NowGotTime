@@ -12,6 +12,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import object.Event;
 import object.Item;
@@ -56,14 +57,17 @@ public class FileHandler implements FileManager{
 	public FileHandler(){
 		directHand = new DirectoryHandler();
 		readOverviewerFile();
-		readCounter();
+		
 		
 		fEventH = new FileEventHandler(eventPath);
 		fProjH = new FileProjectHandler(projectPath);
 		fTodoH = new FileTodoHandler(todoPath);
+		
+		readCounter();
+				
 	}
 	
-/********************************* Events ****************************************/
+/********************************* Events ***add *************************************/
 	
 	/**
 	 * Retrieves a specific events by date
@@ -162,8 +166,13 @@ public class FileHandler implements FileManager{
 	 * Retrieves all the events added to a project
 	 */
 	@Override
-	public ArrayList<Event> retrieveProjectTimeLine(String projectName) {
+	public ArrayList<Integer> retrieveProjectTimeLine(String projectName) {
 		return fProjH.retrieveProject(projectName);
+	}
+	
+	@Override
+	public HashMap<Integer, String> retrieveProjectProgress() {
+		return fProjH.retrieveProjectProgress();
 	}
 	
 	/**
@@ -178,10 +187,10 @@ public class FileHandler implements FileManager{
 	 * Saves any changes made to the ArrayList<Integer> retrieved using the retrieveProjectTimeLine( ) method
 	 */
 	@Override
-	public boolean saveEditedProjectDetails(ArrayList<Event> projectBook, String projectName) {
-		return fProjH.saveEditedProjectDetails(projectBook, projectName);
+	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, HashMap<Integer, String> progressBook, String projectName) {
+		return fProjH.saveEditedProjectDetails(projectBook, progressBook, projectName);
 	}
-	
+
 	/**
 	 * Retrieves the names of all the existing project 
 	 */

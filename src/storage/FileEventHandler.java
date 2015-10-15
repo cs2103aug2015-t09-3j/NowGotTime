@@ -193,7 +193,7 @@ public class FileEventHandler {
 				endDate = reader.readLine();
 				startTime = reader.readLine();
 				endTime = reader.readLine();
-				addInfo = reader.readLine();
+				addInfo = "";
 				
 				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
 				event.setId(Integer.parseInt(ID));

@@ -12,8 +12,7 @@ public class Main {
             mode = "CLI";
             CLI ui = new CLI();
             ui.start();
-        }
-        else {
+        } else {
             mode = "GUI";
             GUI.main(args);
         }

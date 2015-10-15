@@ -80,19 +80,24 @@ public class TestServiceHandler {
 		
 		
 		/******************* Test Delete Todo End ********************************/
-
-       
+		
+		//create items
+		Todo todo3 = new Todo("study 1506", "", "10 nov 2016");
+		Event event3 = new Event("study 2020", "31 aug 2016", "10 nov 2016", "03:00", "10:00", "");
+		
+		//save items
+		test.createTask(todo3);
+		test.createEvent(event3);
+		
+		//check if added
+		System.out.println(test.viewTaskByDate("20 oct 2016"));
+		System.out.println("next is search");
+		
+		//search
+		System.out.println(test.search("stud"));
 		
 		
-		
-		
-		
-		
-        
-/*      System.out.println(test.createTask(testTask1));
-        System.out.println(test.viewTaskNoDate("12 March 2020"));
-        System.out.println(test.deleteTaskWithoutDeadline("study"));
-        */
+		/******************* Test Search Item End ********************************/
     }
 
 }
