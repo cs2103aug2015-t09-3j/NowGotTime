@@ -50,8 +50,21 @@ public class ProjectHandler implements ProjectManager{
 	}
 
 	/**
-	 * Deletes an existing Event in the Project ArrayList by the event name
+	 * Deletes an existing Event in the Project ArrayList by the ID
 	 */
+	
+	@Override
+	public boolean deleteProjectEvent(int id, String projectName) {
+		for (int savedId : projectBook) {
+			if (savedId == id) {
+				projectBook.remove(id);
+				project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
+				return true;
+			}
+		} return false;
+	}
+	
+	/*
 	@Override
 	public boolean deleteProjectEvent(String eventName, String projectName) {
 		for (Event anEvent : projectBook) {
@@ -63,10 +76,13 @@ public class ProjectHandler implements ProjectManager{
 		}
 		return false;
 	}
+	*/
 
 	/**
 	 * Deletes an existing Event in the Project ArrayList by the index
 	 */
+	
+	/*
 	@Override
 	public boolean deleteProjectEvent(int index, String projectName) {
 		if (index < projectBook.size()) {
@@ -77,10 +93,57 @@ public class ProjectHandler implements ProjectManager{
 			return false;
 		}
 	}
-
+	*/
+	
 	/**
-	 * Edits an existing Event in the Project ArrayList by the index
+	 * Edits an existing Event in the Project ArrayList by the ID
 	 */
+	
+	@Override
+	public boolean editProjectEvent(int id, int infoIndex, String newValue, String projectName) {
+		if (id < 0 || !projectBook.contains(id)) {
+			return false;
+		} else {
+			Event event = project.retrieveEventById(id);
+			
+			switch(infoIndex) {
+				case (1): {	
+					event.setName(newValue);
+					break;
+				}
+				
+				case (2): {
+					event.updateStartDate(newValue); 
+					break;
+				}
+				
+				case (3): {
+					event.updateEndDate(newValue);
+					break;
+				}
+				
+				case (4): {
+					event.updateStartTime(newValue);
+					break;
+				}
+				
+				case (5): {
+					event.updateEndTime(newValue);
+					break;
+				}
+				
+				case (6): {
+					event.setAdditionalInfo(newValue);
+					break;
+				}
+			}
+			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
+			return true;
+		}
+	}
+
+	
+	/*
 	@Override
 	public boolean editProjectEvent(int eventIndex, int infoIndex, String newValue, String projectName) {
 		if (eventIndex < 0 || eventIndex > projectBook.size()) {
@@ -123,7 +186,8 @@ public class ProjectHandler implements ProjectManager{
 			return true;
 		}
 	}
-
+	*/
+	
 	/**
 	 * Edits an existing Event in the Project ArrayList by the event name
 	 */
@@ -156,10 +220,12 @@ public class ProjectHandler implements ProjectManager{
 	 * View Project timeline (ArrayList of Events) by the Project name
 	 */
 	@Override
-	public ArrayList<Event> viewProjectTimeline(String projectName) {
+	public ArrayList<Integer> viewProjectTimeline(String projectName) {
 		
 		projectBook = project.retrieveProjectTimeLine(projectName.toLowerCase());
 		return projectBook;
+		
+		project.
 	}
 
 	/**
