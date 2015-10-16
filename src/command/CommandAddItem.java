@@ -7,7 +7,6 @@ import java.util.regex.Matcher;
 import helper.CalendarHelper;
 import helper.CommonHelper;
 import helper.Parser;
-import javafx.scene.layout.GridPane;
 import object.Event;
 import object.Item;
 import object.Todo;
@@ -122,7 +121,7 @@ public class CommandAddItem implements CommandAdd {
     }
 
     @Override
-    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
+    public Displayable getDisplayable() {
         String date;
         if (item instanceof Event) {
             date = ((Event)item).getStartDateString();
@@ -130,8 +129,6 @@ public class CommandAddItem implements CommandAdd {
         else {
             date = ((Todo)item).getDeadlineDateString();
         }
-        Command viewCommand = new CommandViewDate(date);
-        viewCommand.execute(serviceHandler, projectHandler, new Stack<Command>());
-        viewCommand.display(serviceHandler, projectHandler, displayBox);
+        return new CommandViewDate(date);
     }
 }

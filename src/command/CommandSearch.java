@@ -19,7 +19,7 @@ import object.Event;
 import object.Item;
 import object.Todo;
 
-public class CommandSearch implements Command {
+public class CommandSearch implements Command, Displayable {
 
     public static final String KEYWORD = "search";
     
@@ -49,7 +49,7 @@ public class CommandSearch implements Command {
     }
 
     @Override
-    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
+    public void display(GridPane displayBox) {
         
         displayBox.getChildren().clear();
         
@@ -122,6 +122,11 @@ public class CommandSearch implements Command {
             rowIndex++;
             previousDate = date;
         }
+    }
+
+    @Override
+    public Displayable getDisplayable() {
+        return this;
     }
     
 

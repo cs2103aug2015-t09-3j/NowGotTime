@@ -32,6 +32,7 @@ import java.util.Stack;
 
 import command.Command;
 import command.CommandViewDate;
+import command.Displayable;
 import command.Revertible;
 import helper.CalendarHelper;
 
@@ -58,13 +59,21 @@ public class GUI extends Application {
     
     private String executeResponse(String userResponse) {
         Command command = null;
+        Displayable display = null;
         String feedback;
         try {
             command = Command.parseCommand(userResponse);
             feedback = command.execute(serviceHandler, projectHandler, historyList);
+            
             statusBox.setStyle(CSS_SUCCESS);
             prompt.clear();
-            command.display(serviceHandler, projectHandler, displayBox);
+            
+            // Show on display
+            display = command.getDisplayable();
+            if (display != null) {
+                ((Command)display).execute(serviceHandler, projectHandler, historyList);
+                display.display(displayBox);
+            }
             
             if (command instanceof Revertible) {
                 // add to history list if project revertible
@@ -216,9 +225,9 @@ public class GUI extends Application {
     
     private void viewToday() throws Exception {
         Calendar today = Calendar.getInstance();
-        Command viewCommand = new CommandViewDate(CalendarHelper.getDateString(today));
-        viewCommand.execute(serviceHandler, projectHandler, historyList);
-        viewCommand.display(serviceHandler, projectHandler, displayBox);
+        Displayable viewCommand = new CommandViewDate(CalendarHelper.getDateString(today));
+        ((Command)viewCommand).execute(serviceHandler, projectHandler, historyList);
+        viewCommand.display(displayBox);
     }
     
     private void configureHandler() {

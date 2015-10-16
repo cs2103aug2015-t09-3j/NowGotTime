@@ -3,7 +3,7 @@ package command;
 import helper.CommonHelper;
 import helper.Parser;
 
-public interface CommandView extends Command {
+public interface CommandView extends Command, Displayable {
 
     public static final String KEYWORD = "view";
     

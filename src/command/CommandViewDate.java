@@ -28,7 +28,7 @@ public class CommandViewDate implements CommandView {
     /**
      * Parses the arguments for view command
      */
-    public CommandViewDate(String args) throws Exception {
+    public CommandViewDate(String args) {
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_ANY);
         dateString = matcher.group(Parser.TAG_VALUE).trim();
     }
@@ -43,12 +43,13 @@ public class CommandViewDate implements CommandView {
         ArrayList<Event> eventList = serviceHandler.viewEventByDate(dateString);
         ArrayList<Todo> todoList = serviceHandler.viewTaskByDate(dateString);
         ArrayList<Todo> floatingTodoList = serviceHandler.viewTaskNoDate();
-        
+        mergedList.clear();
         mergedList.addAll(eventList);
         mergedList.addAll(todoList);
         mergedList.addAll(floatingTodoList);
         
         if (Main.mode.equals("GUI")) {
+            // TODO save this constant string
             return "Got it!";
         }
         else {
@@ -70,7 +71,8 @@ public class CommandViewDate implements CommandView {
         }
     }
     
-    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) {
+    @Override
+    public void display(GridPane displayBox) {
         displayBox.getChildren().clear();
         
         Collections.sort(mergedList);
@@ -148,6 +150,12 @@ public class CommandViewDate implements CommandView {
             rowIndex++;
             previousDate = date;
         }
+    }
+
+    @Override
+    public Displayable getDisplayable() {
+        // TODO Auto-generated method stub
+        return this;
     }
 
 }

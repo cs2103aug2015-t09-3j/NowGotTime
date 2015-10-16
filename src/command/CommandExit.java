@@ -4,7 +4,6 @@ import java.util.Stack;
 
 import helper.CommonHelper;
 import helper.Parser;
-import javafx.scene.layout.GridPane;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -36,9 +35,8 @@ public class CommandExit implements Command {
     }
 
     @Override
-    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox)
-            throws Exception {
+    public Displayable getDisplayable() {
         // TODO Auto-generated method stub
-        
+        return null;
     }
 }

@@ -6,7 +6,6 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
-import javafx.scene.layout.GridPane;
 import object.Event;
 import object.Item;
 import object.Todo;
@@ -157,9 +156,9 @@ public class CommandEditItem implements CommandEdit {
         Command revertEditCommand = new CommandEditItem(item, fieldName, oldValue);
         return revertEditCommand.execute(serviceHandler, projectHandler, historyList);
     }
-    
+
     @Override
-    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
+    public Displayable getDisplayable() {
         String date;
         if (item instanceof Event) {
             date = ((Event)item).getStartDateString();
@@ -168,9 +167,7 @@ public class CommandEditItem implements CommandEdit {
             date = ((Todo)item).getDeadlineDateString();
         }
         
-        Command viewCommand = new CommandViewDate(date);
-        viewCommand.execute(serviceHandler, projectHandler, new Stack<Command>());
-        viewCommand.display(serviceHandler, projectHandler, displayBox);
+        return new CommandViewDate(date);
     }
 
 }

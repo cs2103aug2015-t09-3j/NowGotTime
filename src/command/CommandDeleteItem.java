@@ -6,7 +6,6 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
-import javafx.scene.layout.GridPane;
 import object.Event;
 import object.Item;
 import object.Todo;
@@ -95,7 +94,8 @@ public class CommandDeleteItem implements CommandDelete {
     }
 
     @Override
-    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
+    public Displayable getDisplayable() {
+        // TODO implement this on item class
         String date;
         if (item instanceof Event) {
             date = ((Event)item).getStartDateString();
@@ -104,9 +104,7 @@ public class CommandDeleteItem implements CommandDelete {
             date = ((Todo)item).getDeadlineDateString();
         }
         
-        Command viewCommand = new CommandViewDate(date);
-        viewCommand.execute(serviceHandler, projectHandler, new Stack<Command>());
-        viewCommand.display(serviceHandler, projectHandler, displayBox);
+        return new CommandViewDate(date);
     }
 
 }

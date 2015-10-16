@@ -3,7 +3,6 @@ package command;
 import java.util.Stack;
 
 import helper.CommonHelper;
-import javafx.scene.layout.GridPane;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
@@ -47,7 +46,7 @@ public interface Command {
         return command;
     }
 
-    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception;
+    public Displayable getDisplayable();
     
     /**
      * Executes this command

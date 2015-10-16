@@ -25,10 +25,15 @@ public class CommandViewProject implements CommandView {
     }
 
     @Override
-    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox)
-            throws Exception {
+    public void display(GridPane displayBox) {
         // TODO Auto-generated method stub
         
+    }
+    
+    @Override
+    public Displayable getDisplayable() {
+        // TODO Auto-generated method stub
+        return this;
     }
 
 }
