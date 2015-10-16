@@ -37,7 +37,7 @@ public class CommandViewDate implements CommandView {
      * Executes view command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
             throws Exception {
         
         ArrayList<Event> eventList = serviceHandler.viewEventByDate(dateString);
@@ -48,6 +48,7 @@ public class CommandViewDate implements CommandView {
         mergedList.addAll(todoList);
         mergedList.addAll(floatingTodoList);
         
+        // TODO remove cli
         if (Main.mode.equals("GUI")) {
             // TODO save this constant string
             return "Got it!";
@@ -154,7 +155,6 @@ public class CommandViewDate implements CommandView {
 
     @Override
     public Displayable getDisplayable() {
-        // TODO Auto-generated method stub
         return this;
     }
 

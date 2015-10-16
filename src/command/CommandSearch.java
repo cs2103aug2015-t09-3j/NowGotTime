@@ -37,7 +37,7 @@ public class CommandSearch implements Command, Displayable {
     }
     
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
             throws Exception {
         
         filteredItem = serviceHandler.search(itemKey);

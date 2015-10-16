@@ -28,7 +28,7 @@ public class CommandUndo implements Command {
      * Executes undo command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
         if (historyList.empty()) {
             return CommonHelper.ERROR_EMPTY_HISTORY;
         }

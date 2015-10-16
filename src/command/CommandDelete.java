@@ -11,7 +11,8 @@ public interface CommandDelete extends Command, Revertible {
         
         CommandDelete commandDelete = null;
         
-        if (Parser.matches(text,Parser.PATTERN_NAME) || Parser.matches(text,Parser.PATTERN_INTEGER)) {
+        if (Parser.matches(text,Parser.PATTERN_NAME) 
+                || Parser.matches(text,Parser.PATTERN_INTEGER)) {
             commandDelete = new CommandDeleteItem(text);
             
         } else if (Parser.matches(text,Parser.PATTERN_PROJECT)) {

@@ -18,7 +18,7 @@ public class CommandViewProject implements CommandView {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
             throws Exception {
         // TODO Auto-generated method stub
         return null;
@@ -32,7 +32,6 @@ public class CommandViewProject implements CommandView {
     
     @Override
     public Displayable getDisplayable() {
-        // TODO Auto-generated method stub
         return this;
     }
 

@@ -28,7 +28,7 @@ public class CommandExit implements Command {
      * Executes edit command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
         // return empty string
         // TODO exit gui
         return "";

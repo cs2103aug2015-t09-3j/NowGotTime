@@ -20,14 +20,14 @@ public class CommandDeleteProgress implements CommandDelete {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
             throws Exception {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
             throws Exception {
         // TODO Auto-generated method stub
         return null;

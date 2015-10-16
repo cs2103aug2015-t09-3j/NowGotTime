@@ -10,5 +10,5 @@ public interface Revertible {
     /**
      * Reverts effect of this command
      */
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception;
 }

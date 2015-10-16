@@ -31,7 +31,7 @@ public interface Command {
                 command = new CommandUndo(arguments);
                 break;
             case "view":
-                command = new CommandViewDate(arguments);
+                command = CommandView.parseCommandView(arguments);
                 break;
             case "search":
                 command = new CommandSearch(arguments);
@@ -45,13 +45,11 @@ public interface Command {
         }
         return command;
     }
-
-    public Displayable getDisplayable();
     
     /**
      * Executes this command
      */
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception;
     
-    
+    public Displayable getDisplayable();
 }

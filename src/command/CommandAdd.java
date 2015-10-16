@@ -11,7 +11,8 @@ public interface CommandAdd extends Command, Revertible {
         
         CommandAdd commandAdd = null;
         
-        if (Parser.matches(text, Parser.PATTERN_ADD_EVENT) || Parser.matches(text, Parser.PATTERN_ADD_TASK) 
+        if (Parser.matches(text, Parser.PATTERN_ADD_EVENT) 
+                || Parser.matches(text, Parser.PATTERN_ADD_TASK) 
                 || Parser.matches(text, Parser.PATTERN_NAME)) {
             commandAdd = new CommandAddItem(text);
             

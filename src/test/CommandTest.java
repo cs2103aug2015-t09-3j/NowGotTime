@@ -5,7 +5,7 @@ import java.util.Stack;
 
 import org.junit.Before;
 
-import command.Command;
+import command.Revertible;
 import command.CommandAddItem;
 import project.ProjectHandler;
 import service.ServiceHandler;
@@ -15,7 +15,7 @@ public class CommandTest {
 
     protected ServiceHandler service;
     protected ProjectHandler project;
-    protected Stack<Command> history;
+    protected Stack<Revertible> history;
     
     @Before
     public void setUp() throws Exception {
@@ -23,7 +23,7 @@ public class CommandTest {
         clear.clearAll();
         service = new ServiceHandler();
         project = new ProjectHandler();
-        history = new Stack<Command>();
+        history = new Stack<Revertible>();
     }
     
     public void addTodo(String name) throws Exception {

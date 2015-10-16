@@ -17,13 +17,13 @@ public class CLI {
     
     private ServiceHandler serviceHandler = null;
     private ProjectHandler projectHandler = null;
-    private Stack<Command> historyList;
+    private Stack<Revertible> historyList;
     
     public CLI() {
         stdin = new Scanner(System.in);
         serviceHandler = new ServiceHandler();
         projectHandler = new ProjectHandler();
-        historyList = new Stack<Command>();
+        historyList = new Stack<Revertible>();
         shouldExit = false;
     }
     
@@ -35,7 +35,7 @@ public class CLI {
             feedback = command.execute(serviceHandler, projectHandler, historyList);
             if (command instanceof Revertible) {
                 // add to history list if project revertible
-                historyList.add(command);
+                historyList.add((Revertible)command);
             }
             
         } catch (Exception e) {

@@ -53,7 +53,7 @@ public class CommandDeleteItem implements CommandDelete {
      * Executes delete command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
         
         if (item == null) {
             if (itemKey == null) {
@@ -88,7 +88,7 @@ public class CommandDeleteItem implements CommandDelete {
      * Re-add the deleted command
      */
     @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
         Revertible revertDeleteCommand = new CommandAddItem(item);
         return revertDeleteCommand.revert(serviceHandler, projectHandler, historyList);
     }

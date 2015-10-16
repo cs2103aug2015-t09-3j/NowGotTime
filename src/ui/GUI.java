@@ -50,7 +50,7 @@ public class GUI extends Application {
     
     private ServiceHandler serviceHandler = null;
     private ProjectHandler projectHandler = null;
-    private Stack<Command> historyList;
+    private Stack<Revertible> historyList;
     
     private static String CSS_SUCCESS = "-fx-background-color: #5cb85c; -fx-background-radius: 3;";
     private static String CSS_ERROR = "-fx-background-color: #d9534f; -fx-background-radius: 3;";
@@ -77,7 +77,7 @@ public class GUI extends Application {
             
             if (command instanceof Revertible) {
                 // add to history list if project revertible
-                historyList.add(command);
+                historyList.add((Revertible)command);
             }
             
         } catch (Exception e) {
@@ -233,7 +233,7 @@ public class GUI extends Application {
     private void configureHandler() {
         serviceHandler = new ServiceHandler();
         projectHandler = new ProjectHandler();
-        historyList = new Stack<Command>();
+        historyList = new Stack<Revertible>();
     }
     
 	@Override
