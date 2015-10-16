@@ -31,8 +31,9 @@ import java.util.Calendar;
 import java.util.Stack;
 
 import command.Command;
-import command.CommandView;
+import command.CommandViewDate;
 import command.Revertible;
+import helper.CalendarHelper;
 
 public class GUI extends Application {
     
@@ -214,7 +215,8 @@ public class GUI extends Application {
     }
     
     private void viewToday() throws Exception {
-        Command viewCommand = new CommandView(Calendar.getInstance());
+        Calendar today = Calendar.getInstance();
+        Command viewCommand = new CommandViewDate(CalendarHelper.getDateString(today));
         viewCommand.execute(serviceHandler, projectHandler, historyList);
         viewCommand.display(serviceHandler, projectHandler, displayBox);
     }

@@ -25,7 +25,7 @@ public class ParserTest {
     public void testPatternAddTask(String s, String name, String due) {
         Matcher result = Parser.matchRegex(s, Parser.PATTERN_ADD_TASK);
         assertEquals(name, result.group(Parser.TAG_NAME));
-        assertEquals(due, result.group(Parser.TAG_DATE));
+        assertEquals(due, result.group(Parser.TAG_DATETIME));
     }
     
     public void testPatternProject(String s, String name) {
@@ -75,7 +75,7 @@ public class ParserTest {
         Matcher result = Parser.matchRegex(s, Parser.PATTERN_EDIT_DATE_TIME_BY_KEY);
         assertEquals(keyword, result.group(Parser.TAG_KEYWORD));
         assertEquals(field, result.group(Parser.TAG_FIELD));
-        assertEquals(date, result.group(Parser.TAG_DATE));
+        assertEquals(date, result.group(Parser.TAG_DATETIME));
     }
     
     public void testPatternEditNameByIndex(String s, String index, String field, String name) {
@@ -89,7 +89,7 @@ public class ParserTest {
         Matcher result = Parser.matchRegex(s, Parser.PATTERN_EDIT_DATE_TIME_BY_INDEX);
         assertEquals(index, result.group(Parser.TAG_INDEX));
         assertEquals(field, result.group(Parser.TAG_FIELD));
-        assertEquals(date, result.group(Parser.TAG_DATE));
+        assertEquals(date, result.group(Parser.TAG_DATETIME));
     }
     
     public void testPatternEditProject(String s, String name, String field, String value) {

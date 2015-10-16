@@ -32,7 +32,7 @@ public interface Command {
                 command = new CommandUndo(arguments);
                 break;
             case "view":
-                command = new CommandView(arguments);
+                command = new CommandViewDate(arguments);
                 break;
             case "search":
                 command = new CommandSearch(arguments);

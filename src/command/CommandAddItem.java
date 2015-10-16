@@ -76,7 +76,7 @@ public class CommandAddItem implements CommandAdd {
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_ADD_TASK);
         
         String name = matcher.group(Parser.TAG_NAME);
-        String due = matcher.group(Parser.TAG_DATE);
+        String due = matcher.group(Parser.TAG_DATETIME);
         
         Calendar dueCalendar = Calendar.getInstance();
         CalendarHelper.updateCalendar(dueCalendar, due);
@@ -123,14 +123,14 @@ public class CommandAddItem implements CommandAdd {
 
     @Override
     public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
-        Calendar date;
+        String date;
         if (item instanceof Event) {
-            date = ((Event)item).getStartCalendar();
+            date = ((Event)item).getStartDateString();
         }
         else {
-            date = ((Todo)item).getDeadline();
+            date = ((Todo)item).getDeadlineDateString();
         }
-        Command viewCommand = new CommandView(date);
+        Command viewCommand = new CommandViewDate(date);
         viewCommand.execute(serviceHandler, projectHandler, new Stack<Command>());
         viewCommand.display(serviceHandler, projectHandler, displayBox);
     }

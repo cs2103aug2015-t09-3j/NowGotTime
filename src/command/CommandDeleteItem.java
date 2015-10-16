@@ -1,7 +1,6 @@
 package command;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Stack;
 import java.util.regex.Matcher;
 
@@ -97,15 +96,15 @@ public class CommandDeleteItem implements CommandDelete {
 
     @Override
     public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
-        Calendar date;
+        String date;
         if (item instanceof Event) {
-            date = ((Event)item).getStartCalendar();
+            date = ((Event)item).getStartDateString();
         }
         else {
-            date = ((Todo)item).getDeadline();
+            date = ((Todo)item).getDeadlineDateString();
         }
         
-        Command viewCommand = new CommandView(date);
+        Command viewCommand = new CommandViewDate(date);
         viewCommand.execute(serviceHandler, projectHandler, new Stack<Command>());
         viewCommand.display(serviceHandler, projectHandler, displayBox);
     }
