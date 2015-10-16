@@ -11,18 +11,18 @@ public interface CommandAdd extends Command, Revertible {
         
         CommandAdd commandAdd = null;
         
-        if (text.matches(Parser.PATTERN_ADD_EVENT) || text.matches(Parser.PATTERN_ADD_TASK) 
-                || text.matches(Parser.PATTERN_NAME)) {
+        if (Parser.matches(text, Parser.PATTERN_ADD_EVENT) || Parser.matches(text, Parser.PATTERN_ADD_TASK) 
+                || Parser.matches(text, Parser.PATTERN_NAME)) {
             commandAdd = new CommandAddItem(text);
             
-        } else if (text.matches(Parser.PATTERN_PROJECT)) {
+        } else if (Parser.matches(text, Parser.PATTERN_PROJECT)) {
             commandAdd = new CommandAddProject(text);
             
-        } else if (text.matches(Parser.PATTERN_ADD_KEYWORD_TO_PROJECT) 
-                || text.matches(Parser.PATTERN_ADD_INDEX_TO_PROJECT)) {
+        } else if (Parser.matches(text, Parser.PATTERN_ADD_KEYWORD_TO_PROJECT) 
+                || Parser.matches(text, Parser.PATTERN_ADD_INDEX_TO_PROJECT)) {
             commandAdd = new CommandAddToProject(text);
             
-        } else if (text.matches(Parser.PATTERN_ADD_PROGRESS)) {
+        } else if (Parser.matches(text, Parser.PATTERN_ADD_PROGRESS)) {
             commandAdd = new CommandAddProgress(text);
             
         } else {

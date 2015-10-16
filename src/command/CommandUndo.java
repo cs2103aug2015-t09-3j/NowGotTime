@@ -17,10 +17,10 @@ public class CommandUndo implements Command {
      */
     public CommandUndo(String args) throws Exception {
         
-        if (args.matches(Parser.PATTERN_EMPTY));
+        if (Parser.matches(args,Parser.PATTERN_EMPTY));
         else {
             // undo command accepts no arguments
-            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandUndo.KEYWORD));
         }
         
     }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Stack;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import helper.CommonHelper;
 import helper.Parser;
@@ -27,11 +26,11 @@ public class CommandDeleteItem implements CommandDelete {
     public CommandDeleteItem(String args) throws Exception {
         Matcher matcher;
         
-        if (args.matches(Parser.PATTERN_NAME)) {
+        if (Parser.matches(args,Parser.PATTERN_NAME)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
             itemKey = matcher.group(Parser.TAG_NAME);
         }
-        else if (args.matches(Parser.PATTERN_INTEGER)) {
+        else if (Parser.matches(args,Parser.PATTERN_INTEGER)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_INTEGER);
             itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX));
         }

@@ -3,7 +3,6 @@ package command;
 import java.util.Calendar;
 import java.util.Stack;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import helper.CalendarHelper;
 import helper.CommonHelper;
@@ -25,11 +24,11 @@ public class CommandAddItem implements CommandAdd {
     public CommandAddItem(String args) throws Exception {
         
         // try to parse command arguments in one of these
-        if (args.matches(Parser.PATTERN_ADD_EVENT)) {
+        if (Parser.matches(args, Parser.PATTERN_ADD_EVENT)) {
             item = parseAsEvent(args);
-        } else if (args.matches(Parser.PATTERN_ADD_TASK)) {
+        } else if (Parser.matches(args, Parser.PATTERN_ADD_TASK)) {
             item = parseAsTodo(args);
-        } else if (args.matches(Parser.PATTERN_NAME)) {
+        } else if (Parser.matches(args, Parser.PATTERN_NAME)) {
             item = parseAsFloatingTodo(args);
         } else {
             assert(false);

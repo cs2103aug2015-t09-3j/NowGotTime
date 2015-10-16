@@ -17,12 +17,12 @@ public class CommandAddToProject implements CommandAdd {
     public CommandAddToProject(String args) {
         Matcher matcher;
         
-        if (args.matches(Parser.PATTERN_ADD_INDEX_TO_PROJECT)) {
+        if (Parser.matches(args,Parser.PATTERN_ADD_INDEX_TO_PROJECT)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_ADD_INDEX_TO_PROJECT);
             index = Integer.parseInt(matcher.group(Parser.TAG_INDEX));
             projectName = matcher.group(Parser.TAG_NAME);
             
-        } else if (args.matches(Parser.PATTERN_ADD_KEYWORD_TO_PROJECT)) {
+        } else if (Parser.matches(args,Parser.PATTERN_ADD_KEYWORD_TO_PROJECT)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_ADD_KEYWORD_TO_PROJECT);
             keyword = matcher.group(Parser.TAG_KEYWORD);
             projectName = matcher.group(Parser.TAG_NAME);

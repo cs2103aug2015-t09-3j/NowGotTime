@@ -11,16 +11,16 @@ public interface CommandDelete extends Command, Revertible {
         
         CommandDelete commandDelete = null;
         
-        if (text.matches(Parser.PATTERN_NAME) || text.matches(Parser.PATTERN_INTEGER)) {
+        if (Parser.matches(text,Parser.PATTERN_NAME) || Parser.matches(text,Parser.PATTERN_INTEGER)) {
             commandDelete = new CommandDeleteItem(text);
             
-        } else if (text.matches(Parser.PATTERN_PROJECT)) {
+        } else if (Parser.matches(text,Parser.PATTERN_PROJECT)) {
             commandDelete = new CommandDeleteProject(text);
             
-        } else if (text.matches(Parser.PATTERN_DELETE_INDEX_FROM_PROJECT)) {
+        } else if (Parser.matches(text,Parser.PATTERN_DELETE_INDEX_FROM_PROJECT)) {
             commandDelete = new CommandDeleteFromProject(text);
             
-        } else if (text.matches(Parser.PATTERN_DELETE_PROGRESS)) {
+        } else if (Parser.matches(text,Parser.PATTERN_DELETE_PROGRESS)) {
             commandDelete = new CommandDeleteProgress(text);
             
         }

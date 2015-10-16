@@ -91,4 +91,41 @@ public class Parser {
             return null;
         }
     }
+    
+    public static boolean matches(String args, String patternString) {
+        Pattern regex = Pattern.compile(patternString, Pattern.CASE_INSENSITIVE);
+        Matcher regexMatcher = regex.matcher(args);
+        if (regexMatcher.matches()) {
+            
+            // check if valid calendar string
+            try {
+                if (!CalendarHelper.isCalendarString(regexMatcher.group(TAG_START))) {
+                    return false;
+                }
+            } catch (IllegalArgumentException iae) {
+                
+            }
+            
+            try {
+                if (!CalendarHelper.isCalendarString(regexMatcher.group(TAG_END))) {
+                    return false;
+                }
+            } catch (IllegalArgumentException iae) {
+                
+            }
+            
+            try {
+                if (!CalendarHelper.isCalendarString(regexMatcher.group(TAG_DATE))) {
+                    return false;
+                }
+            } catch (IllegalArgumentException iae) {
+                
+            }
+            
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

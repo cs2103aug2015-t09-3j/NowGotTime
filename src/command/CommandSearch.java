@@ -28,7 +28,7 @@ public class CommandSearch implements Command {
 
     public CommandSearch(String args) throws Exception {
         
-        if (args.matches(Parser.PATTERN_NAME)) {
+        if (Parser.matches(args,Parser.PATTERN_NAME)) {
             Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
             itemKey = matcher.group(Parser.TAG_NAME);
         } else {

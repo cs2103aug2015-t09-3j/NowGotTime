@@ -11,11 +11,11 @@ public interface CommandEdit extends Command, Revertible {
         
         CommandEdit commandEdit = null;
         
-        if (text.matches(Parser.PATTERN_EDIT_NAME_BY_INDEX) || text.matches(Parser.PATTERN_EDIT_NAME_BY_KEY) 
-                || text.matches(Parser.PATTERN_EDIT_DATE_TIME_BY_INDEX) || text.matches(Parser.PATTERN_EDIT_DATE_TIME_BY_KEY)) {
+        if (Parser.matches(text,Parser.PATTERN_EDIT_NAME_BY_INDEX) || Parser.matches(text,Parser.PATTERN_EDIT_NAME_BY_KEY) 
+                || Parser.matches(text,Parser.PATTERN_EDIT_DATE_TIME_BY_INDEX) || Parser.matches(text,Parser.PATTERN_EDIT_DATE_TIME_BY_KEY)) {
             commandEdit = new CommandEditItem(text);
             
-        } else if (text.matches(Parser.PATTERN_EDIT_PROJECT)) {
+        } else if (Parser.matches(text,Parser.PATTERN_EDIT_PROJECT)) {
             commandEdit = new CommandEditProject(text);
             
         } else {

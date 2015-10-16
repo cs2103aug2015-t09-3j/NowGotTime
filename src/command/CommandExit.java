@@ -3,6 +3,7 @@ package command;
 import java.util.Stack;
 
 import helper.CommonHelper;
+import helper.Parser;
 import javafx.scene.layout.GridPane;
 import project.ProjectHandler;
 import service.ServiceHandler;
@@ -16,10 +17,10 @@ public class CommandExit implements Command {
      */
     public CommandExit(String args) throws Exception {
         
-        if (args.trim().isEmpty());
+        if (Parser.matches(args,Parser.PATTERN_EMPTY));
         else {
-            // delete command accept no arguments
-            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
+            // undo command accepts no arguments
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandUndo.KEYWORD));
         }
         
     }
@@ -30,6 +31,7 @@ public class CommandExit implements Command {
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         // return empty string
+        // TODO exit gui
         return "";
     }
 

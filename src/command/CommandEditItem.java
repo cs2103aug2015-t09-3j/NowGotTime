@@ -31,25 +31,25 @@ public class CommandEditItem implements CommandEdit {
     public CommandEditItem(String args) throws Exception {
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_EDIT_DATE_TIME_BY_INDEX);
         
-        if (args.matches(Parser.PATTERN_EDIT_NAME_BY_INDEX)) {
+        if (Parser.matches(args,Parser.PATTERN_EDIT_NAME_BY_INDEX)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_EDIT_NAME_BY_INDEX);
             itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX));
             fieldName = matcher.group(Parser.TAG_FIELD);
             newValue = matcher.group(Parser.TAG_NAME);
             
-        } else if (args.matches(Parser.PATTERN_EDIT_NAME_BY_KEY)) {
+        } else if (Parser.matches(args,Parser.PATTERN_EDIT_NAME_BY_KEY)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_EDIT_NAME_BY_KEY);
             itemKey = matcher.group(Parser.TAG_KEYWORD);
             fieldName = matcher.group(Parser.TAG_FIELD);
             newValue = matcher.group(Parser.TAG_NAME);
             
-        } else if (args.matches(Parser.PATTERN_EDIT_DATE_TIME_BY_INDEX)) {
+        } else if (Parser.matches(args,Parser.PATTERN_EDIT_DATE_TIME_BY_INDEX)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_EDIT_DATE_TIME_BY_INDEX);
             itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX));
             fieldName = matcher.group(Parser.TAG_FIELD);
             newValue = matcher.group(Parser.TAG_DATE);
             
-        } else if (args.matches(Parser.PATTERN_EDIT_DATE_TIME_BY_KEY)) {
+        } else if (Parser.matches(args,Parser.PATTERN_EDIT_DATE_TIME_BY_KEY)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_EDIT_DATE_TIME_BY_KEY);
             itemKey = matcher.group(Parser.TAG_KEYWORD);
             fieldName = matcher.group(Parser.TAG_FIELD);

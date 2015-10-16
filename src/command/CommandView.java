@@ -35,7 +35,7 @@ public class CommandView implements Command {
     public CommandView(String args) throws Exception {
         Matcher matcher;
         
-        if (args.matches(Parser.PATTERN_ANY)) {
+        if (Parser.matches(args,Parser.PATTERN_ANY)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_ANY);
             dateString = matcher.group(Parser.TAG_VALUE).trim();
             
@@ -44,7 +44,7 @@ public class CommandView implements Command {
                 throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandView.KEYWORD));
             }
             
-        } else if (args.matches(Parser.PATTERN_NAME)) {
+        } else if (Parser.matches(args,Parser.PATTERN_NAME)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
             projectName = matcher.group(Parser.TAG_NAME);
             
