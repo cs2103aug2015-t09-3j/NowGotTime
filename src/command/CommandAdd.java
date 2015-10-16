@@ -1,166 +1,37 @@
 package command;
 
-import java.util.Calendar;
-import java.util.Stack;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import helper.CalendarHelper;
 import helper.CommonHelper;
-import javafx.scene.layout.GridPane;
-import object.Event;
-import object.Item;
-import object.Todo;
-import project.ProjectHandler;
-import service.ServiceHandler;
+import helper.Parser;
 
-public class CommandAdd implements Command, Revertible {
+public interface CommandAdd extends Command, Revertible {
     
     public static final String KEYWORD = "add";
     
-    private static final String PATTERN_ADD_EVENT         = "\\s*\"(?<name>.+)\"\\s+on (?<start>.+) to (?<end>.+)";
-    private static final String PATTERN_ADD_TODO          = "\\s*\"(?<name>.+)\"\\s+on (?<due>.+)";
-    private static final String PATTERN_ADD_FLOATING_TODO = "\\s*\"(?<name>.+)\"\\s*"; 
-    
-    private static final Pattern REGEX_ADD_EVENT         = Pattern.compile(PATTERN_ADD_EVENT);
-    private static final Pattern REGEX_ADD_TODO          = Pattern.compile(PATTERN_ADD_TODO);
-    private static final Pattern REGEX_ADD_FLOATING_TODO = Pattern.compile(PATTERN_ADD_FLOATING_TODO);
-    
-    private static final String FIELD_NAME     = "name";
-    private static final String FIELD_START    = "start";
-    private static final String FIELD_END      = "end";
-    private static final String FIELD_DEADLINE = "due";
-    
-    private static Event parseAsEvent(String args) {
-        Matcher eventMatcher = REGEX_ADD_EVENT.matcher(args);
-        if (eventMatcher.matches()) {
-            String name = eventMatcher.group(FIELD_NAME);
-            String start = eventMatcher.group(FIELD_START).trim();
-            String end = eventMatcher.group(FIELD_END).trim();
-            
-            Calendar startCalendar = Calendar.getInstance();
-            if (!CalendarHelper.updateCalendar(startCalendar, start)) {
-                return null;
-            }
-            
-            Calendar endCalendar = (Calendar) startCalendar.clone();
-            if (!CalendarHelper.updateCalendar(endCalendar, end)) {
-                return null;
-            }
-            
-            String startDate = CalendarHelper.getDateString(startCalendar);
-            String startTime = CalendarHelper.getTimeString(startCalendar);
-            String endDate = CalendarHelper.getDateString(endCalendar);
-            String endTime = CalendarHelper.getTimeString(endCalendar);
-            
-            
-            return new Event(name, startDate, endDate, startTime, endTime, ""); // Remove empty string parameter once we delete additionalInformation
-        }
-        else {
-            return null;
-        }
-    }
-    
-    private static Todo parseAsTodo(String args) {
-        Matcher todoMatcher = REGEX_ADD_TODO.matcher(args);
+    public static CommandAdd parseCommandAdd(String text) throws Exception {
         
-        if (todoMatcher.matches()) {
-            String name = todoMatcher.group(FIELD_NAME);
-            String deadline = todoMatcher.group(FIELD_DEADLINE);
-            
-            Calendar deadlineCalendar = Calendar.getInstance();
-            if (!CalendarHelper.updateCalendar(deadlineCalendar, deadline)) {
-                return null;
-            }
-            
-            String deadlineDate = CalendarHelper.getDateString(deadlineCalendar);
-            String deadlineTime = CalendarHelper.getTimeString(deadlineCalendar);
-            
-            return new Todo(name, "", deadlineDate, deadlineTime);  // Remove empty string parameter once we delete additionalInformation
-        }
-        else {
-            return null;
-        }
-    }
-    
-    private static Todo parseAsFloatingTodo(String args) {
-        Matcher todoMatcher = REGEX_ADD_FLOATING_TODO.matcher(args);
+        CommandAdd commandAdd = null;
         
-        if (todoMatcher.matches()) {
-            String name = todoMatcher.group(FIELD_NAME);
+        if (text.matches(Parser.PATTERN_ADD_EVENT) || text.matches(Parser.PATTERN_ADD_TASK) 
+                || text.matches(Parser.PATTERN_NAME)) {
+            commandAdd = new CommandAddItem(text);
             
-            return new Todo(name);
+        } else if (text.matches(Parser.PATTERN_PROJECT)) {
+            commandAdd = new CommandAddProject(text);
+            
+        } else if (text.matches(Parser.PATTERN_ADD_KEYWORD_TO_PROJECT) 
+                || text.matches(Parser.PATTERN_ADD_INDEX_TO_PROJECT)) {
+            commandAdd = new CommandAddToProject(text);
+            
+        } else if (text.matches(Parser.PATTERN_ADD_PROGRESS)) {
+            commandAdd = new CommandAddProgress(text);
+            
+        } else {
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandAdd.KEYWORD));
+            
         }
-        else {
-            return null;
-        }
-    }
-    
-    /**
-     * Parses the arguments for add command
-     */
-    public CommandAdd(String args) throws Exception {
-        if ((this.item = parseAsEvent(args)) != null);
-        else if ((this.item = parseAsTodo(args)) != null);
-        else if ((this.item = parseAsFloatingTodo(args)) != null);
-        else {
-            // parsing unsuccessful
-            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
-        }
-    }
-    
-    /**
-     * Constructs this command from specified Item object
-     */
-    public CommandAdd(Item item) {
-        this.item = item;
-    }
-    
-    private Item item;
-    
-    /**
-     * Returns item object of this command
-     */
-    public Item getItem() {
-        return this.item;
-    }
-
-    /**
-     * Executes add command, returns feedback string
-     */
-    @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         
-        if (item instanceof Event) {
-            serviceHandler.createEvent((Event)item);
-            return String.format(CommonHelper.SUCCESS_ITEM_CREATED, item.getName());
-        }
-        else {
-            serviceHandler.createTask((Todo)item);
-            return String.format(CommonHelper.SUCCESS_ITEM_CREATED, item.getName());
-        }
+        
+        return commandAdd;
     }
-
-    /**
-     * Delete the added command
-     */
-    @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
-        Command revertAddCommand = new CommandDelete(item);
-        return revertAddCommand.execute(serviceHandler, projectHandler, historyList);
-    }
-
-    @Override
-    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
-        Calendar date;
-        if (item instanceof Event) {
-            date = ((Event)item).getStartCalendar();
-        }
-        else {
-            date = ((Todo)item).getDeadline();
-        }
-        Command viewCommand = new CommandView(date);
-        viewCommand.execute(serviceHandler, projectHandler, new Stack<Command>());
-        viewCommand.display(serviceHandler, projectHandler, displayBox);
-    }
+    
 }

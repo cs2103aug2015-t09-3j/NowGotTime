@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import command.CommandAdd;
+import command.CommandAddItem;
 import helper.CommonHelper;
 import object.Event;
 import object.Item;
@@ -17,7 +18,7 @@ public class CommandAddTest extends CommandTest {
     public void testParseEvent(String args, String expectedName, String expectedStartDate, String expectedStartTime,
             String expectedEndDate, String expectedEndTime) {
         try {
-            CommandAdd cmd = new CommandAdd(args);
+            CommandAddItem cmd = new CommandAddItem(args);
             Item item = cmd.getItem();
             assertTrue(item instanceof Event); 
             assertEquals(((Event) item).getName(), expectedName);
@@ -32,7 +33,7 @@ public class CommandAddTest extends CommandTest {
     
     public void testParseTodo(String args, String expectedName, String expectedDeadlineDate, String expectedDeadlineTime) {
         try {
-            CommandAdd cmd = new CommandAdd(args);
+            CommandAddItem cmd = new CommandAddItem(args);
             Item item = cmd.getItem();
             assertTrue(item instanceof Todo); 
             assertEquals(((Todo) item).getName(), expectedName);
@@ -45,7 +46,7 @@ public class CommandAddTest extends CommandTest {
     
     public void testParseFloatingTodo(String args, String expectedName) {
         try {
-            CommandAdd cmd = new CommandAdd(args);
+            CommandAddItem cmd = new CommandAddItem(args);
             Item item = cmd.getItem();
             assertTrue(item instanceof Todo); 
             assertEquals(((Todo) item).getName(), expectedName);
@@ -59,10 +60,10 @@ public class CommandAddTest extends CommandTest {
         try {
             // cannot parse invalid format
             String args = " eat again ";
-            new CommandAdd(args);
+            CommandAdd.parseCommandAdd(args);
             fail("exception should be thrown");
         } catch (Exception e) {
-            assertEquals(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandAdd.KEYWORD), e.getMessage());
+            assertEquals(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandAddItem.KEYWORD), e.getMessage());
         }
     }
     
@@ -104,7 +105,7 @@ public class CommandAddTest extends CommandTest {
         String startDateTime = "21 Sep 2015 10:00";
         String endDateTime = "22 Sep 2015 23:00";
         Event event = new Event(name, startDateTime, endDateTime);
-        CommandAdd command = new CommandAdd(event);
+        CommandAddItem command = new CommandAddItem(event);
         String feedback = command.execute(service, project, history);
         
         // The feedback message should be success
@@ -118,7 +119,7 @@ public class CommandAddTest extends CommandTest {
         String name = "eat again";
         String deadlineDateTime = "21 Sep 2015 10:00";
         Todo todo = new Todo(name, deadlineDateTime);
-        CommandAdd command = new CommandAdd(todo);
+        CommandAddItem command = new CommandAddItem(todo);
         String feedback = command.execute(service, project, history);
         
         // The feedback message should be success
@@ -131,7 +132,7 @@ public class CommandAddTest extends CommandTest {
     public void testCanAddFloatingTodo() throws Exception {
         String name = "eat again";
         Todo todo = new Todo(name);
-        CommandAdd command = new CommandAdd(todo);
+        CommandAddItem command = new CommandAddItem(todo);
         String feedback = command.execute(service, project, history);
         
         // The feedback message should be success

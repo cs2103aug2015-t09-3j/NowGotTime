@@ -20,7 +20,7 @@ public interface Command {
         
         switch (commandType.toLowerCase()) {
             case "add":
-                command = new CommandAdd(arguments);
+                command = new CommandAddItem(arguments);
                 break;
             case "edit":
                 command = new CommandEdit(arguments);
