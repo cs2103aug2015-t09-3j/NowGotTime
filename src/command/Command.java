@@ -23,10 +23,10 @@ public interface Command {
                 command = CommandAdd.parseCommandAdd(arguments);
                 break;
             case "edit":
-                command = new CommandEditItem(arguments);
+                command = CommandEdit.parseCommandEdit(arguments);
                 break;
             case "delete":
-                command = new CommandDeleteItem(arguments);
+                command = CommandDelete.parseCommandDelete(arguments);
                 break;
             case "undo":
                 command = new CommandUndo(arguments);
