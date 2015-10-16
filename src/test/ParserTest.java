@@ -52,6 +52,18 @@ public class ParserTest {
         assertEquals(name, result.group(Parser.TAG_NAME));
     }
     
+    public void testPatternDeleteIndexFromProject(String s, String index, String name) {
+        Matcher result = Parser.matchRegex(s, Parser.PATTERN_DELETE_INDEX_FROM_PROJECT);
+        assertEquals(index, result.group(Parser.TAG_INDEX));
+        assertEquals(name, result.group(Parser.TAG_NAME));
+    }
+    
+    public void testPatternDeleteProgress(String s, String index, String name) {
+        Matcher result = Parser.matchRegex(s, Parser.PATTERN_DELETE_PROGRESS);
+        assertEquals(index, result.group(Parser.TAG_INDEX));
+        assertEquals(name, result.group(Parser.TAG_NAME));
+    }
+    
     public void testPatternEditNameByKey(String s, String keyword, String field, String name) {
         Matcher result = Parser.matchRegex(s, Parser.PATTERN_EDIT_NAME_BY_KEY);
         assertEquals(keyword, result.group(Parser.TAG_KEYWORD));
@@ -128,6 +140,12 @@ public class ParserTest {
         testPatternAddProgress("progress \"sleep \" 2348 to \"project ini\"",
                 "sleep ", "2348", "project ini");
         
+        testPatternDeleteIndexFromProject("898 from \"lewat gan\"",
+                "898", "lewat gan");
+        
+        testPatternDeleteProgress("progress 898 from \"lewat gan\"",
+                "898", "lewat gan");
+        
         testPatternEditNameByKey(" \"sleep\"  name  \"sleep again\"",
                 "sleep", "name", "sleep again");
         
@@ -149,7 +167,7 @@ public class ParserTest {
         testPatternInteger("     343434     ",
                 "343434");
         
-        testPatternAny(" asd8asd ",
+        testPatternAny("asd8asd",
                 "asd8asd");
         
         testPatternEmpty("     ");

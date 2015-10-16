@@ -26,7 +26,7 @@ public interface Command {
                 command = new CommandEditItem(arguments);
                 break;
             case "delete":
-                command = new CommandDelete(arguments);
+                command = new CommandDeleteItem(arguments);
                 break;
             case "undo":
                 command = new CommandUndo(arguments);

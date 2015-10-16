@@ -5,51 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import command.CommandDelete;
+import command.CommandDeleteItem;
 import helper.CommonHelper;
 
 public class CommandDeleteTest extends CommandTest {
-
-    /* parsing test for delete command */
-
-    String args = null;
-    CommandDelete cmd = null;
-    
-    @Test
-    public void testCannotParseInvalidFormat() {
-        try {
-            // cannot parse invalid format
-            args = " \" item ";
-            cmd = new CommandDelete(args);
-            fail("exception should be thrown");
-        } catch (Exception e) {
-            assertEquals(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandDelete.KEYWORD), e.getMessage());
-        }
-    }
-
-    @Test
-    public void testCanParseValidFormat() {
-        try {
-            // can parse edit command on start date
-            args = "\"eat again!\"";
-            cmd = new CommandDelete(args);
-            
-            assertEquals(cmd.getItemName(), "eat again!");
-            
-        } catch (Exception e) {
-            fail("exception should not be thrown");
-        }
-        
-        try {
-            // can parse edit command on end date
-            args = "  \"eat again!\"  ";
-            cmd = new CommandDelete(args);
-            
-            assertEquals(cmd.getItemName(), "eat again!");
-            
-        } catch (Exception e) {
-            fail("exception should not be thrown");
-        }
-    }
     
     /* execution test for delete command */
     
@@ -60,7 +19,7 @@ public class CommandDeleteTest extends CommandTest {
         String endDateTime = "22 Sep 2015 23:00";
         addEvent(name, startDateTime, endDateTime);
         
-        CommandDelete cmd = new CommandDelete("\"" + name + "\"");
+        CommandDeleteItem cmd = new CommandDeleteItem("\"" + name + "\"");
         
         // new event exists on service
         assertNotNull(service.viewSpecificEvent(name));
@@ -82,7 +41,7 @@ public class CommandDeleteTest extends CommandTest {
         String deadlineDateTime = "21 Sep 2015 10:00";
         addTodo(name, deadlineDateTime);
         
-        CommandDelete cmd = new CommandDelete("\"" + name + "\"");
+        CommandDeleteItem cmd = new CommandDeleteItem("\"" + name + "\"");
         
         // new todo exists on service
         assertNotNull(service.viewSpecificTask(name));
@@ -102,7 +61,7 @@ public class CommandDeleteTest extends CommandTest {
         String name = "eat again";
         addTodo(name);
         
-        CommandDelete cmd = new CommandDelete("\"" + name + "\"");
+        CommandDeleteItem cmd = new CommandDeleteItem("\"" + name + "\"");
         
         // new todo exists on service
         assertNotNull(service.viewSpecificTask(name));

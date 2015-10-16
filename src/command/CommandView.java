@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Stack;
+import java.util.regex.Matcher;
 
 import helper.CalendarHelper;
 import helper.CommonHelper;
+import helper.Parser;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -23,24 +25,79 @@ public class CommandView implements Command {
 
     public static final String KEYWORD = "view";
     
-    String dateString;
+    String dateString = null;
+    String projectName = null;
+    ArrayList<Item> mergedList = new ArrayList<Item>();
     
     /**
      * Parses the arguments for view command
      */
     public CommandView(String args) throws Exception {
+        Matcher matcher;
         
-        dateString = args.trim();
-        mergedList = new ArrayList<Item>();
-        
-        if (CalendarHelper.getCalendarStringType(dateString) != CalendarHelper.TYPE_DATE) {
-            throw new Exception(CommonHelper.ERROR_INVALID_ARGUMENTS);
+        if (args.matches(Parser.PATTERN_ANY)) {
+            matcher = Parser.matchRegex(args, Parser.PATTERN_ANY);
+            dateString = matcher.group(Parser.TAG_VALUE).trim();
+            
+            // must be in date format
+            if (CalendarHelper.getCalendarStringType(dateString) != CalendarHelper.TYPE_DATE) {
+                throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandView.KEYWORD));
+            }
+            
+        } else if (args.matches(Parser.PATTERN_NAME)) {
+            matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
+            projectName = matcher.group(Parser.TAG_NAME);
+            
+        }
+        else {
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandView.KEYWORD));
         }
     }
     
     public CommandView(Calendar date) {
         dateString = CalendarHelper.getDateString(date);
-        mergedList = new ArrayList<Item>();
+    }
+
+    /**
+     * Executes view command, returns feedback string
+     */
+    @Override
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
+            throws Exception {
+        
+        if (dateString != null) {
+            ArrayList<Event> eventList = serviceHandler.viewEventByDate(dateString);
+            ArrayList<Todo> todoList = serviceHandler.viewTaskByDate(dateString);
+            ArrayList<Todo> floatingTodoList = serviceHandler.viewTaskNoDate();
+            
+            mergedList.addAll(eventList);
+            mergedList.addAll(todoList);
+            mergedList.addAll(floatingTodoList);
+            
+            if (Main.mode.equals("GUI")) {
+                return "Got it!";
+            }
+            else {
+            
+                StringBuilder feedback = new StringBuilder();
+                feedback.append("NowGotTime on " + dateString + "\n");
+                feedback.append("----------------------------------------\n");
+                feedback.append("--Event\n");
+                feedback.append(CommonHelper.getFormattedEventList(eventList, dateString));
+                feedback.append("----------------------------------------\n");
+                feedback.append("--Todo\n");
+                feedback.append(CommonHelper.getFormattedTodoList(todoList, dateString));
+                feedback.append("----------------------------------------\n");
+                feedback.append("--Floating Todo\n");
+                feedback.append(CommonHelper.getFormattedTodoList(floatingTodoList, dateString));
+                feedback.append("----------------------------------------\n");
+                
+                return feedback.toString();
+            }
+        } else {
+            // TODO Implement view project
+            return null;
+        }
     }
     
     public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) {
@@ -120,44 +177,6 @@ public class CommandView implements Command {
             
             rowIndex++;
             previousDate = date;
-        }
-    }
-    
-    ArrayList<Item> mergedList;
-    
-    /**
-     * Executes view command, returns feedback string
-     */
-    @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
-            throws Exception {
-        ArrayList<Event> eventList = serviceHandler.viewEventByDate(dateString);
-        ArrayList<Todo> todoList = serviceHandler.viewTaskByDate(dateString);
-        ArrayList<Todo> floatingTodoList = serviceHandler.viewTaskNoDate();
-        
-        mergedList.addAll(eventList);
-        mergedList.addAll(todoList);
-        mergedList.addAll(floatingTodoList);
-        
-        if (Main.mode.equals("GUI")) {
-            return "Got it!";
-        }
-        else {
-        
-            StringBuilder feedback = new StringBuilder();
-            feedback.append("NowGotTime on " + dateString + "\n");
-            feedback.append("----------------------------------------\n");
-            feedback.append("--Event\n");
-            feedback.append(CommonHelper.getFormattedEventList(eventList, dateString));
-            feedback.append("----------------------------------------\n");
-            feedback.append("--Todo\n");
-            feedback.append(CommonHelper.getFormattedTodoList(todoList, dateString));
-            feedback.append("----------------------------------------\n");
-            feedback.append("--Floating Todo\n");
-            feedback.append(CommonHelper.getFormattedTodoList(floatingTodoList, dateString));
-            feedback.append("----------------------------------------\n");
-            
-            return feedback.toString();
         }
     }
 

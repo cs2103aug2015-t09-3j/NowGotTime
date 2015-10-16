@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import project.ProjectHandler;
 import service.ServiceHandler;
 import ui.GUI;
 import ui.Main;
 import helper.CommonHelper;
+import helper.Parser;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -20,35 +20,34 @@ import object.Item;
 import object.Todo;
 
 public class CommandSearch implements Command {
-    
-    private static final String PATTERN_SEARCH_BY_KEYWORD = "\\s*\"(?<name>.+)\"\\s*";
-    
-    private static final Pattern REGEX_SEARCH_BY_KEYWORD = Pattern.compile(PATTERN_SEARCH_BY_KEYWORD);
 
-    private static String parseKeyword(String args) {
-        Matcher deleteMatcher = REGEX_SEARCH_BY_KEYWORD.matcher(args);
-        if (deleteMatcher.matches()) {
-            String name = deleteMatcher.group(CommonHelper.FIELD_NAME);
-            
-            return name;
-        }
-        else {
-            return null;
-        }
-    }
+    public static final String KEYWORD = "search";
     
+    String itemKey;
+    ArrayList<Item> filteredItem;
+
     public CommandSearch(String args) throws Exception {
-        keyword = parseKeyword(args);
         
-        if (keyword == null) {
-            throw new Exception(CommonHelper.ERROR_INVALID_ARGUMENTS);
+        if (args.matches(Parser.PATTERN_NAME)) {
+            Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
+            itemKey = matcher.group(Parser.TAG_NAME);
+        } else {
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandSearch.KEYWORD));
         }
     }
     
-    private String keyword;
-    
-    private ArrayList<Item> filteredItem;
-    
+    @Override
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
+            throws Exception {
+        
+        filteredItem = serviceHandler.search(itemKey);
+        if (Main.mode.equals("GUI")) {
+            return "Got it!";
+        } else {
+            return CommonHelper.getFormattedItemList(filteredItem);
+        }
+    }
+
     @Override
     public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception {
         
@@ -125,17 +124,5 @@ public class CommandSearch implements Command {
         }
     }
     
-    @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
-            throws Exception {
-        
-        filteredItem = serviceHandler.search(keyword);
-        if (Main.mode.equals("GUI")) {
-            return "Got it!";
-        }
-        else {
-            return CommonHelper.getFormattedItemList(filteredItem);
-        }
-    }
 
 }

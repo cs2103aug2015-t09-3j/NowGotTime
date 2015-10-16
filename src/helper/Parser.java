@@ -10,33 +10,33 @@ public class Parser {
     // "<name>" on <due>
     public static final String PATTERN_ADD_TASK                  = "\\s*\"(?<name>.+)\"\\s+on (?<date>.+)\\s*";
     // project "<name>"
-    public static final String PATTERN_PROJECT                   = "project\\s+\"(?<name>.+)\"\\s*";
+    public static final String PATTERN_PROJECT                   = "\\s*project\\s+\"(?<name>.+)\"\\s*";
     // "<keyword>" to "<name>"
     public static final String PATTERN_ADD_KEYWORD_TO_PROJECT    = "\\s*\"(?<keyword>.+)\"\\s+to\\s+\"(?<name>.+)\"\\s*";
     // <index> to "<name>"
     public static final String PATTERN_ADD_INDEX_TO_PROJECT      = "\\s*(?<index>\\d+)\\s+to\\s+\"(?<name>.+)\"\\s*";
     // progress "<progress>" <index> to "<name>"
-    public static final String PATTERN_ADD_PROGRESS              = "progress\\s+\"(?<progress>.+)\"\\s+(?<index>\\d+)\\s+to\\s+\"(?<name>.+)\"\\s*";
+    public static final String PATTERN_ADD_PROGRESS              = "\\s*progress\\s+\"(?<progress>.+)\"\\s+(?<index>\\d+)\\s+to\\s+\"(?<name>.+)\"\\s*";
     // <index> from "<project>"
     public static final String PATTERN_DELETE_INDEX_FROM_PROJECT = "\\s*(?<index>\\d+)\\s+from\\s+\"(?<name>.+)\"\\s*";
     // progress <index>
-    public static final String PATTERN_PROGRESS                  = "progress\\s+(?<name>\\d+)\\s*";
+    public static final String PATTERN_DELETE_PROGRESS           = "\\s*progress\\s+(?<index>\\d+)\\s+from\\s+\"(?<name>.+)\"\\s*";
     // "<keyword>" <field>(name) "<name>"
-    public static final String PATTERN_EDIT_NAME_BY_KEY          = "\\s*\"(?<keyword>.+)\"\\s+(?<field>name)\\s+\"(?<name>.+)\"";
+    public static final String PATTERN_EDIT_NAME_BY_KEY          = "\\s*\"(?<keyword>.+)\"\\s+(?<field>name)\\s+\"(?<name>.+)\"\\s*";
     // "<keyword>" <field>(start|end|due) <date>
-    public static final String PATTERN_EDIT_DATE_TIME_BY_KEY     = "\\s*\"(?<keyword>.+)\"\\s+(?<field>start|end|due)\\s+(?<date>.+)";
+    public static final String PATTERN_EDIT_DATE_TIME_BY_KEY     = "\\s*\"(?<keyword>.+)\"\\s+(?<field>start|end|due)\\s+(?<date>.+)\\s*";
     // <index> <field>(name) "<name>"
-    public static final String PATTERN_EDIT_NAME_BY_INDEX        = "\\s*(?<index>\\d+)\\s+(?<field>name)\\s+\"(?<name>.+)\"";
+    public static final String PATTERN_EDIT_NAME_BY_INDEX        = "\\s*(?<index>\\d+)\\s+(?<field>name)\\s+\"(?<name>.+)\"\\s*";
     // <index> <field>(start|end|due) <date>
-    public static final String PATTERN_EDIT_DATE_TIME_BY_INDEX   = "\\s*(?<index>\\d+)\\s+(?<field>start|end|due)\\s+(?<date>.+)";
+    public static final String PATTERN_EDIT_DATE_TIME_BY_INDEX   = "\\s*(?<index>\\d+)\\s+(?<field>start|end|due)\\s+(?<date>.+)\\s*";
     // project "<name>" <field>(name) "<value>"
-    public static final String PATTERN_EDIT_PROJECT              = "project\\s+\"(?<name>.+)\"\\s+(?<field>name)\\s+\"(?<value>.+)\"";
+    public static final String PATTERN_EDIT_PROJECT              = "\\s*project\\s+\"(?<name>.+)\"\\s+(?<field>name)\\s+\"(?<value>.+)\"\\s*";
     // "<name>"
     public static final String PATTERN_NAME                      = "\\s*\"(?<name>.+)\"\\s*"; 
     // <index>
     public static final String PATTERN_INTEGER                   = "\\s*(?<index>\\d+)\\s*"; 
     // <value>
-    public static final String PATTERN_ANY                       = "\\s*(?<value>\\S+)\\s*"; 
+    public static final String PATTERN_ANY                       = "\\s*(?<value>.+)\\s*";  
     // ~empty~
     public static final String PATTERN_EMPTY                     = "\\s*";
 

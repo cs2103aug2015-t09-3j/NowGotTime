@@ -3,6 +3,7 @@ package command;
 import java.util.Stack;
 
 import helper.CommonHelper;
+import helper.Parser;
 import javafx.scene.layout.GridPane;
 import project.ProjectHandler;
 import service.ServiceHandler;
@@ -16,9 +17,9 @@ public class CommandUndo implements Command {
      */
     public CommandUndo(String args) throws Exception {
         
-        if (args.trim().isEmpty());
+        if (args.matches(Parser.PATTERN_EMPTY));
         else {
-            // undo command accept no arguments
+            // undo command accepts no arguments
             throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, KEYWORD));
         }
         

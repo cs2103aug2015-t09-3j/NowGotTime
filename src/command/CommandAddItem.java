@@ -118,7 +118,7 @@ public class CommandAddItem implements CommandAdd {
      */
     @Override
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
-        Command revertAddCommand = new CommandDelete(item);
+        Command revertAddCommand = new CommandDeleteItem(item);
         return revertAddCommand.execute(serviceHandler, projectHandler, historyList);
     }
 

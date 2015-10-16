@@ -118,18 +118,20 @@ public class CommandEditItem implements CommandEdit {
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         
-        if (itemKey == null) {
-            // TODO Edit by index
-        } else {
-            ArrayList<Item> filteredItem = serviceHandler.search(itemKey);
-            
-            if (filteredItem.size() == 0) {
-                throw new Exception(String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, itemKey));
-            } else if (filteredItem.size() > 1) {
-                // TODO Show search display on
-                return null;
+        if (item == null) {
+            if (itemKey == null) {
+                // TODO Edit by index
             } else {
-                item = filteredItem.get(0);
+                ArrayList<Item> filteredItem = serviceHandler.search(itemKey);
+                
+                if (filteredItem.size() == 0) {
+                    throw new Exception(String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, itemKey));
+                } else if (filteredItem.size() > 1) {
+                    // TODO Show search display on
+                    return null;
+                } else {
+                    item = filteredItem.get(0);
+                }
             }
         }
         
