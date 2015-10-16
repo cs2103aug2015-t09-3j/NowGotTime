@@ -14,7 +14,7 @@ import object.Todo;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
-public class CommandAdd extends Command {
+public class CommandAdd implements Command, Revertible {
     
     public static final String KEYWORD = "add";
     
@@ -100,18 +100,6 @@ public class CommandAdd extends Command {
      * Parses the arguments for add command
      */
     public CommandAdd(String args) throws Exception {
-        this.setRequireConfirmation(false);
-        this.setRevertible(true);
-        
-        // Event format (assumed to have a complete date time format for now)
-        // add "eat again" on 21 September 2015 10.00 to 22 September 2015 11.00
-        
-        // Todo format
-        // add "eat again" on 21 September 2015 10.00 -> have deadline
-        // add "eat again" -> no deadline
-        // add eat again -> no deadline
-        
-        // Try to parse as event, todo, or floating todo
         if ((this.item = parseAsEvent(args)) != null);
         else if ((this.item = parseAsTodo(args)) != null);
         else if ((this.item = parseAsFloatingTodo(args)) != null);

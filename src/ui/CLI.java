@@ -5,6 +5,7 @@ import java.util.Stack;
 
 import command.Command;
 import command.CommandExit;
+import command.Revertible;
 import helper.CommonHelper;
 import project.ProjectHandler;
 import service.ServiceHandler;
@@ -32,7 +33,7 @@ public class CLI {
         try {
             command = Command.parseCommand(userResponse);
             feedback = command.execute(serviceHandler, projectHandler, historyList);
-            if (command.isRevertible()) {
+            if (command instanceof Revertible) {
                 // add to history list if project revertible
                 historyList.add(command);
             }

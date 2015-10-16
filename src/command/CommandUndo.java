@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
-public class CommandUndo extends Command {
+public class CommandUndo implements Command {
 
     public static final String KEYWORD = "undo";
     
@@ -15,8 +15,6 @@ public class CommandUndo extends Command {
      * Parses the arguments for undo command
      */
     public CommandUndo(String args) throws Exception {
-        this.setRequireConfirmation(false);
-        this.setRevertible(false);
         
         if (args.trim().isEmpty());
         else {
@@ -34,15 +32,10 @@ public class CommandUndo extends Command {
         if (historyList.empty()) {
             return CommonHelper.ERROR_EMPTY_HISTORY;
         }
-        Command lastCommand = historyList.pop();
+        Revertible lastCommand = ((Revertible)historyList.pop());
         return lastCommand.revert(serviceHandler, projectHandler, historyList);
     }
 
-    @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
-        // not revertible
-        return null;
-    }
 
     @Override
     public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox)

@@ -19,7 +19,7 @@ import object.Event;
 import object.Item;
 import object.Todo;
 
-public class CommandSearch extends Command {
+public class CommandSearch implements Command {
     
     private static final String PATTERN_SEARCH_BY_KEYWORD = "\\s*\"(?<name>.+)\"\\s*";
     
@@ -38,8 +38,6 @@ public class CommandSearch extends Command {
     }
     
     public CommandSearch(String args) throws Exception {
-        this.setRequireConfirmation(false);
-        this.setRevertible(false);
         keyword = parseKeyword(args);
         
         if (keyword == null) {
@@ -138,13 +136,6 @@ public class CommandSearch extends Command {
         else {
             return CommonHelper.getFormattedItemList(filteredItem);
         }
-    }
-
-    @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
-            throws Exception {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }

@@ -44,7 +44,7 @@ public class Parser {
     public static final String TAG_NAME     = "name";
     public static final String TAG_VALUE    = "value";
     public static final String TAG_KEYWORD  = "keyword";
-    public static final String TAG_PROGRESS    = "progress";
+    public static final String TAG_PROGRESS = "progress";
     public static final String TAG_FIELD    = "field";
     
     // Integer

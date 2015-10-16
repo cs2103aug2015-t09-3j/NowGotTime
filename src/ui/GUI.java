@@ -31,8 +31,8 @@ import java.util.Calendar;
 import java.util.Stack;
 
 import command.Command;
-import command.CommandSearch;
 import command.CommandView;
+import command.Revertible;
 
 public class GUI extends Application {
     
@@ -65,7 +65,7 @@ public class GUI extends Application {
             prompt.clear();
             command.display(serviceHandler, projectHandler, displayBox);
             
-            if (command.isRevertible()) {
+            if (command instanceof Revertible) {
                 // add to history list if project revertible
                 historyList.add(command);
             }

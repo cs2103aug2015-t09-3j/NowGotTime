@@ -19,7 +19,7 @@ import service.ServiceHandler;
 import ui.GUI;
 import ui.Main;
 
-public class CommandView extends Command {
+public class CommandView implements Command {
 
     public static final String KEYWORD = "view";
     
@@ -29,8 +29,6 @@ public class CommandView extends Command {
      * Parses the arguments for view command
      */
     public CommandView(String args) throws Exception {
-        this.setRequireConfirmation(false);
-        this.setRevertible(false);
         
         dateString = args.trim();
         mergedList = new ArrayList<Item>();
@@ -162,13 +160,5 @@ public class CommandView extends Command {
             return feedback.toString();
         }
     }
-
-    @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList)
-            throws Exception {
-        // view command cannot be reverted
-        return null;
-    }
-
 
 }

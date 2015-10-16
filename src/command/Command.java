@@ -7,10 +7,7 @@ import javafx.scene.layout.GridPane;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
-public abstract class Command {
-
-    private boolean revertible;
-    private boolean requireConfirmation;
+public interface Command {
 
     /**
      * Returns Command object from parsed text
@@ -49,45 +46,13 @@ public abstract class Command {
         }
         return command;
     }
-    
-    /**
-     * Returns whether this command is revertible
-     */
-    public boolean isRevertible() {
-        return revertible;
-    }
 
-    /**
-     * Set isRevertible
-     */
-    protected void setRevertible(boolean revertible) {
-        this.revertible = revertible;
-    }
-
-    /**
-     * Returns whether this command require confirmation before execution
-     */
-    public boolean isRequireConfirmation() {
-        return requireConfirmation;
-    }
-
-    /**
-     * Set requireConfirmation
-     */
-    protected void setRequireConfirmation(boolean requireConfirmation) {
-        this.requireConfirmation = requireConfirmation;
-    }
-
-    public abstract void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception;
+    public void display(ServiceHandler serviceHandler, ProjectHandler projectHandler, GridPane displayBox) throws Exception;
     
     /**
      * Executes this command
      */
-    public abstract String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
     
-    /**
-     * Reverts effect of this command
-     */
-    public abstract String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception;
     
 }

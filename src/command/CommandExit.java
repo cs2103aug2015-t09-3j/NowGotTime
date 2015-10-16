@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
-public class CommandExit extends Command {
+public class CommandExit implements Command {
     
     public static final String KEYWORD = "exit";
     
@@ -15,8 +15,6 @@ public class CommandExit extends Command {
      * Parses the arguments for exit command
      */
     public CommandExit(String args) throws Exception {
-        this.setRequireConfirmation(true);
-        this.setRevertible(false);
         
         if (args.trim().isEmpty());
         else {
@@ -33,12 +31,6 @@ public class CommandExit extends Command {
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
         // return empty string
         return "";
-    }
-
-    @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

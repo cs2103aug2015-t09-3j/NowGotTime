@@ -16,7 +16,7 @@ import project.ProjectHandler;
 import service.ServiceHandler;
 
 
-public class CommandEdit extends Command {
+public class CommandEdit implements Command, Revertible {
 
     public static final String KEYWORD = "edit";
 
@@ -55,8 +55,6 @@ public class CommandEdit extends Command {
      * Parses the arguments for edit command
      */
     public CommandEdit(String args) throws Exception {
-        this.setRequireConfirmation(false);
-        this.setRevertible(true);
         
         HashMap<String, String> result = null;
         

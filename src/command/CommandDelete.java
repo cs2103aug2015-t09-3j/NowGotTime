@@ -13,7 +13,7 @@ import object.Todo;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
-public class CommandDelete extends Command {
+public class CommandDelete implements Command, Revertible {
 
     public static final String KEYWORD = "delete";
 
@@ -39,8 +39,6 @@ public class CommandDelete extends Command {
      * Parses the arguments for delete command
      */
     public CommandDelete(String args) throws Exception {
-        this.setRequireConfirmation(true);
-        this.setRevertible(true);
         
         itemName = parseDelete(args, REGEX_DELETE);
         
@@ -90,7 +88,7 @@ public class CommandDelete extends Command {
      */
     @Override
     public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Command> historyList) throws Exception {
-        Command revertDeleteCommand = new CommandAdd(item);
+        Revertible revertDeleteCommand = new CommandAdd(item);
         return revertDeleteCommand.revert(serviceHandler, projectHandler, historyList);
     }
 
