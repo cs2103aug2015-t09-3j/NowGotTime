@@ -20,10 +20,10 @@ public interface Command {
         
         switch (commandType.toLowerCase()) {
             case "add":
-                command = new CommandAddItem(arguments);
+                command = CommandAdd.parseCommandAdd(arguments);
                 break;
             case "edit":
-                command = new CommandEdit(arguments);
+                command = new CommandEditItem(arguments);
                 break;
             case "delete":
                 command = new CommandDelete(arguments);
