@@ -134,4 +134,13 @@ public class Projects {
 		}
 	}
 	
+	public ArrayList<String> searchProjects (String name) {
+		ArrayList<String> searchedNames = new ArrayList<String>();
+		for (String projectName : projectList) {
+			if (projectName.contains(name)) {
+				searchedNames.add(projectName);
+			}
+		}
+		return searchedNames;
+	}
 }
