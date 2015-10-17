@@ -3,6 +3,7 @@ import java.util.*;
 
 import object.Event;
 import storage.FileHandler;
+import project.EventComparator;
 
 
 public class ProjectHandler implements ProjectManager{
@@ -26,6 +27,7 @@ public class ProjectHandler implements ProjectManager{
 		} else {
 			projectBook = viewProjectTimeline(projectName.toLowerCase());
 			projectBook.add(id);
+			sortEvents();
 			project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
 			return true;
 		}
@@ -41,6 +43,7 @@ public class ProjectHandler implements ProjectManager{
 			if (savedId == id) {
 				projectBook.remove(id);
 				map.remove(id);
+				sortEvents();
 				project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
 				return true;
 			}
@@ -120,6 +123,7 @@ public class ProjectHandler implements ProjectManager{
 					break;
 				}
 			}
+			sortEvents();
 			project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
 			return true;
 		}
@@ -239,8 +243,25 @@ public class ProjectHandler implements ProjectManager{
 		return eventProgress;
 	}
 
+	private void sortEvents() {
+		ArrayList<Event> eventsToBeSorted = new ArrayList<Event>();
+		ArrayList<Integer> newProjectBook = new ArrayList<Integer>();
+		for (int id : projectBook) {
+			Event event = project.retrieveEventById(id);
+			eventsToBeSorted.add(event);
+		}
+		
+		EventComparator eventComparator = new EventComparator();
+		Collections.sort(eventsToBeSorted, eventComparator);
+		
+		for (Event event : eventsToBeSorted) {
+			int id = event.getId();
+			newProjectBook.add(id);
+		}
+		projectBook = newProjectBook;
+	}
+	
 	/*
-	 -Have a search function to search through project book (arraylist of events). Return event ID.
 	 -Progress bar function, show % completed.
 	*/
 }
