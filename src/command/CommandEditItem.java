@@ -31,7 +31,7 @@ public class CommandEditItem implements CommandEdit {
         
         if (Parser.matches(args,Parser.PATTERN_EDIT_NAME_BY_INDEX)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_EDIT_NAME_BY_INDEX);
-            itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX));
+            itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
             fieldName = matcher.group(Parser.TAG_FIELD);
             newValue = matcher.group(Parser.TAG_NAME);
             
@@ -43,7 +43,7 @@ public class CommandEditItem implements CommandEdit {
             
         } else if (Parser.matches(args,Parser.PATTERN_EDIT_DATE_TIME_BY_INDEX)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_EDIT_DATE_TIME_BY_INDEX);
-            itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX));
+            itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
             fieldName = matcher.group(Parser.TAG_FIELD);
             newValue = matcher.group(Parser.TAG_DATETIME);
             
@@ -118,15 +118,17 @@ public class CommandEditItem implements CommandEdit {
         
         if (item == null) {
             if (itemKey == null) {
-                // TODO Edit by index
+                item = serviceHandler.viewItemByIndex(itemIndex);
+                if (item == null) {
+                    throw new Exception(CommonHelper.ERROR_INDEX_OUT_OF_BOUND);
+                }
             } else {
                 ArrayList<Item> filteredItem = serviceHandler.search(itemKey);
                 
                 if (filteredItem.size() == 0) {
                     throw new Exception(String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, itemKey));
                 } else if (filteredItem.size() > 1) {
-                    // TODO Show search display on
-                    return null;
+                    return String.format(CommonHelper.ERROR_MULTIPLE_OCCURRENCE, itemKey);
                 } else {
                     item = filteredItem.get(0);
                 }
@@ -135,15 +137,7 @@ public class CommandEditItem implements CommandEdit {
         
         assert(item != null);
         
-        if (item instanceof Event) {
-            oldValue = serviceHandler.editEvent(item.getName(), fieldName, newValue);
-        }
-        else if (item instanceof Todo) {
-            oldValue = serviceHandler.editTask(item.getName(), fieldName, newValue);
-        }
-        else {
-            assert(false);
-        }
+        oldValue = serviceHandler.editItem(item, fieldName, newValue);
         
         return String.format(CommonHelper.SUCCESS_ITEM_EDITED, item.getName(), fieldName, newValue);
     }
@@ -159,15 +153,20 @@ public class CommandEditItem implements CommandEdit {
 
     @Override
     public Displayable getDisplayable() {
-        String date;
-        if (item instanceof Event) {
-            date = ((Event)item).getStartDateString();
+        if (item == null) {
+            return new CommandSearch("\"" + itemKey + "\"");
         }
         else {
-            date = ((Todo)item).getDeadlineDateString();
+            // TODO Refactor : implement this on item class
+            String date;
+            if (item instanceof Event) {
+                date = ((Event)item).getStartDateString();
+            }
+            else {
+                date = ((Todo)item).getDeadlineDateString();
+            }
+            return new CommandViewDate(date);
         }
-        
-        return new CommandViewDate(date);
     }
 
 }

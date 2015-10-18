@@ -34,7 +34,7 @@ public interface Command {
                 command = CommandView.parseCommandView(arguments);
                 break;
             case "search":
-                command = new CommandSearch(arguments);
+                command = CommandSearch.parseCommandSearch(arguments);
                 break;
             case "exit":
                 command = new CommandExit(arguments);

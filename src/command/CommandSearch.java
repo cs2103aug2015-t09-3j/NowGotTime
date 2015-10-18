@@ -23,16 +23,31 @@ public class CommandSearch implements Command, Displayable {
 
     public static final String KEYWORD = "search";
     
+    public static CommandSearch parseCommandSearch(String text) throws Exception {
+        
+        CommandSearch commandSearch = null;
+        
+        if (Parser.matches(text, Parser.PATTERN_NAME)) {
+            commandSearch = new CommandSearch(text);
+            
+        } else {
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandEdit.KEYWORD));
+            
+        }
+        
+        return commandSearch;
+    }
+    
     String itemKey;
     ArrayList<Item> filteredItem;
 
-    public CommandSearch(String args) throws Exception {
+    public CommandSearch(String args) {
         
         if (Parser.matches(args,Parser.PATTERN_NAME)) {
             Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
             itemKey = matcher.group(Parser.TAG_NAME);
         } else {
-            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandSearch.KEYWORD));
+            assert(false);
         }
     }
     

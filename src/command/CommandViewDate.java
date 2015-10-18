@@ -40,6 +40,7 @@ public class CommandViewDate implements CommandView {
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
             throws Exception {
         
+        // TODO Refactor this messy code
         ArrayList<Event> eventList = serviceHandler.viewEventByDate(dateString);
         ArrayList<Todo> todoList = serviceHandler.viewTaskByDate(dateString);
         ArrayList<Todo> floatingTodoList = serviceHandler.viewTaskNoDate();
@@ -48,7 +49,7 @@ public class CommandViewDate implements CommandView {
         mergedList.addAll(todoList);
         mergedList.addAll(floatingTodoList);
         
-        // TODO remove cli
+        // TODO Remove CLI
         if (Main.mode.equals("GUI")) {
             // TODO save this constant string
             return "Got it!";
@@ -74,6 +75,7 @@ public class CommandViewDate implements CommandView {
     
     @Override
     public void display(GridPane displayBox) {
+        // TODO Refactor this messy code
         displayBox.getChildren().clear();
         
         Collections.sort(mergedList);

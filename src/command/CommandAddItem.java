@@ -100,7 +100,7 @@ public class CommandAddItem implements CommandAdd {
      */
     @Override
     public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
-        
+        // TODO: Code : serviceHandler.createItem(Item);
         if (item instanceof Event) {
             serviceHandler.createEvent((Event)item);
             return String.format(CommonHelper.SUCCESS_ITEM_CREATED, item.getName());

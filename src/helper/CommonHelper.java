@@ -27,15 +27,16 @@ public class CommonHelper {
     public static final String SUCCESS_SAVE_CHANGED      = "save directory moved to '%1$s";
     
     /* Error messages */
-    public static final String ERROR_INVALID_COMMAND    = "unknown command '%1$s'";
-    public static final String ERROR_INVALID_ARGUMENTS  = "invalid arguments for command '%1$s'";
-    public static final String ERROR_DUPLICATE_PROJECT  = "project '%1$s' already exists";
-    public static final String ERROR_START_AFTER_END    = "start of event cannot be after end of event";
-    public static final String ERROR_INDEX_OUT_OF_BOUND = "index not exists";
-    public static final String ERROR_ITEM_NOT_FOUND     = "'%1$s' not found";
-    public static final String ERROR_PROJECT_NOT_FOUND  = "project '%1$s' not found";
-    public static final String ERROR_EMPTY_HISTORY      = "cannot undo any previous command";
-    public static final String ERROR_INVALID_PATH       = "invalid new save directory";
+    public static final String ERROR_INVALID_COMMAND     = "unknown command '%1$s'";
+    public static final String ERROR_INVALID_ARGUMENTS   = "invalid arguments for command '%1$s'";
+    public static final String ERROR_DUPLICATE_PROJECT   = "project '%1$s' already exists";
+    public static final String ERROR_MULTIPLE_OCCURRENCE = "multiple occurrence of '%1$s' found";
+    public static final String ERROR_START_AFTER_END     = "start of event cannot be after end of event";
+    public static final String ERROR_INDEX_OUT_OF_BOUND  = "item with this index does not exists";
+    public static final String ERROR_ITEM_NOT_FOUND      = "'%1$s' not found";
+    public static final String ERROR_PROJECT_NOT_FOUND   = "project '%1$s' not found";
+    public static final String ERROR_EMPTY_HISTORY       = "cannot undo any previous command";
+    public static final String ERROR_INVALID_PATH        = "invalid new save directory";
     
     public static final String FORMATTED_EVENT         = "[%1$s-%2$s] %3$s";
     public static final String FORMATTED_TODO          = "[   by %1$s] %2$s";

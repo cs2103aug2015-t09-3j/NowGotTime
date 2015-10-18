@@ -27,12 +27,10 @@ public class CommandDeleteItem implements CommandDelete {
         if (Parser.matches(args,Parser.PATTERN_NAME)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
             itemKey = matcher.group(Parser.TAG_NAME);
-        }
-        else if (Parser.matches(args,Parser.PATTERN_INTEGER)) {
+        } else if (Parser.matches(args,Parser.PATTERN_INTEGER)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_INTEGER);
-            itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX));
-        }
-        else {
+            itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
+        } else {
             assert(false);
         }
     }
@@ -57,30 +55,24 @@ public class CommandDeleteItem implements CommandDelete {
         
         if (item == null) {
             if (itemKey == null) {
-                // TODO Edit by index
+                item = serviceHandler.viewItemByIndex(itemIndex);
+                if (item == null) {
+                    throw new Exception(CommonHelper.ERROR_INDEX_OUT_OF_BOUND);
+                }
             } else {
                 ArrayList<Item> filteredItem = serviceHandler.search(itemKey);
-                
+                System.out.println(filteredItem);
                 if (filteredItem.size() == 0) {
                     throw new Exception(String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, itemKey));
                 } else if (filteredItem.size() > 1) {
-                    // TODO Show search display on
-                    return null;
+                    return String.format(CommonHelper.ERROR_MULTIPLE_OCCURRENCE, itemKey);
                 } else {
                     item = filteredItem.get(0);
                 }
             }
         }
         
-        
-        if (item instanceof Event) {
-            // TODO Call delete event by id or pass object
-            serviceHandler.deleteEvent(item.getName());
-        }
-        else {
-            // TODO Call delete todo by id or pass object
-            serviceHandler.deleteTask(item.getName());
-        }
+        serviceHandler.deleteItem(item);
         return String.format(CommonHelper.SUCCESS_ITEM_DELETED, item.getName());
     }
 
@@ -95,16 +87,20 @@ public class CommandDeleteItem implements CommandDelete {
 
     @Override
     public Displayable getDisplayable() {
-        // TODO implement this on item class
-        String date;
-        if (item instanceof Event) {
-            date = ((Event)item).getStartDateString();
+        if (item == null) {
+            return new CommandSearch("\"" + itemKey + "\"");
         }
         else {
-            date = ((Todo)item).getDeadlineDateString();
+            // TODO Refactor : implement this on item class
+            String date;
+            if (item instanceof Event) {
+                date = ((Event)item).getStartDateString();
+            }
+            else {
+                date = ((Todo)item).getDeadlineDateString();
+            }
+            return new CommandViewDate(date);
         }
-        
-        return new CommandViewDate(date);
     }
 
 }
