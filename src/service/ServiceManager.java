@@ -30,6 +30,11 @@ public interface ServiceManager {
 	
 	public ArrayList<Item> search (String inputs);
 	
-	public Item deleteItem(int index) ;
+	//after searching
+	public Item deleteItemByIndex(int index);
+	public Item viewItemByIndex(int index);
+	public String editItemByIndex(int index, String fieldName, String newInputs )throws Exception;
+	
+	 public boolean changeDirectory(String newDirectory);
 
 }
