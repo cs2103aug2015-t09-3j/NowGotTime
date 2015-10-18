@@ -59,138 +59,17 @@ public class ServiceHandler implements ServiceManager{
 	public ArrayList<Todo> viewTaskNoDate() {
 		return itemHandler.retrieveUniversalTodo();
 	}
-
+	
 	/**
-	 * Returns true when deleted, else return false
+	 *  Deletes a given object
 	 */
 	@Override
-	public boolean deleteEvent(String eventName) {
-		Event _event;
-		ArrayList<Event> completeEventBook = itemHandler.retrieveAllEvents();
-
-		_event = findEvent(eventName);
-		if (_event == null){
-			return false;
+	public boolean deleteItem(Item item){
+		if (item.getClass() == Event.class) {
+			return deleteEvent((Event) item);
 		}
-		else {
-			completeEventBook.remove(_event);
-			return itemHandler.saveEditedEventHandler();
-		}
-	}
-
-	/**
-	 * Returns true when deleted, else return false
-	 */
-	@Override
-	public boolean deleteTask(String taskName) {
-		Todo _task;
-		ArrayList<Todo> completeTodoList = itemHandler.retrieveAllTodo();      
-
-		_task = findTask(taskName);
-		if (_task == null){
-			return false;
-		}
-		else {
-			completeTodoList.remove(_task);
-			return itemHandler.saveAllEditedTodo();
-		}
-	}
-
-	/**
-	 * Edits a field from existing event from the Arraylist<Event>by name
-	 */
-	@Override
-	public String editEvent(String eventName, String fieldName, String newInputs) throws Exception {
-		Event _event;
-		String oldValue = null;
-
-		switch(fieldName) {
-		//case edit eventName
-		case (CommonHelper.FIELD_NAME):
-			_event = findEvent(eventName);
-
-		if (_event == null) {
-			throw new Exception (String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, eventName));
-		}
-		else {
-			oldValue = _event.getName();
-			_event.setName(newInputs);
-			itemHandler.saveEditedEventHandler();
-		}
-		break;
-		// case edit start
-		case (CommonHelper.FIELD_START): 
-			_event = findEvent(eventName);
-
-		if (_event == null) {
-			throw new Exception (String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, eventName));
-		}
-		else {
-			oldValue = _event.getStartDateTimeString();
-			_event.updateStart(newInputs);
-			itemHandler.saveEditedEventHandler();
-		}
-		break;
-		//case edit end
-		case (CommonHelper.FIELD_END): 
-			_event = findEvent(eventName);
-
-		if (_event == null) {
-			throw new Exception (String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, eventName));
-		}
-		else {
-			oldValue = _event.getEndDateTimeString();
-			_event.updateEnd(newInputs);
-			itemHandler.saveEditedEventHandler();
-		}
-		break;
-		//case edit unexpected
-		default :
-			assert(false);
-		}
-		return oldValue;
-	}
-
-	/**
-	 *  Edits a field from existing task from the Arraylist<ToDo> by name.
-	 */
-	@Override
-	public String editTask(String taskName, String fieldName, String newInputs) throws Exception{
-		Todo _task;
-		String oldValue = null;
-
-		switch(fieldName) {
-		//case edit taskName
-		case (CommonHelper.FIELD_NAME):
-			_task = findTask(taskName);
-
-		if (_task == null) {
-			throw new Exception (String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, taskName));
-		}
-		else {
-			oldValue = _task.getName();
-			_task.setName(newInputs);
-			itemHandler.saveAllEditedTodo();
-		}        
-		break;
-		//case edit deadline
-		case (CommonHelper.FIELD_DUE):
-			_task = findTask(taskName);
-
-		if (_task == null) {
-			throw new Exception (String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, taskName));
-		}
-		else {
-			oldValue = _task.getDeadlineDateTimeString();
-			_task.updateDeadline(newInputs);
-			itemHandler.saveAllEditedTodo();
-		}
-		break;
-		//case edit unexpected
-		default :
-			assert(false);
-		}
-		return oldValue;
+		else
+			return deleteTask((Todo) item);   	
 	}
 
 	/**
@@ -247,8 +126,8 @@ public class ServiceHandler implements ServiceManager{
 	 * Deletes an item after searching via the search index
 	 */
 	@Override
-	public Item deleteItemByIndex(int index) {   	
-		return searchedItems.remove(index);
+	public boolean deleteItemByIndex(int index) {   	
+		return deleteItem(searchedItems.get(index));
 	}
 
 	/**
@@ -257,16 +136,17 @@ public class ServiceHandler implements ServiceManager{
 	@Override
 	public Item viewItemByIndex(int index) {   	
 		return searchedItems.get(index);
-	}   
-
-	public String editItemByIndex(int index, String fieldName, String newInputs ) throws Exception {
-		Item item = searchedItems.get(index);
-		// checking if object is event
+	}
+	
+	/**
+	 * Edits an item after searching via search index
+	 */
+	public String editItem(Item item, String fieldName, String newInputs ) throws Exception {
 		if (item.getClass() == Event.class) {
-			return editEvent(item.getName(), fieldName, newInputs);
+			return editEvent((Event) item, fieldName, newInputs);
 		}
 		else
-			return editTask(item.getName(), fieldName, newInputs);   	
+			return editTask((Todo) item, fieldName, newInputs);   	
 	}
 
 	/**
@@ -309,5 +189,75 @@ public class ServiceHandler implements ServiceManager{
 			}
 		}
 		return null;
-	}  
+	}
+	
+	private String editEvent(Event _event, String fieldName, String newInputs) throws Exception {
+		String oldValue = null;
+
+		switch(fieldName) {
+		//case edit eventName
+		case (CommonHelper.FIELD_NAME):
+			oldValue = _event.getName();
+			_event.setName(newInputs);
+			itemHandler.saveEditedEventHandler();		
+		break;
+		
+		// case edit start
+		case (CommonHelper.FIELD_START): 
+			oldValue = _event.getStartDateTimeString();
+			_event.updateStart(newInputs);
+			itemHandler.saveEditedEventHandler();
+		break;
+		
+		//case edit end
+		case (CommonHelper.FIELD_END): 
+			oldValue = _event.getEndDateTimeString();
+			_event.updateEnd(newInputs);
+			itemHandler.saveEditedEventHandler();
+		break;
+		
+		//case edit unexpected
+		default :
+			assert(false);
+		}
+		return oldValue;
+	}
+	
+	private String editTask(Todo _task, String fieldName, String newInputs) throws Exception{
+		String oldValue = null;
+
+		switch(fieldName) {
+		//case edit taskName
+		case (CommonHelper.FIELD_NAME):
+			oldValue = _task.getName();
+			_task.setName(newInputs);
+			itemHandler.saveAllEditedTodo();        
+		break;
+		
+		//case edit deadline
+		case (CommonHelper.FIELD_DUE):
+			oldValue = _task.getDeadlineDateTimeString();
+			_task.updateDeadline(newInputs);
+			itemHandler.saveAllEditedTodo();
+		break;
+		
+		//case edit unexpected
+		default :
+			assert(false);
+		}
+		return oldValue;
+	}
+	
+	private boolean deleteTask(Todo _task) {
+		ArrayList<Todo> completeTodoList = itemHandler.retrieveAllTodo();      
+			completeTodoList.remove(_task);
+			return itemHandler.saveAllEditedTodo();
+		}
+	
+	private boolean deleteEvent(Event _event) {
+		ArrayList<Event> completeEventBook = itemHandler.retrieveAllEvents();
+			completeEventBook.remove(_event);
+			return itemHandler.saveEditedEventHandler();
+	}
+
 }

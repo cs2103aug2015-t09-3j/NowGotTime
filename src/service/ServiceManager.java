@@ -18,11 +18,9 @@ public interface ServiceManager {
 	public ArrayList<Todo> viewTaskByDate(String date);
 	public ArrayList<Todo> viewTaskNoDate();
 	
-	public boolean deleteEvent(String eventName);
-	public boolean deleteTask(String taskName);
+	public boolean deleteItem(Item item);
 	
-	public String editEvent(String eventName, String fieldName, String newInputs)throws Exception; 
-    public String editTask(String taskName, String fieldName, String newInputs)throws Exception; 
+	public String editItem(Item item, String fieldName, String newInputs )throws Exception;
     
 	public Event viewSpecificEvent (String eventName);
 	
@@ -31,9 +29,8 @@ public interface ServiceManager {
 	public ArrayList<Item> search (String inputs);
 	
 	//after searching
-	public Item deleteItemByIndex(int index);
+	public boolean deleteItemByIndex(int index);
 	public Item viewItemByIndex(int index);
-	public String editItemByIndex(int index, String fieldName, String newInputs )throws Exception;
 	
 	 public boolean changeDirectory(String newDirectory);
 
