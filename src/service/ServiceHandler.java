@@ -126,18 +126,27 @@ public class ServiceHandler implements ServiceManager{
 	 * Deletes an item after searching via the search index
 	 */
 	@Override
-	public boolean deleteItemByIndex(int index) {   	
-		return deleteItem(searchedItems.get(index));
+	public boolean deleteItemByIndex(int index) {
+		if(index >= searchedItems.size()){
+			return false;
+		}
+		else{
+			return deleteItem(searchedItems.get(index));
+		}
 	}
-
+	
 	/**
 	 * Views an item after searching via the search index
 	 */
 	@Override
 	public Item viewItemByIndex(int index) {   	
-		return searchedItems.get(index);
+		if(index >= searchedItems.size()){
+			return null;
+		}
+		else{
+			return searchedItems.get(index);
+		}
 	}
-	
 	/**
 	 * Edits an item after searching via search index
 	 */
