@@ -20,23 +20,40 @@ public class FileProjectHandler {
 	private static final String PROJECT = "Project";
 	
 	private String baseDirectory;
-	private ArrayList<String> existingProjects;
 	private File inputFile;
-	private ArrayList<ArrayList<Integer>> projectBookShelf;
-	ArrayList<HashMap<Integer, String>> progressBookShelf;
+	
+	private ArrayList<String> existingProjects;
 	private HashMap<Integer, String> progressBook;
+	private ArrayList<ArrayList<Integer>> projectBookShelf;
+	private ArrayList<HashMap<Integer, String>> progressBookShelf;
 	
 /*******************************************************************************/
 	
+	/**
+	 * Construct an instance of project handler with all the project details.
+	 * @param baseDirectory
+	 */
 	public FileProjectHandler(String baseDirectory){
+		//TODO: what if base directory is null?
 		this.baseDirectory = baseDirectory.concat("/");
+		
+		projectBookShelf = new ArrayList<ArrayList<Integer>>();
+		progressBookShelf = new ArrayList<HashMap<Integer, String>>();
+		progressBook = new HashMap<Integer, String>();
+		
 		readOverviewerFile();
 	}
 	
+	/**
+	 * Delete the whole project with the projectName.
+	 * @param projectName
+	 * @return true if project has been successfully deleted, else return false
+	 */
 	public boolean deleteProject(String projectName){
 		if(!existingProjects.contains(projectName)){
 			return false;
 		}
+		
 		existingProjects.remove(projectName);
 		updateOverviewFile();
 		
@@ -57,11 +74,22 @@ public class FileProjectHandler {
 		}
 	}
 	
+	/**
+	 * Retrieve the names of the existing projects
+	 * @return ArrayList<String> containing the names of existing projects, 
+	 * return empty ArrayList<String> if there are no existing projects.
+	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<String> getListOfExistingProjects(){
 		return (ArrayList<String>) existingProjects.clone();
 	}
 	
+	/**
+	 * Retrieve the index of events added into a project
+	 * @param name of the project to be retrieved
+	 * @return ArrayList<Integer> of index, return empty ArrayList<Integer> if 
+	 * there are no events in the project
+	 */
 	public ArrayList<Integer> retrieveProject(String name){
 		
 		String fileName = setFileName(name);
@@ -92,48 +120,36 @@ public class FileProjectHandler {
 			return projectBook;
 		}
 		 
-//		ArrayList<Event> projectBook  = new ArrayList<Event>();
-//		String eventName, startDate, endDate, startTime, endTime, addInfo;
-//		
-//		try {
-//			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-//			String lineOfText;
-//			
-//			while( (lineOfText = reader.readLine()) != null ){
-//				eventName = lineOfText;
-//				addInfo = reader.readLine();
-//				startDate = reader.readLine();
-//				endDate = reader.readLine();
-//				startTime = reader.readLine();
-//				endTime = reader.readLine();			
-//				
-//				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
-//				projectBook.add(event);
-//			}
-//			
-//			reader.close();		 
-//			return projectBook;
-//		}
-//		catch (FileNotFoundException e) {
-//			return projectBook;
-//		}catch (IOException e) {
-//			return projectBook;
-//		}	
 	}
 	
-	//new
+	/**
+	 * Retrieve the Progress statements of the events in the project.
+	 * @return a HashMap, where the key is the ID for the event, 
+	 * and the value is the String of the progress details
+	 */
 	public HashMap<Integer, String> retrieveProjectProgress(){
 		return progressBook;
 	}
 	
+	/**
+	 * Create a new project.
+	 * @param projectName
+	 * @return true if the project has been created, else return false. 
+	 */
 	public boolean createNewProject(String projectName){
-		if(!existingProjects.contains(projectName)){
+		if(!existingProjects.contains(projectName) && projectName != null){
 			return createNewProjectFile(projectName);
 		}
 		return false;
 	}
 	
-	//will not sort the events by date.
+	/**
+	 * Save any changes done to the project
+	 * @param projectBook contains the index of events in the project
+	 * @param progressBook contains the progress statements of events in the project
+	 * @param projectName 
+	 * @return true if the project has been successfully saved, else return false.
+	 */
 	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, HashMap<Integer, String> progressBook, String projectName){
 		
 		try{
@@ -155,15 +171,32 @@ public class FileProjectHandler {
 		}catch(IOException e){
 			System.out.println("File cannot be written.\n");
 			return false;
+		}catch(NullPointerException e){
+			System.out.println("One of the parameter is null");
+			return false;
 		}
 		
 	}
 	
+	/**
+	 * Set another new base directory
+	 * @param newBaseDirectory
+	 * @return true if directory has been updated, else return false
+	 */
 	public boolean setNewDirectory(String newBaseDirectory){
-		baseDirectory = newBaseDirectory.concat("/" + PROJECT + "/");
-		return true;
+		
+		if((newBaseDirectory != null) && new File(newBaseDirectory).exists()){
+			baseDirectory = newBaseDirectory.concat("/" + PROJECT + "/");
+			return true;
+		}
+		return false;
+		
 	}
 	
+	/**
+	 * read in all the existing projects
+	 * @return true if successful in reading the projects, else return false.
+	 */
 	public boolean readAll(){
 		projectBookShelf = new ArrayList<ArrayList<Integer>>();
 		progressBookShelf = new ArrayList<HashMap<Integer, String>>();
@@ -175,13 +208,13 @@ public class FileProjectHandler {
 			progressBookShelf.add(progressBook);
 		}
 		
-		if(projectBookShelf.isEmpty()){
-			return false;
-		}
-		
 		return true;
 	}
 	
+	/**
+	 * Save all the project data onto text files.
+	 * @return true when successfully written all the existing projects, else return false
+	 */
 	public boolean writeAll(){
 		updateOverviewFile();
 		
@@ -204,7 +237,11 @@ public class FileProjectHandler {
 	}
 	
 /*******************************************************************************/
-
+	/**
+	 * create a new project
+	 * @param textFileName
+	 * @return true when successful in creating the project file, else return false.
+	 */
 	private boolean createNewProjectFile(String textFileName){
 
 		try{
@@ -224,7 +261,10 @@ public class FileProjectHandler {
 		}
 	}
 	
-	
+	/**
+	 * read the overview file which contains the list of names of all the
+	 * existing projects
+	 */
 	private void readOverviewerFile() {
 		inputFile = new File( baseDirectory + PROJECT_OVERVIEWER);	
 		existingProjects = new ArrayList<String>();
@@ -239,12 +279,12 @@ public class FileProjectHandler {
 			reader.close();		 
 		}
 		catch (FileNotFoundException e) {
-			// Do nothing
+			updateOverviewFile();
 		}catch (IOException e) {
 			// Do nothing
 		}
 	}
-
+	
 	private void selectFileAsInputFile(String fileName){
 		inputFile = new File(fileName);
 	}
@@ -253,6 +293,10 @@ public class FileProjectHandler {
 		return (projectName + ".txt");	
 	}
 	
+	/**
+	 * Save any changes in project files.
+	 * @return
+	 */
 	private boolean updateOverviewFile(){
 		try{
 			File outfile = new File(baseDirectory + PROJECT_OVERVIEWER);
@@ -268,6 +312,9 @@ public class FileProjectHandler {
 	
 		}catch(IOException e){
 			System.out.println("File cannot be written.\n");
+			return false;
+		}catch(NullPointerException e){
+			// base directory is null
 			return false;
 		}
 		

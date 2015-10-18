@@ -27,28 +27,33 @@ public class FileEventHandler {
 	private String baseDirectory;
 	private File inputFile;
 	
-	private ArrayList<Event> allEvents;
-	private ArrayList<Event> allEventsClone;
-	private ArrayList<Event> historyEvents;
+	private ArrayList<Event> allEvents = new ArrayList<Event>();
+	private ArrayList<Event> historyEvents = new ArrayList<Event>();
 	
 	private Calendar todaysDate;
-
-/*************************************************************************************/
 	
 /*****************************************************************************************/		
 
  	public FileEventHandler(String theBaseDirectory){
 		this.baseDirectory = theBaseDirectory.concat("/");
 		allEvents = retrieveEvent(EVENTS);
-		allEventsClone = allEvents;
 		retrievePassedEvents();
 		pushPassedEventsToHistoryFile();
 	}
 
 	public boolean saveNewEventHandler(Event event){
-		allEvents.add(event);
-		saveEventBook();
-		return true;
+		
+		if(event != null){
+			allEvents.add(event);
+		
+			if(event.getEndCalendar().before(todaysDate)){
+				sortEventsByDate(allEvents);
+				pushPassedEventsToHistoryFile();
+			}
+			saveEventBook();
+			return true;
+		}
+		return false;
 	}
 			
 	public boolean saveEventBook(){
@@ -68,7 +73,6 @@ public class FileEventHandler {
 			return true;
 	
 		}catch(IOException e){
-			
 			System.out.println("File cannot be written.\n" + e.getMessage());
 			return false;
 		}
@@ -76,21 +80,19 @@ public class FileEventHandler {
 	}
 	
 	public boolean setNewDirectory(String newBaseDirectory){
-		baseDirectory = newBaseDirectory.concat("/" + EVENT + "/");
-		return true;
+		if((newBaseDirectory != null) && new File(newBaseDirectory).exists()){
+			baseDirectory = newBaseDirectory.concat("/" + EVENT + "/");
+			return true;
+		}
+		return false;
 	}
 	
 	public ArrayList<Event> retrieveEventByDate(String date){
 		
-		ArrayList<Event> eventBookByDate = filterEventsToSpecificDate(date);
-		
-		return eventBookByDate;
+		return filterEventsToSpecificDate(date);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public ArrayList<Event> retrieveEventsToDelete(){
-//		allEventsClone = (ArrayList<Event>) allEvents.clone();
-//		return allEventsClone;
 		return allEvents;
 	}
 	
@@ -108,38 +110,39 @@ public class FileEventHandler {
 			writer.close();
 			return true;
 	
-		}catch(IOException e){
+		}catch(Exception e){
 			System.out.println("File cannot be written.\n");
 			return false;
 		}
 	}
 
 /*************************************************************************************/
-	
-/*****************************************************************************************/	
 
 	private ArrayList<Event> filterEventsToSpecificDate(String dateString) {
 		ArrayList<Event> eventBookByDate = new ArrayList<Event>();
-		Calendar date = Calendar.getInstance();
-		updateDate(date, dateString);
-		Calendar startDate, endDate;
 		
-		ArrayList<Event> eventBook;
-		if(date.before(todaysDate)){
-			eventBook = historyEvents;
-		}else{
-			eventBook = allEvents;
-		}
-		
-		for(Event event: eventBook){
-			startDate = (Calendar) event.getStartCalendar().clone();
-			endDate = (Calendar) event.getEndCalendar().clone();
-			setZeroTime(date);
-			setZeroTime(startDate);
-			setZeroTime(endDate);
+		if(dateString != null){
+			Calendar date = Calendar.getInstance();
+			updateDate(date, dateString);
+			Calendar startDate, endDate;
 			
-			if( date.equals(startDate) || date.equals(endDate) || (date.after(startDate) && date.before(endDate) ) ){
-				eventBookByDate.add(event);
+			ArrayList<Event> eventBook;
+			if(date.before(todaysDate)){
+				eventBook = historyEvents;
+			}else{
+				eventBook = allEvents;
+			}
+			
+			for(Event event: eventBook){
+				startDate = (Calendar) event.getStartCalendar().clone();
+				endDate = (Calendar) event.getEndCalendar().clone();
+				setZeroTime(date);
+				setZeroTime(startDate);
+				setZeroTime(endDate);
+				
+				if( date.equals(startDate) || date.equals(endDate) || (date.after(startDate) && date.before(endDate) ) ){
+					eventBookByDate.add(event);
+				}
 			}
 		}
 		return eventBookByDate;
@@ -152,7 +155,6 @@ public class FileEventHandler {
 		int counter = 0;
 		
 		for(Event event: allEvents){
-
 			if(event.getEndCalendar().before(todaysDate)){
 				historyEvents.add(event);
 				counter++;
@@ -204,6 +206,8 @@ public class FileEventHandler {
 			return eventBook;
 		}
 		catch (FileNotFoundException e) {
+			saveEventBook();
+			updateHistory();
 			return eventBook;
 		}catch (IOException e) {
 			return eventBook;
@@ -227,8 +231,12 @@ public class FileEventHandler {
 		date.set(Calendar.MILLISECOND, 0);
 	}
 	
-	private void sortEventsByDate(ArrayList<Event> eventBook){
-		Collections.sort(eventBook, new customComparator());
+	private boolean sortEventsByDate(ArrayList<Event> eventBook){
+		if(eventBook != null){
+			Collections.sort(eventBook, new CustomComparator());
+			return true;
+		}
+		return false;
 	}
 
 	private boolean updateDate(Calendar calendar, String dateString) {
@@ -247,7 +255,7 @@ public class FileEventHandler {
 	
 }
 
-class customComparator implements Comparator<Event>{
+class CustomComparator implements Comparator<Event>{
 	
 	Calendar startDate1, startDate2, endDate1, endDate2;
 	
