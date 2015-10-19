@@ -13,7 +13,10 @@ import org.junit.Test;
 import storage.FileTodoHandler;
 
 public class FileTodoHandlerTest {
-
+	
+	private static final String FLOATING_TODO = "Floating_Todo.txt";
+	private static final String NORMAL_TODO = "Normal_Todo.txt";
+	
 	private static String baseDirectory;
 	private static FileTodoHandler fTodoH;
 	
@@ -52,11 +55,8 @@ public class FileTodoHandlerTest {
 		testRetrieveAllTodo();
 		testRetrieveTodoByDate();
 		testRetrieveFloatingTodo();
-		testSaveToDoList();
-		testSaveUniversalToDoList();
+		testSaveChange();
 		testChangeDirectory();
-//		testSeparateTodoTypes();
-//		testSetNewDirectory();
 	}
 	
 //	@Test
@@ -105,33 +105,28 @@ public class FileTodoHandlerTest {
 	
 	public void testRetrieveAllTodo() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
+		expectedList.add(todo3);
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		expectedList.add(todo3);
+		expectedList.add(todo2);
 		expectedList.add(todo6);
 		expectedList.add(todo4);
-		expectedList.add(todo2);
 		expectedList.add(todo1);
 		
 		ArrayList<Todo> actualList = fTodoH.retrieveAllTodo();
 		
-//		assertEquals("Test retrieval of all todo", 
-//				expectedList, actualList);
-		
 		assertEquals("Test retrieval of all todo", 
 				true, compareTodoArrayList(expectedList, actualList));
-	}
-	
-	public void testSaveToDoList() {
-		assertEquals("Test saving", 
-				true, fTodoH.saveToDoList());
+		
+//		assertEquals("Test retrieval of all todo", 
+//				expectedList, actualList);
 	}
 
 	public void testRetrieveTodoByDate() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
+		expectedList.add(todo3);
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		expectedList.add(todo3);
 		
 		ArrayList<Todo> actualList = fTodoH.retrieveTodoByDate("20 oct 2000");
 		
@@ -170,8 +165,7 @@ public class FileTodoHandlerTest {
 		PreparationCleanUp.cleanUp(baseDirectory);
 		testSetNewDirectory();
 		PreparationCleanUp.makeNewDirectory(baseDirectory + "/Todo");
-		testSaveToDoList();
-		testSaveUniversalToDoList();
+		testSaveChange();
 		
 		fTodoH = new FileTodoHandler(baseDirectory + "/Todo");
 		testRetrieveAllTodo();
@@ -179,13 +173,12 @@ public class FileTodoHandlerTest {
 		testRetrieveFloatingTodo();
 	}
 	
-	public void testSaveUniversalToDoList() {
-		assertEquals("Test saving floating task", 
-				true, fTodoH.saveUniversalToDoList());
+	public void testSaveChange(){
+		assertEquals("Test saving floating task",
+				true, fTodoH.saveChange(FLOATING_TODO));
+		assertEquals("Test saving floating task",
+				true, fTodoH.saveChange(NORMAL_TODO));
 	}
-
-//	public void testSeparateTodoTypes() {
-//	}
 	
 	private boolean compareTodoArrayList(ArrayList<Todo> list1, ArrayList<Todo> list2){
 		

@@ -35,6 +35,9 @@ import object.Todo;
 
 public class FileHandler implements FileManager{
 	
+	private static final String FLOATING_TODO = "Floating_Todo.txt";
+	private static final String NORMAL_TODO = "Normal_Todo.txt";
+	
 	private static final String EVENT_OVERVIEWER = "overview.txt";
 	private static final String COUNTER = "Counter.txt";
 		
@@ -67,7 +70,7 @@ public class FileHandler implements FileManager{
 				
 	}
 	
-/********************************* Events ***add *************************************/
+/********************************* Events ****************************************/
 	
 	/**
 	 * Retrieves a specific events by date
@@ -143,7 +146,7 @@ public class FileHandler implements FileManager{
 	public boolean saveEditedTodoHandler() {
 		writeCounter();
 		fTodoH.separateTodoTypes();
-		return fTodoH.saveToDoList();
+		return fTodoH.saveChange(NORMAL_TODO);
 	}
 		
 	/**
@@ -151,7 +154,7 @@ public class FileHandler implements FileManager{
 	 */
 	public boolean saveAllEditedTodo(){
 		fTodoH.separateTodoTypes();
-		return fTodoH.saveToDoList() && fTodoH.saveUniversalToDoList();
+		return fTodoH.saveChange(NORMAL_TODO) && fTodoH.saveChange(FLOATING_TODO);
 	}
 	
 /******************************** Project **************************************/
@@ -285,10 +288,9 @@ public class FileHandler implements FileManager{
 	 */
 	public boolean saveAll(){
 		return fEventH.saveEventBook() &&
-				fTodoH.saveToDoList() &&
-				fTodoH.saveUniversalToDoList() &&
+				fTodoH.saveChange(NORMAL_TODO) &&
+				fTodoH.saveChange(FLOATING_TODO) &&
 				fProjH.writeAll() && writeCounter();
-				//TODO: Multi todo save & project save.
 	}
 	
 	/**

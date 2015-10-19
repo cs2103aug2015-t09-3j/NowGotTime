@@ -1,4 +1,6 @@
 package storage;
+import helper.CalendarHelper;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,7 +9,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -20,15 +21,11 @@ public class FileTodoHandler {
 	private static final String PARTIAL_TODO_TYPE = "partial";
 	private static final String COMPLETE_TODO_TYPE = "complete";
 	
-	private static final String UNIVERSAL_TODO = "Universal Todo.txt";
-	private static final String UPCOMING_TODO = "Upcoming Todo.txt";
+	private static final String FLOATING_TODO = "Floating_Todo.txt";
+	private static final String NORMAL_TODO = "Normal_Todo.txt";
 	private static final String TODO = "Todo";
 	
-	private static final String PATTERN_DATE = "dd MMM yyyy";
-	private static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
-	
 	private String baseDirectory;
-	private File inputFile;	
 	
 	private ArrayList<Todo> allTodo = new ArrayList<Todo>();
 	private ArrayList<Todo> allTodoClone = new ArrayList<Todo>();
@@ -42,10 +39,7 @@ public class FileTodoHandler {
 	}
 	
 	public ArrayList<Todo> retrieveTodoByDate(String date){
-		
-		ArrayList<Todo> toDoListByDate = filterTodoToSpecificDate(date);
-		
-		return toDoListByDate;
+		return filterTodoToSpecificDate(date);
 	}
 	
 	public ArrayList<Todo> retrieveFloatingTodo(){
@@ -54,12 +48,10 @@ public class FileTodoHandler {
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<Todo> retrieveAllTodo(){
-		
 		ArrayList<Todo> tempTodo = (ArrayList<Todo>) allTodo.clone();
 		ArrayList<Todo> tempUniversalTodo = (ArrayList<Todo>) universalTodo.clone();
 		
 		allTodoClone.clear();
-		
 		allTodoClone.addAll(tempTodo);
 		allTodoClone.addAll(tempUniversalTodo);
 		return allTodoClone;
@@ -68,18 +60,18 @@ public class FileTodoHandler {
 	public boolean saveNewTodoHandler(Todo todo){
 		if(todo.hasDate()){
 			allTodo.add(todo);
-			saveToDoList();
+			saveChange(NORMAL_TODO);
 		}
 		else{
-			saveAsUniversalTodo(todo);
+			universalTodo.add(todo);
+			saveChange(FLOATING_TODO);
 		}
 		return true;
 	}
 			
-	public boolean savingSavy(String type){
-		
+	public boolean saveChange(String type){
 		ArrayList<Todo> tempTodo;
-		if(type.equals(UPCOMING_TODO)){
+		if(type.equals(NORMAL_TODO)){
 			tempTodo = allTodo;
 		}else{
 			tempTodo = universalTodo;
@@ -89,56 +81,7 @@ public class FileTodoHandler {
 		
 	}
 	
-	public boolean saveToDoList(){
-		
-		sortTodoByDate(allTodo);
-		
-		try{
-			File outfile = new File(baseDirectory +  UPCOMING_TODO);
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
-			
-			for(Todo aTodo : allTodo){
-				writer.write(aTodo.getId() + ""); writer.newLine();
-				String todoType = determineType(aTodo);
-				writer.write(todoType); writer.newLine();
-				writer.write(aTodo.toString()); writer.newLine();
-			}
-			writer.close();
-			return true;
-	
-		}catch(IOException e){
-			e.printStackTrace();
-			System.out.println(baseDirectory +  UPCOMING_TODO);
-			System.out.println("File cannot be written.\n");
-			return false;
-		}
-	}
-	
-	public boolean saveUniversalToDoList(){
-		
-		sortTodoByDate(universalTodo);
-		
-		try{
-			File outfile = new File(baseDirectory +  UNIVERSAL_TODO);
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
-			
-			for(Todo aTodo : universalTodo){
-				writer.write(aTodo.getId() + ""); writer.newLine();
-				writer.write(aTodo.getName()); writer.newLine();
-			}
-			writer.close();
-			return true;
-	
-		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
-			return false;
-		}
-	}
-	
 	public boolean separateTodoTypes(){
-		
 		allTodo.clear();
 		universalTodo.clear();
 		for(Todo todo: allTodoClone){
@@ -148,9 +91,6 @@ public class FileTodoHandler {
 				universalTodo.add(todo);
 			}
 		}
-		
-		
-		
 		return true;
 	}
 	
@@ -175,15 +115,17 @@ public class FileTodoHandler {
 	}
 
 	private ArrayList<Todo> filterTodoToSpecificDate(String dateString) {
-		ArrayList<Todo> toDoListByDate = new ArrayList<Todo>();
-		Calendar todoDate;
-	
 		Calendar date = Calendar.getInstance();
-		updateDate(date, dateString);
+		try {
+			date = CalendarHelper.parseDate(dateString);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		setZeroTime(date);
 		
 		ArrayList<Todo> myTodo = allTodo;
-		
+		ArrayList<Todo> toDoListByDate = new ArrayList<Todo>();
+		Calendar todoDate;
 		for(Todo todo: myTodo){
 			todoDate = (Calendar) todo.getDeadline().clone();
 			setZeroTime(todoDate);
@@ -204,15 +146,13 @@ public class FileTodoHandler {
 		return type.equals(PARTIAL_TODO_TYPE);
 	}
 		
-	private boolean readTodoFile(String type){
-		
-		selectFileAsInputFile(baseDirectory + type);
-				
+	private boolean readTodoFile(){				
 		ArrayList<Todo> myTodo = new ArrayList<Todo>();
 		String todoName, todoDate, todoTime, addInfo, todoType, Id;
 		Todo todo;
 		
 		try {
+			File inputFile = new File(baseDirectory + NORMAL_TODO);
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			
 			Id = reader.readLine();
@@ -243,22 +183,22 @@ public class FileTodoHandler {
 			
 			reader.close();		 
 			return true;
-		}
-		catch (FileNotFoundException e) {
-			saveToDoList();
+		
+		}catch (FileNotFoundException e) {
+			saveChange(NORMAL_TODO);
 			return false;
+			
 		}catch (IOException e) {
 			return false;
 		}	
 	}
 	
-	private boolean readUniversalTodoFile(String type) {
-		
-		selectFileAsInputFile(baseDirectory + type);
+	private boolean readUniversalTodoFile() {
 		ArrayList<Todo> myUniversalTodo = new ArrayList<Todo>();
 		String todoName, addInfo, Id;
 		
 		try {
+			File inputFile = new File(baseDirectory + FLOATING_TODO);
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			String lineOfText;
 			
@@ -276,9 +216,8 @@ public class FileTodoHandler {
 						
 			reader.close();		 
 			return true;
-		}
-		catch (FileNotFoundException e) {
-			saveUniversalToDoList();
+		}catch (FileNotFoundException e) {
+			saveChange(FLOATING_TODO);
 			return false;
 		}catch (IOException e) {
 			return false;
@@ -286,18 +225,28 @@ public class FileTodoHandler {
 	}
 	
 	private boolean retrievePassedTasks(){
-		readTodoFile(UPCOMING_TODO);
-		readUniversalTodoFile(UNIVERSAL_TODO);
-		return true;
+		return readTodoFile() && readUniversalTodoFile();
 	}
+	
+	private void setZeroTime(Calendar date){
+		date.set(Calendar.HOUR_OF_DAY, 0);
+		date.set(Calendar.MINUTE, 0);
+		date.set(Calendar.SECOND, 0);
+		date.set(Calendar.MILLISECOND, 0);
+	}
+	
+	private void sortTodoByDate(ArrayList<Todo> toDoList){
+		if(!toDoList.isEmpty()){
+			Collections.sort(toDoList, new customTodoComparator());
+		}		
+	}	
 	
 	private boolean writeToFile(String type){
 		try{
 			File outfile = new File(baseDirectory +  type);
-			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
 			
-			if(type.equals(UPCOMING_TODO)){
+			if(type.equals(NORMAL_TODO)){
 				for(Todo aTodo : allTodo){
 					writer.write(aTodo.getId() + ""); writer.newLine();
 					String todoType = determineType(aTodo);
@@ -319,60 +268,6 @@ public class FileTodoHandler {
 			return false;
 		}
 	}
-	
-	private boolean saveAsUniversalTodo(Todo todo) {
-		
-		universalTodo.add(todo);
-		
-		try{
-			File outfile = new File(baseDirectory + UNIVERSAL_TODO);
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
-			
-			for(Todo aTodo : universalTodo){
-				writer.write(aTodo.getId() + ""); writer.newLine();
-				writer.write(aTodo.getName()); writer.newLine();
-			}
-			writer.close();
-			return true;
-	
-		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
-			return false;
-		}
-	}
-	
-	private void selectFileAsInputFile(String fileName){
-		inputFile = new File(fileName);
-	}
-	
-	private void setZeroTime(Calendar date){
-		date.set(Calendar.HOUR_OF_DAY, 0);
-		date.set(Calendar.MINUTE, 0);
-		date.set(Calendar.SECOND, 0);
-		date.set(Calendar.MILLISECOND, 0);
-	}
-	
-	private void sortTodoByDate(ArrayList<Todo> toDoList){
-		if(!toDoList.isEmpty()){
-			Collections.sort(toDoList, new customTodoComparator());
-		}		
-	}	
-	
-	//duplicate
-	private boolean updateDate(Calendar calendar, String dateString) {
-        try {
-            Calendar date = Calendar.getInstance();
-            date.setTime(FORMAT_DATE.parse(dateString));
-            
-            calendar.set(Calendar.DATE, date.get(Calendar.DATE));
-            calendar.set(Calendar.MONTH, date.get(Calendar.MONTH));
-            calendar.set(Calendar.YEAR, date.get(Calendar.YEAR));
-        } catch (ParseException e) {
-            return false;
-        }
-        return true;
-    }
 
 /***********************************************************************************************/
 	class customTodoComparator implements Comparator<Todo>{

@@ -1,4 +1,6 @@
 package storage;
+import helper.CalendarHelper;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,7 +9,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -16,15 +17,10 @@ import java.util.Comparator;
 import object.Event;
 
 public class FileEventHandler {
-	private static final String EVENTS = "Upcoming Events.txt";
+	private static final String EVENTS = "All_Events.txt";
 	private static final String EVENT = "Event";
 	
-	
-	private static final String PATTERN_DATE = "dd MMM yyyy";
-	private static final SimpleDateFormat FORMAT_DATE = new SimpleDateFormat(PATTERN_DATE);
-	
 	private String baseDirectory;
-	private File inputFile;
 	
 	private ArrayList<Event> allEvents = new ArrayList<Event>();
 	private ArrayList<Event> allEventsClone= new ArrayList<Event>();
@@ -34,11 +30,10 @@ public class FileEventHandler {
  	public FileEventHandler(String theBaseDirectory){
 		this.baseDirectory = theBaseDirectory.concat("/");
 		allEventsClone = allEvents;
-		allEvents = retrieveEvent(EVENTS);
+		allEvents = retrieveEvent();
 	}
 
 	public boolean saveNewEventHandler(Event event){
-		
 		if(event != null){
 			allEventsClone.add(event);
 			saveEventBook();
@@ -63,53 +58,49 @@ public class FileEventHandler {
 		return false;
 	}
 	
-	public ArrayList<Event> retrieveEventByDate(String date){
-		
-		return filterEventsToSpecificDate(date);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public ArrayList<Event> retrieveAllEvents(){
-		allEventsClone = (ArrayList<Event>) allEvents.clone();
-		
-		return allEventsClone;
-	}
-	
-/*************************************************************************************/
-
-	private ArrayList<Event> filterEventsToSpecificDate(String dateString) {
+	public ArrayList<Event> retrieveEventByDate(String dateString){
 		ArrayList<Event> eventBookByDate = new ArrayList<Event>();
 		
 		if(dateString != null){
 			Calendar date = Calendar.getInstance();
-			updateDate(date, dateString);
-			Calendar startDate, endDate;
+			setZeroTime(date);
+			try {
+				date = CalendarHelper.parseDate(dateString);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			
 			ArrayList<Event> eventBook = allEvents;
-			
+			Calendar startDate, endDate;
 			for(Event event: eventBook){
 				startDate = (Calendar) event.getStartCalendar().clone();
 				endDate = (Calendar) event.getEndCalendar().clone();
-				setZeroTime(date);
 				setZeroTime(startDate);
 				setZeroTime(endDate);
 				
-				if( date.equals(startDate) || date.equals(endDate) || (date.after(startDate) && date.before(endDate) ) ){
+				if( date.equals(startDate) || date.equals(endDate) || 
+						(date.after(startDate) && date.before(endDate) ) ){
 					eventBookByDate.add(event);
 				}
 			}
 		}
 		return eventBookByDate;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Event> retrieveAllEvents(){
+		allEventsClone = (ArrayList<Event>) allEvents.clone();
+		return allEventsClone;
+	}
+	
+/*************************************************************************************/
  	
-	private ArrayList<Event> retrieveEvent(String textFileName){
-		
-		selectFileAsInputFile(baseDirectory.concat(textFileName));
-		
+	private ArrayList<Event> retrieveEvent(){
 		ArrayList<Event> eventBook = new ArrayList<Event>();
 		String eventName, startDate, endDate, startTime, endTime, addInfo, ID;
 		
 		try {
+			File inputFile = new File(baseDirectory + EVENTS);
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			String lineOfText;
 			
@@ -129,18 +120,14 @@ public class FileEventHandler {
 			
 			reader.close();	
 			return eventBook;
-		}
-		catch (FileNotFoundException e) {
+			
+		}catch (FileNotFoundException e) {
 			saveEventBook();
 			return eventBook;
 		}catch (IOException e) {
 			return eventBook;
 		}
 
-	}
- 	
-	private void selectFileAsInputFile(String fileName){
-		inputFile = new File(fileName);
 	}
 	
 	private void setZeroTime(Calendar date){
@@ -157,31 +144,17 @@ public class FileEventHandler {
 		}
 		return false;
 	}
-
-	private boolean updateDate(Calendar calendar, String dateString) {
-        try {
-            Calendar date = Calendar.getInstance();
-            date.setTime(FORMAT_DATE.parse(dateString));
-            
-            calendar.set(Calendar.DATE, date.get(Calendar.DATE));
-            calendar.set(Calendar.MONTH, date.get(Calendar.MONTH));
-            calendar.set(Calendar.YEAR, date.get(Calendar.YEAR));
-        } catch (ParseException e) {
-            return false;
-        }
-        return true;
-    }
 	
 	private boolean writeToFile(){
 		try{
 			File outfile = new File(baseDirectory + EVENTS);
-			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
 			
 			for(Event anEvent : allEvents){
 				writer.write(anEvent.toString()); 
 				writer.newLine();
 			}
+			
 			writer.close();
 			return true;
 	
@@ -191,7 +164,6 @@ public class FileEventHandler {
 			return false;
 		}
 	}
-	
 }
 
 class CustomComparator implements Comparator<Event>{

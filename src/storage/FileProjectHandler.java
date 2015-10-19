@@ -91,16 +91,14 @@ public class FileProjectHandler {
 	 * there are no events in the project
 	 */
 	public ArrayList<Integer> retrieveProject(String name){
-		
-		String fileName = setFileName(name);
-		selectFileAsInputFile(baseDirectory + fileName);
-		
 		ArrayList<Integer> projectBook = new ArrayList<Integer>();
 		progressBook = new HashMap<Integer, String>();
+		String fileName = name + ".txt";
 		String addInfo;
 		int id;
 		
 		try{
+			File inputFile = new File(baseDirectory + fileName);
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			String lineOfText;
 			
@@ -128,6 +126,7 @@ public class FileProjectHandler {
 	 * and the value is the String of the progress details
 	 */
 	public HashMap<Integer, String> retrieveProjectProgress(){
+		//TODO: what if user call this first before retrieveProject.
 		return progressBook;
 	}
 	
@@ -150,8 +149,8 @@ public class FileProjectHandler {
 	 * @param projectName 
 	 * @return true if the project has been successfully saved, else return false.
 	 */
-	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, HashMap<Integer, String> progressBook, String projectName){
-		
+	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, 
+			HashMap<Integer, String> progressBook, String projectName){
 		try{
 			File outfile = new File(baseDirectory + projectName + ".txt");
 			
@@ -183,14 +182,12 @@ public class FileProjectHandler {
 	 * @param newBaseDirectory
 	 * @return true if directory has been updated, else return false
 	 */
-	public boolean setNewDirectory(String newBaseDirectory){
-		
+	public boolean setNewDirectory(String newBaseDirectory){	
 		if((newBaseDirectory != null) && new File(newBaseDirectory).exists()){
 			baseDirectory = newBaseDirectory.concat("/" + PROJECT + "/");
 			return true;
 		}
-		return false;
-		
+		return false;	
 	}
 	
 	/**
@@ -243,7 +240,6 @@ public class FileProjectHandler {
 	 * @return true when successful in creating the project file, else return false.
 	 */
 	private boolean createNewProjectFile(String textFileName){
-
 		try{
 			File newFile = new File(baseDirectory + textFileName + ".txt");
 				
@@ -285,14 +281,6 @@ public class FileProjectHandler {
 		}
 	}
 	
-	private void selectFileAsInputFile(String fileName){
-		inputFile = new File(fileName);
-	}
-
-	private String setFileName(String projectName){
-		return (projectName + ".txt");	
-	}
-	
 	/**
 	 * Save any changes in project files.
 	 * @return
@@ -317,7 +305,5 @@ public class FileProjectHandler {
 			// base directory is null
 			return false;
 		}
-		
 	}
-	
 }
