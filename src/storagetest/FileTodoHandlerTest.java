@@ -33,7 +33,7 @@ public class FileTodoHandlerTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		baseDirectory = System.getProperty("user.dir").toString() + "\\testFiles";
+		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
 		System.out.println("This is the base directory: \n" + baseDirectory);
 		
 		PreparationCleanUp.cleanUp(baseDirectory);

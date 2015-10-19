@@ -62,8 +62,11 @@ public class DirectoryHandler {
 	}
 	
 	public boolean setNewBaseDirectory(String theBaseDirectory){
-		baseDirectory = theBaseDirectory;
+		if(theBaseDirectory != null && (new File(theBaseDirectory).exists())){
+			baseDirectory = theBaseDirectory;
 		return atFirstStartUp();
+		}
+		return false;
 	}
 	
 /************************* Private class methods *****************************/
@@ -81,8 +84,7 @@ public class DirectoryHandler {
 	}
 	
 	//create directory if they are missing.
-	private boolean checkDirectories() {
-		
+	private boolean checkDirectories() {	
 		readOverviewFile();
 		
 		if( !(new File(todoPath)).exists() ){
@@ -102,11 +104,7 @@ public class DirectoryHandler {
 
 	private boolean overviewExist(){
 		File file = new File(OVERVIEW);
-		if(file.exists()){
-			return true;
-		}else{
-			return false;
-		}
+		return file.exists();
 	}
 	
 	//return String of directory path if created, else return null
@@ -124,7 +122,6 @@ public class DirectoryHandler {
 	}
 	
 	private boolean createOverviewTextFile(){
-		
 		try{
 			File outfile = new File(OVERVIEW);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
@@ -174,5 +171,4 @@ public class DirectoryHandler {
 			return false;
 		}		
 	}
-
 }
