@@ -38,6 +38,11 @@ public class Projects {
 		}
 		return false;
 		*/
+		ArrayList<String> checkExistingProject = new ArrayList<String>();
+		checkExistingProject = listExistingProjects();
+		if (newProjectName.equals(oldProjectName) || checkExistingProject.contains(oldProjectName)) {
+			return false;
+		}
 		
 		if (createProject(newProjectName)) {
 			if (pHandler.editProjectName(newProjectName.toLowerCase(), oldProjectName.toLowerCase())) {

@@ -52,9 +52,17 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public boolean editProjectName(String newProjectName, String oldProjectName) {
+		/*ArrayList<Integer> newProject = new ArrayList<Integer>();
+		newProject = project.retrieveProjectTimeLine(oldProjectName);
+		map = project.retrieveProjectProgress();
+		project.saveEditedProjectDetails(newProject, map, newProjectName);
+	 */
+		// ArrayList<Integer> newProject = new ArrayList<Integer>();
+		ArrayList<Integer> newProject = viewProjectTimeline(oldProjectName);
+		return project.saveEditedProjectDetails(newProject, map, newProjectName);
 		
+		// Can try: return project.saveEditedProjectDetails(viewProjectTimeline(oldProjectName), map, newProjectName);
 	}
-	
 	/*
 	@Override
 	public boolean deleteProjectEvent(String eventName, String projectName) {
