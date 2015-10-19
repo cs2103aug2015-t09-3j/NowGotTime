@@ -12,16 +12,15 @@ import object.Todo;
 import project.ProjectHandler;
 import service.ServiceHandler;
 
-public class CommandDeleteItem implements CommandDelete {
+public class CommandUncheck implements Command, Revertible {
 
+    public static final String KEYWORD = "check";
+    
     String itemKey = null;
     int itemIndex;
     Item item;
     
-    /**
-     * Parses the arguments for delete command
-     */
-    public CommandDeleteItem(String args) throws Exception {
+    public CommandUncheck(String args) throws Exception {
         Matcher matcher;
         
         if (Parser.matches(args,Parser.PATTERN_NAME)) {
@@ -31,28 +30,18 @@ public class CommandDeleteItem implements CommandDelete {
             matcher = Parser.matchRegex(args, Parser.PATTERN_INTEGER);
             itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
         } else {
-            assert(false);
+            // undo command accepts no arguments
+            throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandCheck.KEYWORD));
         }
     }
     
-    /**
-     * Constructs command from specified Item object
-     */
-    public CommandDeleteItem(Item item) {
+    public CommandUncheck(Item item) {
         this.item = item;
     }
-    
-    
-    public String getItemKey() {
-        return itemKey;
-    }
-    
-    /**
-     * Executes delete command, returns feedback string
-     */
+
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
-        
+    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
+            throws Exception {
         if (item == null) {
             if (itemKey == null) {
                 item = serviceHandler.viewItemByIndex(itemIndex);
@@ -72,18 +61,18 @@ public class CommandDeleteItem implements CommandDelete {
             }
         }
         
-        serviceHandler.deleteItem(item);
-        return String.format(CommonHelper.SUCCESS_ITEM_DELETED, item.getName());
+        // TODO: serviceHandler.uncheckItem(item);
+        return String.format(CommonHelper.SUCCESS_ITEM_UNCHECKED, item.getName());
+    }
+    
+
+    @Override
+    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
+            throws Exception {
+        CommandCheck commandCheck = new CommandCheck(item);
+        return commandCheck.execute(serviceHandler, projectHandler, historyList);
     }
 
-    /**
-     * Re-add the deleted command
-     */
-    @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
-        Revertible revertDeleteCommand = new CommandAddItem(item);
-        return revertDeleteCommand.revert(serviceHandler, projectHandler, historyList);
-    }
 
     @Override
     public Displayable getDisplayable() {

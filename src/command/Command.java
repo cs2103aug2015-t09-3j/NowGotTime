@@ -36,6 +36,12 @@ public interface Command {
             case "search":
                 command = CommandSearch.parseCommandSearch(arguments);
                 break;
+            case "check":
+                command = new CommandCheck(arguments);
+                break;
+            case "uncheck":
+                command = new CommandUncheck(arguments);
+                break;
             case "exit":
                 command = new CommandExit(arguments);
                 break;

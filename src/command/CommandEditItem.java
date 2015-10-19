@@ -154,6 +154,7 @@ public class CommandEditItem implements CommandEdit {
     @Override
     public Displayable getDisplayable() {
         if (item == null) {
+            // TODO Refactor this
             return new CommandSearch("\"" + itemKey + "\"");
         }
         else {
