@@ -8,6 +8,7 @@ import command.CommandExit;
 import command.Revertible;
 import helper.CommonHelper;
 import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 
 public class CLI {
@@ -16,13 +17,13 @@ public class CLI {
     private boolean shouldExit;
     
     private ServiceHandler serviceHandler = null;
-    private ProjectHandler projectHandler = null;
+    private Projects projectHandler = null;
     private Stack<Revertible> historyList;
     
     public CLI() {
         stdin = new Scanner(System.in);
         serviceHandler = new ServiceHandler();
-        projectHandler = new ProjectHandler();
+        projectHandler = new Projects();
         historyList = new Stack<Revertible>();
         shouldExit = false;
     }

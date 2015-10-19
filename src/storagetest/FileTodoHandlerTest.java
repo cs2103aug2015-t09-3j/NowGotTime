@@ -159,7 +159,7 @@ public class FileTodoHandlerTest {
 		assertEquals("Test if new directory does not exist",
 				false, fTodoH.setNewDirectory(newBaseDirectory));
 		
-		newBaseDirectory = System.getProperty("user.dir").toString() + "\\alternateTestFiles";
+		newBaseDirectory = System.getProperty("user.dir").toString() + "/alternateTestFiles";
 		PreparationCleanUp.makeNewDirectory(newBaseDirectory);
 		assertEquals("Test with valid new directory",
 				true, fTodoH.setNewDirectory(newBaseDirectory));
@@ -169,11 +169,11 @@ public class FileTodoHandlerTest {
 	public void testChangeDirectory(){
 		PreparationCleanUp.cleanUp(baseDirectory);
 		testSetNewDirectory();
-		PreparationCleanUp.makeNewDirectory(baseDirectory + "\\Todo");
+		PreparationCleanUp.makeNewDirectory(baseDirectory + "/Todo");
 		testSaveToDoList();
 		testSaveUniversalToDoList();
 		
-		fTodoH = new FileTodoHandler(baseDirectory + "\\Todo");
+		fTodoH = new FileTodoHandler(baseDirectory + "/Todo");
 		testRetrieveAllTodo();
 		testRetrieveTodoByDate();
 		testRetrieveFloatingTodo();

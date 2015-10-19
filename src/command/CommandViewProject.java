@@ -5,7 +5,7 @@ import java.util.regex.Matcher;
 
 import helper.Parser;
 import javafx.scene.layout.GridPane;
-import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 
 public class CommandViewProject implements CommandView {
@@ -18,7 +18,7 @@ public class CommandViewProject implements CommandView {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
         // TODO Auto-generated method stub
         return null;

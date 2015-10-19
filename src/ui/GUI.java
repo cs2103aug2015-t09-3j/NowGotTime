@@ -25,6 +25,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 
 import java.util.Calendar;
@@ -49,7 +50,7 @@ public class GUI extends Application {
     TextField prompt;
     
     private ServiceHandler serviceHandler = null;
-    private ProjectHandler projectHandler = null;
+    private Projects projectHandler = null;
     private Stack<Revertible> historyList;
     
     private static String CSS_SUCCESS = "-fx-background-color: #5cb85c; -fx-background-radius: 3;";
@@ -232,7 +233,7 @@ public class GUI extends Application {
     
     private void configureHandler() {
         serviceHandler = new ServiceHandler();
-        projectHandler = new ProjectHandler();
+        projectHandler = new Projects();
         historyList = new Stack<Revertible>();
     }
     

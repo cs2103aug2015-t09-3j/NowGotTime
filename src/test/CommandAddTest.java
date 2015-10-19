@@ -70,21 +70,21 @@ public class CommandAddTest extends CommandTest {
     @Test
     public void testCanParseEvent() {
         // Can parse valid format
-        testParseEvent("\"eat again!\" on 21 September 2015 10:00 to 22 September 2015 23:00",
-                "eat again!", "21 Sep 2015", "10:00", "22 Sep 2015", "23:00");
+        testParseEvent("\"eat again!\" on 21 September 2016 10:00 to 22 September 2016 23:00",
+                "eat again!", "21 Sep 2016", "10:00", "22 Sep 2016", "23:00");
         // Can parse valid format with whitespace
-        testParseEvent("  \"eat again!\"  on  21 September 2015 10:00 to  22 September 2015 23:00  ",
-                "eat again!", "21 Sep 2015", "10:00", "22 Sep 2015", "23:00");   
+        testParseEvent("  \"eat again!\"  on  21 September 2016 10:00 to  22 September 2016 23:00  ",
+                "eat again!", "21 Sep 2016", "10:00", "22 Sep 2016", "23:00");   
     }
     
     @Test
     public void testCanParseTodo() {
         // Can parse valid format
-        testParseTodo("\"eat again\" on 21 September 2015 10:00",
-                "eat again", "21 Sep 2015", "10:00");
+        testParseTodo("\"eat again\" on 21 September 2016 10:00",
+                "eat again", "21 Sep 2016", "10:00");
         // Can parse valid format with whitespace
-        testParseTodo("  \"eat again\"   on   21 September 2015 10:00  ",
-                "eat again", "21 Sep 2015", "10:00");
+        testParseTodo("  \"eat again\"   on   21 September 2016 10:00  ",
+                "eat again", "21 Sep 2016", "10:00");
     }
     
     @Test
@@ -102,8 +102,8 @@ public class CommandAddTest extends CommandTest {
     @Test
     public void testCanAddEvent() throws Exception {
         String name = "eat again";
-        String startDateTime = "21 Sep 2015 10:00";
-        String endDateTime = "22 Sep 2015 23:00";
+        String startDateTime = "21 Sep 2016 10:00";
+        String endDateTime = "22 Sep 2016 23:00";
         Event event = new Event(name, startDateTime, endDateTime);
         CommandAddItem command = new CommandAddItem(event);
         String feedback = command.execute(service, project, history);
@@ -117,7 +117,7 @@ public class CommandAddTest extends CommandTest {
     @Test
     public void testCanAddTodo() throws Exception {
         String name = "eat again";
-        String deadlineDateTime = "21 Sep 2015 10:00";
+        String deadlineDateTime = "21 Sep 2016 10:00";
         Todo todo = new Todo(name, deadlineDateTime);
         CommandAddItem command = new CommandAddItem(todo);
         String feedback = command.execute(service, project, history);

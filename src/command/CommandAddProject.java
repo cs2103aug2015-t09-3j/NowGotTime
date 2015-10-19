@@ -3,14 +3,16 @@ package command;
 import java.util.Stack;
 import java.util.regex.Matcher;
 
+import helper.CommonHelper;
 import helper.Parser;
-import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 
 public class CommandAddProject implements CommandAdd {
 
     String projectName;
     
+    // TODO: allow args without "" 
     public CommandAddProject(String args) {
         
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_PROJECT);
@@ -18,22 +20,25 @@ public class CommandAddProject implements CommandAdd {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        if (projectHandler.createProject(projectName)) {
+            return String.format(CommonHelper.SUCCESS_PROJECT_CREATED, projectName);
+        } else {
+            throw new Exception(CommonHelper.ERROR_DUPLICATE_PROJECT);
+        }
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        CommandDeleteProject commandDeleteProject = new CommandDeleteProject(projectName);
+        return commandDeleteProject.execute(serviceHandler, projectHandler, historyList);
     }
 
     @Override
     public Displayable getDisplayable() {
-        // TODO Auto-generated method stub
+        // TODO what to show ?
         return null;
     }
 

@@ -9,7 +9,7 @@ import helper.Parser;
 import object.Event;
 import object.Item;
 import object.Todo;
-import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 
 public class CommandCheck implements Command, Revertible {
@@ -40,7 +40,7 @@ public class CommandCheck implements Command, Revertible {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
         
         if (item == null) {
@@ -67,7 +67,7 @@ public class CommandCheck implements Command, Revertible {
     }
     
     @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
         CommandUncheck commandUncheck = new CommandUncheck(item);
         return commandUncheck.execute(serviceHandler, projectHandler, historyList);

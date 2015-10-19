@@ -4,7 +4,7 @@ import java.util.Stack;
 
 import helper.CommonHelper;
 import helper.Parser;
-import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 
 public class CommandExit implements Command {
@@ -28,7 +28,7 @@ public class CommandExit implements Command {
      * Executes edit command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
         // return empty string
         // TODO exit gui
         return "";

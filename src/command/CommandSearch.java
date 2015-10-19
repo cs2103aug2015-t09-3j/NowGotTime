@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Stack;
 import java.util.regex.Matcher;
 
-import project.ProjectHandler;
 import service.ServiceHandler;
 import ui.GUI;
 import ui.Main;
@@ -18,6 +17,7 @@ import javafx.scene.text.Text;
 import object.Event;
 import object.Item;
 import object.Todo;
+import project.Projects;
 
 public class CommandSearch implements Command, Displayable {
 
@@ -52,7 +52,7 @@ public class CommandSearch implements Command, Displayable {
     }
     
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
         
         filteredItem = serviceHandler.search(itemKey);

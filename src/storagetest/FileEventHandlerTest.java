@@ -87,11 +87,11 @@ public class FileEventHandlerTest {
 	public void testChangeDirectory(){
 		PreparationCleanUp.cleanUp(baseDirectory);
 		testSetNewDirectory();
-		PreparationCleanUp.makeNewDirectory(baseDirectory + "\\Event");
+		PreparationCleanUp.makeNewDirectory(baseDirectory + "/Event");
 		fEventH.saveEventBook();
 		
 		//reset
-		fEventH = new FileEventHandler(baseDirectory + "\\Event");
+		fEventH = new FileEventHandler(baseDirectory + "/Event");
 		testRetrieveEventByDate();
 		testRetrieveAllEvents();
 	}
@@ -105,7 +105,7 @@ public class FileEventHandlerTest {
 		assertEquals("Test if new directory does not exist",
 				false, fEventH.setNewDirectory(newBaseDirectory));
 		
-		newBaseDirectory = System.getProperty("user.dir").toString() + "\\alternateTestFiles";
+		newBaseDirectory = System.getProperty("user.dir").toString() + "/alternateTestFiles";
 		PreparationCleanUp.makeNewDirectory(newBaseDirectory);
 		assertEquals("Test with valid new directory",
 				true, fEventH.setNewDirectory(newBaseDirectory));
@@ -128,7 +128,8 @@ public class FileEventHandlerTest {
 				true, compareEventsArrayList(expectedList, fEventH.retrieveAllEvents()));
 		
 	}
-
+	
+	//temp comparators
 	public static boolean compareEvents(Event event1, Event event2){
 		return ( event1.getId() == event2.getId() ) &&
 				( event1.getName().equals( event2.getName() ) ) &&

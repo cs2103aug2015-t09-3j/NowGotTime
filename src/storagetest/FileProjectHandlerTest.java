@@ -14,13 +14,13 @@ import storage.FileProjectHandler;
 
 public class FileProjectHandlerTest {
 	
-	private static final String PROJECT_OVERVIEWER = "\\projectOverviewer.txt";
+	private static final String PROJECT_OVERVIEWER = "/projectOverviewer.txt";
 	private static String baseDirectory;
 	private static FileProjectHandler fProjH;	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		baseDirectory = System.getProperty("user.dir").toString() + "\\testFiles";
+		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
 		System.out.println("This is the base directory: \n" + baseDirectory);
 		
 		PreparationCleanUp.cleanUp(baseDirectory);
@@ -162,11 +162,12 @@ public class FileProjectHandlerTest {
 		assertEquals("Test if new directory does not exist",
 				false, fProjH.setNewDirectory(newBaseDirectory));
 		
-		newBaseDirectory = System.getProperty("user.dir").toString() + "\\alternateTestFiles";
+		newBaseDirectory = System.getProperty("user.dir").toString() + "/alternateTestFiles";
 		PreparationCleanUp.makeNewDirectory(newBaseDirectory);
 		assertEquals("Test with valid new directory",
 				true, fProjH.setNewDirectory(newBaseDirectory));
 		baseDirectory = newBaseDirectory;
+
 	}
 
 	public void testReadAll() {
@@ -183,11 +184,11 @@ public class FileProjectHandlerTest {
 		testReadAll();
 		PreparationCleanUp.cleanUp(baseDirectory);
 		testSetNewDirectory();
-		PreparationCleanUp.makeNewDirectory(baseDirectory + "\\Project");
+		PreparationCleanUp.makeNewDirectory(baseDirectory + "/Project");
 		testWriteAll();
 		
 		//re-test retrieval
-		fProjH = new FileProjectHandler(baseDirectory + "\\Project");
+		fProjH = new FileProjectHandler(baseDirectory + "/Project");
 		testRetrieveProject();
 		testRetrieveProjectProgress();
 		testGetListOfExistingProjects();
