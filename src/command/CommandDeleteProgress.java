@@ -3,6 +3,7 @@ package command;
 import java.util.Stack;
 import java.util.regex.Matcher;
 
+import helper.CommonHelper;
 import helper.Parser;
 import project.Projects;
 import service.ServiceHandler;
@@ -22,20 +23,24 @@ public class CommandDeleteProgress implements CommandDelete {
     @Override
     public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        if (projectHandler.deleteProject(projectName)) {
+            return String.format(CommonHelper.SUCCESS_PROJECT_DELETED, projectName);
+        } else {
+            throw new Exception(CommonHelper.ERROR_PROJECT_NOT_FOUND);
+        }
     }
 
     @Override
     public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        // TODO Add all previous events to project
+        CommandAddProject commandAddProject = new CommandAddProject("\"" + projectName + "\"");
+        return commandAddProject.execute(serviceHandler, projectHandler, historyList);
     }
 
     @Override
     public Displayable getDisplayable() {
-        // TODO Auto-generated method stub
+        // TODO what to show
         return null;
     }
 
