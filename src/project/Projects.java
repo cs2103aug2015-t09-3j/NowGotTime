@@ -171,4 +171,11 @@ public class Projects {
 		}
 		return searchedNames;
 	}
+	
+	public double progressBar(String projectName) {
+		if (listExistingProjects().contains(projectName)) {
+			return pHandler.progressBar(projectName);
+		}
+		return -1;
+	}
 }

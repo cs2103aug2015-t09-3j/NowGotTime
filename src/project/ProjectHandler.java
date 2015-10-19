@@ -274,6 +274,7 @@ public class ProjectHandler implements ProjectManager{
 		projectBook = newProjectBook;
 	}
 	
+	@Override
 	public double progressBar(String projectName) {
 		ArrayList<Integer> projectIdTimeline = viewProjectTimeline(projectName);
 		// ArrayList<Event> projectEventTimeline = new ArrayList<Event>();
