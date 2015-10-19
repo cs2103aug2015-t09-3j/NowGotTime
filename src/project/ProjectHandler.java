@@ -274,6 +274,36 @@ public class ProjectHandler implements ProjectManager{
 		projectBook = newProjectBook;
 	}
 	
+	public double progressBar(String projectName) {
+		ArrayList<Integer> projectIdTimeline = viewProjectTimeline(projectName);
+		// ArrayList<Event> projectEventTimeline = new ArrayList<Event>();
+		int totalEvents = projectIdTimeline.size();
+		int eventsDone = 0;
+		double percentageDone = 0;
+		
+		for (int id : projectIdTimeline) {
+			Event event = project.retrieveEventById(id);
+			if (event.getDone()) {
+				eventsDone++;
+			}
+		}
+		
+		/* for (int id : projectIdTimeline) {
+			Event event = project.retrieveEventById(id);
+			projectEventTimeline.add(event);
+		}
+		
+		for (Event event : projectEventTimeline) {
+			if (event.getDone()) {
+				eventsDone++;
+			}
+		} */
+		
+		percentageDone = (eventsDone/totalEvents)*100;
+		
+		return percentageDone;
+	}
+	
 	/*
 	 -Progress bar function, show % completed.
 	*/
