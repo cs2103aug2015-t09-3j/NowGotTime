@@ -50,6 +50,11 @@ public class ProjectHandler implements ProjectManager{
 		} return false;
 	}
 	
+	@Override
+	public boolean editProjectName(String newProjectName, String oldProjectName) {
+		
+	}
+	
 	/*
 	@Override
 	public boolean deleteProjectEvent(String eventName, String projectName) {

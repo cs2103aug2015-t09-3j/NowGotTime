@@ -31,6 +31,29 @@ public class Projects {
 		return project.deleteProject(projectName.toLowerCase());
 	}
 	
+	public boolean editProjectName(String newProjectName, String oldProjectName) {
+		/*if (createProject(newProjectName) && pHandler.editProjectName(newProjectName.toLowerCase(), oldProjectName.toLowerCase())
+				&& deleteProject(oldProjectName)) {
+				return true;
+		}
+		return false;
+		*/
+		
+		if (createProject(newProjectName)) {
+			if (pHandler.editProjectName(newProjectName.toLowerCase(), oldProjectName.toLowerCase())) {
+				if (deleteProject(oldProjectName)) {
+					return true;
+				} else {
+					deleteProject(newProjectName);
+				}
+			} else {
+				deleteProject(newProjectName);
+			}
+		} 
+		return false;
+			
+	}
+	
 	/**
 	 * View an ArrayList of existing Projects
 	 */
