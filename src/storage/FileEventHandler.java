@@ -17,7 +17,6 @@ import object.Event;
 
 public class FileEventHandler {
 	private static final String EVENTS = "Upcoming Events.txt";
-	private static final String HISTORY = "History.txt";
 	private static final String EVENT = "Event";
 	
 	
@@ -28,28 +27,20 @@ public class FileEventHandler {
 	private File inputFile;
 	
 	private ArrayList<Event> allEvents = new ArrayList<Event>();
-	private ArrayList<Event> historyEvents = new ArrayList<Event>();
-	
-	private Calendar todaysDate;
+	private ArrayList<Event> allEventsClone= new ArrayList<Event>();
 	
 /*****************************************************************************************/		
 
  	public FileEventHandler(String theBaseDirectory){
 		this.baseDirectory = theBaseDirectory.concat("/");
+		allEventsClone = allEvents;
 		allEvents = retrieveEvent(EVENTS);
-		retrievePassedEvents();
-		pushPassedEventsToHistoryFile();
 	}
 
 	public boolean saveNewEventHandler(Event event){
 		
 		if(event != null){
-			allEvents.add(event);
-		
-			if(event.getEndCalendar().before(todaysDate)){
-				sortEventsByDate(allEvents);
-				pushPassedEventsToHistoryFile();
-			}
+			allEventsClone.add(event);
 			saveEventBook();
 			return true;
 		}
@@ -57,26 +48,11 @@ public class FileEventHandler {
 	}
 			
 	public boolean saveEventBook(){
-		
-		sortEventsByDate(allEvents);
-		
-		try{
-			File outfile = new File(baseDirectory + EVENTS);
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
-
-			for(Event anEvent : allEvents){
-				writer.write(anEvent.toString()); 
-				writer.newLine();
-			}
-			writer.close();
-			return true;
-	
-		}catch(IOException e){
-			System.out.println("File cannot be written.\n" + e.getMessage());
-			return false;
+		if(allEvents != allEventsClone){
+			allEvents = allEventsClone;
 		}
-		
+		sortEventsByDate(allEvents);
+		return writeToFile();
 	}
 	
 	public boolean setNewDirectory(String newBaseDirectory){
@@ -92,30 +68,13 @@ public class FileEventHandler {
 		return filterEventsToSpecificDate(date);
 	}
 	
-	public ArrayList<Event> retrieveEventsToDelete(){
-		return allEvents;
+	@SuppressWarnings("unchecked")
+	public ArrayList<Event> retrieveAllEvents(){
+		allEventsClone = (ArrayList<Event>) allEvents.clone();
+		
+		return allEventsClone;
 	}
 	
-	public boolean updateHistory(){
-		sortEventsByDate(historyEvents);
-		try{
-			File outfile = new File(baseDirectory + HISTORY);
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
-			
-			for(Event anEvent : historyEvents){
-				writer.write(anEvent.toString()); 
-				writer.newLine();
-			}
-			writer.close();
-			return true;
-	
-		}catch(Exception e){
-			System.out.println("File cannot be written.\n");
-			return false;
-		}
-	}
-
 /*************************************************************************************/
 
 	private ArrayList<Event> filterEventsToSpecificDate(String dateString) {
@@ -126,12 +85,7 @@ public class FileEventHandler {
 			updateDate(date, dateString);
 			Calendar startDate, endDate;
 			
-			ArrayList<Event> eventBook;
-			if(date.before(todaysDate)){
-				eventBook = historyEvents;
-			}else{
-				eventBook = allEvents;
-			}
+			ArrayList<Event> eventBook = allEvents;
 			
 			for(Event event: eventBook){
 				startDate = (Calendar) event.getStartCalendar().clone();
@@ -146,35 +100,6 @@ public class FileEventHandler {
 			}
 		}
 		return eventBookByDate;
-	}
-	
-	private boolean pushPassedEventsToHistoryFile(){
-		todaysDate = Calendar.getInstance();
-		setZeroTime(todaysDate);
-		boolean allEventsValid = true;
-		int counter = 0;
-		
-		for(Event event: allEvents){
-			if(event.getEndCalendar().before(todaysDate)){
-				historyEvents.add(event);
-				counter++;
-				allEventsValid = false;
-			}else{
-				break;
-			}
-		}
-		
-		if(allEventsValid){
-			return false;
-		}else{
-			for(int i=0; i<counter; i++){
-				allEvents.remove(0);
-			}
-			saveEventBook();
-			updateHistory();
-			return true;
-		}
-		
 	}
  	
 	private ArrayList<Event> retrieveEvent(String textFileName){
@@ -207,17 +132,11 @@ public class FileEventHandler {
 		}
 		catch (FileNotFoundException e) {
 			saveEventBook();
-			updateHistory();
 			return eventBook;
 		}catch (IOException e) {
 			return eventBook;
 		}
 
-	}
- 	
- 	private boolean retrievePassedEvents(){
-		historyEvents = retrieveEvent(HISTORY);
-		return true;
 	}
  	
 	private void selectFileAsInputFile(String fileName){
@@ -252,6 +171,26 @@ public class FileEventHandler {
         }
         return true;
     }
+	
+	private boolean writeToFile(){
+		try{
+			File outfile = new File(baseDirectory + EVENTS);
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
+			
+			for(Event anEvent : allEvents){
+				writer.write(anEvent.toString()); 
+				writer.newLine();
+			}
+			writer.close();
+			return true;
+	
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("File cannot be written.\n");
+			return false;
+		}
+	}
 	
 }
 

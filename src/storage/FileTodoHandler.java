@@ -22,8 +22,6 @@ public class FileTodoHandler {
 	
 	private static final String UNIVERSAL_TODO = "Universal Todo.txt";
 	private static final String UPCOMING_TODO = "Upcoming Todo.txt";
-	private static final String PAST_TODO = "Past Todo.txt";
-	private static final String PAST_UNIVERSAL_TODO = "Past Universal Todo.txt";
 	private static final String TODO = "Todo";
 	
 	private static final String PATTERN_DATE = "dd MMM yyyy";
@@ -35,20 +33,12 @@ public class FileTodoHandler {
 	private ArrayList<Todo> allTodo = new ArrayList<Todo>();
 	private ArrayList<Todo> allTodoClone = new ArrayList<Todo>();
 	private ArrayList<Todo> universalTodo = new ArrayList<Todo>();
-	private ArrayList<Todo> todoHistory = new ArrayList<Todo>();
-	private ArrayList<Todo> universalTodoHistory = new ArrayList<Todo>();
-	
-	ArrayList<Todo> tempTodo;
-	ArrayList<Todo> tempUniversalTodo;
-	
-	private Calendar todaysDate;
 	
 /********************************** Public method for users *****************************************/		
 	
 	public FileTodoHandler(String baseDirectory){
 		this.baseDirectory = baseDirectory.concat("/");
 		retrievePassedTasks();
-		pushPassedTodoToHistoryFile();
 	}
 	
 	public ArrayList<Todo> retrieveTodoByDate(String date){
@@ -63,7 +53,7 @@ public class FileTodoHandler {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<Todo> retrieveTodoToDelete(){
+	public ArrayList<Todo> retrieveAllTodo(){
 		
 		ArrayList<Todo> tempTodo = (ArrayList<Todo>) allTodo.clone();
 		ArrayList<Todo> tempUniversalTodo = (ArrayList<Todo>) universalTodo.clone();
@@ -86,6 +76,19 @@ public class FileTodoHandler {
 		return true;
 	}
 			
+	public boolean savingSavy(String type){
+		
+		ArrayList<Todo> tempTodo;
+		if(type.equals(UPCOMING_TODO)){
+			tempTodo = allTodo;
+		}else{
+			tempTodo = universalTodo;
+		}
+		sortTodoByDate(tempTodo);
+		return writeToFile(type);
+		
+	}
+	
 	public boolean saveToDoList(){
 		
 		sortTodoByDate(allTodo);
@@ -105,6 +108,8 @@ public class FileTodoHandler {
 			return true;
 	
 		}catch(IOException e){
+			e.printStackTrace();
+			System.out.println(baseDirectory +  UPCOMING_TODO);
 			System.out.println("File cannot be written.\n");
 			return false;
 		}
@@ -134,10 +139,6 @@ public class FileTodoHandler {
 	
 	public boolean separateTodoTypes(){
 		
-//		allTodo = tempTodo;
-//		universalTodo = tempUniversalTodo;
-//		return true;
-		
 		allTodo.clear();
 		universalTodo.clear();
 		for(Todo todo: allTodoClone){
@@ -154,31 +155,11 @@ public class FileTodoHandler {
 	}
 	
 	public boolean setNewDirectory(String newBaseDirectory){
-		baseDirectory = newBaseDirectory.concat("/" + TODO + "/");
-		return true;
-	}
-	
-	public boolean updateHistory(){
-		sortTodoByDate(todoHistory);
-		System.out.println("herere");
-		try{
-			File outfile = new File(baseDirectory +  PAST_TODO);
-			
-			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
-			
-			for(Todo aTodo : todoHistory){
-				writer.write(aTodo.getId() + ""); writer.newLine();
-				String todoType = determineType(aTodo);
-				writer.write(todoType); writer.newLine();
-				writer.write(aTodo.toString()); writer.newLine();
-			}
-			writer.close();
+		if((newBaseDirectory != null) && (new File(newBaseDirectory).exists())){
+			baseDirectory = newBaseDirectory.concat("/" + TODO + "/");
 			return true;
-	
-		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
-			return false;
 		}
+		return false;
 	}
 	
 /***************************** Private methods sorted alphabetically ********************************/	
@@ -201,13 +182,7 @@ public class FileTodoHandler {
 		updateDate(date, dateString);
 		setZeroTime(date);
 		
-		ArrayList<Todo> myTodo;
-		
-		if(date.before(todaysDate)){
-			myTodo = todoHistory;
-		}else{
-			myTodo = allTodo;
-		}
+		ArrayList<Todo> myTodo = allTodo;
 		
 		for(Todo todo: myTodo){
 			todoDate = (Calendar) todo.getDeadline().clone();
@@ -228,37 +203,7 @@ public class FileTodoHandler {
 	private boolean isPartialType(String type){
 		return type.equals(PARTIAL_TODO_TYPE);
 	}
-	
-	private boolean pushPassedTodoToHistoryFile(){
-		todaysDate = Calendar.getInstance();
-		setZeroTime(todaysDate);
-		boolean allTodoValid = true;
-		int counter = 0;
 		
-		for(Todo todo: allTodo){
-
-			if(todo.getDeadline().before(todaysDate)){
-				todoHistory.add(todo);
-				counter++;
-				allTodoValid = false;
-			}else{
-				break;
-			}
-		}
-		
-		if(allTodoValid){
-			return false;
-		}else{
-			for(int i=0; i<counter; i++){
-				allTodo.remove(0);
-			}
-			saveToDoList();
-			updateHistory();
-			return true;
-		}
-		
-	}
-	
 	private boolean readTodoFile(String type){
 		
 		selectFileAsInputFile(baseDirectory + type);
@@ -294,16 +239,13 @@ public class FileTodoHandler {
 				Id = reader.readLine();
 			}
 			
-			if(type.equals(UPCOMING_TODO)){
-				allTodo = myTodo;
-			}else if(type.equals(PAST_TODO)){
-				todoHistory = myTodo;
-			}
+			allTodo = myTodo;
 			
 			reader.close();		 
 			return true;
 		}
 		catch (FileNotFoundException e) {
+			saveToDoList();
 			return false;
 		}catch (IOException e) {
 			return false;
@@ -330,16 +272,13 @@ public class FileTodoHandler {
 				
 			}
 			
-			if(type.equals(UNIVERSAL_TODO)){
-				universalTodo = myUniversalTodo;
-			}else if(type.equals(PAST_UNIVERSAL_TODO)){
-				universalTodoHistory = myUniversalTodo;
-			}
-			
+			universalTodo = myUniversalTodo;
+						
 			reader.close();		 
 			return true;
 		}
 		catch (FileNotFoundException e) {
+			saveUniversalToDoList();
 			return false;
 		}catch (IOException e) {
 			return false;
@@ -348,10 +287,37 @@ public class FileTodoHandler {
 	
 	private boolean retrievePassedTasks(){
 		readTodoFile(UPCOMING_TODO);
-		readTodoFile(PAST_TODO);
 		readUniversalTodoFile(UNIVERSAL_TODO);
-		readUniversalTodoFile(PAST_UNIVERSAL_TODO);
 		return true;
+	}
+	
+	private boolean writeToFile(String type){
+		try{
+			File outfile = new File(baseDirectory +  type);
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	
+			
+			if(type.equals(UPCOMING_TODO)){
+				for(Todo aTodo : allTodo){
+					writer.write(aTodo.getId() + ""); writer.newLine();
+					String todoType = determineType(aTodo);
+					writer.write(todoType); writer.newLine();
+					writer.write(aTodo.toString()); writer.newLine();
+				}
+			}else{
+				for(Todo aTodo : universalTodo){
+					writer.write(aTodo.getId() + ""); writer.newLine();
+					writer.write(aTodo.getName()); writer.newLine();
+				}
+			}	
+			
+			writer.close();
+			return true;
+	
+		}catch(IOException e){
+			System.out.println("File cannot be written.\n");
+			return false;
+		}
 	}
 	
 	private boolean saveAsUniversalTodo(Todo todo) {
@@ -391,9 +357,10 @@ public class FileTodoHandler {
 		if(!toDoList.isEmpty()){
 			Collections.sort(toDoList, new customTodoComparator());
 		}		
-	}
+	}	
 	
-	public boolean updateDate(Calendar calendar, String dateString) {
+	//duplicate
+	private boolean updateDate(Calendar calendar, String dateString) {
         try {
             Calendar date = Calendar.getInstance();
             date.setTime(FORMAT_DATE.parse(dateString));

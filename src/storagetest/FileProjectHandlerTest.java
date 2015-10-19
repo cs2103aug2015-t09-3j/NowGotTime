@@ -23,8 +23,8 @@ public class FileProjectHandlerTest {
 		baseDirectory = System.getProperty("user.dir").toString() + "\\testFiles";
 		System.out.println("This is the base directory: \n" + baseDirectory);
 		
-		preparationCleanUp.cleanUp(baseDirectory);
-		preparationCleanUp.setUpDirectory(baseDirectory);
+		PreparationCleanUp.cleanUp(baseDirectory);
+		PreparationCleanUp.setUpDirectory(baseDirectory);
 		
 	}
 	
@@ -43,7 +43,7 @@ public class FileProjectHandlerTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		System.out.println("Exiting, cleaning up folders");
-		if(preparationCleanUp.cleanUp(baseDirectory)){
+		if(PreparationCleanUp.cleanUp(baseDirectory)){
 			System.out.println("Clean up completed. bye");
 		}
 	}
@@ -154,14 +154,19 @@ public class FileProjectHandlerTest {
 	}
 
 	public void testSetNewDirectory() {
+		String newBaseDirectory = null;
 		assertEquals("Test with new directory being null",
-				false, fProjH.setNewDirectory(null));
+				false, fProjH.setNewDirectory(newBaseDirectory));
 		
+		newBaseDirectory = "this is not a directory format";
 		assertEquals("Test if new directory does not exist",
-				false, fProjH.setNewDirectory("this is not a directory format"));
+				false, fProjH.setNewDirectory(newBaseDirectory));
 		
+		newBaseDirectory = System.getProperty("user.dir").toString() + "\\alternateTestFiles";
+		PreparationCleanUp.makeNewDirectory(newBaseDirectory);
 		assertEquals("Test with valid new directory",
-				false, fProjH.setNewDirectory(baseDirectory + "\\alternateTestFiles"));
+				true, fProjH.setNewDirectory(newBaseDirectory));
+		baseDirectory = newBaseDirectory;
 	}
 
 	public void testReadAll() {
@@ -176,44 +181,16 @@ public class FileProjectHandlerTest {
 	
 	public void testChangeDirectory(){
 		testReadAll();
+		PreparationCleanUp.cleanUp(baseDirectory);
 		testSetNewDirectory();
+		PreparationCleanUp.makeNewDirectory(baseDirectory + "\\Project");
 		testWriteAll();
 		
 		//re-test retrieval
+		fProjH = new FileProjectHandler(baseDirectory + "\\Project");
 		testRetrieveProject();
 		testRetrieveProjectProgress();
 		testGetListOfExistingProjects();
 	}
-	
-//	private static boolean cleanUp(String baseDirectory){
-//		File dir = new File(baseDirectory);
-//		
-//		if(dir.isDirectory() && dir.list().length > 0){
-//			for(File file: dir.listFiles()) file.delete(); 
-//		}
-//		
-//		Path path = Paths.get(baseDirectory);
-//		
-//		try {
-//			Files.delete(path);
-//			return true;
-//		} catch(NoSuchFileException e) {
-//			System.out.println("No such file exist to delete");
-//		}catch(Exception e){
-//			e.printStackTrace();
-//		}
-//		return false;
-//	}
-//	
-//	
-//	private static boolean setUpDirectory(String baseDirectory){
-//		File dir = new File(baseDirectory);
-//		if (!dir.exists()) {
-//			dir.mkdir();
-//			return true;
-//		}		
-//		return false;
-//	}
-
 
 }

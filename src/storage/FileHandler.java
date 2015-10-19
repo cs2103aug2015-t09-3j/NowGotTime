@@ -81,7 +81,7 @@ public class FileHandler implements FileManager{
 	 * Retrieves an ArrayList of events to make changes/delete
 	 */
 	public ArrayList<Event> retrieveAllEvents(){
-		return fEventH.retrieveEventsToDelete();
+		return fEventH.retrieveAllEvents();
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public class FileHandler implements FileManager{
 	 * Retrieves an ArrayList of tasks to make changes/delete
 	 */
 	public ArrayList<Todo> retrieveAllTodo(){
-		return fTodoH.retrieveTodoToDelete();
+		return fTodoH.retrieveAllTodo();
 	}
 	
 	/**
@@ -145,13 +145,7 @@ public class FileHandler implements FileManager{
 		fTodoH.separateTodoTypes();
 		return fTodoH.saveToDoList();
 	}
-	
-//	@Override
-//	public boolean saveEditedUniversalTodoHandler(){
-//		writeCounter();
-//		return fTodoH.saveUniversalToDoList();
-//	}
-	
+		
 	/**
 	 * Saves all the Todo and Floating Todo into text files
 	 */
@@ -207,6 +201,7 @@ public class FileHandler implements FileManager{
 		return fProjH.deleteProject(projectName);
 	}
 	
+/****************************** Internal *************************************/	
 	private void readOverviewerFile() {
 		inputFile = new File(EVENT_OVERVIEWER);	
 		
@@ -227,6 +222,9 @@ public class FileHandler implements FileManager{
 	}
 	
 	private void readCounter(){
+		if(Item.getCounter() != 0){
+			return;
+		}
 		inputFile = new File(COUNTER);	
 		
 		try {
@@ -269,6 +267,7 @@ public class FileHandler implements FileManager{
 	 * @param newBaseDirectory
 	 * @return
 	 */
+	@Override
 	public boolean changeBaseDirectory(String newBaseDirectory){
 		fProjH.readAll();
 		clearAll();
@@ -286,12 +285,10 @@ public class FileHandler implements FileManager{
 	 */
 	public boolean saveAll(){
 		return fEventH.saveEventBook() &&
-				fEventH.updateHistory() &&
 				fTodoH.saveToDoList() &&
-				fTodoH.updateHistory() &&
 				fTodoH.saveUniversalToDoList() &&
 				fProjH.writeAll() && writeCounter();
-
+				//TODO: Multi todo save & project save.
 	}
 	
 	/**
@@ -339,8 +336,9 @@ public class FileHandler implements FileManager{
 	 * @param wantedId
 	 * @return
 	 */
+	@Override
 	public Event retrieveEventById(int wantedId){
-		ArrayList<Event> allEvent = fEventH.retrieveEventsToDelete();
+		ArrayList<Event> allEvent = fEventH.retrieveAllEvents();
 		for(Event event: allEvent){
 			if(event.getId() == wantedId){
 				return event;
@@ -355,8 +353,9 @@ public class FileHandler implements FileManager{
 	 * @param wantedId
 	 * @return
 	 */
+	@Override
 	public Todo retrieveTaskById(int wantedId){
-		ArrayList<Todo> allTodo = fTodoH.retrieveTodoToDelete();
+		ArrayList<Todo> allTodo = fTodoH.retrieveAllTodo();
 		for(Todo todo: allTodo){
 			if(todo.getId() == wantedId){
 				return todo;

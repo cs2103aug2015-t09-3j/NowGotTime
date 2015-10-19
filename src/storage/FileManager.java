@@ -84,13 +84,13 @@ import object.Todo;
 public interface FileManager {
 
 	public ArrayList<Event> retrieveEventByDate(String date); 
+	public ArrayList<Event> retrieveAllEvents();
 	public boolean saveNewEventHandler(Event event);
 	public boolean saveEditedEventHandler();
-	public ArrayList<Event> retrieveAllEvents();
 	
 	public ArrayList<Todo> retrieveTodoByDate(String date);
-	public ArrayList<Todo> retrieveUniversalTodo();
 	public ArrayList<Todo> retrieveAllTodo();
+	public ArrayList<Todo> retrieveUniversalTodo();
 	public boolean saveNewTodoHandler(Todo task);
 	public boolean saveEditedTodoHandler();
 	
@@ -100,5 +100,10 @@ public interface FileManager {
 	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, HashMap<Integer, String> progressBook, String projectName);
 	public ArrayList<String> getListOfExistingProject( );
 	public boolean deleteProject(String projectName);
+	
+	public boolean changeBaseDirectory(String newBaseDirectory);
+
+	public Event retrieveEventById(int wantedId);
+	public Todo retrieveTaskById(int wantedId);
 	
 }
