@@ -6,12 +6,14 @@ public abstract class Item implements Comparable<Item> {
     private String name;
     private String additionalInfo;
 	private int id;
+	private boolean done;
 	private static int counter = 0;
     
     public Item(String name, String additionalInfo) {
         setName(name);
         setAdditionalInfo(additionalInfo);
         setId(counter++);
+        setDone(false);
     }
     
     /**
@@ -41,6 +43,7 @@ public abstract class Item implements Comparable<Item> {
     public String getAdditionalInfo() {
         return additionalInfo;
     }
+    
 
     /**
      * Sets the additional info of an item
@@ -77,6 +80,13 @@ public abstract class Item implements Comparable<Item> {
     	counter = count;
     }
     
+    public boolean getDone() {
+    	return done;
+    }
+    
+    public void setDone(boolean check) {
+    	done = check;
+    }
     public abstract String toFormattedString() throws ParseException;
     
     public int compareTo(Item other) {
