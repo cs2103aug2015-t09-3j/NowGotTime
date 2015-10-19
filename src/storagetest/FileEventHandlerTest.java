@@ -19,7 +19,7 @@ public class FileEventHandlerTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		baseDirectory = System.getProperty("user.dir").toString() + "\\testFiles";
+		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
 		System.out.println("This is the base directory: \n" + baseDirectory);
 		
 		preparationCleanUp.cleanUp(baseDirectory);
@@ -94,7 +94,7 @@ public class FileEventHandlerTest {
 				false, fEventH.setNewDirectory("this is not a directory format"));
 		
 		assertEquals("Test with valid new directory",
-				false, fEventH.setNewDirectory(baseDirectory + "\\alternateTestFiles"));
+				false, fEventH.setNewDirectory(baseDirectory + "/alternateTestFiles"));
 	}
 
 //	@Test

@@ -15,8 +15,8 @@ public class CommandDeleteTest extends CommandTest {
     @Test
     public void testCanDeleteEvent() throws Exception {
         String name = "eat again";
-        String startDateTime = "21 Sep 2015 10:00";
-        String endDateTime = "22 Sep 2015 23:00";
+        String startDateTime = "21 Sep 2016 10:00";
+        String endDateTime = "22 Sep 2016 23:00";
         addEvent(name, startDateTime, endDateTime);
         
         CommandDeleteItem cmd = new CommandDeleteItem("\"" + name + "\"");
@@ -38,7 +38,7 @@ public class CommandDeleteTest extends CommandTest {
     @Test
     public void testCanDeleteTodo() throws Exception {
         String name = "eat again";
-        String deadlineDateTime = "21 Sep 2015 10:00";
+        String deadlineDateTime = "21 Sep 2016 10:00";
         addTodo(name, deadlineDateTime);
         
         CommandDeleteItem cmd = new CommandDeleteItem("\"" + name + "\"");

@@ -4,7 +4,7 @@ import java.util.Stack;
 
 import helper.CommonHelper;
 import helper.Parser;
-import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 
 public class CommandUndo implements Command {
@@ -28,7 +28,7 @@ public class CommandUndo implements Command {
      * Executes undo command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
         if (historyList.empty()) {
             return CommonHelper.ERROR_EMPTY_HISTORY;
         }

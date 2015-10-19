@@ -3,7 +3,7 @@ package command;
 import java.util.Stack;
 
 import helper.CommonHelper;
-import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 
 public interface Command {
@@ -55,7 +55,7 @@ public interface Command {
     /**
      * Executes this command
      */
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception;
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception;
     
     public Displayable getDisplayable();
 }

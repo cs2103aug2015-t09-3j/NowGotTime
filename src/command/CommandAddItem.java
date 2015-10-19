@@ -10,7 +10,7 @@ import helper.Parser;
 import object.Event;
 import object.Item;
 import object.Todo;
-import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 
 public class CommandAddItem implements CommandAdd {
@@ -99,7 +99,7 @@ public class CommandAddItem implements CommandAdd {
      * Executes add command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
         // TODO: Code : serviceHandler.createItem(Item);
         if (item instanceof Event) {
             serviceHandler.createEvent((Event)item);
@@ -115,7 +115,7 @@ public class CommandAddItem implements CommandAdd {
      * Delete the added command
      */
     @Override
-    public String revert(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList) throws Exception {
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
         Command revertAddCommand = new CommandDeleteItem(item);
         return revertAddCommand.execute(serviceHandler, projectHandler, historyList);
     }

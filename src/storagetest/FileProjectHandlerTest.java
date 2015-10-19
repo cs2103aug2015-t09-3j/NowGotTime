@@ -14,13 +14,13 @@ import storage.FileProjectHandler;
 
 public class FileProjectHandlerTest {
 	
-	private static final String PROJECT_OVERVIEWER = "\\projectOverviewer.txt";
+	private static final String PROJECT_OVERVIEWER = "/projectOverviewer.txt";
 	private static String baseDirectory;
 	private static FileProjectHandler fProjH;	
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		baseDirectory = System.getProperty("user.dir").toString() + "\\testFiles";
+		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
 		System.out.println("This is the base directory: \n" + baseDirectory);
 		
 		preparationCleanUp.cleanUp(baseDirectory);
@@ -161,7 +161,7 @@ public class FileProjectHandlerTest {
 				false, fProjH.setNewDirectory("this is not a directory format"));
 		
 		assertEquals("Test with valid new directory",
-				false, fProjH.setNewDirectory(baseDirectory + "\\alternateTestFiles"));
+				false, fProjH.setNewDirectory(baseDirectory + "/alternateTestFiles"));
 	}
 
 	public void testReadAll() {

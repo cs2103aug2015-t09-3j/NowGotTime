@@ -14,7 +14,7 @@ import javafx.scene.text.Text;
 import object.Event;
 import object.Item;
 import object.Todo;
-import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 import ui.GUI;
 import ui.Main;
@@ -37,7 +37,7 @@ public class CommandViewDate implements CommandView {
      * Executes view command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, ProjectHandler projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
         
         // TODO Refactor this messy code

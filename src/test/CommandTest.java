@@ -7,14 +7,14 @@ import org.junit.Before;
 
 import command.Revertible;
 import command.CommandAddItem;
-import project.ProjectHandler;
+import project.Projects;
 import service.ServiceHandler;
 import storage.FileHandler;
 
 public class CommandTest {
 
     protected ServiceHandler service;
-    protected ProjectHandler project;
+    protected Projects project;
     protected Stack<Revertible> history;
     
     @Before
@@ -22,7 +22,7 @@ public class CommandTest {
         FileHandler clear = new FileHandler();
         clear.clearAll();
         service = new ServiceHandler();
-        project = new ProjectHandler();
+        project = new Projects();
         history = new Stack<Revertible>();
     }
     
@@ -53,6 +53,7 @@ public class CommandTest {
         CommandAddItem cmd = new CommandAddItem(args);
         history.add(cmd);
         cmd.execute(service, project, history);
+       
     }
     
 
