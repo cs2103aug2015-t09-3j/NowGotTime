@@ -239,7 +239,7 @@ public class FileHandler implements FileManager{
 			reader.close();		 
 		}
 		catch (FileNotFoundException e) {
-			// Do nothing
+			writeCounter();
 		}catch (IOException e) {
 			// Do nothing
 		}
@@ -272,14 +272,17 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean changeBaseDirectory(String newBaseDirectory){
-		fProjH.readAll();
-		clearAll();
-		directHand.setNewBaseDirectory(newBaseDirectory);
-		fEventH.setNewDirectory(newBaseDirectory);
-		fTodoH.setNewDirectory(newBaseDirectory);
-		fProjH.setNewDirectory(newBaseDirectory);
-		saveAll();
-		return true;
+		if(newBaseDirectory != null && (new File(newBaseDirectory).exists())){
+			fProjH.readAll();
+			clearAll();
+			directHand.setNewBaseDirectory(newBaseDirectory);
+			fEventH.setNewDirectory(newBaseDirectory);
+			fTodoH.setNewDirectory(newBaseDirectory);
+			fProjH.setNewDirectory(newBaseDirectory);
+			saveAll();
+			return true;
+		}
+		return false;		
 	}
 	
 	/**
@@ -322,6 +325,9 @@ public class FileHandler implements FileManager{
 			
 //			path = Paths.get("overview.txt");
 //			Files.delete(path);
+			
+			path = Paths.get("counter.txt");
+			Files.delete(path);
 			
 		} catch (NoSuchFileException x) {
 			System.out.println("err no such file.");
