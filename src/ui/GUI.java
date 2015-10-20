@@ -24,7 +24,6 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import project.ProjectHandler;
 import project.Projects;
 import service.ServiceHandler;
 
