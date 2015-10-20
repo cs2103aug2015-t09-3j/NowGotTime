@@ -11,8 +11,7 @@ import object.Todo;
  */
 public interface ServiceManager {
 	
-	public boolean createEvent (Event newEvent); 
-	public boolean createTask(Todo newTask);
+	public boolean createItem (Item item);
 	
 	public ArrayList<Event> viewEventByDate(String date);
 	public ArrayList<Todo> viewTaskByDate(String date);

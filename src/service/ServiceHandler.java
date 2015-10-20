@@ -18,21 +18,17 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	/**
-	 * Runs the process of creating an Event
+	 * Runs the process of creating an item
 	 */
 	@Override
-	public boolean createEvent(Event newEvent) {
-		return itemHandler.saveNewEventHandler(newEvent);
+	public boolean createItem(Item item) {
+		if (item.getClass() == Event.class) {
+		return createEvent((Event) item);
 	}
-
-	/**
-	 * Runs the process of creating a Todo
-	 */
-	@Override
-	public boolean createTask(Todo newTask) {
-		return itemHandler.saveNewTodoHandler(newTask);
+		else {
+		return createTask((Todo) item);
 	}
-
+	}
 	/**
 	 * Returns an ArrayList<Event> containing details of the events on the date
 	 * Returns an empty ArrayList<Event> if that date has no events 
@@ -59,7 +55,7 @@ public class ServiceHandler implements ServiceManager{
 	public ArrayList<Todo> viewTaskNoDate() {
 		return itemHandler.retrieveUniversalTodo();
 	}
-	
+
 	/**
 	 *  Deletes a given object
 	 */
@@ -134,7 +130,7 @@ public class ServiceHandler implements ServiceManager{
 			return deleteItem(searchedItems.get(index));
 		}
 	}
-	
+
 	/**
 	 * Views an item after searching via the search index
 	 */
@@ -165,7 +161,7 @@ public class ServiceHandler implements ServiceManager{
 	public boolean changeDirectory(String newDirectory) {
 		return itemHandler.changeBaseDirectory(newDirectory);
 	}
-	
+
 	/**
 	 *  Marks the item as done
 	 */
@@ -175,8 +171,8 @@ public class ServiceHandler implements ServiceManager{
 			return false;
 		}
 		else {
-		item.setDone(true);
-		return true;
+			item.setDone(true);
+			return true;
 		}
 	}
 	/**
@@ -188,8 +184,8 @@ public class ServiceHandler implements ServiceManager{
 			return false;
 		}
 		else {
-		item.setDone(false);
-		return true;
+			item.setDone(false);
+			return true;
 		}
 	}
 	// ****************************************Private Methods******************************************************   
@@ -225,7 +221,7 @@ public class ServiceHandler implements ServiceManager{
 		}
 		return null;
 	}
-	
+
 	private String editEvent(Event _event, String fieldName, String newInputs) throws Exception {
 		String oldValue = null;
 
@@ -233,31 +229,31 @@ public class ServiceHandler implements ServiceManager{
 		//case edit eventName
 		case (CommonHelper.FIELD_NAME):
 			oldValue = _event.getName();
-			_event.setName(newInputs);
-			itemHandler.saveEditedEventHandler();		
+		_event.setName(newInputs);
+		itemHandler.saveEditedEventHandler();		
 		break;
-		
+
 		// case edit start
 		case (CommonHelper.FIELD_START): 
 			oldValue = _event.getStartDateTimeString();
-			_event.updateStart(newInputs);
-			itemHandler.saveEditedEventHandler();
+		_event.updateStart(newInputs);
+		itemHandler.saveEditedEventHandler();
 		break;
-		
+
 		//case edit end
 		case (CommonHelper.FIELD_END): 
 			oldValue = _event.getEndDateTimeString();
-			_event.updateEnd(newInputs);
-			itemHandler.saveEditedEventHandler();
+		_event.updateEnd(newInputs);
+		itemHandler.saveEditedEventHandler();
 		break;
-		
+
 		//case edit unexpected
 		default :
 			assert(false);
 		}
 		return oldValue;
 	}
-	
+
 	private String editTask(Todo _task, String fieldName, String newInputs) throws Exception{
 		String oldValue = null;
 
@@ -265,34 +261,42 @@ public class ServiceHandler implements ServiceManager{
 		//case edit taskName
 		case (CommonHelper.FIELD_NAME):
 			oldValue = _task.getName();
-			_task.setName(newInputs);
-			itemHandler.saveAllEditedTodo();        
+		_task.setName(newInputs);
+		itemHandler.saveAllEditedTodo();        
 		break;
-		
+
 		//case edit deadline
 		case (CommonHelper.FIELD_DUE):
 			oldValue = _task.getDeadlineDateTimeString();
-			_task.updateDeadline(newInputs);
-			itemHandler.saveAllEditedTodo();
+		_task.updateDeadline(newInputs);
+		itemHandler.saveAllEditedTodo();
 		break;
-		
+
 		//case edit unexpected
 		default :
 			assert(false);
 		}
 		return oldValue;
 	}
-	
+
 	private boolean deleteTask(Todo _task) {
 		ArrayList<Todo> completeTodoList = itemHandler.retrieveAllTodo();      
-			completeTodoList.remove(_task);
-			return itemHandler.saveAllEditedTodo();
-		}
-	
+		completeTodoList.remove(_task);
+		return itemHandler.saveAllEditedTodo();
+	}
+
 	private boolean deleteEvent(Event _event) {
 		ArrayList<Event> completeEventBook = itemHandler.retrieveAllEvents();
-			completeEventBook.remove(_event);
-			return itemHandler.saveEditedEventHandler();
+		completeEventBook.remove(_event);
+		return itemHandler.saveEditedEventHandler();
+	}
+	
+	private boolean createEvent(Event newEvent) {
+		return itemHandler.saveNewEventHandler(newEvent);
+	}
+	
+	private boolean createTask(Todo newTask) {
+		return itemHandler.saveNewTodoHandler(newTask);
 	}
 
 }
