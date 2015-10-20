@@ -31,7 +31,7 @@ public class DirectoryHandlerTest {
 
 	@Test
 	public void testDirectoryHandler() {
-		String baseDirectory = System.getProperty("user.dir").toString();
+		String baseDirectory = System.getProperty("user.dir").toString() + "/database";
 		File file = new File(baseDirectory + "/Event");
 		assertEquals("Test with valid new directory",
 				true, file.exists());
@@ -59,7 +59,7 @@ public class DirectoryHandlerTest {
 		assertEquals("Test change to non-existing directory",
 				false, dirHand.setNewBaseDirectory(newBaseDirectory));
 		
-		newBaseDirectory = System.getProperty("user.dir").toString() + "/alternateTestFiles";
+		newBaseDirectory = System.getProperty("user.dir").toString() + "/alternateTestFiles/";
 		PreparationCleanUp.makeNewDirectory(newBaseDirectory);
 		assertEquals("Test with valid new directory",
 				true, dirHand.setNewBaseDirectory(newBaseDirectory));

@@ -113,7 +113,7 @@ public class DirectoryHandler {
 			baseDirectory = getJavaProjectDirectory();
 		}
 		
-		String newDirectoryPath = baseDirectory.concat("/" + directoryName);
+		String newDirectoryPath = baseDirectory.concat(directoryName);
 		if(makeNewDirectory(newDirectoryPath)){
 			return newDirectoryPath;
 		}else{
@@ -140,7 +140,13 @@ public class DirectoryHandler {
 	}
 	
 	private String getJavaProjectDirectory(){
-		return System.getProperty("user.dir").toString();
+		String baseDirectory = System.getProperty("user.dir").toString() + "/database/";
+		File file = new File(baseDirectory);
+		if(!file.exists()){
+			file.mkdir();
+		}
+		
+		return baseDirectory;
 	}
 	
 	private boolean makeNewDirectory(String directoryName){
