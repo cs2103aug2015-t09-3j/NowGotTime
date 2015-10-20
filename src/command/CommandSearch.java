@@ -107,6 +107,10 @@ public class CommandSearch implements Command, Displayable {
             
             Text numberingText = GUI.getText(String.valueOf(listNumber), Color.BLACK, 14);
             Text markText = GUI.getText("\u2714", Color.GREEN, 16);
+            
+            if (!item.getDone()) {
+                markText = GUI.getText("\u2610", Color.GREY, 16);
+            }
             Text nameText = GUI.getText(item.getName(), Color.GREY, 14);
             
             String timeString = "";

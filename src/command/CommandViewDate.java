@@ -127,6 +127,10 @@ public class CommandViewDate implements CommandView {
             Text markText = GUI.getText("\u2714", Color.GREEN, 16);
             Text nameText = GUI.getText(item.getName(), Color.GREY, 14);
             
+            if (!item.getDone()) {
+                markText = GUI.getText("\u2610", Color.GREY, 16);
+            }
+            
             String timeString = "";
             if (item instanceof Event) {
                 timeString += time;

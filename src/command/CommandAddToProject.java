@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
+import object.Event;
 import object.Item;
 import project.Projects;
 import service.ServiceHandler;
@@ -56,8 +57,8 @@ public class CommandAddToProject implements CommandAdd {
             }
         }
         
-        // TODO: handle item already on the list
-        if (projectHandler.addProjectEvent(item.getId(), projectName)) {
+        // TODO: handle item already on the list, check if item is event
+        if (projectHandler.addProjectEvent(((Event)item), projectName)) {
             return String.format(CommonHelper.SUCCESS_ITEM_ADDED_TO_PROJECT, item.getName(), projectName);
         } else {
             throw new Exception(String.format(CommonHelper.ERROR_PROJECT_NOT_FOUND, projectName));
