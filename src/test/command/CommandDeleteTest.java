@@ -1,10 +1,9 @@
-package test;
+package test.command;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import command.CommandDelete;
 import command.CommandDeleteItem;
 import helper.CommonHelper;
 
