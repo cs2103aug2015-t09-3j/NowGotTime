@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import helper.CommonHelper;
 import helper.Parser;
+import javafx.application.Platform;
 import project.Projects;
 import service.ServiceHandler;
 
@@ -29,8 +30,7 @@ public class CommandExit implements Command {
      */
     @Override
     public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
-        // return empty string
-        // TODO exit gui
+        Platform.exit();
         return "";
     }
 
