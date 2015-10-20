@@ -2,6 +2,7 @@ package service;
 import helper.CommonHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 import object.Event;
@@ -19,9 +20,10 @@ public class ServiceHandler implements ServiceManager{
 
 	/**
 	 * Runs the process of creating an item
+	 * @throws Exception 
 	 */
 	@Override
-	public boolean createItem(Item item) {
+	public boolean createItem(Item item) throws Exception {
 		if (item.getClass() == Event.class) {
 		return createEvent((Event) item);
 	}
@@ -236,15 +238,25 @@ public class ServiceHandler implements ServiceManager{
 		// case edit start
 		case (CommonHelper.FIELD_START): 
 			oldValue = _event.getStartDateTimeString();
+		if (compareDate(_event.getStartCalendar(),_event.getEndCalendar())){
+			throw new Exception(CommonHelper.ERROR_START_AFTER_END);
+		}
+		else {
 		_event.updateStart(newInputs);
 		itemHandler.saveEditedEventHandler();
+		}
 		break;
 
 		//case edit end
 		case (CommonHelper.FIELD_END): 
 			oldValue = _event.getEndDateTimeString();
+		if (compareDate(_event.getStartCalendar(),_event.getEndCalendar())){
+			throw new Exception(CommonHelper.ERROR_START_AFTER_END);
+		}
+		else {
 		_event.updateEnd(newInputs);
 		itemHandler.saveEditedEventHandler();
+		}
 		break;
 
 		//case edit unexpected
@@ -291,12 +303,25 @@ public class ServiceHandler implements ServiceManager{
 		return itemHandler.saveEditedEventHandler();
 	}
 	
-	private boolean createEvent(Event newEvent) {
+	private boolean createEvent(Event newEvent) throws Exception {
+		if (compareDate(newEvent.getStartCalendar(),newEvent.getEndCalendar())){
 		return itemHandler.saveNewEventHandler(newEvent);
+		}
+		else {
+			throw new Exception(CommonHelper.ERROR_START_AFTER_END);
+		}
 	}
 	
 	private boolean createTask(Todo newTask) {
 		return itemHandler.saveNewTodoHandler(newTask);
 	}
 
+	private boolean compareDate(Calendar startDate, Calendar endDate){
+		if (startDate.before(endDate)){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }

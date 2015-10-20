@@ -11,13 +11,13 @@ import object.Todo;
  */
 public interface ServiceManager {
 	
-	public boolean createItem (Item item);
+	public boolean createItem (Item item) throws Exception;
 	
 	public ArrayList<Event> viewEventByDate(String date);
 	public ArrayList<Todo> viewTaskByDate(String date);
 	public ArrayList<Todo> viewTaskNoDate();
 	
-	public boolean deleteItem(Item item);
+	public boolean deleteItem(Item item)throws Exception;
 	
 	public String editItem(Item item, String fieldName, String newInputs )throws Exception;
     
