@@ -165,7 +165,33 @@ public class ServiceHandler implements ServiceManager{
 	public boolean changeDirectory(String newDirectory) {
 		return itemHandler.changeBaseDirectory(newDirectory);
 	}
-
+	
+	/**
+	 *  Marks the item as done
+	 */
+	@Override
+	public boolean mark(Item item){
+		if (item.getDone() == true){
+			return false;
+		}
+		else {
+		item.setDone(true);
+		return true;
+		}
+	}
+	/**
+	 *  Marks the item as undone
+	 */
+	@Override
+	public boolean unmark(Item item){
+		if (item.getDone() == false){
+			return false;
+		}
+		else {
+		item.setDone(false);
+		return true;
+		}
+	}
 	// ****************************************Private Methods******************************************************   
 
 	private Event findEvent(String eventName) {

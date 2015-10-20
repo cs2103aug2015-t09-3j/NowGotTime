@@ -32,6 +32,7 @@ public interface ServiceManager {
 	public boolean deleteItemByIndex(int index);
 	public Item viewItemByIndex(int index);
 	
-	 public boolean changeDirectory(String newDirectory);
-
+	public boolean changeDirectory(String newDirectory);
+	public boolean mark(Item item);
+	public boolean unmark(Item item);
 }
