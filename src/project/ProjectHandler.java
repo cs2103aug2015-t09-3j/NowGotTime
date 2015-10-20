@@ -255,6 +255,19 @@ public class ProjectHandler implements ProjectManager{
 		}
 		return eventProgress;
 	}
+	
+	@Override
+	public ArrayList<Event> viewProjectTimelineInEvents(String projectName) {
+		ArrayList<Event> viewTimeline = new ArrayList<Event>();
+		ArrayList<Integer> arrayListOfId = viewProjectTimeline(projectName);
+		
+		for (int id : arrayListOfId) {
+			Event event = project.retrieveEventById(id);
+			viewTimeline.add(event);
+		}
+		
+		return viewTimeline;
+	}
 
 	private void sortEvents() {
 		ArrayList<Event> eventsToBeSorted = new ArrayList<Event>();

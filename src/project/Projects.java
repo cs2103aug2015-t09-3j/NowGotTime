@@ -90,6 +90,24 @@ public class Projects {
 		}
 	}
 	
+	public ArrayList<Event> viewProjectTimelineInEvents(String projectName) {
+		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+			return null;
+		} else {
+		return pHandler.viewProjectTimelineInEvents(projectName);
+		}
+	}
+	
+	public ArrayList<Event> viewProjectTimelineInEvents(int index) {
+		projectList = listExistingProjects();
+		if (index < projectList.size()) {
+			String projectName = projectList.get(index);
+			return viewProjectTimelineInEvents(projectName);
+		} else {
+			return null;
+		}
+	}
+	
 	public ArrayList<Event> viewEventProgressTimeline(String projectName) {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return null;

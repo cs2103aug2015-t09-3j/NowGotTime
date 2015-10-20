@@ -19,4 +19,5 @@ public interface ProjectManager {
 	public ArrayList<Integer> viewProjectTimeline(String name); //works
 	public ArrayList<Event> viewEventProgressTimeline(String projectName);
 	public double progressBar(String projectName);
+	public ArrayList<Event> viewProjectTimelineInEvents(String projectName);
 	}
