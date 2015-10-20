@@ -61,8 +61,11 @@ public class CommandUncheck implements Command, Revertible {
             }
         }
         
-        // TODO: serviceHandler.uncheckItem(item);
-        return String.format(CommonHelper.SUCCESS_ITEM_UNCHECKED, item.getName());
+        if (serviceHandler.unmark(item)) {
+            return String.format(CommonHelper.SUCCESS_ITEM_UNCHECKED, item.getName());
+        } else {
+            throw new Exception(String.format(CommonHelper.ERROR_ALREADY_UNCHECKED, item.getName()));
+        }
     }
     
 
