@@ -51,26 +51,16 @@ public class PreparationCleanUp {
 	}
 
 	public static void manualCleanUp(){
-		delete("Event");
-		delete("Todo");
-		delete("Project");
-		delete("overview.txt");		
+		delete("database");
+		delete("overview.txt");	
+		delete("Counter.txt");	
 	}
 	
 	private static void delete(String name){
 		String baseDirectory = System.getProperty("user.dir").toString() + "/" + name;
 		File file = new File(baseDirectory);
 		if(file.isDirectory()){
-			Path path = Paths.get(baseDirectory);
-			
-			try {
-				Files.delete(path);
-			} catch(NoSuchFileException e) {
-				System.out.println("No such file exist to delete");
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			
+			cleanUp(baseDirectory);
 		}else{
 			file.delete();
 		}

@@ -22,7 +22,7 @@ public class FileEventHandlerTest {
 	public static void setUpBeforeClass() throws Exception {
 		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
 		System.out.println("This is the base directory: \n" + baseDirectory);
-		
+		PreparationCleanUp.manualCleanUp();
 		PreparationCleanUp.cleanUp(baseDirectory);
 		PreparationCleanUp.setUpDirectory(baseDirectory);
 	}
@@ -40,6 +40,7 @@ public class FileEventHandlerTest {
 	public static void tearDownAfterClass() throws Exception {
 		System.out.println("Exiting, cleaning up folders");
 		if(PreparationCleanUp.cleanUp(baseDirectory)){
+			PreparationCleanUp.manualCleanUp();
 			System.out.println("Clean up completed. bye");
 		}
 	}
@@ -80,8 +81,11 @@ public class FileEventHandlerTest {
 		expectedEventBook.add(event);
 		ArrayList<Event> actualEventBook = fEventH.retrieveEventByDate("20 aug 2000");
 		
+//		assertEquals("Test retrieving from a date of the past",
+//				true, compareEventsArrayList(expectedEventBook,actualEventBook) );
+	
 		assertEquals("Test retrieving from a date of the past",
-				true, compareEventsArrayList(expectedEventBook,actualEventBook) );
+				expectedEventBook,actualEventBook);
 	}
 	
 	public void testChangeDirectory(){

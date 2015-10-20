@@ -44,6 +44,7 @@ public class FileTodoHandlerTest {
 	public static void tearDownAfterClass() throws Exception {
 		System.out.println("Exiting, cleaning up folders");
 		if(PreparationCleanUp.cleanUp(baseDirectory)){
+			PreparationCleanUp.manualCleanUp();
 			System.out.println("Clean up completed. bye");
 		}
 	}

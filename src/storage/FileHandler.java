@@ -60,8 +60,6 @@ public class FileHandler implements FileManager{
 	public FileHandler(){
 		directHand = new DirectoryHandler();
 		readOverviewerFile();
-		
-		
 		fEventH = new FileEventHandler(eventPath);
 		fProjH = new FileProjectHandler(projectPath);
 		fTodoH = new FileTodoHandler(todoPath);
