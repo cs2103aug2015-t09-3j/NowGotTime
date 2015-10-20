@@ -62,8 +62,11 @@ public class CommandCheck implements Command, Revertible {
             }
         }
         
-        // TODO: serviceHandler.checkItem(item);
-        return String.format(CommonHelper.SUCCESS_ITEM_CHECKED, item.getName());
+        if (serviceHandler.mark(item)) {
+            return String.format(CommonHelper.SUCCESS_ITEM_CHECKED, item.getName());
+        } else {
+            throw new Exception(String.format(CommonHelper.ERROR_ALREADY_CHECKED, item.getName()));
+        }
     }
     
     @Override
