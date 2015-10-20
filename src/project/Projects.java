@@ -126,55 +126,56 @@ public class Projects {
 		}
 	}
 
-	public boolean editProjectEvent(int id, int infoIndex, String newValue, String projectName) {
+	public boolean editProjectEvent(Event event, int infoIndex, String newValue, String projectName) {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return false;
 		} else {
-		return pHandler.editProjectEvent(id, infoIndex, newValue, projectName);
+		return pHandler.editProjectEvent(event, infoIndex, newValue, projectName);
 		}
 	}
 	
-	public boolean editProjectEvent(int id, int infoIndex, String newValue, int index) {
+	public boolean editProjectEvent(Event event, int infoIndex, String newValue, int index) {
 		projectList = listExistingProjects();
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
-			return editProjectEvent(id, infoIndex, newValue, projectName);
+			return editProjectEvent(event, infoIndex, newValue, projectName);
 		} else {
 			return false;
 		}
 	}
 	
-	public boolean deleteProjectEvent(int id, String projectName) {
+	
+	public boolean deleteProjectEvent(Event event, String projectName) {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return false;
 		} else {
-		return pHandler.deleteProjectEvent(id, projectName);
+		return pHandler.deleteProjectEvent(event, projectName);
 		}
 	}
 	
-	public boolean deleteProjectEvent(int id, int index) {
+	public boolean deleteProjectEvent(Event event, int index) {
 		projectList = listExistingProjects();
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
-			return deleteProjectEvent(id, projectName);
+			return deleteProjectEvent(event, projectName);
 		} else {
 			return false;
 		}
 	}
 	
-	public boolean addProjectEvent(int id, String projectName) {
+	public boolean addProjectEvent(Event event, String projectName) {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return false;
 		} else {
-		return pHandler.addProjectEvent(id, projectName);
+		return pHandler.addProjectEvent(event, projectName);
 		}
 	}
 	
-	public boolean addProjectEvent(int id, int index) {
+	public boolean addProjectEvent(Event event, int index) {
 		projectList = listExistingProjects();
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
-			return addProjectEvent(id, projectName);
+			return addProjectEvent(event, projectName);
 		} else {
 			return false;
 		}

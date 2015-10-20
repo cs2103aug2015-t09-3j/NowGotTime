@@ -21,7 +21,8 @@ public class ProjectHandler implements ProjectManager{
 	 * Adds an existing Event by ID into Project ArrayList
 	 */
 	@Override
-	public boolean addProjectEvent(int id, String projectName) {
+	public boolean addProjectEvent(Event event, String projectName) {
+		int id = event.getId();
 		if (id < 0) {
 			return false;
 		} else {
@@ -38,7 +39,8 @@ public class ProjectHandler implements ProjectManager{
 	 */
 	
 	@Override
-	public boolean deleteProjectEvent(int id, String projectName) {
+	public boolean deleteProjectEvent(Event event, String projectName) {
+		int id = event.getId();
 		for (int savedId : projectBook) {
 			if (savedId == id) {
 				projectBook.remove(id);
@@ -99,11 +101,11 @@ public class ProjectHandler implements ProjectManager{
 	 */
 	
 	@Override
-	public boolean editProjectEvent(int id, int infoIndex, String newValue, String projectName) {
+	public boolean editProjectEvent(Event event, int infoIndex, String newValue, String projectName) {
+		int id = event.getId();
 		if (id < 0 || !projectBook.contains(id)) {
 			return false;
 		} else {
-			Event event = project.retrieveEventById(id);
 			
 			switch(infoIndex) {
 				case (1): {	
@@ -197,8 +199,8 @@ public class ProjectHandler implements ProjectManager{
 	public boolean editProjectEvent(Event eventName, int infoIndex, String newValue, String projectName) {
 		//for testing: System.out.println("1" + projectBook);
 	
-		for (int i=0; i<projectBook.size(); i++) {
-			if (eventName.getName().toLowerCase().equals(projectBook.get(i).getName().toLowerCase())) {
+		for (int i=0; i<projectBook.size(); i++) {			//convert int to event: 
+			if (eventName.getName().toLowerCase().equals(projectbook.get(i).getName().toLowerCase())) {
 				int eventIndex = i;
 				
 				return editProjectEvent(eventIndex, infoIndex, newValue, projectName);
@@ -206,8 +208,8 @@ public class ProjectHandler implements ProjectManager{
 				//return true;
 			}
 		} return false;
-	}
-	*/
+	}*/
+	
 
 	
 	/**
