@@ -150,11 +150,26 @@ public class ServiceHandler implements ServiceManager{
 	 * Edits an item after searching via search index
 	 */
 	public String editItem(Item item, String fieldName, String newInputs ) throws Exception {
+		Item _item = null;
+		
 		if (item.getClass() == Event.class) {
-			return editEvent((Event) item, fieldName, newInputs);
+			ArrayList<Event> completeEventBook = itemHandler.retrieveAllEvents();
+			for (int i = 0; i < completeEventBook.size(); i++)
+		        if(item.equals(completeEventBook.get(i))) {
+		            _item = completeEventBook.get(i);
+					break;
+		        }
+			return editEvent((Event) _item, fieldName, newInputs);
 		}
-		else
-			return editTask((Todo) item, fieldName, newInputs);   	
+		else {
+			ArrayList<Todo> completeTaskBook = itemHandler.retrieveAllTodo();
+			for (int i = 0; i < completeTaskBook.size(); i++)
+		        if(item.equals(completeTaskBook.get(i))) {
+		            _item = completeTaskBook.get(i);
+					break;
+		        }
+			return editTask((Todo) _item, fieldName, newInputs);   	
+		}
 	}
 
 	/**

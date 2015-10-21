@@ -256,8 +256,6 @@ public class serviceHandlerTest{
 			assertEquals("edit item success3", EVENTNAME, service.editItem(event1, CommonHelper.FIELD_NAME, NEWNAME));
 			assertEquals("edit item success4", OLDSTARTTIMEEVENT ,service.editItem(event2, CommonHelper.FIELD_START, CORRECTTIME));
 			assertEquals("edit item success5", OLDENDTIMEEVENT, service.editItem(event1, CommonHelper.FIELD_END, CORRECTTIME));
-			
-			assertEquals("Search success1", null, service.search(NEWNAME));
 		} catch (Exception e) {
 			fail("exception should not be thrown");
 		}	
@@ -274,4 +272,32 @@ public class serviceHandlerTest{
 		}	
 	}
 	
+//	chanageDirectory() not tested because already tested in storagetest
+	
+	@Test
+	public void testMark() {
+		assertEquals("Mark event1 success", true, service.mark(event1));
+		assertEquals("Mark todo1 success", true, service.mark(todo1));
+		assertEquals("Mark floating todo1 success", true, service.mark(floatingTodo1));
+		
+		assertEquals("Mark event1 fail", false, service.mark(event1));
+		assertEquals("Mark todo1 fail", false, service.mark(todo1));
+		assertEquals("Mark floating todo1 fail", false, service.mark(floatingTodo1));
+	}
+	
+	@Test
+	public void testUnmark() {
+		assertEquals("Unmark event1 fail", false, service.unmark(event1));
+		assertEquals("Unmark todo1 fail", false, service.unmark(todo1));
+		assertEquals("Unmark floating todo1 fail", false, service.unmark(floatingTodo1));
+		
+		service.mark(event1);
+		service.mark(todo1);
+		service.mark(floatingTodo1);
+		assertEquals("Unmark event1 success", true, service.unmark(event1));
+		assertEquals("Unmark todo1 success", true, service.unmark(todo1));
+		assertEquals("Unmark floating todo1 success", true, service.unmark(floatingTodo1));
+		
+
+	}
 }
