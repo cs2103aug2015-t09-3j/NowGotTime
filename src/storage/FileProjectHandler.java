@@ -49,10 +49,12 @@ public class FileProjectHandler {
 	 * @param projectName
 	 * @return true if project has been successfully deleted, else return false
 	 */
-	public boolean deleteProject(String projectName){
-		if(!existingProjects.contains(projectName)){
+	public boolean deleteProject(String projectName){		
+		if(!existingProjects.contains(projectName) || projectName == null){
 			return false;
 		}
+		
+		projectName = projectName.toLowerCase();
 		
 		existingProjects.remove(projectName);
 		updateOverviewFile();
@@ -91,6 +93,8 @@ public class FileProjectHandler {
 	 * there are no events in the project
 	 */
 	public ArrayList<Integer> retrieveProject(String name){
+		name = name.toLowerCase();
+		
 		ArrayList<Integer> projectBook = new ArrayList<Integer>();
 		progressBook = new HashMap<Integer, String>();
 		String fileName = name + ".txt";
@@ -137,6 +141,7 @@ public class FileProjectHandler {
 	 */
 	public boolean createNewProject(String projectName){
 		if(!existingProjects.contains(projectName) && projectName != null){
+			projectName = projectName.toLowerCase();
 			return createNewProjectFile(projectName);
 		}
 		return false;
@@ -151,6 +156,9 @@ public class FileProjectHandler {
 	 */
 	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, 
 				HashMap<Integer, String> progressBook, String projectName){
+		
+		projectName = projectName.toLowerCase();
+		
 		try{
 			File outfile = new File(baseDirectory + projectName + ".txt");
 			

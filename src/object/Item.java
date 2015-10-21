@@ -14,6 +14,7 @@ public abstract class Item implements Comparable<Item> {
         setAdditionalInfo(additionalInfo);
         setId(counter++);
         setDone(false);
+//        System.out.println(id + " " + name);
     }
     
     /**

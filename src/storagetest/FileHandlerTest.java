@@ -38,10 +38,10 @@ public class FileHandlerTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		System.out.println("Exiting, cleaning up folders");
+		PreparationCleanUp.manualCleanUp();
 		if(PreparationCleanUp.cleanUp(newBaseDirectory)){
 			System.out.println("Clean up completed. bye");
 		}
-		PreparationCleanUp.manualCleanUp();
 	}
 	
 	@Test

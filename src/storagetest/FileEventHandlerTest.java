@@ -37,9 +37,9 @@ public class FileEventHandlerTest {
 	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		PreparationCleanUp.manualCleanUp();
 		System.out.println("Exiting, cleaning up folders");
 		if(PreparationCleanUp.cleanUp(baseDirectory)){
-			PreparationCleanUp.manualCleanUp();
 			System.out.println("Clean up completed. bye");
 		}
 	}
@@ -80,11 +80,11 @@ public class FileEventHandlerTest {
 		expectedEventBook.add(event);
 		ArrayList<Event> actualEventBook = fEventH.retrieveEventByDate("20 aug 2000");
 		
-		assertEquals("Test retrieving from a date of the past",
-				true, PreparationCleanUp.compareEventsArrayList(expectedEventBook,actualEventBook) );
-	
 //		assertEquals("Test retrieving from a date of the past",
-//				expectedEventBook,actualEventBook);
+//				true, PreparationCleanUp.compareEventsArrayList(expectedEventBook,actualEventBook) );
+	
+		assertEquals("Test retrieving from a date of the past",
+				expectedEventBook,actualEventBook);
 	}
 	
 	public void testChangeDirectory(){

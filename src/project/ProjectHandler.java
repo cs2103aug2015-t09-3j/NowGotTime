@@ -1,9 +1,10 @@
 package project;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
 import object.Event;
 import storage.FileHandler;
-import project.EventComparator;
 
 
 public class ProjectHandler implements ProjectManager{
@@ -25,6 +26,7 @@ public class ProjectHandler implements ProjectManager{
 		int id = event.getId();
 		if (id < 0) {
 			return false;
+			
 		} else {
 			projectBook = viewProjectTimeline(projectName.toLowerCase());
 			projectBook.add(id);
@@ -274,9 +276,9 @@ public class ProjectHandler implements ProjectManager{
 	private void sortEvents() {
 		ArrayList<Event> eventsToBeSorted = new ArrayList<Event>();
 		ArrayList<Integer> newProjectBook = new ArrayList<Integer>();
+	
 		for (int id : projectBook) {
 			Event event = project.retrieveEventById(id);
-			System.out.println("event " + event);
 			eventsToBeSorted.add(event);
 		}
 		

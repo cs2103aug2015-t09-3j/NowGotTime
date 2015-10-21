@@ -1,5 +1,10 @@
 package storage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import object.Event;
+
 /**
  * 
  * @author RX.huang
@@ -53,13 +58,41 @@ public class TestFileHandler {
 //		testo.testFileEventHandler();
 //		testo.testFileTodoHandler();
 //		testo.testFileProjectHandler();
-		
+		testo.testProject();
 //		testo.changeDirect();
 //		testo.testIndex();
 		
 		
 	}
 
+	public void testProject(){
+		
+		Event event = new Event("Dinner with Tim", "31 aug 2016", "1 sep 2016", "23:00", "02:00", "Prepare car");
+		Event event2 = new Event("Do coding", "31 aug 2016", "31 aug 2016", "12:00", "22:00", "In java");
+		Event event3 = new Event("sleep", "31 aug 2016", "31 aug 2016", "03:00", "10:00", "lean on the left");
+		Event event4 = new Event("Project", "24 aug 2016", "31 aug 2016", "20:00", "02:00", "chiong ah");
+		
+		fh.saveNewEventHandler(event);
+		fh.saveNewEventHandler(event2);
+		fh.saveNewEventHandler(event3);
+		fh.saveNewEventHandler(event4);
+		
+		fh.createNewProject("Software development");
+		ArrayList<Integer> projectBook = fh.retrieveProjectTimeLine("Software development");
+		
+		Event eventt = fh.retrieveEventById(2);
+		projectBook.add(eventt.getId());
+		HashMap<Integer, String> progressBook = new HashMap<Integer, String>();
+		
+		fh.saveEditedProjectDetails(projectBook, progressBook, "Software development");
+		
+		fh.createNewProject("Software development");
+		projectBook = fh.retrieveProjectTimeLine("Software development");
+		System.out.println(projectBook);
+		
+	}
+	
+	
 //	private void testIndex(){
 //		
 //		System.out.println ("//***************** Start test index *******************//");
