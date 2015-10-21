@@ -7,10 +7,13 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
+import javafx.geometry.Pos;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import object.Event;
 import project.Projects;
 import service.ServiceHandler;
@@ -48,7 +51,10 @@ public class CommandViewProject implements CommandView {
         int rowIndex = 0;
         int listNumber = 0;
         
-        displayBox.add(GUI.getText(projectName, Color.ORANGE, 14), 0, rowIndex++, 5, 1);
+        HBox title = new HBox(GUI.getText(projectName, Color.ORANGE, 18));
+        title.setAlignment(Pos.CENTER);
+        
+        displayBox.add(title, 0, rowIndex++, 5, 1);
         
         for (Event item : projectEvents) {
             String date = item.getStartDateString();
