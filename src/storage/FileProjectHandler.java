@@ -173,7 +173,11 @@ public class FileProjectHandler {
 				if(progressBook.isEmpty()){
 					writer.write("");
 				}else{
-					writer.write(progressBook.get(id));
+					if(progressBook.get(id) == null){
+						writer.write("");
+					}else{
+						writer.write(progressBook.get(id));
+					}
 				}
 				writer.newLine();
 			}
@@ -185,6 +189,7 @@ public class FileProjectHandler {
 			return false;
 		}catch(NullPointerException e){
 			System.out.println("One of the parameter is null");
+			e.printStackTrace();
 			return false;
 		}
 		
