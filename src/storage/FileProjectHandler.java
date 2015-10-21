@@ -150,7 +150,7 @@ public class FileProjectHandler {
 	 * @return true if the project has been successfully saved, else return false.
 	 */
 	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, 
-			HashMap<Integer, String> progressBook, String projectName){
+				HashMap<Integer, String> progressBook, String projectName){
 		try{
 			File outfile = new File(baseDirectory + projectName + ".txt");
 			
@@ -162,7 +162,12 @@ public class FileProjectHandler {
 			
 			for(Integer id : projectBook){
 				writer.write(id.toString()); writer.newLine();
-				writer.write(progressBook.get(id)); writer.newLine();
+				if(progressBook.isEmpty()){
+					writer.write("");
+				}else{
+					writer.write(progressBook.get(id));
+				}
+				writer.newLine();
 			}
 			writer.close();
 			return true;

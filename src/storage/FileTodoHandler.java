@@ -77,8 +77,7 @@ public class FileTodoHandler {
 			tempTodo = universalTodo;
 		}
 		sortTodoByDate(tempTodo);
-		return writeToFile(type);
-		
+		return writeToFile(type);	
 	}
 	
 	public boolean separateTodoTypes(){
@@ -154,6 +153,7 @@ public class FileTodoHandler {
 		try {
 			File inputFile = new File(baseDirectory + NORMAL_TODO);
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+			boolean isDone;
 			
 			Id = reader.readLine();
 			while( Id != null){
@@ -162,6 +162,7 @@ public class FileTodoHandler {
 				todoName = reader.readLine();
 				todoDate = reader.readLine();
 				todoTime = reader.readLine();
+				isDone = Boolean.parseBoolean(reader.readLine());
 				addInfo = "";
 				
 				if(isPartialType(todoType)){
@@ -175,6 +176,7 @@ public class FileTodoHandler {
 				}
 				
 				todo.setId(Integer.parseInt(Id));
+				todo.setDone(isDone);
 				myTodo.add(todo);
 				Id = reader.readLine();
 			}
@@ -196,6 +198,7 @@ public class FileTodoHandler {
 	private boolean readUniversalTodoFile() {
 		ArrayList<Todo> myUniversalTodo = new ArrayList<Todo>();
 		String todoName, addInfo, Id;
+		boolean isDone;
 		
 		try {
 			File inputFile = new File(baseDirectory + FLOATING_TODO);
@@ -205,15 +208,16 @@ public class FileTodoHandler {
 			while( (lineOfText = reader.readLine()) != null ){
 				Id = lineOfText;
 				todoName = reader.readLine();
+				isDone = Boolean.parseBoolean(reader.readLine());
 				addInfo = "";
+				
 				Todo todo = new Todo(todoName, addInfo);
 				todo.setId(Integer.parseInt(Id));
+				todo.setDone(isDone);
 				myUniversalTodo.add(todo);
-				
 			}
 			
-			universalTodo = myUniversalTodo;
-						
+			universalTodo = myUniversalTodo;	
 			reader.close();		 
 			return true;
 		}catch (FileNotFoundException e) {
@@ -225,7 +229,9 @@ public class FileTodoHandler {
 	}
 	
 	private boolean retrievePassedTasks(){
-		return readTodoFile() && readUniversalTodoFile();
+		readUniversalTodoFile();
+		readTodoFile();
+		return true;
 	}
 	
 	private void setZeroTime(Calendar date){
@@ -250,13 +256,21 @@ public class FileTodoHandler {
 				for(Todo aTodo : allTodo){
 					writer.write(aTodo.getId() + ""); writer.newLine();
 					String todoType = determineType(aTodo);
-					writer.write(todoType); writer.newLine();
-					writer.write(aTodo.toString()); writer.newLine();
+					writer.write(todoType); 
+					writer.newLine();
+					writer.write(aTodo.toString()); 
+					writer.newLine();
+					writer.write(aTodo.getDone() + "");
+					writer.newLine();
 				}
 			}else{
 				for(Todo aTodo : universalTodo){
-					writer.write(aTodo.getId() + ""); writer.newLine();
-					writer.write(aTodo.getName()); writer.newLine();
+					writer.write(aTodo.getId() + ""); 
+					writer.newLine();
+					writer.write(aTodo.getName()); 
+					writer.newLine();
+					writer.write(aTodo.getDone() + "");
+					writer.newLine();
 				}
 			}	
 			

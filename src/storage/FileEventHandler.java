@@ -27,10 +27,12 @@ public class FileEventHandler {
 	
 /*****************************************************************************************/		
 
- 	public FileEventHandler(String theBaseDirectory){
+ 	@SuppressWarnings("unchecked")
+	public FileEventHandler(String theBaseDirectory){
 		this.baseDirectory = theBaseDirectory.concat("/");
-		allEventsClone = allEvents;
+//		allEventsClone = allEvents;
 		allEvents = retrieveEvent();
+		allEventsClone = (ArrayList<Event>) allEvents.clone();
 	}
 
 	public boolean saveNewEventHandler(Event event){
@@ -42,11 +44,13 @@ public class FileEventHandler {
 		return false;
 	}
 			
+	@SuppressWarnings("unchecked")
 	public boolean saveEventBook(){
 		if(allEvents != allEventsClone){
 			allEvents = allEventsClone;
 		}
 		sortEventsByDate(allEvents);
+		allEventsClone = (ArrayList<Event>) allEvents.clone();
 		return writeToFile();
 	}
 	
@@ -98,6 +102,7 @@ public class FileEventHandler {
 	private ArrayList<Event> retrieveEvent(){
 		ArrayList<Event> eventBook = new ArrayList<Event>();
 		String eventName, startDate, endDate, startTime, endTime, addInfo, ID;
+		boolean isDone;
 		
 		try {
 			File inputFile = new File(baseDirectory + EVENTS);
@@ -111,10 +116,12 @@ public class FileEventHandler {
 				endDate = reader.readLine();
 				startTime = reader.readLine();
 				endTime = reader.readLine();
+				isDone = Boolean.parseBoolean(reader.readLine());
 				addInfo = "";
 				
 				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
 				event.setId(Integer.parseInt(ID));
+				event.setDone(isDone);
 				eventBook.add(event);
 			}
 			
@@ -152,6 +159,8 @@ public class FileEventHandler {
 			
 			for(Event anEvent : allEvents){
 				writer.write(anEvent.toString()); 
+				writer.newLine();
+				writer.write(anEvent.getDone() + "");
 				writer.newLine();
 			}
 			

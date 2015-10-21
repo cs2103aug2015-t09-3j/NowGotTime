@@ -90,6 +90,7 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean saveNewEventHandler(Event event){
+		writeCounter();
 		return fEventH.saveNewEventHandler(event);
 	}
 	
@@ -224,6 +225,7 @@ public class FileHandler implements FileManager{
 	
 	private void readCounter(){
 		if(Item.getCounter() != 0){
+			System.out.println(Item.getCounter());
 			return;
 		}
 		inputFile = new File(COUNTER);	
@@ -298,8 +300,7 @@ public class FileHandler implements FileManager{
 	 * Deletes all text files available
 	 */
 	public void clearAll(){
-		try {
-			
+		try {		
 			File dir = new File(todoPath);
 			if(dir.isDirectory() && dir.list().length > 0){
 				for(File file: dir.listFiles()) file.delete(); 
@@ -321,8 +322,8 @@ public class FileHandler implements FileManager{
 			path = Paths.get(projectPath);
 			Files.delete(path);
 			
-//			path = Paths.get("overview.txt");
-//			Files.delete(path);
+			path = Paths.get("overview.txt");
+			Files.delete(path);
 			
 			path = Paths.get("counter.txt");
 			Files.delete(path);
@@ -350,7 +351,6 @@ public class FileHandler implements FileManager{
 				return event;
 			}
 		}
-		
 		return null;
 	}
 	

@@ -3,7 +3,6 @@ package storagetest;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import object.Event;
 
@@ -81,11 +80,11 @@ public class FileEventHandlerTest {
 		expectedEventBook.add(event);
 		ArrayList<Event> actualEventBook = fEventH.retrieveEventByDate("20 aug 2000");
 		
-//		assertEquals("Test retrieving from a date of the past",
-//				true, compareEventsArrayList(expectedEventBook,actualEventBook) );
-	
 		assertEquals("Test retrieving from a date of the past",
-				expectedEventBook,actualEventBook);
+				true, PreparationCleanUp.compareEventsArrayList(expectedEventBook,actualEventBook) );
+	
+//		assertEquals("Test retrieving from a date of the past",
+//				expectedEventBook,actualEventBook);
 	}
 	
 	public void testChangeDirectory(){
@@ -129,33 +128,8 @@ public class FileEventHandlerTest {
 //				expectedList, fEventH.retrieveAllEvents());
 		
 		assertEquals("Test retrieval of all events", 
-				true, compareEventsArrayList(expectedList, fEventH.retrieveAllEvents()));
+				true, PreparationCleanUp.compareEventsArrayList(expectedList, fEventH.retrieveAllEvents()));
 		
-	}
-	
-	//temp comparators
-	public static boolean compareEvents(Event event1, Event event2){
-		return ( event1.getId() == event2.getId() ) &&
-				( event1.getName().equals( event2.getName() ) ) &&
-				( event1.getStartCalendar().get(Calendar.DATE) == event2.getStartCalendar().get(Calendar.DATE) ) &&
-				( event1.getStartCalendar().get(Calendar.HOUR_OF_DAY) == event2.getStartCalendar().get(Calendar.HOUR_OF_DAY) ) &&
-				( event1.getStartCalendar().get(Calendar.MINUTE) == event2.getStartCalendar().get(Calendar.MINUTE) ) &&
-				( event1.getEndCalendar().get(Calendar.DATE) ==  event2.getEndCalendar().get(Calendar.DATE) ) &&
-				( event1.getEndCalendar().get(Calendar.HOUR_OF_DAY) ==  event2.getEndCalendar().get(Calendar.HOUR_OF_DAY) ) &&
-				( event1.getEndCalendar().get(Calendar.MINUTE) ==  event2.getEndCalendar().get(Calendar.MINUTE) );
-	}
-	
-	public static boolean compareEventsArrayList(ArrayList<Event> list1, ArrayList<Event> list2){
-		if(list1.size() == list2.size()){
-			for(int i=0; i<list1.size(); i++){
-				if(!compareEvents(list1.get(i), list2.get(i))){
-					return false;
-				}
-			}
-		}else{
-			return false;
-		}
-		return true;
 	}
 	
 }

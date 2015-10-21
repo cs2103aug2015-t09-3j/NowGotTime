@@ -43,9 +43,10 @@ public class FileTodoHandlerTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		System.out.println("Exiting, cleaning up folders");
+		PreparationCleanUp.manualCleanUp();
 		if(PreparationCleanUp.cleanUp(baseDirectory)){
-			PreparationCleanUp.manualCleanUp();
 			System.out.println("Clean up completed. bye");
+			
 		}
 	}
 	
@@ -119,7 +120,7 @@ public class FileTodoHandlerTest {
 		ArrayList<Todo> actualList = fTodoH.retrieveAllTodo();
 		
 		assertEquals("Test retrieval of all todo", 
-				true, compareTodoArrayList(expectedList, actualList));
+				true, PreparationCleanUp.compareTodoArrayList(expectedList, actualList));
 		
 //		assertEquals("Test retrieval of all todo", 
 //				expectedList, actualList);
@@ -135,7 +136,7 @@ public class FileTodoHandlerTest {
 		ArrayList<Todo> actualList = fTodoH.retrieveTodoByDate("20 oct 2000");
 		
 		assertEquals("Test retrieval of todo by date", 
-				true, compareTodoArrayList(expectedList, actualList));
+				true, PreparationCleanUp.compareTodoArrayList(expectedList, actualList));
 	}
 
 	public void testRetrieveFloatingTodo() {
@@ -144,7 +145,7 @@ public class FileTodoHandlerTest {
 		actualList = fTodoH.retrieveFloatingTodo();
 		
 		assertEquals("Test retrieval of all floating todo", 
-				true, compareTodoArrayList(expectedList, actualList));
+				true, PreparationCleanUp.compareTodoArrayList(expectedList, actualList));
 	
 //		assertEquals("Test retrieval of all floating todo", expectedList, actualList);
 	}
@@ -184,23 +185,7 @@ public class FileTodoHandlerTest {
 				true, fTodoH.saveChange(NORMAL_TODO));
 	}
 	
-	private boolean compareTodoArrayList(ArrayList<Todo> list1, ArrayList<Todo> list2){
-		
-		if(list1.size() != list2.size()){
-			return false;
-		}else{
-			for(int i=0; i<list1.size(); i++){
-				if(!compareTodo(list1.get(i), list2.get(i))){
-					return false;
-				}
-			}
-			return true;
-		}		
-	}
-
-	private boolean compareTodo(Todo todo1, Todo todo2){	
-		return (todo1.getId() == todo2.getId());
-	}
+	
 	
 }
 

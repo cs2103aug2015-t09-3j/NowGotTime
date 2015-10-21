@@ -64,6 +64,7 @@ public class DirectoryHandler {
 	public boolean setNewBaseDirectory(String theBaseDirectory){
 		if(theBaseDirectory != null && (new File(theBaseDirectory).exists())){
 			baseDirectory = theBaseDirectory;
+			//TODO: hold directory until safe is successful
 		return atFirstStartUp();
 		}
 		return false;
@@ -113,7 +114,7 @@ public class DirectoryHandler {
 			baseDirectory = getJavaProjectDirectory();
 		}
 		
-		String newDirectoryPath = baseDirectory.concat(directoryName);
+		String newDirectoryPath = baseDirectory.concat("/" + directoryName);
 		if(makeNewDirectory(newDirectoryPath)){
 			return newDirectoryPath;
 		}else{

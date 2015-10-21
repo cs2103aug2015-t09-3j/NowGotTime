@@ -87,6 +87,7 @@ public abstract class Item implements Comparable<Item> {
     public void setDone(boolean check) {
     	done = check;
     }
+    
     public abstract String toFormattedString() throws ParseException;
     
     public int compareTo(Item other) {
