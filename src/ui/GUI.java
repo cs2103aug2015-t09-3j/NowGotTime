@@ -84,6 +84,8 @@ public class GUI extends Application {
             // catch error message
             statusBox.setStyle(CSS_ERROR);
             feedback = e.getMessage();
+            System.out.println("masuk");
+            e.printStackTrace();
         }
         
         return feedback;

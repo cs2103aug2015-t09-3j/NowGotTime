@@ -93,6 +93,7 @@ public class FileEventHandler {
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<Event> retrieveAllEvents(){
+		allEvents = retrieveEvent();
 		allEventsClone = (ArrayList<Event>) allEvents.clone();
 		return allEventsClone;
 	}

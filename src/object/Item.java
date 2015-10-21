@@ -14,6 +14,7 @@ public abstract class Item implements Comparable<Item> {
         setAdditionalInfo(additionalInfo);
         setId(counter++);
         setDone(false);
+//        System.out.println(id + " " + name);
     }
     
     /**
@@ -124,6 +125,10 @@ public abstract class Item implements Comparable<Item> {
                 return this.getName().compareTo(other.getName());
             }
         }
+    }
+    
+    public boolean equals(Object other) {
+        return getId() == ((Item) other).getId();
     }
     
 }

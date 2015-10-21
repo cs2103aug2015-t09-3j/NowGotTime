@@ -10,12 +10,11 @@ public interface CommandView extends Command, Displayable {
     public static CommandView parseCommandView(String text) throws Exception {
         
         CommandView commandView = null;
-        
-        if (Parser.matches(text, Parser.PATTERN_ANY)) {
-            commandView = new CommandViewDate(text);
-            
-        } else if (Parser.matches(text, Parser.PATTERN_NAME)) {
+        if (Parser.matches(text, Parser.PATTERN_NAME)) {
             commandView = new CommandViewProject(text);
+            
+        } else if (Parser.matches(text, Parser.PATTERN_DATE)) {
+            commandView = new CommandViewDate(text);
             
         } else {
             throw new Exception(String.format(CommonHelper.ERROR_INVALID_ARGUMENTS, CommandView.KEYWORD));

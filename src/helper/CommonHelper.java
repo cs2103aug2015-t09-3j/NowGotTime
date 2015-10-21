@@ -23,7 +23,7 @@ public class CommonHelper {
     public static final String SUCCESS_PROJECT_DELETED       = "project '%1$s' deleted";
     public static final String SUCCESS_ITEM_EDITED           = "'%1$s' %2$s changed to '%3$s'";
     public static final String SUCCESS_PROJECT_EDITED        = "project '%1$s' changed to '%2$s'";
-    public static final String SUCCESS_ITEM_ADDED_TO_PROJECT = "'%1$s' added to project '%1$s'";
+    public static final String SUCCESS_ITEM_ADDED_TO_PROJECT = "'%1$s' added to project '%2$s'";
     public static final String SUCCESS_SEARCHED              = "Got it!";
     public static final String SUCCESS_SAVE_CHANGED          = "save directory moved to '%1$s'";
     public static final String SUCCESS_ITEM_CHECKED          = "marked done '%1$s'";
@@ -42,6 +42,7 @@ public class CommonHelper {
     public static final String ERROR_INVALID_PATH        = "invalid new save directory";
     public static final String ERROR_ALREADY_CHECKED     = "'%1$s' already checked";
     public static final String ERROR_ALREADY_UNCHECKED   = "'%1$s' already unchecked";
+    public static final String ERROR_TODO_ON_PROJECT     = "only event can be added to project";
     
     
     public static final String FORMATTED_EVENT         = "[%1$s-%2$s] %3$s";

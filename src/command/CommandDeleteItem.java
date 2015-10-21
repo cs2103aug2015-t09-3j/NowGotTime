@@ -81,8 +81,9 @@ public class CommandDeleteItem implements CommandDelete {
      */
     @Override
     public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
-        Revertible revertDeleteCommand = new CommandAddItem(item);
-        return revertDeleteCommand.revert(serviceHandler, projectHandler, historyList);
+        System.out.println(item);
+        CommandAddItem revertDeleteCommand = new CommandAddItem(item);
+        return revertDeleteCommand.execute(serviceHandler, projectHandler, historyList);
     }
 
     @Override

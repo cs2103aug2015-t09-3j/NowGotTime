@@ -23,7 +23,7 @@ public class CommandAddToProject implements CommandAdd {
         
         if (Parser.matches(args,Parser.PATTERN_ADD_INDEX_TO_PROJECT)) {
             matcher = Parser.matchRegex(args, Parser.PATTERN_ADD_INDEX_TO_PROJECT);
-            index = Integer.parseInt(matcher.group(Parser.TAG_INDEX));
+            index = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
             projectName = matcher.group(Parser.TAG_NAME);
             
         } else if (Parser.matches(args,Parser.PATTERN_ADD_KEYWORD_TO_PROJECT)) {
@@ -58,7 +58,9 @@ public class CommandAddToProject implements CommandAdd {
         }
         
         // TODO: handle item already on the list, check if item is event
-        if (projectHandler.addProjectEvent(((Event)item), projectName)) {
+        if (!(item instanceof Event)) {
+            throw new Exception(CommonHelper.ERROR_TODO_ON_PROJECT);
+        } else if (projectHandler.addProjectEvent(((Event)item), projectName)) {
             return String.format(CommonHelper.SUCCESS_ITEM_ADDED_TO_PROJECT, item.getName(), projectName);
         } else {
             throw new Exception(String.format(CommonHelper.ERROR_PROJECT_NOT_FOUND, projectName));
@@ -75,8 +77,14 @@ public class CommandAddToProject implements CommandAdd {
 
     @Override
     public Displayable getDisplayable() {
-        // TODO Auto-generated method stub
-        return null;
+        if (item == null) {
+            // TODO Refactor this
+            return new CommandSearch("\"" + keyword + "\"");
+        }
+        else {
+            // TODO Refactor this
+            return new CommandViewProject("\"" + projectName + "\"");
+        }
     }
 
 }

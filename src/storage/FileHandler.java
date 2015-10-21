@@ -134,6 +134,7 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean saveNewTodoHandler(Todo task) {
+		writeCounter();
 		return fTodoH.saveNewTodoHandler(task);
 	}
 	
@@ -224,8 +225,9 @@ public class FileHandler implements FileManager{
 	}
 	
 	private void readCounter(){
+//		System.out.println("WHy? " + Item.getCounter());
 		if(Item.getCounter() != 0){
-			System.out.println(Item.getCounter());
+//			System.out.println("another: " + Item.getCounter());
 			return;
 		}
 		inputFile = new File(COUNTER);	

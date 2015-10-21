@@ -23,8 +23,8 @@ public class DirectoryHandlerTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		System.out.println("Exiting, cleaning up folders");
+		PreparationCleanUp.manualCleanUp();
 		if(PreparationCleanUp.cleanUp(newBaseDirectory)){
-			PreparationCleanUp.manualCleanUp();
 			System.out.println("Clean up completed. bye");
 		}
 	}

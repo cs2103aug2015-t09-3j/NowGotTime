@@ -29,8 +29,8 @@ public class CommandViewDate implements CommandView {
      * Parses the arguments for view command
      */
     public CommandViewDate(String args) {
-        Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_ANY);
-        dateString = matcher.group(Parser.TAG_VALUE).trim();
+        Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DATE);
+        dateString = matcher.group(Parser.TAG_DATE).trim();
     }
 
     /**
