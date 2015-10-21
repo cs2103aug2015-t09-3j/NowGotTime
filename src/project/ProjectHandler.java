@@ -276,11 +276,12 @@ public class ProjectHandler implements ProjectManager{
 		ArrayList<Integer> newProjectBook = new ArrayList<Integer>();
 		for (int id : projectBook) {
 			Event event = project.retrieveEventById(id);
+			System.out.println("event " + event);
 			eventsToBeSorted.add(event);
 		}
 		
 		EventComparator eventComparator = new EventComparator();
-		Collections.sort(eventsToBeSorted, eventComparator);
+		Collections.sort(eventsToBeSorted);
 		
 		for (Event event : eventsToBeSorted) {
 			int id = event.getId();

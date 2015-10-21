@@ -14,7 +14,7 @@ public class CommandDeleteFromProject implements CommandDelete {
     
     public CommandDeleteFromProject(String args) {
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DELETE_INDEX_FROM_PROJECT);
-        index = Integer.parseInt(matcher.group(Parser.TAG_INDEX));
+        index = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
         projectName = matcher.group(Parser.TAG_NAME);
     }
 
