@@ -28,8 +28,9 @@ public class serviceHandlerTest{
 	 private static final String NEWNAME = "its over 9000";
 	 private static final String INCORRECTTIME = "18:00";
 	 private static final String CORRECTTIME = "16:30";
-	 private static final String OLDSTARTTIME = "14:00";
-	 private static final String OLDENDTIME = "13:00";
+	 private static final String OLDSTARTTIMEEVENT = "20 Oct 2015 14:00";
+	 private static final String OLDENDTIMEEVENT = "20 Oct 2015 13:00";
+	 private static final String OLDDUETIMETODO = "20 Oct 2015 10:00";
 	 
 	 private Todo floatingTodo1 = new Todo("Floating todo1");
 	 private Todo floatingTodo2 = new Todo("Floating todo2");
@@ -128,9 +129,9 @@ public class serviceHandlerTest{
 		try {
 			service.createItem(floatingTodo2);
 			service.createItem(floatingTodo1);
-			assertEquals("DeleteFloatingTodo2", true, service.deleteItem(floatingTodo2));
+			assertEquals("DeleteFloatingTodo2Success", true, service.deleteItem(floatingTodo2));
 			assertEquals("DeleteFloatingTodo3", false, service.deleteItem(floatingTodo3));
-			assertEquals("DeleteFloatingTodo2", false, service.deleteItem(floatingTodo2));
+			assertEquals("DeleteFloatingTodo2Fail", false, service.deleteItem(floatingTodo2));
 			
 			service.createItem(event1);
 			service.createItem(event2);
@@ -159,10 +160,10 @@ public class serviceHandlerTest{
 	public void testViewSpecficTask() {
 		try {
 			service.createItem(floatingTodo1);
-			assertEquals("View specfic floating task success", floatingTodo1, service.viewSpecificTask(FLOATINGTODONAME));
+			assertEquals("View specfic floating task success1", floatingTodo1, service.viewSpecificTask(FLOATINGTODONAME));
 			
 			service.createItem(todo1);
-			assertEquals("View specfic floating task success", todo1, service.viewSpecificTask(TODONAME));
+			assertEquals("View specfic floating task success2", todo1, service.viewSpecificTask(TODONAME));
 			
 			assertEquals("View specific task fail", null, service.viewSpecificEvent(NAMENOTFOUND));
 		} catch (Exception e) {
@@ -183,12 +184,12 @@ public class serviceHandlerTest{
 			expectedListItem.add(todo3);
 			expectedListItem.add(event1);
 			expectedListItem.add(floatingTodo1);
-			assertEquals("Search success", expectedListItem, service.search(SEARCHINPUT));
+			assertEquals("Search success1", expectedListItem, service.search(SEARCHINPUT));
 			
 			ArrayList<Item> expectedListItem1 = new ArrayList<Item>();
 			expectedListItem1.add(event1);
 			expectedListItem1.add(event2);
-			assertEquals("Search success", expectedListItem1, service.search(SEARCHINPUT1));
+			assertEquals("Search success2", expectedListItem1, service.search(SEARCHINPUT1));
 			
 			ArrayList<Item> expectedListItem2 = new ArrayList<Item>();
 			assertEquals("Search empty", expectedListItem2, service.search(NAMENOTFOUND));
@@ -207,9 +208,9 @@ public class serviceHandlerTest{
 
 			service.search(SEARCHINPUT); //only returns 3 result despite 4 items added
 			assertEquals("delete item by index fail", false, service.deleteItemByIndex(3));
-			assertEquals("delete item by index success", true, service.deleteItemByIndex(2));
-			assertEquals("delete item by index success", true, service.deleteItemByIndex(1));
-			assertEquals("delete item by index success", true, service.deleteItemByIndex(0));
+			assertEquals("delete item by index success1", true, service.deleteItemByIndex(2));
+			assertEquals("delete item by index success2", true, service.deleteItemByIndex(1));
+			assertEquals("delete item by index success3", true, service.deleteItemByIndex(0));
 		} catch (Exception e) {
 			fail("exception should not be thrown");
 		}	
@@ -226,14 +227,14 @@ public class serviceHandlerTest{
 
 			service.search(SEARCHINPUT); //only returns 4 result despite 5 items added
 			assertEquals("view item by index fail", null, service.viewItemByIndex(4));			
-			assertEquals("view item by index success", floatingTodo1, service.viewItemByIndex(3));			
-			assertEquals("view item by index success", event1, service.viewItemByIndex(2));
-			assertEquals("view item by index success", todo3, service.viewItemByIndex(1));
-			assertEquals("view item by index success", todo1, service.viewItemByIndex(0));
+			assertEquals("view item by index success1", floatingTodo1, service.viewItemByIndex(3));			
+			assertEquals("view item by index success2", event1, service.viewItemByIndex(2));
+			assertEquals("view item by index success3", todo3, service.viewItemByIndex(1));
+			assertEquals("view item by index success4", todo1, service.viewItemByIndex(0));
 			
 			service.search(SEARCHINPUT2);
-			assertEquals("view item by index success", todo1, service.viewItemByIndex(0));
-			assertEquals("view item by index success", todo3, service.viewItemByIndex(1));
+			assertEquals("view item by index success5", todo1, service.viewItemByIndex(0));
+			assertEquals("view item by index success6", todo3, service.viewItemByIndex(1));
 			
 			
 		} catch (Exception e) {
@@ -245,14 +246,18 @@ public class serviceHandlerTest{
 	public void testEditItem() {
 		try {
 			service.createItem(floatingTodo1);
-			service.createItem(todo1);
+			service.createItem(todo3);
 			service.createItem(event2);
 			service.createItem(event1);
-			service.createItem(todo3);
 			
-			assertEquals("edit item success", EVENTNAME, service.editItem(event1, CommonHelper.FIELD_NAME, NEWNAME));
-			assertEquals("edit item success", OLDSTARTTIME ,service.editItem(event2, CommonHelper.FIELD_START, CORRECTTIME));
-			assertEquals("edit item success", OLDENDTIME, service.editItem(event1, CommonHelper.FIELD_END, CORRECTTIME));
+			assertEquals("edit item success1", FLOATINGTODONAME, service.editItem(floatingTodo1, CommonHelper.FIELD_NAME, NEWNAME));
+			assertEquals("edit item success2", OLDDUETIMETODO, service.editItem(todo3, CommonHelper.FIELD_DUE, CORRECTTIME));
+			
+			assertEquals("edit item success3", EVENTNAME, service.editItem(event1, CommonHelper.FIELD_NAME, NEWNAME));
+			assertEquals("edit item success4", OLDSTARTTIMEEVENT ,service.editItem(event2, CommonHelper.FIELD_START, CORRECTTIME));
+			assertEquals("edit item success5", OLDENDTIMEEVENT, service.editItem(event1, CommonHelper.FIELD_END, CORRECTTIME));
+			
+			assertEquals("Search success1", null, service.search(NEWNAME));
 		} catch (Exception e) {
 			fail("exception should not be thrown");
 		}	
