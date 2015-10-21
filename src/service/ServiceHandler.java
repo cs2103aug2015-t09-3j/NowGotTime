@@ -1,4 +1,5 @@
 package service;
+import helper.CalendarHelper;
 import helper.CommonHelper;
 
 import java.util.ArrayList;
@@ -238,26 +239,28 @@ public class ServiceHandler implements ServiceManager{
 		// case edit start
 		case (CommonHelper.FIELD_START): 
 			oldValue = _event.getStartDateTimeString();
-		if (compareDate(_event.getStartCalendar(),_event.getEndCalendar())){
-			throw new Exception(CommonHelper.ERROR_START_AFTER_END);
-		}
-		else {
-		_event.updateStart(newInputs);
-		itemHandler.saveEditedEventHandler();
-		}
-		break;
+		    _event.updateStart(newInputs);
+    		if (!compareDate(_event.getStartCalendar(),_event.getEndCalendar())){
+    		    _event.updateStart(oldValue);
+    			throw new Exception(CommonHelper.ERROR_START_AFTER_END);
+    		}
+    		else {
+    		    itemHandler.saveEditedEventHandler();
+    		}
+    		break;
 
 		//case edit end
 		case (CommonHelper.FIELD_END): 
 			oldValue = _event.getEndDateTimeString();
-		if (compareDate(_event.getStartCalendar(),_event.getEndCalendar())){
-			throw new Exception(CommonHelper.ERROR_START_AFTER_END);
-		}
-		else {
-		_event.updateEnd(newInputs);
-		itemHandler.saveEditedEventHandler();
-		}
-		break;
+		    _event.updateEnd(newInputs);
+    		if (!compareDate(_event.getStartCalendar(),_event.getEndCalendar())){
+    		    _event.updateEnd(oldValue);
+    			throw new Exception(CommonHelper.ERROR_START_AFTER_END);
+    		}
+    		else {
+    		    itemHandler.saveEditedEventHandler();
+    		}
+    		break;
 
 		//case edit unexpected
 		default :
