@@ -127,4 +127,8 @@ public abstract class Item implements Comparable<Item> {
         }
     }
     
+    public boolean equals(Object other) {
+        return getId() == ((Item) other).getId();
+    }
+    
 }
