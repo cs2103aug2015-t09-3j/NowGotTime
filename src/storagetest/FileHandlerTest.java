@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import object.Event;
+import object.Item;
 import object.Todo;
 
 import org.junit.AfterClass;
@@ -31,6 +32,7 @@ public class FileHandlerTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		Item.setCounter(0);
 		PreparationCleanUp.manualCleanUp();
 		fh = new FileHandler();
 	}
@@ -38,10 +40,10 @@ public class FileHandlerTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		System.out.println("Exiting, cleaning up folders");
+		Item.setCounter(0);
 		PreparationCleanUp.manualCleanUp();
-		if(PreparationCleanUp.cleanUp(newBaseDirectory)){
-			System.out.println("Clean up completed. bye");
-		}
+		PreparationCleanUp.cleanUp(newBaseDirectory);
+		System.out.println("Clean up completed. bye");
 	}
 	
 	@Test
@@ -159,10 +161,10 @@ public class FileHandlerTest {
 	
 	public void testRetrieveTodoByDate() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		
+		expectedList.add(todo3);
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		expectedList.add(todo3);
+		
 		
 		ArrayList<Todo> actualList = fh.retrieveTodoByDate("20 oct 2000");
 		
@@ -172,14 +174,14 @@ public class FileHandlerTest {
 
 	public void testRetrieveAllTodo() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		
+		expectedList.add(todo3);
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		expectedList.add(todo3);
 		
+		expectedList.add(todo2);
 		expectedList.add(todo6);
 		expectedList.add(todo4);
-		expectedList.add(todo2);
+		
 		expectedList.add(todo1);
 		
 		ArrayList<Todo> actualList = fh.retrieveAllTodo();

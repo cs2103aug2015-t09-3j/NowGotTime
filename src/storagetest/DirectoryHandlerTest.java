@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
+import object.Item;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,16 +19,17 @@ public class DirectoryHandlerTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-	
+		Item.setCounter(0);
+		PreparationCleanUp.manualCleanUp();
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		System.out.println("Exiting, cleaning up folders");
+		Item.setCounter(0);
 		PreparationCleanUp.manualCleanUp();
-		if(PreparationCleanUp.cleanUp(newBaseDirectory)){
-			System.out.println("Clean up completed. bye");
-		}
+		PreparationCleanUp.cleanUp(newBaseDirectory);
+		System.out.println("Clean up completed. bye");
 	}
 
 	@Test

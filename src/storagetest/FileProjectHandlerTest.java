@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import object.Item;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,7 +24,7 @@ public class FileProjectHandlerTest {
 	public static void setUpBeforeClass() throws Exception {
 		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
 		System.out.println("This is the base directory: \n" + baseDirectory);
-		
+		Item.setCounter(0);
 		PreparationCleanUp.cleanUp(baseDirectory);
 		PreparationCleanUp.setUpDirectory(baseDirectory);
 		
@@ -43,10 +45,10 @@ public class FileProjectHandlerTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		System.out.println("Exiting, cleaning up folders");
+		Item.setCounter(0);
 		PreparationCleanUp.manualCleanUp();
-		if(PreparationCleanUp.cleanUp(baseDirectory)){
-			System.out.println("Clean up completed. bye");
-		}
+		PreparationCleanUp.cleanUp(baseDirectory);
+		System.out.println("Clean up completed. bye");
 	}
 	
 /*****************************************************************************/

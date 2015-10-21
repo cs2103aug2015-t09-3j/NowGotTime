@@ -225,17 +225,15 @@ public class FileHandler implements FileManager{
 	}
 	
 	private void readCounter(){
-//		System.out.println("WHy? " + Item.getCounter());
-		if(Item.getCounter() != 0){
-//			System.out.println("another: " + Item.getCounter());
-			return;
-		}
+//		System.out.println("Counter is " + Item.getCounter()); //for checking
+
 		inputFile = new File(COUNTER);	
 		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			
 			int counter = Integer.parseInt(reader.readLine());
+//			System.out.println("Counter is now set to " + counter); //for checking
 			Item.setCounter(counter);
 			
 			reader.close();		 
@@ -248,6 +246,9 @@ public class FileHandler implements FileManager{
 	}
 	
 	private boolean writeCounter(){
+		
+//		System.out.println("Counter is now " + Item.getCounter()); //for checking
+		
 		try{
 			File outfile = new File(COUNTER);
 			

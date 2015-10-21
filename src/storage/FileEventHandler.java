@@ -46,9 +46,19 @@ public class FileEventHandler {
 			
 	@SuppressWarnings("unchecked")
 	public boolean saveEventBook(){
+//		System.out.println("\nClone events:");
+//		System.out.println(allEventsClone);
+//		
+//		System.out.println("\nAll events:");
+//		System.out.println(allEvents);
+		
 		if(allEvents != allEventsClone){
 			allEvents = allEventsClone;
 		}
+		
+//		System.out.println("\n new All events:");
+//		System.out.println(allEvents);
+		
 		sortEventsByDate(allEvents);
 		allEventsClone = (ArrayList<Event>) allEvents.clone();
 		return writeToFile();
@@ -147,6 +157,7 @@ public class FileEventHandler {
 	
 	private boolean sortEventsByDate(ArrayList<Event> eventBook){
 		if(eventBook != null){
+//			Collections.sort(eventBook);
 			Collections.sort(eventBook, new CustomComparator());
 			return true;
 		}

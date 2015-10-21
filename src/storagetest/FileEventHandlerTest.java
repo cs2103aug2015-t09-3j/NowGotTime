@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 
 import object.Event;
+import object.Item;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -19,6 +20,7 @@ public class FileEventHandlerTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		Item.setCounter(0);
 		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
 		System.out.println("This is the base directory: \n" + baseDirectory);
 		PreparationCleanUp.manualCleanUp();
@@ -37,11 +39,12 @@ public class FileEventHandlerTest {
 	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		PreparationCleanUp.manualCleanUp();
 		System.out.println("Exiting, cleaning up folders");
-		if(PreparationCleanUp.cleanUp(baseDirectory)){
-			System.out.println("Clean up completed. bye");
-		}
+		Item.setCounter(0);
+		PreparationCleanUp.manualCleanUp();
+		PreparationCleanUp.cleanUp(baseDirectory);
+		System.out.println("Clean up completed. bye");
+
 	}
 
 	public void testFileEventHandlerConstructor() {
