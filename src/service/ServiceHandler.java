@@ -66,10 +66,10 @@ public class ServiceHandler implements ServiceManager{
 		if (item.getClass() == Event.class) {
 			return deleteEvent((Event) item);
 		}
-		else
+		else {
 			return deleteTask((Todo) item);   	
 	}
-
+	}
 	/**
 	 * Checks if the event exist
 	 * Returns event when exist, else return null
@@ -293,14 +293,16 @@ public class ServiceHandler implements ServiceManager{
 
 	private boolean deleteTask(Todo _task) {
 		ArrayList<Todo> completeTodoList = itemHandler.retrieveAllTodo();      
-		completeTodoList.remove(_task);
-		return itemHandler.saveAllEditedTodo();
+		boolean check = completeTodoList.remove(_task);
+		itemHandler.saveAllEditedTodo();
+		return check;
 	}
 
 	private boolean deleteEvent(Event _event) {
 		ArrayList<Event> completeEventBook = itemHandler.retrieveAllEvents();
-		completeEventBook.remove(_event);
-		return itemHandler.saveEditedEventHandler();
+		boolean check = completeEventBook.remove(_event);
+		itemHandler.saveEditedEventHandler();
+		return check;
 	}
 	
 	private boolean createEvent(Event newEvent) throws Exception {
