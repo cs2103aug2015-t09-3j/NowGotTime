@@ -294,14 +294,14 @@ public class ServiceHandler implements ServiceManager{
 	private boolean deleteTask(Todo _task) {
 		ArrayList<Todo> completeTodoList = itemHandler.retrieveAllTodo();      
 		boolean check = completeTodoList.remove(_task);
-		itemHandler.saveAllEditedTodo();
+		itemHandler.saveAllEditedTodo(); //saves no matter if an item is deleted
 		return check;
 	}
 
 	private boolean deleteEvent(Event _event) {
 		ArrayList<Event> completeEventBook = itemHandler.retrieveAllEvents();
 		boolean check = completeEventBook.remove(_event);
-		itemHandler.saveEditedEventHandler();
+		itemHandler.saveEditedEventHandler(); //saves no matter if an item is deleted
 		return check;
 	}
 	
