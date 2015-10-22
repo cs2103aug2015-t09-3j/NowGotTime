@@ -114,9 +114,9 @@
 			<fx:resources refid="appRes"/>
 	
 			<manifest>
-				<attribute name="Implementation-Vendor" value="aaa"/>
+				<attribute name="Implementation-Vendor" value="NowGotTime"/>
 				<attribute name="Implementation-Title" value="NowGotTime"/>
-				<attribute name="Implementation-Version" value="0.15"/>
+				<attribute name="Implementation-Version" value="0.2"/>
 				<attribute name="JavaFX-Feature-Proxy" value="None"/>
 			</manifest>
 		</fx:jar>

@@ -113,10 +113,10 @@ public class CommandViewDate implements CommandView {
                 Text dateString = null;
                 
                 if (item instanceof Todo && !((Todo)item).hasDate()) {
-                    dateString = GUI.getText("Task", Color.BLACK, 16);
+                    dateString = GUI.getText("Task", Color.BLACK, 18);
                 }
                 else {
-                    dateString = GUI.getText(date, Color.BLACK, 16);
+                    dateString = GUI.getText(date, Color.BLACK, 18);
                 }
                 rowIndex++;
                 rowIndex++;
@@ -124,11 +124,11 @@ public class CommandViewDate implements CommandView {
                 displayBox.add(new Separator(), 0, rowIndex++, 5, 1);
             }
             
-            Text markText = GUI.getText("\u2714", Color.GREEN, 16);
-            Text nameText = GUI.getText(item.getName(), Color.GREY, 14);
+            Text markText = GUI.getText("\u2714", Color.GREEN, 18);
+            Text nameText = GUI.getText(item.getName(), Color.GREY, 16);
             
             if (!item.getDone()) {
-                markText = GUI.getText("\u2610", Color.GREY, 16);
+                markText = GUI.getText("\u2610", Color.GREY, 18);
             }
             
             String timeString = "";
@@ -148,7 +148,7 @@ public class CommandViewDate implements CommandView {
                     timeString += ((Todo)item).getDeadlineTimeString();
             }
 
-            Text timeText = GUI.getText(timeString, Color.GREY, 14);
+            Text timeText = GUI.getText(timeString, Color.GREY, 16);
 
             displayBox.add(markText, 1, rowIndex);
             displayBox.add(nameText, 2, rowIndex);

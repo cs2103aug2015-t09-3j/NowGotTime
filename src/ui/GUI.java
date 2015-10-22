@@ -39,8 +39,8 @@ import helper.CalendarHelper;
 public class GUI extends Application {
     
     private String GUI_TITLE = "NowGotTime";
-    private int GUI_HEIGHT = 500;
-    private int GUI_WIDTH = 500; 
+    private int GUI_HEIGHT = 650;
+    private int GUI_WIDTH = 600; 
     private Insets BOX_PADDING = new Insets(10, 10, 10, 10);
     HBox statusBox;
     GridPane displayBox;
