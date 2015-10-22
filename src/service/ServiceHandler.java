@@ -138,7 +138,7 @@ public class ServiceHandler implements ServiceManager{
 	 */
 	@Override
 	public Item viewItemByIndex(int index) {   	
-		if((index >= searchedItems.size()) || index<0){
+		if((index >= searchedItems.size()) || index <0 ){
 			return null;			
 		}
 		else{
