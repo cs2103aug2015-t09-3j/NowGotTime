@@ -102,8 +102,8 @@ public class serviceHandlerTest{
 			service.createItem(todo2);
 			service.createItem(todo3);
 			ArrayList<Todo> expectedListTodo = new ArrayList<Todo>();
-			expectedListTodo.add(todo2);
 			expectedListTodo.add(todo3);
+			expectedListTodo.add(todo2);
 			assertEquals("View task by date", expectedListTodo, service.viewTaskByDate(DATE) );
 		} catch (Exception e) {
 			fail("exception should not be thrown");
@@ -180,8 +180,8 @@ public class serviceHandlerTest{
 			service.createItem(event1);
 			service.createItem(todo3);
 			ArrayList<Item> expectedListItem = new ArrayList<Item>();
-			expectedListItem.add(todo1);
 			expectedListItem.add(todo3);
+			expectedListItem.add(todo1);
 			expectedListItem.add(event1);
 			expectedListItem.add(floatingTodo1);
 			assertEquals("Search success1", expectedListItem, service.search(SEARCHINPUT));
@@ -211,6 +211,8 @@ public class serviceHandlerTest{
 			assertEquals("delete item by index success1", true, service.deleteItemByIndex(2));
 			assertEquals("delete item by index success2", true, service.deleteItemByIndex(1));
 			assertEquals("delete item by index success3", true, service.deleteItemByIndex(0));
+			
+			assertEquals("delete item by index fail", false, service.deleteItemByIndex(-1)); //cannot delete negative index
 		} catch (Exception e) {
 			fail("exception should not be thrown");
 		}	
@@ -229,12 +231,13 @@ public class serviceHandlerTest{
 			assertEquals("view item by index fail", null, service.viewItemByIndex(4));			
 			assertEquals("view item by index success1", floatingTodo1, service.viewItemByIndex(3));			
 			assertEquals("view item by index success2", event1, service.viewItemByIndex(2));
-			assertEquals("view item by index success3", todo3, service.viewItemByIndex(1));
-			assertEquals("view item by index success4", todo1, service.viewItemByIndex(0));
+			assertEquals("view item by index success3", todo1, service.viewItemByIndex(1));
+			assertEquals("view item by index success4", todo3, service.viewItemByIndex(0));
+			assertEquals("view item by index fail", null, service.viewItemByIndex(-1)); //cannot view items of negative index
 			
 			service.search(SEARCHINPUT2);
-			assertEquals("view item by index success5", todo1, service.viewItemByIndex(0));
-			assertEquals("view item by index success6", todo3, service.viewItemByIndex(1));
+			assertEquals("view item by index success5", todo3, service.viewItemByIndex(0));
+			assertEquals("view item by index success6", todo1, service.viewItemByIndex(1));
 			
 			
 		} catch (Exception e) {

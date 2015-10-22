@@ -1,5 +1,4 @@
 package service;
-import helper.CalendarHelper;
 import helper.CommonHelper;
 
 import java.util.ArrayList;
@@ -126,7 +125,7 @@ public class ServiceHandler implements ServiceManager{
 	 */
 	@Override
 	public boolean deleteItemByIndex(int index) {
-		if(index >= searchedItems.size()){
+		if((index >= searchedItems.size()) || index < 0){
 			return false;
 		}
 		else{
@@ -139,8 +138,8 @@ public class ServiceHandler implements ServiceManager{
 	 */
 	@Override
 	public Item viewItemByIndex(int index) {   	
-		if(index >= searchedItems.size()){
-			return null;
+		if((index >= searchedItems.size()) || index<0){
+			return null;			
 		}
 		else{
 			return searchedItems.get(index);
