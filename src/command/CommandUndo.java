@@ -24,6 +24,8 @@ public class CommandUndo implements Command {
         
     }
     
+    Revertible lastCommand;
+    
     /**
      * Executes undo command, returns feedback string
      */
@@ -32,14 +34,13 @@ public class CommandUndo implements Command {
         if (historyList.empty()) {
             return CommonHelper.ERROR_EMPTY_HISTORY;
         }
-        Revertible lastCommand = ((Revertible)historyList.pop());
+        lastCommand = ((Revertible)historyList.pop());
         return lastCommand.revert(serviceHandler, projectHandler, historyList);
     }
 
     @Override
     public Displayable getDisplayable() {
-        // TODO Auto-generated method stub
-        return null;
+        return ((Command)lastCommand).getDisplayable();
     }
 
 }
