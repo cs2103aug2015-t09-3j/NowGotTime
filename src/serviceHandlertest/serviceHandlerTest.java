@@ -48,6 +48,7 @@ public class serviceHandlerTest{
 	public void setUp() throws Exception {
 		FileHandler clear = new FileHandler();
 		clear.clearAll();
+		System.out.println("ServiceHandler cleared");
 		service = new ServiceHandler();		
 	}
 	
