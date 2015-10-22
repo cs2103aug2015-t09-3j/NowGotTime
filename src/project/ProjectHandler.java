@@ -283,7 +283,7 @@ public class ProjectHandler implements ProjectManager{
 		}
 		
 		EventComparator eventComparator = new EventComparator();
-		Collections.sort(eventsToBeSorted);
+		Collections.sort(eventsToBeSorted, eventComparator);
 		
 		for (Event event : eventsToBeSorted) {
 			int id = event.getId();
@@ -323,7 +323,4 @@ public class ProjectHandler implements ProjectManager{
 		return percentageDone;
 	}
 	
-	/*
-	 -Progress bar function, show % completed.
-	*/
 }
