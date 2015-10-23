@@ -31,6 +31,7 @@ public class serviceHandlerTest{
 	 private static final String OLDSTARTTIMEEVENT = "23 Oct 2015 14:00";
 	 private static final String OLDENDTIMEEVENT = "23 Oct 2015 13:00";
 	 private static final String OLDDUETIMETODO = "23 Oct 2015 10:00";
+	 private static final String TODAYDATE = "23 Oct 2015";
 	 
 	 private Todo floatingTodo1 = new Todo("Floating todo1");
 	 private Todo floatingTodo2 = new Todo("Floating todo2");
@@ -329,7 +330,7 @@ public class serviceHandlerTest{
 			expectedListItem.add(todo4);
 			expectedListItem.add(todo5);
 			
-			assertEquals("View multiple days success", expectedListItem, service.viewMultipleDays());
+			assertEquals("View multiple days success", expectedListItem, service.viewMultipleDays(TODAYDATE));
 		} catch (Exception e) {
 			fail("exception should not be thrown");
 		}

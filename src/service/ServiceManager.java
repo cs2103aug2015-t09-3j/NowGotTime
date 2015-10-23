@@ -1,4 +1,5 @@
 package service;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import object.Event;
@@ -36,5 +37,5 @@ public interface ServiceManager {
 	public boolean mark(Item item);
 	public boolean unmark(Item item);
 	
-	public ArrayList<Item> viewMultipleDays();
+	public ArrayList<Item> viewMultipleDays(String date) throws ParseException;
 }

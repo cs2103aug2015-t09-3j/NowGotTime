@@ -2,6 +2,7 @@ package service;
 import helper.CalendarHelper;
 import helper.CommonHelper;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -206,20 +207,21 @@ public class ServiceHandler implements ServiceManager{
 	
 	/**
 	 *  Views multiple days worth of tasks and events
+	 * @throws ParseException 
 	 */
 	@Override
 	//currently set as 3
-	public ArrayList<Item> viewMultipleDays(){ 
+	public ArrayList<Item> viewMultipleDays(String date) throws ParseException{ 
 		int noOfDays = 2;
-		Calendar date = Calendar.getInstance();
+		Calendar _date = CalendarHelper.parseDate(date);
 		
 		// today
 		searchedItems.clear();
-		if(!(viewEventByDate((CalendarHelper.getDateString(date))).equals(null))) {
-			searchedItems.addAll(viewEventByDate((CalendarHelper.getDateString(date))));
+		if(!(viewEventByDate((CalendarHelper.getDateString(_date))).equals(null))) {
+			searchedItems.addAll(viewEventByDate((CalendarHelper.getDateString(_date))));
 		}
-		if(!(viewTaskByDate((CalendarHelper.getDateString(date))).equals(null))) {
-			searchedItems.addAll(viewTaskByDate((CalendarHelper.getDateString(date))));
+		if(!(viewTaskByDate((CalendarHelper.getDateString(_date))).equals(null))) {
+			searchedItems.addAll(viewTaskByDate((CalendarHelper.getDateString(_date))));
 		}
 		if(!(viewTaskNoDate().equals(null))) {
 			searchedItems.addAll(viewTaskNoDate());
@@ -227,12 +229,12 @@ public class ServiceHandler implements ServiceManager{
 
 		//2 additional days
 		for (int i = 0; i < noOfDays; i++){
-			addDate(date);
-			if(!(viewEventByDate((CalendarHelper.getDateString(date))).equals(null))) {
-				searchedItems.addAll(viewEventByDate((CalendarHelper.getDateString(date))));
+			addDate(_date);
+			if(!(viewEventByDate((CalendarHelper.getDateString(_date))).equals(null))) {
+				searchedItems.addAll(viewEventByDate((CalendarHelper.getDateString(_date))));
 			}
-			if(!(viewTaskByDate((CalendarHelper.getDateString(date))).equals(null))) {
-				searchedItems.addAll(viewTaskByDate((CalendarHelper.getDateString(date))));
+			if(!(viewTaskByDate((CalendarHelper.getDateString(_date))).equals(null))) {
+				searchedItems.addAll(viewTaskByDate((CalendarHelper.getDateString(_date))));
 			}
 		}
 		return searchedItems;		
