@@ -26,6 +26,8 @@ import java.util.logging.Level;
 
 public class DirectoryHandler {
 	
+	private static final String DATABASE = "database";
+
 	private MyLogger myLogger = new MyLogger();
 	
 	private static final String PROJECT = "Project";
@@ -44,7 +46,7 @@ public class DirectoryHandler {
 	
 	public DirectoryHandler(){
 		
-		if(!overviewExist()){
+		if(!doesFileExist(OVERVIEW)){
 			setUpDirectory(null);
 		}else{
 			checkDirectories();
@@ -57,7 +59,7 @@ public class DirectoryHandler {
 			if(setUpDirectory(theBaseDirectory)){
 				return true;
 			}else{
-				setUpDirectory(oldDirectory);
+				setUpDirectory(oldDirectory);	//revert back
 			}
 		}
 		return false;
@@ -69,6 +71,7 @@ public class DirectoryHandler {
 	private boolean setUpDirectory(String theBaseDirectory){
 		if(theBaseDirectory != null){
 			baseDirectory = theBaseDirectory;
+			baseDirectory = createDirectory(DATABASE);
 		}
 
 		todoPath = createDirectory(TODO);
@@ -85,15 +88,15 @@ public class DirectoryHandler {
 	private boolean checkDirectories() {	
 		readOverviewFile();
 		
-		if( !(new File(todoPath)).exists() ){
+		if( !doesFileExist(todoPath) ){
 			createDirectory(TODO);
 		}
 		
-		if( !(new File(eventPath)).exists() ){
+		if( !doesFileExist(eventPath) ){
 			createDirectory(EVENT);
 		}
 		
-		if( !(new File(projectPath)).exists() ){
+		if( !doesFileExist(projectPath) ){
 			createDirectory(PROJECT);
 		}
 		
@@ -101,9 +104,8 @@ public class DirectoryHandler {
 	}
 
 	//TODO: modularized it to check if a path exist instead.
-	private boolean overviewExist(){
-		File file = new File(OVERVIEW);
-		return file.exists();
+	private boolean doesFileExist(String path){
+		return new File(path).exists();
 	}
 	
 	//return String of directory path if created, else return null
@@ -133,14 +135,15 @@ public class DirectoryHandler {
 			return true;
 	
 		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"writeOverviewTextFile", e.getMessage());
 			return false;
 		}
 	}
 	
 	//TODO: rename this. it is not longer a project directory.
 	private String getJavaProjectDirectory(){
-		String baseDirectory = System.getProperty("user.dir").toString() + "/database/";
+		String baseDirectory = System.getProperty("user.dir").toString() + "/" + DATABASE + "/";
 		File file = new File(baseDirectory);
 		if(!file.exists()){
 			file.mkdir();

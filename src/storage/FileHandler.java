@@ -279,6 +279,7 @@ public class FileHandler implements FileManager{
 			fProjH.readAll();
 			clearAll();
 			if(directHand.setNewBaseDirectory(newBaseDirectory)){
+				newBaseDirectory = newBaseDirectory + "/database";
 				fEventH.setNewDirectory(newBaseDirectory);
 				fTodoH.setNewDirectory(newBaseDirectory);
 				fProjH.setNewDirectory(newBaseDirectory);

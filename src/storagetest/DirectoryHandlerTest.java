@@ -14,6 +14,7 @@ import storage.DirectoryHandler;
 
 public class DirectoryHandlerTest {
 
+	private static final String DATABASE = "database";
 	DirectoryHandler dirHand = new DirectoryHandler();
 	private static String newBaseDirectory;
 	
@@ -66,15 +67,15 @@ public class DirectoryHandlerTest {
 				true, dirHand.setNewBaseDirectory(newBaseDirectory));
 		
 		String baseDirectory = System.getProperty("user.dir").toString() + "/alternateTestFiles";
-		File file = new File(baseDirectory + "/Event");
+		File file = new File(baseDirectory + "/" + DATABASE + "/Event");
 		assertEquals("Test with valid new directory",
 				true, file.exists());
 		
-		file = new File(baseDirectory + "/Todo");
+		file = new File(baseDirectory + "/" + DATABASE + "/Todo");
 		assertEquals("Test with valid new directory",
 				true, file.exists());
 		
-		file = new File(baseDirectory + "/Project");
+		file = new File(baseDirectory + "/" + DATABASE + "/Project");
 		assertEquals("Test with valid new directory",
 				true, file.exists());
 		

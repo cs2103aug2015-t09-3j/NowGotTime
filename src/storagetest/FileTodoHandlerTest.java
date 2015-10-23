@@ -104,14 +104,14 @@ public class FileTodoHandlerTest {
 	
 	public void testRetrieveAllTodo() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		
+		expectedList.add(todo3);
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		expectedList.add(todo3);
 		
+		expectedList.add(todo2);
 		expectedList.add(todo6);
 		expectedList.add(todo4);
-		expectedList.add(todo2);
+		
 		expectedList.add(todo1);
 		
 		ArrayList<Todo> actualList = fTodoH.retrieveAllTodo();
@@ -125,10 +125,10 @@ public class FileTodoHandlerTest {
 
 	public void testRetrieveTodoByDate() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		
+		expectedList.add(todo3);
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		expectedList.add(todo3);
+		
 		
 		ArrayList<Todo> actualList = fTodoH.retrieveTodoByDate("20 oct 2000");
 		

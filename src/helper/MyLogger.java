@@ -9,7 +9,7 @@ import java.util.logging.SimpleFormatter;
 
 public class MyLogger {
 	
-	private static final String DEFAULT_PATH = System.getProperty("user.dir").toString() + "/logFiles/";
+	private static final String DEFAULT_PATH = System.getProperty("user.dir").toString() + "/LogFiles/";
 	private static final String DEFAULT_LOG_FILE = DEFAULT_PATH + "MyLogging.log";
 	private static Logger logger = Logger.getLogger("My Log");
 	private static FileHandler fh;

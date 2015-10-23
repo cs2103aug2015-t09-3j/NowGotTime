@@ -125,10 +125,8 @@ public class FileHandlerTest {
 		expectedList.add(event2);
 		expectedList.add(event);
 		
-//		assertEquals("Test retrieval of all events",
-//				expectedList, fh.retrieveAllEvents());
 		assertEquals("Test retrieval of all events", 
-				true, PreparationCleanUp.compareEventsArrayList(expectedList, fh.retrieveAllEvents()));
+				expectedList, fh.retrieveAllEvents());
 	}
 	
 	public void testSaveNewEventHandler() {
@@ -159,15 +157,15 @@ public class FileHandlerTest {
 	
 	public void testRetrieveTodoByDate() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		
+		expectedList.add(todo3);
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		expectedList.add(todo3);
+		
 		
 		ArrayList<Todo> actualList = fh.retrieveTodoByDate("20 oct 2000");
 		
 		assertEquals("Test retrieval of todo by date", 
-				true, PreparationCleanUp.compareTodoArrayList(expectedList, actualList));
+				expectedList, actualList);
 	}
 
 	public void testRetrieveAllTodo() {
@@ -284,15 +282,23 @@ public class FileHandlerTest {
 		assertEquals("Test with valid new directory",
 				true, fh.changeBaseDirectory(newBaseDirectory));
 		
-		File file = new File(newBaseDirectory + "/Event");
+		File file = new File(newBaseDirectory);
 		assertEquals("Test if event directory exist",
 				true, file.exists());
 		
-		file = new File(newBaseDirectory + "/Todo");
+		file = new File(newBaseDirectory + "/database");
+		assertEquals("Test if event directory exist",
+				true, file.exists());
+		
+		file = new File(newBaseDirectory + "/database/Event");
+		assertEquals("Test if event directory exist",
+				true, file.exists());
+		
+		file = new File(newBaseDirectory + "/database/Todo");
 		assertEquals("Test if todo directory exist",
 				true, file.exists());
 		
-		file = new File(newBaseDirectory + "/Project");
+		file = new File(newBaseDirectory + "/database/Project");
 		assertEquals("Test if project directory exist",
 				true, file.exists());
 	}
