@@ -50,8 +50,7 @@ public class CommandEditProject implements CommandEdit {
 
     @Override
     public Displayable getDisplayable() {
-        // TODO what to show ?
-        return null;
+        return new CommandViewProjectName(newValue);
     }
 
 }

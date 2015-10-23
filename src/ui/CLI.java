@@ -7,7 +7,6 @@ import command.Command;
 import command.CommandExit;
 import command.Revertible;
 import helper.CommonHelper;
-import project.ProjectHandler;
 import project.Projects;
 import service.ServiceHandler;
 
