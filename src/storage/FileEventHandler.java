@@ -1,5 +1,6 @@
 package storage;
 import helper.CalendarHelper;
+import helper.MyLogger;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,11 +13,14 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.logging.Level;
 
 import object.Event;
 
 public class FileEventHandler {
+	
+	private MyLogger myLogger = new MyLogger();
+	
 	private static final String EVENTS = "All_Events.txt";
 	private static final String EVENT = "Event";
 	
@@ -46,18 +50,10 @@ public class FileEventHandler {
 			
 	@SuppressWarnings("unchecked")
 	public boolean saveEventBook(){
-//		System.out.println("\nClone events:");
-//		System.out.println(allEventsClone);
-//		
-//		System.out.println("\nAll events:");
-//		System.out.println(allEvents);
 		
 		if(allEvents != allEventsClone){
 			allEvents = allEventsClone;
 		}
-		
-//		System.out.println("\n new All events:");
-//		System.out.println(allEvents);
 		
 		sortEventsByDate(allEvents);
 		allEventsClone = (ArrayList<Event>) allEvents.clone();
@@ -72,20 +68,27 @@ public class FileEventHandler {
 		return false;
 	}
 	
+	//TODO: method too long
 	public ArrayList<Event> retrieveEventByDate(String dateString){
 		ArrayList<Event> eventBookByDate = new ArrayList<Event>();
 		
 		if(dateString != null){
+			
+			//TODO: below two lines are useless
 			Calendar date = Calendar.getInstance();
 			setZeroTime(date);
+			
 			try {
 				date = CalendarHelper.parseDate(dateString);
 			} catch (ParseException e) {
-				e.printStackTrace();
+				myLogger.logp(Level.WARNING, getClass().getName(), 
+						"retrieveEventByDate", e.getMessage());
+				return eventBookByDate;
 			}
 			
 			ArrayList<Event> eventBook = allEvents;
 			Calendar startDate, endDate;
+			
 			for(Event event: eventBook){
 				startDate = (Calendar) event.getStartCalendar().clone();
 				endDate = (Calendar) event.getEndCalendar().clone();
@@ -140,9 +143,13 @@ public class FileEventHandler {
 			return eventBook;
 			
 		}catch (FileNotFoundException e) {
+			myLogger.logp(Level.WARNING, getClass().getName(),
+					"retrieveEventHandler", e.getMessage());
 			saveEventBook();
 			return eventBook;
 		}catch (IOException e) {
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"retrieveEventHandler", e.getMessage());
 			return eventBook;
 		}
 
@@ -158,7 +165,7 @@ public class FileEventHandler {
 	private boolean sortEventsByDate(ArrayList<Event> eventBook){
 		if(eventBook != null){
 //			Collections.sort(eventBook);
-			Collections.sort(eventBook, new CustomComparator());
+			Collections.sort(eventBook);
 			return true;
 		}
 		return false;
@@ -180,50 +187,9 @@ public class FileEventHandler {
 			return true;
 	
 		}catch(Exception e){
-			e.printStackTrace();
-			System.out.println("File cannot be written.\n");
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"writeToFile", e.getMessage());
 			return false;
 		}
 	}
-}
-
-class CustomComparator implements Comparator<Event>{
-	
-	Calendar startDate1, startDate2, endDate1, endDate2;
-	
-	@Override
-	public int compare(Event event1, Event event2) {
-		
-		setupCalendar(event1, event2);
-		
-		return compareStartDate();
-	}
-
-	private int compareStartDate() {
-		if(startDate1.before(startDate2)){
-			return -1;
-		}else if(startDate1.after(startDate2)){
-			return 1;
-		}else{
-			return compareEndDate();
-		}
-	}
-
-	private int compareEndDate() {
-		if(endDate1.before(endDate2)){
-			return -1;
-		}else if(endDate1.after(endDate2)){
-			return 1;
-		}else{
-			return 0;
-		}
-	}
-
-	private void setupCalendar(Event event1, Event event2) {
-		startDate1 = (Calendar) event1.getStartCalendar().clone();
-		startDate2 = (Calendar) event2.getStartCalendar().clone();
-		endDate1 = (Calendar) event1.getEndCalendar().clone();
-		endDate2 = (Calendar) event2.getEndCalendar().clone();
-	}
-	
 }

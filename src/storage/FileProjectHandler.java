@@ -1,4 +1,6 @@
 package storage;
+import helper.MyLogger;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13,9 +15,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 
 public class FileProjectHandler {
+	
+	private MyLogger myLogger = new MyLogger();
+	
 	private static final String PROJECT_OVERVIEWER = "projectOverviewer.txt";
 	private static final String PROJECT = "Project";
 	
@@ -60,18 +66,26 @@ public class FileProjectHandler {
 		updateOverviewFile();
 		
 		Path path = Paths.get(baseDirectory + projectName + ".txt");
+		
 		try {
 		    Files.delete(path);
 		    return true;
-		} catch (NoSuchFileException x) {
-		    System.err.format("%s: no such" + " file or directory%n", path);
+		    
+		} catch (NoSuchFileException e) {
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"deleteProject", e.getMessage());
 		    return false;
-		} catch (DirectoryNotEmptyException x) {
-		    System.err.format("%s not empty%n", path);
+		    
+		} catch (DirectoryNotEmptyException e) {
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"deleteProject",  e.getMessage());
+			//TODO: use preparation clean up method to clear
 		    return false;
-		} catch (IOException x) {
+		    
+		} catch (IOException e) {
 		    // File permission problems are caught here.
-		    System.err.println(x);
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"deleteProject", e.getMessage());
 		    return false;
 		}
 	}
@@ -117,8 +131,12 @@ public class FileProjectHandler {
 			return projectBook;
 			
 		}catch(FileNotFoundException e){
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"retrieveProject", e.getMessage());
 			return projectBook;
 		}catch(IOException e){
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"retrieveProject", e.getMessage());
 			return projectBook;
 		}
 		 
@@ -185,11 +203,12 @@ public class FileProjectHandler {
 			return true;
 	
 		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"saveEditedProjectDetails", e.getMessage());
 			return false;
 		}catch(NullPointerException e){
-			System.out.println("One of the parameter is null");
-			e.printStackTrace();
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"saveEditedProjectDetails", e.getMessage());
 			return false;
 		}
 		
@@ -246,7 +265,8 @@ public class FileProjectHandler {
 			return true;
 			
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"writeAll", e.getMessage());
 			return false;
 		}
 	}
@@ -269,8 +289,12 @@ public class FileProjectHandler {
 			return newFile.createNewFile();
 			
 		}catch(IOException e){
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"createNewProjectFile", e.getMessage());
 			return false;
 		}catch(SecurityException e){
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"createNewProjectFile", e.getMessage());
 			return false;
 		}
 	}
@@ -293,9 +317,12 @@ public class FileProjectHandler {
 			reader.close();		 
 		}
 		catch (FileNotFoundException e) {
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"readOverviewerFile", e.getMessage());
 			updateOverviewFile();
 		}catch (IOException e) {
-			// Do nothing
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"readOverviewerFile", e.getMessage());
 		}
 	}
 	
@@ -317,10 +344,12 @@ public class FileProjectHandler {
 			return true;
 	
 		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"updateOverviewFile", e.getMessage());
 			return false;
 		}catch(NullPointerException e){
-			// base directory is null
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"updateOverviewFile", e.getMessage());
 			return false;
 		}
 	}
