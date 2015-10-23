@@ -1,4 +1,5 @@
 package service;
+import helper.CalendarHelper;
 import helper.CommonHelper;
 
 import java.util.ArrayList;
@@ -26,8 +27,7 @@ public class ServiceHandler implements ServiceManager{
 	public boolean createItem(Item item) throws Exception {
 		if (item.getClass() == Event.class) {
 		return createEvent((Event) item);
-	}
-		else {
+	}else {
 		return createTask((Todo) item);
 	}
 	}
@@ -65,8 +65,7 @@ public class ServiceHandler implements ServiceManager{
 	public boolean deleteItem(Item item){
 		if (item.getClass() == Event.class) {
 			return deleteEvent((Event) item);
-		}
-		else {
+		}else {
 			return deleteTask((Todo) item);   	
 	}
 	}
@@ -127,8 +126,7 @@ public class ServiceHandler implements ServiceManager{
 	public boolean deleteItemByIndex(int index) {
 		if((index >= searchedItems.size()) || index < 0){
 			return false;
-		}
-		else{
+		}else{
 			return deleteItem(searchedItems.get(index));
 		}
 	}
@@ -140,8 +138,7 @@ public class ServiceHandler implements ServiceManager{
 	public Item viewItemByIndex(int index) {   	
 		if((index >= searchedItems.size()) || index <0 ){
 			return null;			
-		}
-		else{
+		}else{
 			return searchedItems.get(index);
 		}
 	}
@@ -159,8 +156,7 @@ public class ServiceHandler implements ServiceManager{
 					break;
 		        }
 			return editEvent((Event) _item, fieldName, newInputs);
-		}
-		else {
+		}else {
 			ArrayList<Todo> completeTaskBook = itemHandler.retrieveAllTodo();
 			for (int i = 0; i < completeTaskBook.size(); i++)
 		        if(item.equals(completeTaskBook.get(i))) {
@@ -186,8 +182,7 @@ public class ServiceHandler implements ServiceManager{
 	public boolean mark(Item item){
 		if (item.getDone() == true){
 			return false;
-		}
-		else {
+		}else {
 			item.setDone(true);
 			itemHandler.saveEditedEventHandler();
             itemHandler.saveEditedTodoHandler();
@@ -201,13 +196,46 @@ public class ServiceHandler implements ServiceManager{
 	public boolean unmark(Item item){
 		if (item.getDone() == false){
 			return false;
-		}
-		else {
+		}else {
 			item.setDone(false);
             itemHandler.saveEditedEventHandler();
             itemHandler.saveEditedTodoHandler();
 			return true;
 		}
+	}
+	
+	/**
+	 *  Views multiple days worth of tasks and events
+	 */
+	@Override
+	//currently set as 3
+	public ArrayList<Item> viewMultipleDays(){ 
+		int noOfDays = 2;
+		Calendar date = Calendar.getInstance();
+		
+		// today
+		searchedItems.clear();
+		if(!(viewEventByDate((CalendarHelper.getDateString(date))).equals(null))) {
+			searchedItems.addAll(viewEventByDate((CalendarHelper.getDateString(date))));
+		}
+		if(!(viewTaskByDate((CalendarHelper.getDateString(date))).equals(null))) {
+			searchedItems.addAll(viewTaskByDate((CalendarHelper.getDateString(date))));
+		}
+		if(!(viewTaskNoDate().equals(null))) {
+			searchedItems.addAll(viewTaskNoDate());
+		}
+
+		//2 additional days
+		for (int i = 0; i < noOfDays; i++){
+			addDate(date);
+			if(!(viewEventByDate((CalendarHelper.getDateString(date))).equals(null))) {
+				searchedItems.addAll(viewEventByDate((CalendarHelper.getDateString(date))));
+			}
+			if(!(viewTaskByDate((CalendarHelper.getDateString(date))).equals(null))) {
+				searchedItems.addAll(viewTaskByDate((CalendarHelper.getDateString(date))));
+			}
+		}
+		return searchedItems;		
 	}
 	// ****************************************Private Methods******************************************************   
 
@@ -219,8 +247,7 @@ public class ServiceHandler implements ServiceManager{
 			if (event.getName().toLowerCase().equals(eventName.toLowerCase())){
 				assert(eventIndex >= 0);
 				return completeEventBook.get(eventIndex);
-			}
-			else{
+			}else {
 				eventIndex++;
 			}
 		}
@@ -235,8 +262,7 @@ public class ServiceHandler implements ServiceManager{
 			if (task.getName().toLowerCase().equals(taskName.toLowerCase())){
 				assert(taskIndex >= 0);
 				return completeTaskBook.get(taskIndex);
-			}
-			else {
+			}else {
 				taskIndex++; // finding index with same name as taskName passed in
 			}
 		}
@@ -261,8 +287,7 @@ public class ServiceHandler implements ServiceManager{
     		if (!compareDate(_event.getStartCalendar(),_event.getEndCalendar())){
     		    _event.updateStart(oldValue);
     			throw new Exception(CommonHelper.ERROR_START_AFTER_END);
-    		}
-    		else {
+    		}else {
     		    itemHandler.saveEditedEventHandler();
     		}
     		break;
@@ -274,8 +299,7 @@ public class ServiceHandler implements ServiceManager{
     		if (!compareDate(_event.getStartCalendar(),_event.getEndCalendar())){
     		    _event.updateEnd(oldValue);
     			throw new Exception(CommonHelper.ERROR_START_AFTER_END);
-    		}
-    		else {
+    		}else {
     		    itemHandler.saveEditedEventHandler();
     		}
     		break;
@@ -329,8 +353,7 @@ public class ServiceHandler implements ServiceManager{
 	private boolean createEvent(Event newEvent) throws Exception {
 		if (compareDate(newEvent.getStartCalendar(),newEvent.getEndCalendar())){
 		return itemHandler.saveNewEventHandler(newEvent);
-		}
-		else {
+		}else {
 			throw new Exception(CommonHelper.ERROR_START_AFTER_END);
 		}
 	}
@@ -342,9 +365,12 @@ public class ServiceHandler implements ServiceManager{
 	private boolean compareDate(Calendar startDate, Calendar endDate){
 		if (startDate.before(endDate)){
 			return true;
-		}
-		else {
+		}else {
 			return false;
 		}
+	}
+	
+	private void addDate(Calendar calendar) {
+		calendar.add(Calendar.DAY_OF_MONTH,1);
 	}
 }

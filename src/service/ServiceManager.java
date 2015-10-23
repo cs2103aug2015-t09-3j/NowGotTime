@@ -32,6 +32,9 @@ public interface ServiceManager {
 	public Item viewItemByIndex(int index);
 	
 	public boolean changeDirectory(String newDirectory);
+	
 	public boolean mark(Item item);
 	public boolean unmark(Item item);
+	
+	public ArrayList<Item> viewMultipleDays();
 }

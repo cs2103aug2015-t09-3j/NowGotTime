@@ -17,7 +17,7 @@ import storage.FileHandler;
 
 public class serviceHandlerTest{
 	 protected static ServiceHandler service;
-	 private static final String DATE = "20 oct 2015";
+	 private static final String DATE = "23 Oct 2015";
 	 private static final String EVENTNAME = "Event1";
 	 private static final String TODONAME = "Normal todo1";
 	 private static final String FLOATINGTODONAME = "Floating todo1";
@@ -28,22 +28,25 @@ public class serviceHandlerTest{
 	 private static final String NEWNAME = "its over 9000";
 	 private static final String INCORRECTTIME = "18:00";
 	 private static final String CORRECTTIME = "16:30";
-	 private static final String OLDSTARTTIMEEVENT = "20 Oct 2015 14:00";
-	 private static final String OLDENDTIMEEVENT = "20 Oct 2015 13:00";
-	 private static final String OLDDUETIMETODO = "20 Oct 2015 10:00";
+	 private static final String OLDSTARTTIMEEVENT = "23 Oct 2015 14:00";
+	 private static final String OLDENDTIMEEVENT = "23 Oct 2015 13:00";
+	 private static final String OLDDUETIMETODO = "23 Oct 2015 10:00";
 	 
 	 private Todo floatingTodo1 = new Todo("Floating todo1");
 	 private Todo floatingTodo2 = new Todo("Floating todo2");
 	 private Todo floatingTodo3 = new Todo("Floating todo3");
 	 
-	 //todo mus have end time
-	 private Todo todo1 = new Todo("Normal todo1", "", "20 oct 2015", "16:00");
-	 private Todo todo2 = new Todo("Normal todo2", "", "20 oct 2015", "12:00");
-	 private Todo todo3 = new Todo("Normal todo3 1x good 1", "", "20 oct 2015", "10:00");
-
-	 private Event event1 = new Event("Event1", "20 oct 2015 12:00", "20 oct 2015 13:00");
-	 private Event event2 = new Event("Event2", "20 oct 2015 14:00", "20 oct 2015 17:00");
+	 //todo must have end time
+	 private Todo todo1 = new Todo("Normal todo1", "", "23 oct 2015", "16:00");
+	 private Todo todo2 = new Todo("Normal todo2", "", "23 oct 2015", "12:00");
+	 private Todo todo3 = new Todo("Normal todo3 1x good 1", "", "23 oct 2015", "10:00");
+	 private Todo todo4 = new Todo("Normal todo4", "", "24 oct 2015", "12:00");
+	 private Todo todo5 = new Todo("Normal todo5", "", "25 oct 2015", "12:00");
+	 
+	 private Event event1 = new Event("Event1", "23 oct 2015 12:00", "23 oct 2015 13:00");
+	 private Event event2 = new Event("Event2", "23 oct 2015 14:00", "23 oct 2015 17:00");
 	 private Event event3 = new Event("Event3", "20 oct 2015 20:00", "20 oct 2014 23:00"); //end date before start date
+	 private Event event4 = new Event("Event4", "24 oct 2015 14:00", "24 oct 2015 17:00");
 	 
 	 @Before
 	public void setUp() throws Exception {
@@ -302,7 +305,34 @@ public class serviceHandlerTest{
 		assertEquals("Unmark event1 success", true, service.unmark(event1));
 		assertEquals("Unmark todo1 success", true, service.unmark(todo1));
 		assertEquals("Unmark floating todo1 success", true, service.unmark(floatingTodo1));
+	}
+	
+	@Test
+	public void testViewMultipleDays() {
+		try {
+			service.createItem(floatingTodo1);
+			service.createItem(floatingTodo2);
+			service.createItem(event1);
+			service.createItem(event4);
+			service.createItem(event2);
+			service.createItem(todo1);
+			service.createItem(todo4);
+			service.createItem(todo5);
+			
+			ArrayList<Item> expectedListItem = new ArrayList<Item>();
+			expectedListItem.add(event1);
+			expectedListItem.add(event2);
+			expectedListItem.add(todo1);
+			expectedListItem.add(floatingTodo1);
+			expectedListItem.add(floatingTodo2);
+			expectedListItem.add(event4);
+			expectedListItem.add(todo4);
+			expectedListItem.add(todo5);
+			
+			assertEquals("View multiple days success", expectedListItem, service.viewMultipleDays());
+		} catch (Exception e) {
+			fail("exception should not be thrown");
+		}
 		
-
 	}
 }
