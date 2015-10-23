@@ -37,5 +37,5 @@ public interface ServiceManager {
 	public boolean mark(Item item);
 	public boolean unmark(Item item);
 	
-	public ArrayList<Item> viewMultipleDays(String date) throws ParseException;
+	public ArrayList<ArrayList<Item>> viewMultipleDays(String date) throws ParseException;
 }

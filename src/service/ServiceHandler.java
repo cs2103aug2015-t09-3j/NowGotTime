@@ -15,6 +15,7 @@ import storage.FileHandler;
 public class ServiceHandler implements ServiceManager{
 	private FileHandler itemHandler;
 	private ArrayList<Item> searchedItems = new ArrayList<Item>();
+	private ArrayList<ArrayList<Item>> viewMultipleDays = new ArrayList<ArrayList<Item>>();
 
 	public ServiceHandler (){
 		itemHandler = new FileHandler();
@@ -211,33 +212,46 @@ public class ServiceHandler implements ServiceManager{
 	 */
 	@Override
 	//currently set as 3
-	public ArrayList<Item> viewMultipleDays(String date) throws ParseException{ 
-		int noOfDays = 2;
+	public ArrayList<ArrayList<Item>> viewMultipleDays(String date) throws ParseException{ 
+		int noOfDays = 3;
 		Calendar _date = CalendarHelper.parseDate(date);
-		
+		ArrayList<Item> todayItems = new ArrayList<Item>();
+		ArrayList<Item> floatingTodo = new ArrayList<Item>();
 		// today
-		searchedItems.clear();
+		viewMultipleDays.clear();
+		
 		if(!(viewEventByDate((CalendarHelper.getDateString(_date))).equals(null))) {
-			searchedItems.addAll(viewEventByDate((CalendarHelper.getDateString(_date))));
+			todayItems.addAll(viewEventByDate((CalendarHelper.getDateString(_date))));
 		}
+		
 		if(!(viewTaskByDate((CalendarHelper.getDateString(_date))).equals(null))) {
-			searchedItems.addAll(viewTaskByDate((CalendarHelper.getDateString(_date))));
+			todayItems.addAll(viewTaskByDate((CalendarHelper.getDateString(_date))));
 		}
+		
 		if(!(viewTaskNoDate().equals(null))) {
-			searchedItems.addAll(viewTaskNoDate());
+			floatingTodo.addAll(viewTaskNoDate());
 		}
-
+		Collections.sort(todayItems);
+		viewMultipleDays.add(todayItems);
+		viewMultipleDays.add(floatingTodo);
+		
 		//2 additional days
-		for (int i = 0; i < noOfDays; i++){
+		for (int i = 0; i < noOfDays - 1; i++){	
+			ArrayList<Item> subsequentDays = new ArrayList<Item>();
+			
 			addDate(_date);
 			if(!(viewEventByDate((CalendarHelper.getDateString(_date))).equals(null))) {
-				searchedItems.addAll(viewEventByDate((CalendarHelper.getDateString(_date))));
+				subsequentDays.addAll(viewEventByDate((CalendarHelper.getDateString(_date))));
 			}
+			
 			if(!(viewTaskByDate((CalendarHelper.getDateString(_date))).equals(null))) {
-				searchedItems.addAll(viewTaskByDate((CalendarHelper.getDateString(_date))));
-			}
+				subsequentDays.addAll(viewTaskByDate((CalendarHelper.getDateString(_date))));
+			} 
+			Collections.sort(subsequentDays);
+			viewMultipleDays.add(subsequentDays);
 		}
-		return searchedItems;		
+		assert (viewMultipleDays.size() == noOfDays + 1); // no of items each day + 1 floatingTodo ArrayList<Item>
+		return viewMultipleDays;		
 	}
 	// ****************************************Private Methods******************************************************   
 

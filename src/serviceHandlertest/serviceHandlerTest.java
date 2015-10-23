@@ -320,17 +320,27 @@ public class serviceHandlerTest{
 			service.createItem(todo4);
 			service.createItem(todo5);
 			
-			ArrayList<Item> expectedListItem = new ArrayList<Item>();
-			expectedListItem.add(event1);
-			expectedListItem.add(event2);
-			expectedListItem.add(todo1);
-			expectedListItem.add(floatingTodo1);
-			expectedListItem.add(floatingTodo2);
-			expectedListItem.add(event4);
-			expectedListItem.add(todo4);
-			expectedListItem.add(todo5);
+			ArrayList<ArrayList<Item>> viewMultipleDays = new ArrayList<ArrayList<Item>>();
+			ArrayList<Item> expectedListItemDayOneItems = new ArrayList<Item>();
+			ArrayList<Item> expectedListItemDayTwoItems = new ArrayList<Item>();
+			ArrayList<Item> expectedListItemDayThreeItems = new ArrayList<Item>();
+			ArrayList<Item> expectedListItemDayOneFloatingTodo = new ArrayList<Item>();
 			
-			assertEquals("View multiple days success", expectedListItem, service.viewMultipleDays(TODAYDATE));
+			expectedListItemDayOneItems.add(event1);
+			expectedListItemDayOneItems.add(event2);
+			expectedListItemDayOneItems.add(todo1);
+			expectedListItemDayOneFloatingTodo.add(floatingTodo1);
+			expectedListItemDayOneFloatingTodo.add(floatingTodo2);
+			expectedListItemDayTwoItems.add(todo4);
+			expectedListItemDayTwoItems.add(event4);
+			expectedListItemDayThreeItems.add(todo5);
+			
+			viewMultipleDays.add(expectedListItemDayOneItems);
+			viewMultipleDays.add(expectedListItemDayOneFloatingTodo);
+			viewMultipleDays.add(expectedListItemDayTwoItems);
+			viewMultipleDays.add(expectedListItemDayThreeItems);
+			
+			assertEquals("View multiple days success", viewMultipleDays, service.viewMultipleDays(TODAYDATE));
 		} catch (Exception e) {
 			fail("exception should not be thrown");
 		}
