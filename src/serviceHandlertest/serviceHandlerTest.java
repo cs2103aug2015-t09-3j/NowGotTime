@@ -36,9 +36,10 @@ public class serviceHandlerTest{
 	 private Todo floatingTodo2 = new Todo("Floating todo2");
 	 private Todo floatingTodo3 = new Todo("Floating todo3");
 	 
-	 private Todo todo1 = new Todo("Normal todo1", "", "20 oct 2015");
-	 private Todo todo2 = new Todo("Normal todo2", "", "20 oct 2015");
-	 private Todo todo3 = new Todo("Normal todo1 with time", "", "20 oct 2015", "10:00");
+	 //todo mus have end time
+	 private Todo todo1 = new Todo("Normal todo1", "", "20 oct 2015", "16:00");
+	 private Todo todo2 = new Todo("Normal todo2", "", "20 oct 2015", "12:00");
+	 private Todo todo3 = new Todo("Normal todo3 1x good 1", "", "20 oct 2015", "10:00");
 
 	 private Event event1 = new Event("Event1", "20 oct 2015 12:00", "20 oct 2015 13:00");
 	 private Event event2 = new Event("Event2", "20 oct 2015 14:00", "20 oct 2015 17:00");
@@ -182,8 +183,8 @@ public class serviceHandlerTest{
 			service.createItem(todo3);
 			ArrayList<Item> expectedListItem = new ArrayList<Item>();
 			expectedListItem.add(todo3);
-			expectedListItem.add(todo1);
 			expectedListItem.add(event1);
+			expectedListItem.add(todo1);
 			expectedListItem.add(floatingTodo1);
 			assertEquals("Search success1", expectedListItem, service.search(SEARCHINPUT));
 			
@@ -231,8 +232,8 @@ public class serviceHandlerTest{
 			service.search(SEARCHINPUT); //only returns 4 result despite 5 items added
 			assertEquals("view item by index fail", null, service.viewItemByIndex(4));			
 			assertEquals("view item by index success1", floatingTodo1, service.viewItemByIndex(3));			
-			assertEquals("view item by index success2", event1, service.viewItemByIndex(2));
-			assertEquals("view item by index success3", todo1, service.viewItemByIndex(1));
+			assertEquals("view item by index success2", todo1, service.viewItemByIndex(2));
+			assertEquals("view item by index success3", event1, service.viewItemByIndex(1));
 			assertEquals("view item by index success4", todo3, service.viewItemByIndex(0));
 			assertEquals("view item by index fail", null, service.viewItemByIndex(-1)); //cannot view items of negative index
 			
