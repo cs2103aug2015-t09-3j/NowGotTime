@@ -217,8 +217,10 @@ public class ServiceHandler implements ServiceManager{
 		Calendar _date = CalendarHelper.parseDate(date);
 		ArrayList<Item> todayItems = new ArrayList<Item>();
 		ArrayList<Item> floatingTodo = new ArrayList<Item>();
+		
 		// today
 		viewMultipleDays.clear();
+		searchedItems.clear();
 		
 		if(!(viewEventByDate((CalendarHelper.getDateString(_date))).equals(null))) {
 			todayItems.addAll(viewEventByDate((CalendarHelper.getDateString(_date))));
@@ -234,6 +236,8 @@ public class ServiceHandler implements ServiceManager{
 		Collections.sort(todayItems);
 		viewMultipleDays.add(todayItems);
 		viewMultipleDays.add(floatingTodo);
+		searchedItems.addAll(todayItems);
+		searchedItems.addAll(floatingTodo);		
 		
 		//2 additional days
 		for (int i = 0; i < noOfDays - 1; i++){	
@@ -249,6 +253,7 @@ public class ServiceHandler implements ServiceManager{
 			} 
 			Collections.sort(subsequentDays);
 			viewMultipleDays.add(subsequentDays);
+			searchedItems.addAll(subsequentDays);	
 		}
 		assert (viewMultipleDays.size() == noOfDays + 1); // no of items each day + 1 floatingTodo ArrayList<Item>
 		return viewMultipleDays;		
