@@ -25,11 +25,9 @@ public class DirectoryHandlerTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		System.out.println("Exiting, cleaning up folders");
 		Item.setCounter(0);
 		PreparationCleanUp.manualCleanUp();
 		PreparationCleanUp.cleanUp(newBaseDirectory);
-		System.out.println("Clean up completed. bye");
 	}
 
 	@Test

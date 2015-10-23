@@ -1,5 +1,6 @@
 package storage;
 import helper.CalendarHelper;
+import helper.MyLogger;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,11 +13,14 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.logging.Level;
 
 import object.Todo;
 
 public class FileTodoHandler {
+	
+	private MyLogger myLogger = new MyLogger();
+	
 	private static final String BASIC_TODO_TYPE = "basic";
 	private static final String PARTIAL_TODO_TYPE = "partial";
 	private static final String COMPLETE_TODO_TYPE = "complete";
@@ -115,10 +119,12 @@ public class FileTodoHandler {
 
 	private ArrayList<Todo> filterTodoToSpecificDate(String dateString) {
 		Calendar date = Calendar.getInstance();
+		
 		try {
 			date = CalendarHelper.parseDate(dateString);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"writeToFile", e.getMessage());
 		}
 		setZeroTime(date);
 		
@@ -187,10 +193,14 @@ public class FileTodoHandler {
 			return true;
 		
 		}catch (FileNotFoundException e) {
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"readTodoFile", e.getMessage());
 			saveChange(NORMAL_TODO);
 			return false;
 			
 		}catch (IOException e) {
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"readTodoFile", e.getMessage());
 			return false;
 		}	
 	}
@@ -221,9 +231,13 @@ public class FileTodoHandler {
 			reader.close();		 
 			return true;
 		}catch (FileNotFoundException e) {
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"readUniversalTodoFile", e.getMessage());
 			saveChange(FLOATING_TODO);
 			return false;
 		}catch (IOException e) {
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"readUniversalTodoFile", e.getMessage());
 			return false;
 		}	
 	}
@@ -243,7 +257,7 @@ public class FileTodoHandler {
 	
 	private void sortTodoByDate(ArrayList<Todo> toDoList){
 		if(!toDoList.isEmpty()){
-			Collections.sort(toDoList, new customTodoComparator());
+			Collections.sort(toDoList);
 		}		
 	}	
 	
@@ -278,53 +292,11 @@ public class FileTodoHandler {
 			return true;
 	
 		}catch(IOException e){
-			System.out.println("File cannot be written.\n");
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"writeToFile", e.getMessage());
 			return false;
 		}
 	}
-
-/***********************************************************************************************/
-	class customTodoComparator implements Comparator<Todo>{
-		
-		Calendar date1, date2;
-		
-		@Override
-		public int compare(Todo task1, Todo task2) {
-			setupCalendar(task1, task2);
-			
-			if(task1.hasDate() && !task2.hasDate()){
-				return -1;
-			}else if(!task1.hasDate() && task2.hasDate() ){
-				return 1;
-			}else if(task1.hasDate() && task2.hasDate()){
-				return compareDateDirectly();
-			}else{
-				return compareDateWithoutTime();
-			}
-		}
-		
-		private int compareDateDirectly() {
-			
-			if(date1.before(date2)){
-				return -1;
-			}else if(date1.after(date2)){
-				return 1;
-			}else{
-				return 0;
-			}
-		}
-
-		private int compareDateWithoutTime() {
-			setZeroTime(date1);
-			setZeroTime(date2);
-			return compareDateDirectly();
-		}
-
-		private void setupCalendar(Todo task1, Todo task2) {
-			date1 = (Calendar) task1.getDeadline().clone();
-			date2 = (Calendar) task2.getDeadline().clone();
-			
-		}
-	}	
+	
 }
 

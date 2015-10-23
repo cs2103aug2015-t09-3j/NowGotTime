@@ -39,11 +39,9 @@ public class FileHandlerTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		System.out.println("Exiting, cleaning up folders");
 		Item.setCounter(0);
 		PreparationCleanUp.manualCleanUp();
 		PreparationCleanUp.cleanUp(newBaseDirectory);
-		System.out.println("Clean up completed. bye");
 	}
 	
 	@Test
@@ -161,15 +159,15 @@ public class FileHandlerTest {
 	
 	public void testRetrieveTodoByDate() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		expectedList.add(todo3);
+		
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		
+		expectedList.add(todo3);
 		
 		ArrayList<Todo> actualList = fh.retrieveTodoByDate("20 oct 2000");
 		
-//		assertEquals("Test retrieval of todo by date", 
-//				true, PreparationCleanUp.compareTodoArrayList(expectedList, actualList));
+		assertEquals("Test retrieval of todo by date", 
+				true, PreparationCleanUp.compareTodoArrayList(expectedList, actualList));
 	}
 
 	public void testRetrieveAllTodo() {

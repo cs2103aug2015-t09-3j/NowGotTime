@@ -1,4 +1,6 @@
 package storage;
+import helper.MyLogger;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
 
 /**
  * @author RX.huang
@@ -23,6 +26,8 @@ import java.io.IOException;
 
 public class DirectoryHandler {
 	
+	private MyLogger myLogger = new MyLogger();
+	
 	private static final String PROJECT = "Project";
 	private static final String EVENT = "Event";
 	private static final String TODO = "Todo";
@@ -33,29 +38,14 @@ public class DirectoryHandler {
 	private String eventPath;
 	private String projectPath;
 	private String baseDirectory;
-//	private boolean firstStartUp = false;
-	
-//	public static void main(String[] args){
-//		DirectoryHandler s = new DirectoryHandler();
-//	}
+
 	
 /********************* Public class methods **********************************/
 	
-//	public DirectoryHandler(){
-//		if(overviewExist()){
-//			checkDirectories(); 		//prevent program from crashing if any of the directories has been deleted. 
-//		}else{
-//			firstStartUp = true;
-//		}
-//	}	
-	
-//	public boolean isFirstStartUp(){
-//		return firstStartUp;
-//	}
-	
 	public DirectoryHandler(){
+		
 		if(!overviewExist()){
-			atFirstStartUp();
+			setUpDirectory(null);
 		}else{
 			checkDirectories();
 		}
@@ -63,9 +53,12 @@ public class DirectoryHandler {
 	
 	public boolean setNewBaseDirectory(String theBaseDirectory){
 		if(theBaseDirectory != null && (new File(theBaseDirectory).exists())){
-			baseDirectory = theBaseDirectory;
-			//TODO: hold directory until safe is successful
-		return atFirstStartUp();
+			String oldDirectory = baseDirectory;			
+			if(setUpDirectory(theBaseDirectory)){
+				return true;
+			}else{
+				setUpDirectory(oldDirectory);
+			}
 		}
 		return false;
 	}
@@ -73,13 +66,17 @@ public class DirectoryHandler {
 /************************* Private class methods *****************************/
 	
 	//return true if directories have all been created, return false if some/all directories failed to be created.
-	private boolean atFirstStartUp(){
+	private boolean setUpDirectory(String theBaseDirectory){
+		if(theBaseDirectory != null){
+			baseDirectory = theBaseDirectory;
+		}
+
 		todoPath = createDirectory(TODO);
 		eventPath = createDirectory(EVENT);
 		projectPath = createDirectory(PROJECT);
 		
 		if(todoPath != null && eventPath != null && projectPath != null){
-			return createOverviewTextFile();
+			return writeOverviewTextFile();
 		}
 		return false;
 	}
@@ -103,6 +100,7 @@ public class DirectoryHandler {
 		return true;
 	}
 
+	//TODO: modularized it to check if a path exist instead.
 	private boolean overviewExist(){
 		File file = new File(OVERVIEW);
 		return file.exists();
@@ -122,7 +120,7 @@ public class DirectoryHandler {
 		}
 	}
 	
-	private boolean createOverviewTextFile(){
+	private boolean writeOverviewTextFile(){
 		try{
 			File outfile = new File(OVERVIEW);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
@@ -140,11 +138,13 @@ public class DirectoryHandler {
 		}
 	}
 	
+	//TODO: rename this. it is not longer a project directory.
 	private String getJavaProjectDirectory(){
 		String baseDirectory = System.getProperty("user.dir").toString() + "/database/";
 		File file = new File(baseDirectory);
 		if(!file.exists()){
 			file.mkdir();
+			//TODO: What if directory cannot be written???
 		}
 		
 		return baseDirectory;
@@ -171,10 +171,12 @@ public class DirectoryHandler {
 			return true;
 			
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					getClass().getEnclosingMethod().getName(), e.getMessage());
 			return false;
 		}catch (IOException e) {
-			e.printStackTrace();
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					getClass().getEnclosingMethod().getName(), e.getMessage());
 			return false;
 		}		
 	}

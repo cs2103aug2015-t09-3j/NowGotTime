@@ -35,7 +35,6 @@ public class FileTodoHandlerTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
-		System.out.println("This is the base directory: \n" + baseDirectory);
 		Item.setCounter(0);
 		PreparationCleanUp.cleanUp(baseDirectory);
 		PreparationCleanUp.setUpDirectory(baseDirectory);
@@ -43,11 +42,9 @@ public class FileTodoHandlerTest {
 	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		System.out.println("Exiting, cleaning up folders");
 		Item.setCounter(0);
 		PreparationCleanUp.manualCleanUp();
 		PreparationCleanUp.cleanUp(baseDirectory);
-		System.out.println("Clean up completed. bye");
 	}
 	
 	@Test
@@ -83,25 +80,25 @@ public class FileTodoHandlerTest {
 	}
 
 	public void testSaveNewTodoHandler() {
-		assertEquals("Test if there are no existing tasks", 
+		assertEquals("Test adding of todo1", 
 				true, fTodoH.saveNewTodoHandler(todo1));
 		
-		assertEquals("Test if there are no existing tasks", 
+		assertEquals("Test adding of todo2", 
 				true, fTodoH.saveNewTodoHandler(todo2));
 		
-		assertEquals("Test if there are no existing tasks", 
+		assertEquals("Test adding of todo3", 
 				true, fTodoH.saveNewTodoHandler(todo3));
 		
-		assertEquals("Test if there are no existing tasks", 
+		assertEquals("Test adding of todo4", 
 				true, fTodoH.saveNewTodoHandler(todo4));
 		
-		assertEquals("Test if there are no existing tasks", 
+		assertEquals("Test adding of todo5", 
 				true, fTodoH.saveNewTodoHandler(todo5));
 		
-		assertEquals("Test if there are no existing tasks", 
+		assertEquals("Test adding of todo6", 
 				true, fTodoH.saveNewTodoHandler(todo6));
 		
-		assertEquals("Test if there are no existing tasks", 
+		assertEquals("Test adding of todo7", 
 				true, fTodoH.saveNewTodoHandler(todo7));	
 	}
 	
@@ -122,21 +119,21 @@ public class FileTodoHandlerTest {
 //		assertEquals("Test retrieval of all todo", 
 //				true, PreparationCleanUp.compareTodoArrayList(expectedList, actualList));
 		
-//		assertEquals("Test retrieval of all todo", 
-//				expectedList, actualList);
+		assertEquals("Test retrieval of all todo", 
+				expectedList, actualList);
 	}
 
 	public void testRetrieveTodoByDate() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		expectedList.add(todo3);
+		
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		
+		expectedList.add(todo3);
 		
 		ArrayList<Todo> actualList = fTodoH.retrieveTodoByDate("20 oct 2000");
 		
-//		assertEquals("Test retrieval of todo by date", 
-//				true, PreparationCleanUp.compareTodoArrayList(expectedList, actualList));
+		assertEquals("Test retrieval of todo by date",
+				expectedList, actualList);
 	}
 
 	public void testRetrieveFloatingTodo() {

@@ -83,7 +83,7 @@ public class CommandAddToProject implements CommandAdd {
         }
         else {
             // TODO Refactor this
-            return new CommandViewProject("\"" + projectName + "\"");
+            return new CommandViewProjectName("\"" + projectName + "\"");
         }
     }
 

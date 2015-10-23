@@ -23,7 +23,6 @@ public class FileProjectHandlerTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
-		System.out.println("This is the base directory: \n" + baseDirectory);
 		Item.setCounter(0);
 		PreparationCleanUp.cleanUp(baseDirectory);
 		PreparationCleanUp.setUpDirectory(baseDirectory);
@@ -44,11 +43,9 @@ public class FileProjectHandlerTest {
 	
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		System.out.println("Exiting, cleaning up folders");
 		Item.setCounter(0);
 		PreparationCleanUp.manualCleanUp();
 		PreparationCleanUp.cleanUp(baseDirectory);
-		System.out.println("Clean up completed. bye");
 	}
 	
 /*****************************************************************************/
@@ -57,7 +54,6 @@ public class FileProjectHandlerTest {
 		fProjH = new FileProjectHandler(baseDirectory);
 
 		File overviewFile = new File(baseDirectory + PROJECT_OVERVIEWER);
-		System.out.println(baseDirectory + PROJECT_OVERVIEWER); //for checking purposes
 		
 		assertEquals("Check if overview file exist", 
 				true, overviewFile.exists());

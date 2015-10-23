@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Stack;
 import java.util.regex.Matcher;
 
-import helper.CommonHelper;
 import helper.Parser;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
@@ -17,7 +16,6 @@ import object.Todo;
 import project.Projects;
 import service.ServiceHandler;
 import ui.GUI;
-import ui.Main;
 
 public class CommandViewDate implements CommandView {
 
@@ -40,37 +38,8 @@ public class CommandViewDate implements CommandView {
     public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
         
-        // TODO Refactor this messy code
-        ArrayList<Event> eventList = serviceHandler.viewEventByDate(dateString);
-        ArrayList<Todo> todoList = serviceHandler.viewTaskByDate(dateString);
-        ArrayList<Todo> floatingTodoList = serviceHandler.viewTaskNoDate();
-        mergedList.clear();
-        mergedList.addAll(eventList);
-        mergedList.addAll(todoList);
-        mergedList.addAll(floatingTodoList);
-        
-        // TODO Remove CLI
-        if (Main.mode.equals("GUI")) {
-            // TODO save this constant string
-            return "Got it!";
-        }
-        else {
-        
-            StringBuilder feedback = new StringBuilder();
-            feedback.append("NowGotTime on " + dateString + "\n");
-            feedback.append("----------------------------------------\n");
-            feedback.append("--Event\n");
-            feedback.append(CommonHelper.getFormattedEventList(eventList, dateString));
-            feedback.append("----------------------------------------\n");
-            feedback.append("--Todo\n");
-            feedback.append(CommonHelper.getFormattedTodoList(todoList, dateString));
-            feedback.append("----------------------------------------\n");
-            feedback.append("--Floating Todo\n");
-            feedback.append(CommonHelper.getFormattedTodoList(floatingTodoList, dateString));
-            feedback.append("----------------------------------------\n");
-            
-            return feedback.toString();
-        }
+        mergedList = serviceHandler.viewMultipleDays(dateString);
+        return "Got it!";
     }
     
     @Override

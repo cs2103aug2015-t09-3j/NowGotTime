@@ -31,6 +31,8 @@ public class Parser {
     public static final String PATTERN_EDIT_DATE_TIME_BY_INDEX   = "\\s*(?<index>\\d+)\\s+(?<field>start|end|due)\\s+(?<datetime>.+)\\s*";
     // project "<name>" <field>(name) "<value>"
     public static final String PATTERN_EDIT_PROJECT              = "\\s*project\\s+\"(?<name>.+)\"\\s+(?<field>name)\\s+\"(?<value>.+)\"\\s*";
+    // project
+    public static final String PATTERN_VIEW_PROJECT              = "\\s*project\\s*";
     // "<name>"
     public static final String PATTERN_NAME                      = "\\s*\"(?<name>.+)\"\\s*"; 
     // <index>
@@ -38,7 +40,7 @@ public class Parser {
     // <value>
     public static final String PATTERN_ANY                       = "\\s*(?<value>.+)\\s*";  
     // <value>
-    public static final String PATTERN_DATE                       = "\\s*(?<date>.+)\\s*";  
+    public static final String PATTERN_DATE                      = "\\s*(?<date>.+)\\s*";  
     // ~empty~
     public static final String PATTERN_EMPTY                     = "\\s*";
 

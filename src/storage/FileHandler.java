@@ -278,10 +278,11 @@ public class FileHandler implements FileManager{
 		if(newBaseDirectory != null && (new File(newBaseDirectory).exists())){
 			fProjH.readAll();
 			clearAll();
-			directHand.setNewBaseDirectory(newBaseDirectory);
-			fEventH.setNewDirectory(newBaseDirectory);
-			fTodoH.setNewDirectory(newBaseDirectory);
-			fProjH.setNewDirectory(newBaseDirectory);
+			if(directHand.setNewBaseDirectory(newBaseDirectory)){
+				fEventH.setNewDirectory(newBaseDirectory);
+				fTodoH.setNewDirectory(newBaseDirectory);
+				fProjH.setNewDirectory(newBaseDirectory);
+			}
 			saveAll();
 			return true;
 		}

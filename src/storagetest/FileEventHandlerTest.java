@@ -17,15 +17,24 @@ public class FileEventHandlerTest {
 
 	private static String baseDirectory;
 	private static FileEventHandler fEventH;	
-
+	
+	private Event event = new Event("Event1", "31 aug 2100 23:00", "1 sep 2100 02:00");
+	private Event event2 = new Event("Event2", "20 aug 2000 23:00", "21 aug 2000 02:00");
+	
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+ 	public static void setUpBeforeClass() throws Exception {
 		Item.setCounter(0);
 		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
-		System.out.println("This is the base directory: \n" + baseDirectory);
 		PreparationCleanUp.manualCleanUp();
 		PreparationCleanUp.cleanUp(baseDirectory);
 		PreparationCleanUp.setUpDirectory(baseDirectory);
+	}
+	
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		Item.setCounter(0);
+		PreparationCleanUp.manualCleanUp();
+		PreparationCleanUp.cleanUp(baseDirectory);
 	}
 	
 	@Test
@@ -37,17 +46,17 @@ public class FileEventHandlerTest {
 		testChangeDirectory();
 	}
 	
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-		System.out.println("Exiting, cleaning up folders");
-		Item.setCounter(0);
-		PreparationCleanUp.manualCleanUp();
-		PreparationCleanUp.cleanUp(baseDirectory);
-		System.out.println("Clean up completed. bye");
-
+	@Test
+	public void testRetrieveAllEventsWithNoEvent(){
+		fEventH = new FileEventHandler(baseDirectory);
+		assertEquals("Test retrieval of all events when there are no existing events",
+				new ArrayList<Event>(), fEventH.retrieveAllEvents());
 	}
-
-	public void testFileEventHandlerConstructor() {
+	
+	
+/**********************************************************************************************/
+	
+	private void testFileEventHandlerConstructor() {
 		fEventH = new FileEventHandler(baseDirectory);
 		
 		assertEquals("Test if there are no existing events", 
@@ -55,42 +64,35 @@ public class FileEventHandlerTest {
 		
 	}
 	
-	public void testSaveNewEventHandler() {
+	private void testSaveNewEventHandler() {
 		assertEquals("Test saving null event",
 				false, fEventH.saveNewEventHandler(null));
-		
-		Event event = new Event("Event1", "31 aug 2100 23:00", "1 sep 2100 02:00");
 		
 		assertEquals("Test saving valid event",
 				true, fEventH.saveNewEventHandler(event));
 		
-		Event event2 = new Event("Event2", "20 aug 2000 23:00", "21 aug 2000 02:00");
-		
 		assertEquals("Test saving valid past event",
 				true, fEventH.saveNewEventHandler(event2));
+		
+		//TODO: test adding of today's event.
 	}
 	
-	public void testRetrieveEventByDate() {
+	private void testRetrieveEventByDate() {
 		assertEquals("Test retrieving from null date",
 				new ArrayList<Event>(), fEventH.retrieveEventByDate(null));
 		
 		assertEquals("Test retrieving from a date with no event",
 				new ArrayList<Event>(), fEventH.retrieveEventByDate("12 mar 2100"));
-	
-		Event event = new Event("Event2", "20 aug 2000 23:00", "21 aug 2000 02:00");
-		event.setId(1);
+
 		ArrayList<Event> expectedEventBook = new ArrayList<Event>();
-		expectedEventBook.add(event);
+		expectedEventBook.add(event2);
 		ArrayList<Event> actualEventBook = fEventH.retrieveEventByDate("20 aug 2000");
-		
-//		assertEquals("Test retrieving from a date of the past",
-//				true, PreparationCleanUp.compareEventsArrayList(expectedEventBook,actualEventBook) );
 	
 		assertEquals("Test retrieving from a date of the past",
 				expectedEventBook,actualEventBook);
 	}
 	
-	public void testChangeDirectory(){
+	private void testChangeDirectory(){
 		PreparationCleanUp.cleanUp(baseDirectory);
 		testSetNewDirectory();
 		PreparationCleanUp.makeNewDirectory(baseDirectory + "/Event");
@@ -102,7 +104,7 @@ public class FileEventHandlerTest {
 		testRetrieveAllEvents();
 	}
 	
-	public void testSetNewDirectory() {
+	private void testSetNewDirectory() {
 		String newBaseDirectory = null;
 		assertEquals("Test with new directory being null",
 				false, fEventH.setNewDirectory(newBaseDirectory));
@@ -118,21 +120,16 @@ public class FileEventHandlerTest {
 		baseDirectory = newBaseDirectory;
 	}
 
-	public void testRetrieveAllEvents() {
+	private void testRetrieveAllEvents() {
 		ArrayList<Event> expectedList = new ArrayList<Event>();
-		Event event = new Event("Event1", "31 aug 2100 23:00", "1 sep 2100 02:00");
-		Event event2 = new Event("Event2", "20 aug 2000 23:00", "21 aug 2000 02:00");
 		event.setId(0);
 		event2.setId(1);
 		expectedList.add(event2);
 		expectedList.add(event);
 		
-//		assertEquals("Test retrieval of all events",
-//				expectedList, fEventH.retrieveAllEvents());
-		
-		assertEquals("Test retrieval of all events", 
-				true, PreparationCleanUp.compareEventsArrayList(expectedList, fEventH.retrieveAllEvents()));
-		
+		assertEquals("Test retrieval of all events",
+				expectedList, fEventH.retrieveAllEvents());
+			
 	}
 	
 }
