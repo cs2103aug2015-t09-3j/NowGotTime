@@ -220,6 +220,8 @@ public class ServiceHandler implements ServiceManager{
 		
 		// today
 		viewMultipleDays.clear();
+		todayItems.clear();
+		floatingTodo.clear();
 		searchedItems.clear();
 		
 		if(!(viewEventByDate((CalendarHelper.getDateString(_date))).equals(null))) {
