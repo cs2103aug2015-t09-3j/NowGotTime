@@ -93,6 +93,7 @@ public interface FileManager {
 	public ArrayList<Todo> retrieveUniversalTodo();
 	public boolean saveNewTodoHandler(Todo task);
 	public boolean saveEditedTodoHandler();
+	public boolean saveAllEditedTodo();
 	
 	public ArrayList<Integer> retrieveProjectTimeLine(String projectName);
 	public HashMap<Integer, String> retrieveProjectProgress();

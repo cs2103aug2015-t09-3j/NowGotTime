@@ -152,7 +152,9 @@ public class FileHandler implements FileManager{
 	/**
 	 * Saves all the Todo and Floating Todo into text files
 	 */
+	@Override
 	public boolean saveAllEditedTodo(){
+		writeCounter();
 		fTodoH.separateTodoTypes();
 		return fTodoH.saveChange(NORMAL_TODO) && fTodoH.saveChange(FLOATING_TODO);
 	}

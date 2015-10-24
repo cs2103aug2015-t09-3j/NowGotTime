@@ -158,7 +158,8 @@ public class FileProjectHandler {
 	 * @return true if the project has been created, else return false. 
 	 */
 	public boolean createNewProject(String projectName){
-		if(!existingProjects.contains(projectName) && projectName != null){
+		if(!existingProjects.contains(projectName) && projectName != null 
+				&& !projectName.isEmpty()){
 			projectName = projectName.toLowerCase();
 			return createNewProjectFile(projectName);
 		}
@@ -288,13 +289,11 @@ public class FileProjectHandler {
 			
 			return newFile.createNewFile();
 			
-		}catch(IOException e){
+		}catch(Exception e){
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"createNewProjectFile", e.getMessage());
-			return false;
-		}catch(SecurityException e){
-			myLogger.logp(Level.WARNING, getClass().getName(), 
-					"createNewProjectFile", e.getMessage());
+			existingProjects.remove(textFileName);
+			updateOverviewFile();
 			return false;
 		}
 	}

@@ -148,7 +148,7 @@ public class DirectoryHandler {
 	}
 	
 	private String getDefaultDirectory(){
-		String baseDirectory = System.getProperty("user.dir").toString() + "/" + DATABASE + "/";
+		String baseDirectory = System.getProperty("user.dir").toString() + "/" + DATABASE;
 		File file = new File(baseDirectory);
 		if(!file.exists()){
 			if(!file.mkdir()){

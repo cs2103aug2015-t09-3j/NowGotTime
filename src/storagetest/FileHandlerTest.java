@@ -52,6 +52,8 @@ public class FileHandlerTest {
 		testEventOperation();
 		fh = new FileHandler();
 		testTodoOperation();
+		fh = new FileHandler();
+		testProjectOperation();
 		
 	}
 	
@@ -89,7 +91,9 @@ public class FileHandlerTest {
 		assertEquals("Test file existence",
 				true, file.exists());
 	}
-		
+
+/****************************************************************************/		
+
 	public void testEventOperation(){
 		testSaveNewEventHandler();
 		testRetrieveAllEvents();
@@ -150,7 +154,9 @@ public class FileHandlerTest {
 		testSaveNewTodoHandler();
 		testRetrieveUniversalTodo();
 		testRetrieveAllTodo();
-		testRetrieveTodoByDate();		
+		testRetrieveTodoByDate();
+		testSaveEditedTodoHandler();
+		testSaveAllEditedTodo();
 	}
 	
 	//tested with null, past and future dates
@@ -239,17 +245,46 @@ public class FileHandlerTest {
 				true, fh.saveNewTodoHandler(todo7));	
 	}
 	
-//	public void testSaveEditedTodoHandler() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSaveAllEditedTodo() {
-//		fail("Not yet implemented");
-//	}
+	public void testSaveEditedTodoHandler() {
+		
+		assertEquals("Test save when there are no change done",
+				true, fh.saveEditedTodoHandler());
+		
+		ArrayList<Todo> todolist = fh.retrieveAllTodo();
+		Todo todo = todolist.get(0);
+		todo.setName("eventful");
+		assertEquals("Test if save is successful after editing the event", 
+				true, fh.saveEditedTodoHandler());
+		
+		todolist = fh.retrieveAllTodo();
+		todo2 = todolist.get(0);
+		assertEquals("Test if changes are saved",
+				todo, todo2);		
+	}
 
+	public void testSaveAllEditedTodo() {
+		assertEquals("Test save when there are no change done",
+				true, fh.saveAllEditedTodo());
+		
+		ArrayList<Todo> todolist = fh.retrieveAllTodo();
+		Todo todo = todolist.get(0);
+		todo.setName("todo7");
+		assertEquals("Test if save is successful after editing the event", 
+				true, fh.saveAllEditedTodo());
+		
+		todolist = fh.retrieveAllTodo();
+		todo2 = todolist.get(0);
+		assertEquals("Test if changes are saved",
+				todo, todo2);		
+	}
 	
 /***************************************************************************/
+	
+	public void testProjectOperation(){
+		testGetListOfExistingProjectWithProject();
+		testCreateNewProject();
+		testGetListOfExistingProject();
+	}
 	
 //	@Test
 //	public void testRetrieveProjectTimeLine() {
@@ -260,22 +295,51 @@ public class FileHandlerTest {
 //	public void testRetrieveProjectProgress() {
 //		fail("Not yet implemented");
 //	}
-//
-//	@Test
-//	public void testCreateNewProject() {
-//		fail("Not yet implemented");
-//	}
+	
+	public void testCreateNewProject() {
+		
+		assertEquals("adding of project with null name",
+				false, fh.createNewProject(null));
+		
+		assertEquals("adding of project with symbol name", 
+				false, fh.createNewProject("!@#$%^&*()"));
+		
+		assertEquals("adding of project with empty string name",
+				false, fh.createNewProject(""));
+		
+		assertEquals("adding of project", 
+				true, fh.createNewProject("proj1"));
+		
+		assertEquals("adding of project with the same name",
+				false, fh.createNewProject("proj1"));
+		
+		assertEquals("adding of project with similar name",
+				true, fh.createNewProject("proj12"));
+		
+		assertEquals("adding of project with number name",
+				true, fh.createNewProject("1234567890"));
+			
+	}
 //
 //	@Test
 //	public void testSaveEditedProjectDetails() {
 //		fail("Not yet implemented");
 //	}
-//
-//	@Test
-//	public void testGetListOfExistingProject() {
-//		fail("Not yet implemented");
-//	}
-//
+
+	public void testGetListOfExistingProjectWithProject() {	
+		assertEquals("Test the retrieval of list when there is no existing project",
+				new ArrayList<String>(), fh.getListOfExistingProject());
+	}
+	
+	public void testGetListOfExistingProject() {
+		ArrayList<String> expectedList = new ArrayList<String>();
+		expectedList.add("proj1");
+		expectedList.add("proj12");
+		expectedList.add("1234567890");
+		assertEquals("Test the retrieval of list when there is no existing project",
+				expectedList, fh.getListOfExistingProject());
+	}
+
 //	@Test
 //	public void testDeleteProject() {
 //		fail("Not yet implemented");
@@ -328,7 +392,11 @@ public class FileHandlerTest {
 //	public void testSaveAll() {
 //		fail("Not yet implemented");
 //	}
-//
+	
+	public void checkDirectoryFile(){
+		//this is to test saveAll and clearAll
+	}
+	
 //	@Test
 //	public void testClearAll() {
 //		fail("Not yet implemented");
