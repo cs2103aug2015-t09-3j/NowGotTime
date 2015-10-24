@@ -45,7 +45,6 @@ public class DirectoryHandler {
 /********************* Public class methods **********************************/
 	
 	public DirectoryHandler(){
-		
 		if(!doesFileExist(OVERVIEW)){
 			setUpDirectory(null);
 		}else{
@@ -72,6 +71,10 @@ public class DirectoryHandler {
 		if(theBaseDirectory != null){
 			baseDirectory = theBaseDirectory;
 			baseDirectory = createDirectory(DATABASE);
+			
+			if(baseDirectory == null){
+				return false;
+			}
 		}
 
 		todoPath = createDirectory(TODO);
@@ -103,15 +106,18 @@ public class DirectoryHandler {
 		return true;
 	}
 
-	//TODO: modularized it to check if a path exist instead.
 	private boolean doesFileExist(String path){
 		return new File(path).exists();
 	}
 	
 	//return String of directory path if created, else return null
 	private String createDirectory(String directoryName){
+		//this line is to differentiate setting up default dir, or changing to new dir
 		if(baseDirectory == null){
-			baseDirectory = getJavaProjectDirectory();
+			baseDirectory = getDefaultDirectory();
+			if(baseDirectory == null){
+				return null;
+			}
 		}
 		
 		String newDirectoryPath = baseDirectory.concat("/" + directoryName);
@@ -141,13 +147,15 @@ public class DirectoryHandler {
 		}
 	}
 	
-	//TODO: rename this. it is not longer a project directory.
-	private String getJavaProjectDirectory(){
+	private String getDefaultDirectory(){
 		String baseDirectory = System.getProperty("user.dir").toString() + "/" + DATABASE + "/";
 		File file = new File(baseDirectory);
 		if(!file.exists()){
-			file.mkdir();
-			//TODO: What if directory cannot be written???
+			if(!file.mkdir()){
+				myLogger.logp(Level.SEVERE, getClass().getName(), 
+						"readOverviewFile", "creation of default directory failed.");
+				return null;
+			}			
 		}
 		
 		return baseDirectory;
@@ -175,11 +183,11 @@ public class DirectoryHandler {
 			
 		} catch (FileNotFoundException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
-					getClass().getEnclosingMethod().getName(), e.getMessage());
+					"readOverviewFile", e.getMessage());
 			return false;
 		}catch (IOException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
-					getClass().getEnclosingMethod().getName(), e.getMessage());
+					"readOverviewFile", e.getMessage());
 			return false;
 		}		
 	}

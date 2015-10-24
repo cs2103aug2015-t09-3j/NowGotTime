@@ -42,8 +42,18 @@ public class FileTodoHandler {
 		retrievePassedTasks();
 	}
 	
-	public ArrayList<Todo> retrieveTodoByDate(String date){
-		return filterTodoToSpecificDate(date);
+	public ArrayList<Todo> retrieveTodoByDate(String dateString){
+		ArrayList<Todo> toDoListByDate = new ArrayList<Todo>();
+		
+		if(dateString != null){
+			Calendar date = Calendar.getInstance();
+			if( (date = createDate(dateString, date)) == null){
+				return toDoListByDate;
+			}
+			extractTodoByDate(toDoListByDate, date);
+		}
+		
+		return toDoListByDate;	
 	}
 	
 	public ArrayList<Todo> retrieveFloatingTodo(){
@@ -62,15 +72,18 @@ public class FileTodoHandler {
 	}
 	
 	public boolean saveNewTodoHandler(Todo todo){
-		if(todo.hasDate()){
-			allTodo.add(todo);
-			saveChange(NORMAL_TODO);
+		if(todo != null){
+			if(todo.hasDate()){
+				allTodo.add(todo);
+				return saveChange(NORMAL_TODO);
+			}
+			else{
+				universalTodo.add(todo);
+				return saveChange(FLOATING_TODO);
+			}
 		}
-		else{
-			universalTodo.add(todo);
-			saveChange(FLOATING_TODO);
-		}
-		return true;
+		return false;
+		
 	}
 			
 	public boolean saveChange(String type){
@@ -107,6 +120,36 @@ public class FileTodoHandler {
 	
 /***************************** Private methods sorted alphabetically ********************************/	
 	
+	private Calendar createDate(String dateString, Calendar date) {
+		try {
+			date = CalendarHelper.parseDate(dateString);
+			setZeroTime(date);
+		} catch (ParseException e) {
+			myLogger.logp(Level.SEVERE, getClass().getName(), 
+					"writeToFile", e.getMessage());
+			return null;
+		}
+		return date;
+	}
+	
+	private Todo createTodo(String todoName, String todoDate, String todoTime,
+			String addInfo, String todoType, String Id, boolean isDone) {
+		Todo todo;
+		if(isPartialType(todoType)){
+			todo = new Todo(todoName, addInfo, todoDate);
+		
+		}else if(isCompleteType(todoType)){
+			todo = new Todo(todoName, addInfo, todoDate, todoTime);
+			
+		}else{
+			todo = new Todo(todoName, addInfo);
+		}
+		
+		todo.setId(Integer.parseInt(Id));
+		todo.setDone(isDone);
+		return todo;
+	}
+	
 	private String determineType(Todo todo) {
 		if(todo.hasDate() && todo.hasTime()){
 			return COMPLETE_TODO_TYPE;
@@ -116,33 +159,21 @@ public class FileTodoHandler {
 			return BASIC_TODO_TYPE;
 		}
 	}
-
-	private ArrayList<Todo> filterTodoToSpecificDate(String dateString) {
-		Calendar date = Calendar.getInstance();
-		
-		try {
-			date = CalendarHelper.parseDate(dateString);
-		} catch (ParseException e) {
-			myLogger.logp(Level.WARNING, getClass().getName(), 
-					"writeToFile", e.getMessage());
-		}
-		setZeroTime(date);
-		
+	
+	private void extractTodoByDate(ArrayList<Todo> toDoListByDate,
+			Calendar date) {
 		ArrayList<Todo> myTodo = allTodo;
-		ArrayList<Todo> toDoListByDate = new ArrayList<Todo>();
 		Calendar todoDate;
 		for(Todo todo: myTodo){
 			todoDate = (Calendar) todo.getDeadline().clone();
 			setZeroTime(todoDate);
 			
-			if( date.equals( todoDate ) ){
+			if( date.equals(todoDate) ){
 				toDoListByDate.add(todo);
 			}
 		}
-
-		return toDoListByDate;
 	}
-	
+
 	private boolean isCompleteType(String type){
 		return type.equals(COMPLETE_TODO_TYPE);
 	}
@@ -171,24 +202,13 @@ public class FileTodoHandler {
 				isDone = Boolean.parseBoolean(reader.readLine());
 				addInfo = "";
 				
-				if(isPartialType(todoType)){
-					todo = new Todo(todoName, addInfo, todoDate);
-				
-				}else if(isCompleteType(todoType)){
-					todo = new Todo(todoName, addInfo, todoDate, todoTime);
-					
-				}else{
-					todo = new Todo(todoName, addInfo);
-				}
-				
-				todo.setId(Integer.parseInt(Id));
-				todo.setDone(isDone);
+				todo = createTodo(todoName, todoDate, todoTime, addInfo,
+						todoType, Id, isDone);
 				myTodo.add(todo);
 				Id = reader.readLine();
 			}
 			
 			allTodo = myTodo;
-			
 			reader.close();		 
 			return true;
 		
@@ -299,4 +319,3 @@ public class FileTodoHandler {
 	}
 	
 }
-

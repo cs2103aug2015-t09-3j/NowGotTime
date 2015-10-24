@@ -5,11 +5,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Calendar;
-
-import object.Event;
-import object.Todo;
 
 public class PreparationCleanUp {
 	
@@ -61,35 +56,7 @@ public class PreparationCleanUp {
 		delete("overview.txt");	
 		delete("Counter.txt");	
 	}
-	
-	//temp comparators
-	public static boolean compareEventsArrayList(ArrayList<Event> list1, ArrayList<Event> list2){
-		if(list1.size() == list2.size()){
-			for(int i=0; i<list1.size(); i++){
-				if(!compareEvents(list1.get(i), list2.get(i))){
-					return false;
-				}
-			}
-		}else{
-			return false;
-		}
-		return true;
-	}	
-	
-	public static boolean compareTodoArrayList(ArrayList<Todo> list1, ArrayList<Todo> list2){
 		
-		if(list1.size() != list2.size()){
-			return false;
-		}else{
-			for(int i=0; i<list1.size(); i++){
-				if(!compareTodo(list1.get(i), list2.get(i))){
-					return false;
-				}
-			}
-			return true;
-		}		
-	}
-	
 	private static void delete(String name){
 		String baseDirectory = System.getProperty("user.dir").toString() + "/" + name;
 		File file = new File(baseDirectory);
@@ -98,21 +65,5 @@ public class PreparationCleanUp {
 		}else{
 			file.delete();
 		}
-	}
-
-	private static boolean compareEvents(Event event1, Event event2){
-		return ( event1.getId() == event2.getId() ) &&
-				( event1.getName().equals( event2.getName() ) ) &&
-				( event1.getStartCalendar().get(Calendar.DATE) == event2.getStartCalendar().get(Calendar.DATE) ) &&
-				( event1.getStartCalendar().get(Calendar.HOUR_OF_DAY) == event2.getStartCalendar().get(Calendar.HOUR_OF_DAY) ) &&
-				( event1.getStartCalendar().get(Calendar.MINUTE) == event2.getStartCalendar().get(Calendar.MINUTE) ) &&
-				( event1.getEndCalendar().get(Calendar.DATE) ==  event2.getEndCalendar().get(Calendar.DATE) ) &&
-				( event1.getEndCalendar().get(Calendar.HOUR_OF_DAY) ==  event2.getEndCalendar().get(Calendar.HOUR_OF_DAY) ) &&
-				( event1.getEndCalendar().get(Calendar.MINUTE) ==  event2.getEndCalendar().get(Calendar.MINUTE) );
-	}
-
-	private static boolean compareTodo(Todo todo1, Todo todo2){	
-		//TODO: change this!
-		return (todo1.getId() == todo2.getId());
 	}
 }

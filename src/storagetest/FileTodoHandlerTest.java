@@ -2,6 +2,7 @@ package storagetest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import object.Item;
@@ -58,28 +59,43 @@ public class FileTodoHandlerTest {
 		testChangeDirectory();
 	}
 	
-//	@Test
-//	public void testRetrievalWithNoTask(){
-//		preparationCleanUp.cleanUp(baseDirectory);
-//		fTodoH = new FileTodoHandler(baseDirectory);
-//		
-//		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-//		ArrayList<Todo> actualList = fTodoH.retrieveAllTodo();
-//		
-//		assertEquals("Test retrieval of all todo", 
-//				true, compareTodoArrayList(expectedList, actualList));
-//	}
-	
-	public void testFileTodoHandlerConstructor() {
+	@Test
+	public void testRetrievalWithNoTask(){
+		PreparationCleanUp.cleanUp(baseDirectory);
 		fTodoH = new FileTodoHandler(baseDirectory);
+		
+		ArrayList<Todo> expectedList = new ArrayList<Todo>();
+		ArrayList<Todo> actualList = fTodoH.retrieveAllTodo();
+		
+		assertEquals("Test retrieval of all todo", 
+				expectedList, actualList);
+		
+		Item.setCounter(0);
+		PreparationCleanUp.cleanUp(baseDirectory);
+		PreparationCleanUp.setUpDirectory(baseDirectory);
+	}
+	
+/****************************************************************************/
+	
+	private void testFileTodoHandlerConstructor() {
+		fTodoH = new FileTodoHandler(baseDirectory);
+		
+		assertEquals("Test if the floating txt file has been created",
+				true, new File(baseDirectory + "/Floating_Todo.txt").exists());
+		
+		assertEquals("Test if the floating txt file has been created",
+				true, new File(baseDirectory + "/Normal_Todo.txt").exists());
 		
 		assertEquals("Test if there are no existing tasks", 
 				new ArrayList<Todo>(), fTodoH.retrieveAllTodo());
 		
-		//TODO: check existence of files
 	}
 
-	public void testSaveNewTodoHandler() {
+	private void testSaveNewTodoHandler() {
+		
+		assertEquals("Test adding of null",
+				false, fTodoH.saveNewTodoHandler(null));
+		
 		assertEquals("Test adding of todo1", 
 				true, fTodoH.saveNewTodoHandler(todo1));
 		
@@ -102,52 +118,50 @@ public class FileTodoHandlerTest {
 				true, fTodoH.saveNewTodoHandler(todo7));	
 	}
 	
-	public void testRetrieveAllTodo() {
+	private void testRetrieveAllTodo() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		expectedList.add(todo3);
+		
 		expectedList.add(todo7);
+		
 		expectedList.add(todo5);
-		
-		expectedList.add(todo2);
+		expectedList.add(todo3);
 		expectedList.add(todo6);
-		expectedList.add(todo4);
 		
+		expectedList.add(todo4);
+		expectedList.add(todo2);
 		expectedList.add(todo1);
 		
 		ArrayList<Todo> actualList = fTodoH.retrieveAllTodo();
-		
-//		assertEquals("Test retrieval of all todo", 
-//				true, PreparationCleanUp.compareTodoArrayList(expectedList, actualList));
 		
 		assertEquals("Test retrieval of all todo", 
 				expectedList, actualList);
 	}
 
-	public void testRetrieveTodoByDate() {
+	private void testRetrieveTodoByDate() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		expectedList.add(todo3);
+		ArrayList<Todo> actualList = fTodoH.retrieveTodoByDate(null);
+		assertEquals("Test retrieval of todo with null",
+				expectedList, actualList);
+		
 		expectedList.add(todo7);
 		expectedList.add(todo5);
+		expectedList.add(todo3);
 		
-		
-		ArrayList<Todo> actualList = fTodoH.retrieveTodoByDate("20 oct 2000");
-		
+		actualList = fTodoH.retrieveTodoByDate("20 oct 2000");
 		assertEquals("Test retrieval of todo by date",
 				expectedList, actualList);
 	}
 
-	public void testRetrieveFloatingTodo() {
+	private void testRetrieveFloatingTodo() {
 		expectedList = new ArrayList<Todo>();
 		expectedList.add(todo1);
 		actualList = fTodoH.retrieveFloatingTodo();
-		
+			
 		assertEquals("Test retrieval of all floating todo", 
-				true, PreparationCleanUp.compareTodoArrayList(expectedList, actualList));
-	
-//		assertEquals("Test retrieval of all floating todo", expectedList, actualList);
+				expectedList, actualList);
 	}
 
-	public void testSetNewDirectory() {
+	private void testSetNewDirectory() {
 		String newBaseDirectory = null;
 		assertEquals("Test with new directory being null",
 				false, fTodoH.setNewDirectory(newBaseDirectory));
@@ -163,7 +177,7 @@ public class FileTodoHandlerTest {
 		baseDirectory = newBaseDirectory;
 	}
 	
-	public void testChangeDirectory(){
+	private void testChangeDirectory(){
 		PreparationCleanUp.cleanUp(baseDirectory);
 		testSetNewDirectory();
 		PreparationCleanUp.makeNewDirectory(baseDirectory + "/Todo");
@@ -175,18 +189,11 @@ public class FileTodoHandlerTest {
 		testRetrieveFloatingTodo();
 	}
 	
-	public void testSaveChange(){
+	private void testSaveChange(){
 		assertEquals("Test saving floating task",
 				true, fTodoH.saveChange(FLOATING_TODO));
-		assertEquals("Test saving floating task",
+		assertEquals("Test saving normal task",
 				true, fTodoH.saveChange(NORMAL_TODO));
 	}
-	
-	
-	
+		
 }
-
-
-
-
-

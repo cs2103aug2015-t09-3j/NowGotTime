@@ -2,6 +2,7 @@ package storagetest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import object.Event;
@@ -53,11 +54,13 @@ public class FileEventHandlerTest {
 				new ArrayList<Event>(), fEventH.retrieveAllEvents());
 	}
 	
-	
 /**********************************************************************************************/
 	
 	private void testFileEventHandlerConstructor() {
 		fEventH = new FileEventHandler(baseDirectory);
+		
+		assertEquals("Test if the event txt file has been created",
+				true, new File(baseDirectory + "/All_Events.txt").exists());
 		
 		assertEquals("Test if there are no existing events", 
 				new ArrayList<Event>(), fEventH.retrieveAllEvents());
@@ -74,7 +77,7 @@ public class FileEventHandlerTest {
 		assertEquals("Test saving valid past event",
 				true, fEventH.saveNewEventHandler(event2));
 		
-		//TODO: test adding of today's event.
+		//TODO: test adding of event with current time.
 	}
 	
 	private void testRetrieveEventByDate() {
@@ -89,7 +92,7 @@ public class FileEventHandlerTest {
 		ArrayList<Event> actualEventBook = fEventH.retrieveEventByDate("20 aug 2000");
 	
 		assertEquals("Test retrieving from a date of the past",
-				expectedEventBook,actualEventBook);
+				expectedEventBook, actualEventBook);
 	}
 	
 	private void testChangeDirectory(){
@@ -132,6 +135,7 @@ public class FileEventHandlerTest {
 			
 	}
 	
+	//TODO: testSaveEventBook
 }
 
 

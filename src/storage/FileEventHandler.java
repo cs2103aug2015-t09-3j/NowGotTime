@@ -34,7 +34,6 @@ public class FileEventHandler {
  	@SuppressWarnings("unchecked")
 	public FileEventHandler(String theBaseDirectory){
 		this.baseDirectory = theBaseDirectory.concat("/");
-//		allEventsClone = allEvents;
 		allEvents = retrieveEvent();
 		allEventsClone = (ArrayList<Event>) allEvents.clone();
 	}
@@ -50,7 +49,7 @@ public class FileEventHandler {
 			
 	@SuppressWarnings("unchecked")
 	public boolean saveEventBook(){
-		
+		//TODO: change to flag instead? can improve efficiency
 		if(allEvents != allEventsClone){
 			allEvents = allEventsClone;
 		}
@@ -68,42 +67,20 @@ public class FileEventHandler {
 		return false;
 	}
 	
-	//TODO: method too long
 	public ArrayList<Event> retrieveEventByDate(String dateString){
 		ArrayList<Event> eventBookByDate = new ArrayList<Event>();
 		
 		if(dateString != null){
-			
-			//TODO: below two lines are useless
 			Calendar date = Calendar.getInstance();
-			setZeroTime(date);
-			
-			try {
-				date = CalendarHelper.parseDate(dateString);
-			} catch (ParseException e) {
-				myLogger.logp(Level.WARNING, getClass().getName(), 
-						"retrieveEventByDate", e.getMessage());
+			if( (date = createDate(dateString, date)) == null){
 				return eventBookByDate;
 			}
 			
-			ArrayList<Event> eventBook = allEvents;
-			Calendar startDate, endDate;
-			
-			for(Event event: eventBook){
-				startDate = (Calendar) event.getStartCalendar().clone();
-				endDate = (Calendar) event.getEndCalendar().clone();
-				setZeroTime(startDate);
-				setZeroTime(endDate);
-				
-				if( date.equals(startDate) || date.equals(endDate) || 
-						(date.after(startDate) && date.before(endDate) ) ){
-					eventBookByDate.add(event);
-				}
-			}
+			extractEventByDate(eventBookByDate, date);
 		}
 		return eventBookByDate;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public ArrayList<Event> retrieveAllEvents(){
 		allEvents = retrieveEvent();
@@ -113,6 +90,45 @@ public class FileEventHandler {
 	
 /*************************************************************************************/
  	
+	private Calendar createDate(String dateString, Calendar date) {
+		try {
+			date = CalendarHelper.parseDate(dateString);
+			setZeroTime(date);
+		} catch (ParseException e) {
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"retrieveEventByDate", e.getMessage());
+			return null;
+		}
+		return date;
+	}
+	
+	private Event createEvent(String eventName, String startDate, String endDate,
+			String startTime, String endTime, String addInfo, String ID,
+			boolean isDone) {
+		Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
+		event.setId(Integer.parseInt(ID));
+		event.setDone(isDone);
+		return event;
+	}
+	
+	private void extractEventByDate(ArrayList<Event> eventBookByDate, 
+			Calendar date) {
+		ArrayList<Event> eventBook = allEvents;
+		Calendar startDate, endDate;
+		
+		for(Event event: eventBook){
+			startDate = (Calendar) event.getStartCalendar().clone();
+			endDate = (Calendar) event.getEndCalendar().clone();
+			setZeroTime(startDate);
+			setZeroTime(endDate);
+			
+			if( date.equals(startDate) || date.equals(endDate) || 
+					(date.after(startDate) && date.before(endDate) ) ){
+				eventBookByDate.add(event);
+			}
+		}
+	}
+	
 	private ArrayList<Event> retrieveEvent(){
 		ArrayList<Event> eventBook = new ArrayList<Event>();
 		String eventName, startDate, endDate, startTime, endTime, addInfo, ID;
@@ -133,12 +149,10 @@ public class FileEventHandler {
 				isDone = Boolean.parseBoolean(reader.readLine());
 				addInfo = "";
 				
-				Event event = new Event(eventName, startDate, endDate, startTime, endTime, addInfo);
-				event.setId(Integer.parseInt(ID));
-				event.setDone(isDone);
+				Event event = createEvent(eventName, startDate, endDate,
+						startTime, endTime, addInfo, ID, isDone);
 				eventBook.add(event);
 			}
-			
 			reader.close();	
 			return eventBook;
 			
@@ -147,12 +161,13 @@ public class FileEventHandler {
 					"retrieveEventHandler", e.getMessage());
 			saveEventBook();
 			return eventBook;
+			
 		}catch (IOException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"retrieveEventHandler", e.getMessage());
 			return eventBook;
+			
 		}
-
 	}
 	
 	private void setZeroTime(Calendar date){
@@ -164,7 +179,6 @@ public class FileEventHandler {
 	
 	private boolean sortEventsByDate(ArrayList<Event> eventBook){
 		if(eventBook != null){
-//			Collections.sort(eventBook);
 			Collections.sort(eventBook);
 			return true;
 		}
