@@ -127,7 +127,8 @@ To add a new event, use the command add follow by the name of the event you are 
 ![Step 1](manual/assets/event/addfloat1.png)
 
 ### Step 2
-The command console will prompt you for the date, enter the date of the event (if any). You can leave the date section empty, this event will then be considered a floating event.
+The command console will prompt you for the date, enter the date of the event (if any). You can leave the date section empty, this event will then be considered a floating event.
+
 ![Step 2](manual/assets/event/addfloat2.png)
 
 ## Editing a floating event
@@ -153,7 +154,8 @@ Use the v command to show the To-Do-List. Use the dlt command followed by the ID
 ![Step 1](manual/assets/event/deletefloat1.png)
 
 ### Step 2
-A confirmation message will be printed and the event will be deleted.
+A confirmation message will be printed and the event will be deleted.
+
 ![Step 2](manual/assets/event/deletefloat2.png)
 
 
@@ -283,21 +285,24 @@ Command | Description | Status
 ### Checking and Unchecking
 Command | Description | Status 
 --------| ----------- | -------
-`check "<INDEX>"` | mark done item with index `<INDEX>` | ✅ |
+`check <INDEX>` | mark done item with index `<INDEX>` | ✅ |
 `check "<KEYWORD>"` | mark done item with keyword `<KEYWORD>` | ✅ |
-`uncheck "<INDEX>"` | mark undone item with index `<INDEX>` | ✅ |
+`uncheck <INDEX>` | mark undone item with index `<INDEX>` | ✅ |
 `uncheck "<KEYWORD>"` | mark undone item with keyword `<KEYWORD>` | ✅ |
-### Others
-Command | Description | Status 
---------| ----------- | -------
-`undo` | undo last add, delete, or edit command | ✅ | 
-`exit` | exit NowGotTime | ✅ |
 
 ### Viewing
 Command | Description | Status 
 --------| ----------- | -------
+`search "<KEYWORD>"` | show items with keyword <KEYWORD> | ✅ |
 `view` | show today events and todos | ✅ |
 `view <DATE>` | show events and todos that occurs on `<DATE>` | ✅ |
+
+### Others
+Command | Description | Status 
+--------| ----------- | -------
+`undo` | undo last add, delete, or edit command | ✅ | 
+`set "<DIRECTORY>"` | change save directory to <DIRECTORY> | ✅ |
+`exit` | exit NowGotTime | ✅ |
 
 ## Project Commands
 ### Adding

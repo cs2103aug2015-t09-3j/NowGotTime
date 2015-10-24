@@ -42,6 +42,9 @@ public interface Command {
             case "uncheck":
                 command = new CommandUncheck(arguments);
                 break;
+            case "set":
+                command = new CommandSet(arguments);
+                break;
             case "exit":
                 command = new CommandExit(arguments);
                 break;

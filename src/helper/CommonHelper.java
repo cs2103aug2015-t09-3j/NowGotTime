@@ -25,9 +25,9 @@ public class CommonHelper {
     public static final String SUCCESS_PROJECT_EDITED        = "project '%1$s' changed to '%2$s'";
     public static final String SUCCESS_ITEM_ADDED_TO_PROJECT = "'%1$s' added to project '%2$s'";
     public static final String SUCCESS_SEARCHED              = "Got it!";
-    public static final String SUCCESS_SAVE_CHANGED          = "save directory moved to '%1$s'";
     public static final String SUCCESS_ITEM_CHECKED          = "marked done '%1$s'";
     public static final String SUCCESS_ITEM_UNCHECKED        = "marked not done '%1$s'";
+    public static final String SUCCESS_SET_DIRECTORY         = "save directory moved to '%1$s'";
     
     /* Error messages */
     public static final String ERROR_INVALID_COMMAND     = "unknown command '%1$s'";
