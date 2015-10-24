@@ -36,7 +36,6 @@ public class CommandExit implements Command {
 
     @Override
     public Displayable getDisplayable() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

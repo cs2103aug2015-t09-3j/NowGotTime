@@ -38,7 +38,6 @@ public class CommandAddProject implements CommandAdd {
 
     @Override
     public Displayable getDisplayable() {
-        // TODO: Refactor
         return new CommandViewProject();
     }
 
