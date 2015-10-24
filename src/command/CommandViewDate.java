@@ -1,10 +1,13 @@
 package command;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Stack;
 import java.util.regex.Matcher;
 
+import helper.CalendarHelper;
 import helper.Parser;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
@@ -21,7 +24,7 @@ public class CommandViewDate implements CommandView {
 
     
     String dateString = null;
-    ArrayList<Item> mergedList = new ArrayList<Item>();
+    ArrayList< ArrayList<Item> > mergedList;
     
     /**
      * Parses the arguments for view command
@@ -47,11 +50,94 @@ public class CommandViewDate implements CommandView {
         // TODO Refactor this messy code
         displayBox.getChildren().clear();
         
-        Collections.sort(mergedList);
+        Calendar date = null;
+        try {
+            date = CalendarHelper.parseDate(dateString);
+        } catch (ParseException e) {
+        }
+        int rowIndex = 0;
         
+        rowIndex++;
+        rowIndex++;
+        
+        for (int i = 0; i < mergedList.size(); i++) {
+            ArrayList<Item> itemList = mergedList.get(i);
+            int size = itemList.size();
+            
+            if (size > 0 || i == 0) {
+            
+                Text dateText;
+                
+                if (i != 1) {
+                    dateText = GUI.getText(CalendarHelper.getDateString(date), Color.BLACK, 16);
+                } else {
+                    dateText = GUI.getText("Task", Color.BLACK, 16);
+                }
+                
+                displayBox.add(dateText, 1, rowIndex++, 4, 1);
+                displayBox.add(new Separator(), 0, rowIndex++, 5, 1);
+                
+                if (size == 0) {
+                    Text freeText = GUI.getText("Nothing to do!", Color.GREY, 16);
+                    displayBox.add(freeText, 1, rowIndex++, 4, 1);
+                } else {
+                    String timeString = "";
+                    
+                    for (Item item : itemList) {
+                        
+                        if (item instanceof Event) {
+                            
+                            if (((Event)item).getStartDateString().equals(date)) {
+                                timeString += ((Event)item).getStartTimeString();
+                            }
+                            else {
+                                timeString += "00:00";
+                            }
+                            
+                            timeString += " to ";
+                            
+                            if (((Event)item).getEndDateString().equals(date)) {
+                                timeString += ((Event)item).getEndTimeString();
+                            }
+                            else {
+                                timeString += "23:59";
+                            }
+                            
+                        } else {
+                            if (((Todo)item).hasDate())
+                                timeString += ((Todo)item).getDeadlineTimeString();
+                        }
+                        
+                        Text nameText = GUI.getText(item.getName(), Color.GREY, 16);
+                        Text markText;
+                        
+                        if (item.getDone()) {
+                            markText = GUI.getText("\u2714", Color.GREEN, 18);
+                        } else {
+                            markText = GUI.getText("\u2610", Color.GREY, 18);
+                        }
+                        
+                        Text timeText = GUI.getText(timeString, Color.GREY, 16);
+
+                        displayBox.add(markText, 1, rowIndex);
+                        displayBox.add(nameText, 2, rowIndex);
+                        displayBox.add(timeText, 3, rowIndex);
+                        rowIndex++;
+                        
+                    }
+                }
+                rowIndex++;
+                rowIndex++;
+            
+            }
+                
+            if (i != 1) {
+                date.add(Calendar.DAY_OF_MONTH, 1);
+            }
+        }
+        /*
         String previousDate = dateString;
         
-        int rowIndex = 0;
         
         rowIndex++;
         rowIndex++;
@@ -125,7 +211,9 @@ public class CommandViewDate implements CommandView {
             
             rowIndex++;
             previousDate = date;
+            
         }
+        */
     }
 
     @Override

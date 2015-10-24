@@ -51,16 +51,40 @@ public class GUI extends Application {
     private ServiceHandler serviceHandler = null;
     private Projects projectHandler = null;
     private Stack<Revertible> historyList;
+    Displayable display = getTodayDisplay();
     
     private static String CSS_SUCCESS = "-fx-background-color: #5cb85c; -fx-background-radius: 3;";
     private static String CSS_ERROR = "-fx-background-color: #d9534f; -fx-background-radius: 3;";
     private static String CSS_WARNING = "-fx-background-color: #f0ad4e; -fx-background-radius: 3;";
     
+    private Displayable updateDisplay(Displayable display, Displayable newDisplay) {
+        if (newDisplay == null) {
+            return display;
+        } else {
+            return newDisplay;
+        }
+    }
+    
+    private Displayable getTodayDisplay() {
+        Calendar today = Calendar.getInstance();
+        return new CommandViewDate(CalendarHelper.getDateString(today));
+    }
+    
+    private void showDisplay(Displayable display) {
+        if (display != null) {
+            try {
+                ((Command)display).execute(serviceHandler, projectHandler, historyList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            display.display(displayBox);
+        }
+    }
     
     private String executeResponse(String userResponse) {
         Command command = null;
-        Displayable display = null;
         String feedback;
+        
         try {
             command = Command.parseCommand(userResponse);
             feedback = command.execute(serviceHandler, projectHandler, historyList);
@@ -69,11 +93,8 @@ public class GUI extends Application {
             prompt.clear();
             
             // Show on display
-            display = command.getDisplayable();
-            if (display != null) {
-                ((Command)display).execute(serviceHandler, projectHandler, historyList);
-                display.display(displayBox);
-            }
+            display = updateDisplay(display, command.getDisplayable());
+            showDisplay(display);
             
             if (command instanceof Revertible) {
                 // add to history list if project revertible
@@ -225,12 +246,6 @@ public class GUI extends Application {
         return new Scene(ui, GUI_WIDTH, GUI_HEIGHT);
     }
     
-    private void viewToday() throws Exception {
-        Calendar today = Calendar.getInstance();
-        Displayable viewCommand = new CommandViewDate(CalendarHelper.getDateString(today));
-        ((Command)viewCommand).execute(serviceHandler, projectHandler, historyList);
-        viewCommand.display(displayBox);
-    }
     
     private void configureHandler() {
         serviceHandler = new ServiceHandler();
@@ -247,7 +262,8 @@ public class GUI extends Application {
 	    
 	    Scene ui = getUserInterface();
 	    
-	    viewToday();
+	    showDisplay(display);
+	    
 	    primaryStage.setScene(ui);
 	    primaryStage.show();
 	}

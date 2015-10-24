@@ -120,8 +120,13 @@ public class CommandAddItem implements CommandAdd {
             date = ((Event)item).getStartDateString();
         }
         else {
-            date = ((Todo)item).getDeadlineDateString();
+            if (((Todo)item).hasDate()) {
+                date = ((Todo)item).getDeadlineDateString();
+            } else {
+                return null;
+            }
         }
+        
         return new CommandViewDate(date);
     }
 }
