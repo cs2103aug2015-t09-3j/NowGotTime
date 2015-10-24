@@ -265,6 +265,7 @@ public class GUI extends Application {
 	    showDisplay(display);
 	    
 	    primaryStage.setScene(ui);
+	    primaryStage.setResizable(false);
 	    primaryStage.show();
 	}
 

@@ -3,7 +3,6 @@ package command;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Stack;
 import java.util.regex.Matcher;
 
@@ -30,8 +29,12 @@ public class CommandViewDate implements CommandView {
      * Parses the arguments for view command
      */
     public CommandViewDate(String args) {
-        Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DATE);
-        dateString = matcher.group(Parser.TAG_DATE).trim();
+        if (Parser.matches(args, Parser.PATTERN_EMPTY)) {
+            dateString = CalendarHelper.getDateString(Calendar.getInstance());
+        } else {
+            Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DATE);
+            dateString = matcher.group(Parser.TAG_DATE).trim();
+        }
     }
 
     /**
@@ -56,6 +59,7 @@ public class CommandViewDate implements CommandView {
         } catch (ParseException e) {
         }
         int rowIndex = 0;
+        int listingNumber = 0;
         
         rowIndex++;
         rowIndex++;
@@ -63,13 +67,14 @@ public class CommandViewDate implements CommandView {
         for (int i = 0; i < mergedList.size(); i++) {
             ArrayList<Item> itemList = mergedList.get(i);
             int size = itemList.size();
+            String dateString = CalendarHelper.getDateString(date);
             
             if (size > 0 || i == 0) {
             
                 Text dateText;
                 
                 if (i != 1) {
-                    dateText = GUI.getText(CalendarHelper.getDateString(date), Color.BLACK, 16);
+                    dateText = GUI.getText(dateString, Color.BLACK, 16);
                 } else {
                     dateText = GUI.getText("Task", Color.BLACK, 16);
                 }
@@ -81,13 +86,15 @@ public class CommandViewDate implements CommandView {
                     Text freeText = GUI.getText("Nothing to do!", Color.GREY, 16);
                     displayBox.add(freeText, 1, rowIndex++, 4, 1);
                 } else {
-                    String timeString = "";
+                    
                     
                     for (Item item : itemList) {
                         
+                        String timeString = "";
+                        
                         if (item instanceof Event) {
                             
-                            if (((Event)item).getStartDateString().equals(date)) {
+                            if (((Event)item).getStartDateString().equals(dateString)) {
                                 timeString += ((Event)item).getStartTimeString();
                             }
                             else {
@@ -96,7 +103,7 @@ public class CommandViewDate implements CommandView {
                             
                             timeString += " to ";
                             
-                            if (((Event)item).getEndDateString().equals(date)) {
+                            if (((Event)item).getEndDateString().equals(dateString)) {
                                 timeString += ((Event)item).getEndTimeString();
                             }
                             else {
@@ -118,7 +125,12 @@ public class CommandViewDate implements CommandView {
                         }
                         
                         Text timeText = GUI.getText(timeString, Color.GREY, 16);
-
+                        
+                        listingNumber++;
+                        
+                        Text numberingText = GUI.getText(String.valueOf(listingNumber), Color.BLACK, 16);
+                        
+                        displayBox.add(numberingText, 0, rowIndex);
                         displayBox.add(markText, 1, rowIndex);
                         displayBox.add(nameText, 2, rowIndex);
                         displayBox.add(timeText, 3, rowIndex);

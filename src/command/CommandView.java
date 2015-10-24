@@ -15,7 +15,7 @@ public interface CommandView extends Command, Displayable {
         } else if (Parser.matches(text, Parser.PATTERN_NAME)) {
             commandView = new CommandViewProjectName(text);
             
-        } else if (Parser.matches(text, Parser.PATTERN_DATE)) {
+        } else if (Parser.matches(text, Parser.PATTERN_DATE) || Parser.matches(text, Parser.PATTERN_EMPTY)) {
             commandView = new CommandViewDate(text);
             
         } else {

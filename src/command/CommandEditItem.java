@@ -137,9 +137,11 @@ public class CommandEditItem implements CommandEdit {
         
         assert(item != null);
         
+        String oldName = item.getName();
+        
         oldValue = serviceHandler.editItem(item, fieldName, newValue);
         
-        return String.format(CommonHelper.SUCCESS_ITEM_EDITED, item.getName(), fieldName, newValue);
+        return String.format(CommonHelper.SUCCESS_ITEM_EDITED, oldName, fieldName, newValue);
     }
 
     /**

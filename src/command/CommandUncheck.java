@@ -84,15 +84,7 @@ public class CommandUncheck implements Command, Revertible {
             return new CommandSearch("\"" + itemKey + "\"");
         }
         else {
-            // TODO Refactor : implement this on item class
-            String date;
-            if (item instanceof Event) {
-                date = ((Event)item).getStartDateString();
-            }
-            else {
-                date = ((Todo)item).getDeadlineDateString();
-            }
-            return new CommandViewDate(date);
+            return null;
         }
     }
 
