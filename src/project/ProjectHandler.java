@@ -104,7 +104,8 @@ public class ProjectHandler implements ProjectManager{
 	 */
 	
 	@Override
-	public Event editEvent(int arrayIndex) {
+	public Event editEvent(int arrayIndex, String projectName) {
+		viewProjectTimeline(projectName);
 		int id = projectBook.get(arrayIndex);
 		Event event = project.retrieveEventById(id); 
 		return event;

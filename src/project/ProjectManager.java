@@ -21,5 +21,5 @@ public interface ProjectManager {
 	public double progressBar(String projectName);
 	public ArrayList<Event> viewProjectTimelineInEvents(String projectName);
 	public boolean deleteProjectEvent(int index, String projectName);
-	public Event editEvent(int arrayIndex);
+	public Event editEvent(int arrayIndex, String projectName);
 	}

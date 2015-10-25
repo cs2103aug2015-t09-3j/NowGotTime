@@ -164,6 +164,22 @@ public class Projects {
 		}
 	}
 	
+	public boolean deleteProjectEvent(int eventArrayListIndex, String projectName) {
+		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+			return false;
+		} else {
+		return pHandler.deleteProjectEvent(eventArrayListIndex, projectName);
+		}
+	}
+	
+	public Event editEvent(int arrayIndex, String projectName) {
+		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+			return null;
+		} else {
+		return pHandler.editEvent(arrayIndex, projectName);
+		}
+	}
+	
 	public boolean addProjectEvent(Event event, String projectName) {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return false;
