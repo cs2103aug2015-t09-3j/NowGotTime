@@ -48,6 +48,14 @@ public class TestItem {
 	
 			assertEquals("Fail getName() and setName()", "testingName", gottenName);
 			
+			/*
+			Item itemNullName = new Todo("", "testingAddInfo3");
+			System.out.println(itemNullName.getId());
+			String gottenNullName = itemNullName.getName();
+			assertEquals("Fail getName() and setName(), name is null", "", gottenNullName);	
+			
+			*/
+			
 			String gottenAddInfo = item.getAdditionalInfo();
 			assertEquals("Fail getAdditionalInfo() and setAdditionalInfo()", "testingAddInfo", gottenAddInfo);
 			
