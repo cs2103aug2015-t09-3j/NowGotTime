@@ -16,7 +16,6 @@ public class TestItem {
 
 	//Instantiate using Todo because Item is an Abstract Class and cannot be instantiated
 	protected static Item item = new Todo("testingName", "testingAddInfo"); 
-	protected static Item itemNameNull = new Todo("", "testingAddInfo3");
 	protected static FileHandler clear;
 	
 	private Event event1 = new Event("EventName1", "25 Oct 2015", "10:00", "21:00", "");
@@ -46,11 +45,8 @@ public class TestItem {
 		try {
 	
 			String gottenName = item.getName();
-			String gottenNullName = itemNameNull.getName();
-			System.out.println(itemNameNull.getId());
 	
 			assertEquals("Fail getName() and setName()", "testingName", gottenName);
-			assertEquals("Fail getName() and setName(), name is null", "", gottenNullName);
 			
 			String gottenAddInfo = item.getAdditionalInfo();
 			assertEquals("Fail getAdditionalInfo() and setAdditionalInfo()", "testingAddInfo", gottenAddInfo);
