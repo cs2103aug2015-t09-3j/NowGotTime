@@ -97,6 +97,10 @@ public abstract class Item implements Comparable<Item> {
                 return ((Event)this).getStartCalendar().compareTo(((Event)other).getStartCalendar());
             }
             else if (((Todo)other).hasDate()){
+            	
+            	//Testing to debug why Event compare to Todo return 0 fails.
+            	//System.out.println("1. " + ((Event)this).getStartCalendar());
+            	//System.out.println("2. " + ((Todo)other).getDeadline());
                 return ((Event)this).getStartCalendar().compareTo(((Todo)other).getDeadline());
             }
             else {
