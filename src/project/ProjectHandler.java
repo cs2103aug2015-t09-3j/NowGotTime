@@ -85,23 +85,32 @@ public class ProjectHandler implements ProjectManager{
 	 * Deletes an existing Event in the Project ArrayList by the index
 	 */
 	
-	/*
+	
 	@Override
 	public boolean deleteProjectEvent(int index, String projectName) {
 		if (index < projectBook.size()) {
-			//System.out.println("CHECK: " + projectBook.remove(index));
-			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
+			int id = projectBook.remove(index);
+			Event event = project.retrieveEventById(id);
+			deleteProjectEvent(event, projectName);
 			return true;
 		} else {
 			return false;
 		}
 	}
-	*/
+	
 	
 	/**
 	 * Edits an existing Event in the Project ArrayList by the ID
 	 */
 	
+	@Override
+	public Event editEvent(int arrayIndex) {
+		int id = projectBook.get(arrayIndex);
+		Event event = project.retrieveEventById(id); 
+		return event;
+	}
+	
+	/*
 	@Override
 	public boolean editProjectEvent(Event event, int infoIndex, String newValue, String projectName) {
 		int id = event.getId();
@@ -145,7 +154,7 @@ public class ProjectHandler implements ProjectManager{
 			return true;
 		}
 	}
-
+		*/
 	
 	/*
 	@Override

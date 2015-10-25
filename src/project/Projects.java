@@ -125,7 +125,8 @@ public class Projects {
 			return null;
 		}
 	}
-
+	
+	/*
 	public boolean editProjectEvent(Event event, int infoIndex, String newValue, String projectName) {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return false;
@@ -143,7 +144,7 @@ public class Projects {
 			return false;
 		}
 	}
-	
+	*/
 	
 	public boolean deleteProjectEvent(Event event, String projectName) {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
