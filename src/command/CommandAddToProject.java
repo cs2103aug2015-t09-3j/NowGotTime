@@ -33,6 +33,11 @@ public class CommandAddToProject implements CommandAdd {
             
         }
     }
+    
+    public CommandAddToProject(Item item, String projectName) {
+        this.item = item;
+        this.projectName = projectName;
+    }
 
     @Override
     public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
@@ -61,7 +66,7 @@ public class CommandAddToProject implements CommandAdd {
         if (!(item instanceof Event)) {
             throw new Exception(CommonHelper.ERROR_TODO_ON_PROJECT);
         } else if (projectHandler.addProjectEvent(((Event)item), projectName)) {
-            return String.format(CommonHelper.SUCCESS_ITEM_ADDED_TO_PROJECT, item.getName(), projectName);
+            return String.format(CommonHelper.SUCCESS_ADDED_TO_PROJECT, item.getName(), projectName);
         } else {
             throw new Exception(String.format(CommonHelper.ERROR_PROJECT_NOT_FOUND, projectName));
         }
@@ -71,8 +76,8 @@ public class CommandAddToProject implements CommandAdd {
     @Override
     public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
             throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        Command revertAddToProjectCommand = new CommandDeleteFromProject(item, projectName);
+        return revertAddToProjectCommand.execute(serviceHandler, projectHandler, historyList);
     }
 
     @Override

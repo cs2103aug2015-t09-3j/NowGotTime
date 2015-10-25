@@ -43,14 +43,16 @@ public class ProjectHandler implements ProjectManager{
 	@Override
 	public boolean deleteProjectEvent(Event event, String projectName) {
 		int id = event.getId();
+		int index = 0;
 		for (int savedId : projectBook) {
 			if (savedId == id) {
-				projectBook.remove(id);
+				projectBook.remove(index);
 				map.remove(id);
 				sortEvents();
 				project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
 				return true;
 			}
+			index++;
 		} return false;
 	}
 	
@@ -89,10 +91,9 @@ public class ProjectHandler implements ProjectManager{
 	@Override
 	public boolean deleteProjectEvent(int index, String projectName) {
 		if (index < projectBook.size()) {
-			int id = projectBook.remove(index);
+			int id = projectBook.get(index);
 			Event event = project.retrieveEventById(id);
-			deleteProjectEvent(event, projectName);
-			return true;
+			return deleteProjectEvent(event, projectName);
 		} else {
 			return false;
 		}
