@@ -85,7 +85,7 @@ public class TestEvent {
 	public void testToString() throws AssertionError {
 		try {
 			String isString = event3.toString();
-			assertEquals("Failed toString()",  "2\nEventName3\n21 Oct 2015\n30 Oct 2015\n17:00\n20:00", isString);
+			assertEquals("Failed toString()",  "2\nEventName3\n21 Oct 2015\n30 Oct 2015\n17:00\n02:00", isString);
 			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
