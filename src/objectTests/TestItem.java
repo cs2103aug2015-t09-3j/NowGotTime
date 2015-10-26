@@ -62,9 +62,9 @@ public class TestItem {
 			int gottenId = item.getId();
 			assertEquals("Fail getId() and setId()", 0, gottenId);
 			
-			Item.setCounter(2);
-			int gottenCounter = Item.getCounter();
-			assertEquals("Fail getCounter() and setCounter()", 2, gottenCounter);
+			//Item.setCounter(2);
+			//int gottenCounter = Item.getCounter();
+			//assertEquals("Fail getCounter() and setCounter()", 2, gottenCounter);
 			//assertNotEquals("Pass getCounter() and setCounter()", 2, gottenCounter);
 			
 			boolean gottenDone = item.getDone();
@@ -162,6 +162,16 @@ public class TestItem {
 		try {
 			assertTrue("Fail item == item", item.equals(item));
 			assertFalse("Fail item != item2", item.equals(item2));
+		} catch (AssertionError AE) {
+			System.out.println (AE.getMessage());
+			throw AE;
+		}
+	}
+	
+	@Test
+	public void testCounter() throws AssertionError {
+		try {
+			assertEquals("Fail counter", 6, todo1.getId());
 		} catch (AssertionError AE) {
 			System.out.println (AE.getMessage());
 			throw AE;
