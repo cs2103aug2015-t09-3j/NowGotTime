@@ -1,8 +1,8 @@
 package command;
 
-import java.util.Stack;
 import java.util.regex.Matcher;
 
+import helper.CommonHelper;
 import helper.Parser;
 import project.Projects;
 import service.ServiceHandler;
@@ -18,23 +18,26 @@ public class CommandDeleteProject implements CommandDelete {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        if (projectHandler.deleteProject(projectName)) {
+            return String.format(CommonHelper.SUCCESS_PROJECT_DELETED, projectName);
+        } else {
+            throw new Exception(String.format(CommonHelper.ERROR_PROJECT_NOT_FOUND, projectName));
+        }
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
             throws Exception {
-        // TODO Auto-generated method stub
-        return null;
+        // TODO: re-add all events inside project
+        Command commandAddProject = new CommandAddProject("project \"" + projectName + "\"");
+        return commandAddProject.execute(serviceHandler, projectHandler, null, currentDisplay);
     }
 
     @Override
     public Displayable getDisplayable() {
-        // TODO Auto-generated method stub
-        return null;
+        return new CommandViewProject();
     }
 
 }

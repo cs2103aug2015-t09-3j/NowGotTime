@@ -1,6 +1,5 @@
 package command;
 
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.Parser;
@@ -23,14 +22,14 @@ public class CommandAddProgress implements CommandAdd {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
             throws Exception {
         // TODO Auto-generated method stub
         return null;

@@ -1,7 +1,6 @@
 package command;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
@@ -21,7 +20,7 @@ public class CommandViewProject implements CommandView {
     ArrayList<String> projectList;
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         projectList = projectHandler.listExistingProjects();
         return "Got it!";

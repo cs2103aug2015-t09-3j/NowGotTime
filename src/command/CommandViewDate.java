@@ -3,7 +3,6 @@ package command;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CalendarHelper;
@@ -41,7 +40,7 @@ public class CommandViewDate implements CommandView {
      * Executes view command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         
         mergedList = serviceHandler.viewMultipleDays(dateString);

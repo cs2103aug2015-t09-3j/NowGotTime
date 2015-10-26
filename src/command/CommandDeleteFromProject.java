@@ -1,6 +1,5 @@
 package command;
 
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -27,7 +26,7 @@ public class CommandDeleteFromProject implements CommandDelete {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         
         // TODO: refactor this ????
@@ -45,10 +44,10 @@ public class CommandDeleteFromProject implements CommandDelete {
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
             throws Exception {
         Command revertDeleteFromProjectCommand = new CommandAddToProject(item, projectName);
-        return revertDeleteFromProjectCommand.execute(serviceHandler, projectHandler, historyList);
+        return revertDeleteFromProjectCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
     }
 
     @Override

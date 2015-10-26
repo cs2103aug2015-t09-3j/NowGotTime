@@ -1,7 +1,6 @@
 package command;
 
 import java.util.ArrayList;
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -51,7 +50,7 @@ public class CommandDeleteItem implements CommandDelete {
      * Executes delete command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception {
         
         if (item == null) {
             if (itemKey == null) {
@@ -80,10 +79,10 @@ public class CommandDeleteItem implements CommandDelete {
      * Re-add the deleted command
      */
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay) throws Exception {
         System.out.println(item);
         CommandAddItem revertDeleteCommand = new CommandAddItem(item);
-        return revertDeleteCommand.execute(serviceHandler, projectHandler, historyList);
+        return revertDeleteCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
     }
 
     @Override

@@ -1,7 +1,5 @@
 package command;
 
-import java.util.Stack;
-
 import helper.CommonHelper;
 import helper.Parser;
 import project.Projects;
@@ -24,23 +22,20 @@ public class CommandUndo implements Command {
         
     }
     
-    Revertible lastCommand;
+    Revertible mostRecent;
     
     /**
      * Executes undo command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
-        if (historyList.empty()) {
-            return CommonHelper.ERROR_EMPTY_HISTORY;
-        }
-        lastCommand = ((Revertible)historyList.pop());
-        return lastCommand.revert(serviceHandler, projectHandler, historyList);
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception {
+        this.mostRecent = mostRecent;
+        return mostRecent.revert(serviceHandler, projectHandler, currentDisplay);
     }
 
     @Override
     public Displayable getDisplayable() {
-        return ((Command)lastCommand).getDisplayable();
+        return ((Command)mostRecent).getDisplayable();
     }
 
 }

@@ -26,11 +26,19 @@ public class CommandTest {
         history = new Stack<Revertible>();
     }
     
+    protected Revertible getMostRecentRevertible() {
+        if (history.empty()) {
+            return null;
+        } else {
+            return history.pop();
+        }
+    }
+    
     public void addTodo(String name) throws Exception {
         String args = "\"" + name + "\"";
         CommandAddItem cmd = new CommandAddItem(args);
         history.add(cmd);
-        cmd.execute(service, project, history);
+        cmd.execute(service, project, getMostRecentRevertible(), null);
         
     }
     
@@ -38,21 +46,21 @@ public class CommandTest {
         String args = "\"" + name + "\" on " + deadlineDateTime;
         CommandAddItem cmd = new CommandAddItem(args);
         history.add(cmd);
-        cmd.execute(service, project, history);
+        cmd.execute(service, project, getMostRecentRevertible(), null);
     }
     
     public void addTodo(String name, String deadlineDate, String deadlineTime) throws Exception {
         String args = "\"" + name + "\" on " + deadlineDate + " " + deadlineTime;
         CommandAddItem cmd = new CommandAddItem(args);
         history.add(cmd);
-        cmd.execute(service, project, history);
+        cmd.execute(service, project, getMostRecentRevertible(), null);
     }
     
     public void addEvent(String name, String startDateTime, String endDateTime) throws Exception {
         String args = "\"" + name + "\" on " + startDateTime + " to " + endDateTime;
         CommandAddItem cmd = new CommandAddItem(args);
         history.add(cmd);
-        cmd.execute(service, project, history);
+        cmd.execute(service, project, getMostRecentRevertible(), null);
        
     }
     

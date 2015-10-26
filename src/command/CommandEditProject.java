@@ -1,6 +1,5 @@
 package command;
 
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -32,7 +31,7 @@ public class CommandEditProject implements CommandEdit {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         if (projectHandler.editProjectName(projectName, newValue)) {
             return String.format(CommonHelper.SUCCESS_PROJECT_EDITED, projectName, newValue);
@@ -42,10 +41,10 @@ public class CommandEditProject implements CommandEdit {
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
             throws Exception {
         CommandEditProject commandEditProject = new CommandEditProject(newValue, fieldName, projectName);
-        return commandEditProject.execute(serviceHandler, projectHandler, historyList);
+        return commandEditProject.execute(serviceHandler, projectHandler, null, currentDisplay);
     }
 
     @Override

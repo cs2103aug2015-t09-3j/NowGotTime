@@ -2,7 +2,6 @@ package command;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import service.ServiceHandler;
@@ -52,7 +51,7 @@ public class CommandSearch implements Command, Displayable {
     }
     
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         
         filteredItem = serviceHandler.search(itemKey);

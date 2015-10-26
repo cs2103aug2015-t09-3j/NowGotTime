@@ -1,6 +1,5 @@
 package command;
 
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -21,7 +20,7 @@ public class CommandDeleteProgress implements CommandDelete {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         if (projectHandler.deleteProject(projectName)) {
             return String.format(CommonHelper.SUCCESS_PROJECT_DELETED, projectName);
@@ -31,11 +30,11 @@ public class CommandDeleteProgress implements CommandDelete {
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
             throws Exception {
         // TODO Add all previous events to project
         CommandAddProject commandAddProject = new CommandAddProject("\"" + projectName + "\"");
-        return commandAddProject.execute(serviceHandler, projectHandler, historyList);
+        return commandAddProject.execute(serviceHandler, projectHandler, null, currentDisplay);
     }
 
     @Override

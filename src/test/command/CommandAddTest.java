@@ -106,7 +106,7 @@ public class CommandAddTest extends CommandTest {
         String endDateTime = "22 Sep 2016 23:00";
         Event event = new Event(name, startDateTime, endDateTime);
         CommandAddItem command = new CommandAddItem(event);
-        String feedback = command.execute(service, project, history);
+        String feedback = command.execute(service, project, getMostRecentRevertible(), null);
         
         // The feedback message should be success
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_CREATED, name));
@@ -120,7 +120,7 @@ public class CommandAddTest extends CommandTest {
         String deadlineDateTime = "21 Sep 2016 10:00";
         Todo todo = new Todo(name, deadlineDateTime);
         CommandAddItem command = new CommandAddItem(todo);
-        String feedback = command.execute(service, project, history);
+        String feedback = command.execute(service, project, getMostRecentRevertible(), null);
         
         // The feedback message should be success
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_CREATED, name));
@@ -133,7 +133,7 @@ public class CommandAddTest extends CommandTest {
         String name = "eat again";
         Todo todo = new Todo(name);
         CommandAddItem command = new CommandAddItem(todo);
-        String feedback = command.execute(service, project, history);
+        String feedback = command.execute(service, project, getMostRecentRevertible(), null);
         
         // The feedback message should be success
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_CREATED, name));

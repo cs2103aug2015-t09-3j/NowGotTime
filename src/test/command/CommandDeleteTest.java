@@ -23,7 +23,7 @@ public class CommandDeleteTest extends CommandTest {
         // new event exists on service
         assertNotNull(service.viewSpecificEvent(name));
         
-        String feedback = cmd.execute(service, project, history);
+        String feedback = cmd.execute(service, project, getMostRecentRevertible(), null);
 
         // successfully deleted
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_DELETED, name));
@@ -45,7 +45,7 @@ public class CommandDeleteTest extends CommandTest {
         // new todo exists on service
         assertNotNull(service.viewSpecificTask(name));
         
-        String feedback = cmd.execute(service, project, history);
+        String feedback = cmd.execute(service, project, getMostRecentRevertible(), null);
 
         // successfully deleted
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_DELETED, name));
@@ -65,7 +65,7 @@ public class CommandDeleteTest extends CommandTest {
         // new todo exists on service
         assertNotNull(service.viewSpecificTask(name));
         
-        String feedback = cmd.execute(service, project, history);
+        String feedback = cmd.execute(service, project, getMostRecentRevertible(), null);
 
         // successfully deleted
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_DELETED, name));

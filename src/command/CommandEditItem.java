@@ -1,7 +1,6 @@
 package command;
 
 import java.util.ArrayList;
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -114,7 +113,7 @@ public class CommandEditItem implements CommandEdit {
      * Executes edit command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception {
         
         if (item == null) {
             if (itemKey == null) {
@@ -148,9 +147,9 @@ public class CommandEditItem implements CommandEdit {
      * Reverts to initial value
      */
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay) throws Exception {
         Command revertEditCommand = new CommandEditItem(item, fieldName, oldValue);
-        return revertEditCommand.execute(serviceHandler, projectHandler, historyList);
+        return revertEditCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
     }
 
     @Override

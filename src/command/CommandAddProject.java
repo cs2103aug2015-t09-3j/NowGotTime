@@ -1,6 +1,5 @@
 package command;
 
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -20,20 +19,20 @@ public class CommandAddProject implements CommandAdd {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         if (projectHandler.createProject(projectName)) {
             return String.format(CommonHelper.SUCCESS_PROJECT_CREATED, projectName);
         } else {
-            throw new Exception(CommonHelper.ERROR_DUPLICATE_PROJECT);
+            throw new Exception(String.format(CommonHelper.ERROR_DUPLICATE_PROJECT, projectName));
         }
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
             throws Exception {
-        CommandDeleteProject commandDeleteProject = new CommandDeleteProject(projectName);
-        return commandDeleteProject.execute(serviceHandler, projectHandler, historyList);
+        CommandDeleteProject commandDeleteProject = new CommandDeleteProject("project \"" + projectName + "\"");
+        return commandDeleteProject.execute(serviceHandler, projectHandler, null, currentDisplay);
     }
 
     @Override

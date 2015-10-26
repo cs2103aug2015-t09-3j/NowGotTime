@@ -1,7 +1,6 @@
 package command;
 
 import java.util.ArrayList;
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -38,7 +37,7 @@ public class CommandCheck implements Command, Revertible {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         
         if (item == null) {
@@ -68,10 +67,10 @@ public class CommandCheck implements Command, Revertible {
     }
     
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
             throws Exception {
         CommandUncheck commandUncheck = new CommandUncheck(item);
-        return commandUncheck.execute(serviceHandler, projectHandler, historyList);
+        return commandUncheck.execute(serviceHandler, projectHandler, null, currentDisplay);
     }
 
     @Override

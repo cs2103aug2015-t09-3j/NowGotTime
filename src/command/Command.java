@@ -1,7 +1,5 @@
 package command;
 
-import java.util.Stack;
-
 import helper.CommonHelper;
 import project.Projects;
 import service.ServiceHandler;
@@ -57,8 +55,9 @@ public interface Command {
     
     /**
      * Executes this command
+     * @param currentDisplay TODO
      */
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception;
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception;
     
     public Displayable getDisplayable();
 }

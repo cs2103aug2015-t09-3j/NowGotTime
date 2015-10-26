@@ -1,7 +1,6 @@
 package command;
 
 import java.util.ArrayList;
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -40,7 +39,7 @@ public class CommandAddToProject implements CommandAdd {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         
         if (item == null) {
@@ -74,10 +73,10 @@ public class CommandAddToProject implements CommandAdd {
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
             throws Exception {
         Command revertAddToProjectCommand = new CommandDeleteFromProject(item, projectName);
-        return revertAddToProjectCommand.execute(serviceHandler, projectHandler, historyList);
+        return revertAddToProjectCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
     }
 
     @Override

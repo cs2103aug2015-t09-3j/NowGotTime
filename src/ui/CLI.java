@@ -27,12 +27,20 @@ public class CLI {
         shouldExit = false;
     }
     
+    private Revertible getMostRecentRevertible() {
+        if (historyList.empty()) {
+            return null;
+        } else {
+            return historyList.pop();
+        }
+    }
+    
     private String executeResponse(String userResponse) {
         Command command = null;
         String feedback;
         try {
             command = Command.parseCommand(userResponse);
-            feedback = command.execute(serviceHandler, projectHandler, historyList);
+            feedback = command.execute(serviceHandler, projectHandler, getMostRecentRevertible(), null);
             if (command instanceof Revertible) {
                 // add to history list if project revertible
                 historyList.add((Revertible)command);

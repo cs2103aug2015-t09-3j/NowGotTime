@@ -70,10 +70,18 @@ public class GUI extends Application {
         return new CommandViewDate(CalendarHelper.getDateString(today));
     }
     
+    private Revertible getMostRecentRevertible() {
+        if (historyList.empty()) {
+            return null;
+        } else {
+            return historyList.pop();
+        }
+    }
+    
     private void showDisplay(Displayable display) {
         if (display != null) {
             try {
-                ((Command)display).execute(serviceHandler, projectHandler, historyList);
+                ((Command)display).execute(serviceHandler, projectHandler, getMostRecentRevertible(), null);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -87,7 +95,7 @@ public class GUI extends Application {
         
         try {
             command = Command.parseCommand(userResponse);
-            feedback = command.execute(serviceHandler, projectHandler, historyList);
+            feedback = command.execute(serviceHandler, projectHandler, getMostRecentRevertible(), null);
             
             statusBox.setStyle(CSS_SUCCESS);
             prompt.clear();
@@ -105,7 +113,6 @@ public class GUI extends Application {
             // catch error message
             statusBox.setStyle(CSS_ERROR);
             feedback = e.getMessage();
-            System.out.println("masuk");
             e.printStackTrace();
         }
         

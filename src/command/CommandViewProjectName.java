@@ -2,7 +2,6 @@ package command;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -30,7 +29,7 @@ public class CommandViewProjectName implements CommandView {
     ArrayList<Event> projectEvents;
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         projectEvents = projectHandler.viewEventProgressTimeline(projectName);
         if (projectEvents == null) {

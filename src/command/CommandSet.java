@@ -1,6 +1,5 @@
 package command;
 
-import java.util.Stack;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -26,7 +25,7 @@ public class CommandSet implements Command {
     String newDirectory;
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList)
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         if (serviceHandler.changeDirectory(newDirectory)) {
             return String.format(CommonHelper.SUCCESS_SET_DIRECTORY, newDirectory);

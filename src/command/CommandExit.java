@@ -1,7 +1,5 @@
 package command;
 
-import java.util.Stack;
-
 import helper.CommonHelper;
 import helper.Parser;
 import javafx.application.Platform;
@@ -29,7 +27,7 @@ public class CommandExit implements Command {
      * Executes edit command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Stack<Revertible> historyList) throws Exception {
+    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception {
         Platform.exit();
         return "";
     }
