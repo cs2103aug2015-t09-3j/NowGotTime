@@ -44,7 +44,10 @@ public class CommandAddToProject implements CommandAdd {
         
         if (item == null) {
             if (keyword == null) {
-                item = serviceHandler.viewItemByIndex(index);
+                if (currentDisplay instanceof CommandViewDate
+                        || currentDisplay instanceof CommandSearch) {
+                    item = serviceHandler.viewItemByIndex(index);
+                }
                 if (item == null) {
                     throw new Exception(CommonHelper.ERROR_INDEX_OUT_OF_BOUND);
                 }
@@ -84,8 +87,10 @@ public class CommandAddToProject implements CommandAdd {
         if (item == null) {
             // TODO Refactor this
             return new CommandSearch("\"" + keyword + "\"");
-        }
-        else {
+        } else if (keyword == null) {
+            // refresh current display if edit by index
+            return null;
+        } else {
             // TODO Refactor this
             return new CommandViewProjectName("\"" + projectName + "\"");
         }

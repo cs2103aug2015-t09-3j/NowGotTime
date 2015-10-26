@@ -31,7 +31,9 @@ public class CommandDeleteFromProject implements CommandDelete {
         
         // TODO: refactor this ????
         if (item == null) {
-            item = projectHandler.editEvent(index, projectName);
+            if (currentDisplay instanceof CommandViewProjectName) {
+                item = projectHandler.editEvent(index, projectName);
+            }
         }
         
         if (item == null) {

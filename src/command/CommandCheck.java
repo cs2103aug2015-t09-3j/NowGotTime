@@ -42,7 +42,10 @@ public class CommandCheck implements Command, Revertible {
         
         if (item == null) {
             if (itemKey == null) {
-                item = serviceHandler.viewItemByIndex(itemIndex);
+                if (currentDisplay instanceof CommandViewDate
+                        || currentDisplay instanceof CommandSearch) {
+                    item = serviceHandler.viewItemByIndex(itemIndex);
+                }
                 if (item == null) {
                     throw new Exception(CommonHelper.ERROR_INDEX_OUT_OF_BOUND);
                 }
@@ -78,8 +81,7 @@ public class CommandCheck implements Command, Revertible {
         if (item == null) {
             // TODO Refactor this
             return new CommandSearch("\"" + itemKey + "\"");
-        }
-        else {
+        } else {
             return null;
         }
     }

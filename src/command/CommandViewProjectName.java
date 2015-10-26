@@ -19,15 +19,18 @@ import ui.GUI;
 
 public class CommandViewProjectName implements CommandView {
 
-    String projectName = null;
-    
     public CommandViewProjectName(String args) {
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
         projectName = matcher.group(Parser.TAG_NAME);
     }
     
+    String projectName = null;
     ArrayList<Event> projectEvents;
 
+    public String getProjectName() {
+        return projectName;
+    }
+    
     @Override
     public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {

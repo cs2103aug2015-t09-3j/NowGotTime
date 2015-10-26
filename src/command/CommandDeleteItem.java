@@ -54,7 +54,14 @@ public class CommandDeleteItem implements CommandDelete {
         
         if (item == null) {
             if (itemKey == null) {
-                item = serviceHandler.viewItemByIndex(itemIndex);
+                if (currentDisplay instanceof CommandViewProjectName) {
+                    String projectName = ((CommandViewProjectName)currentDisplay).getProjectName();
+                    item = projectHandler.editEvent(itemIndex, projectName);
+                } else if (currentDisplay instanceof CommandViewDate
+                        || currentDisplay instanceof CommandSearch) {
+                    item = serviceHandler.viewItemByIndex(itemIndex);
+                }
+                
                 if (item == null) {
                     throw new Exception(CommonHelper.ERROR_INDEX_OUT_OF_BOUND);
                 }
@@ -90,8 +97,10 @@ public class CommandDeleteItem implements CommandDelete {
         if (item == null) {
             // TODO Refactor this
             return new CommandSearch("\"" + itemKey + "\"");
-        }
-        else {
+        } else if (itemKey == null) {
+            // refresh current display if edit by index
+            return null;
+        } else {
             // TODO Refactor : implement this on item class
             String date;
             if (item instanceof Event) {

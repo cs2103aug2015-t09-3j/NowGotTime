@@ -95,7 +95,7 @@ public class GUI extends Application {
         
         try {
             command = Command.parseCommand(userResponse);
-            feedback = command.execute(serviceHandler, projectHandler, getMostRecentRevertible(), null);
+            feedback = command.execute(serviceHandler, projectHandler, getMostRecentRevertible(), display);
             
             statusBox.setStyle(CSS_SUCCESS);
             prompt.clear();
