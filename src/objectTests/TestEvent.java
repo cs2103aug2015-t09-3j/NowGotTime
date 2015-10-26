@@ -19,7 +19,7 @@ public class TestEvent {
 	// Make sure dates are in DD MMM YYY format 
 	private Event event1 = new Event("EventName1", "25 Oct 2015", "26 Oct 2015", "10:00", "21:00", "");
 	private Event event2 = new Event("EventName2", "21 Oct 2015", "31 Oct 2015", "19:00", "23:00", "");
-	private Event event3 = new Event("EventName3", "21 Oct 2015", "30 Oct 2015", "17:00", "20:00", "");
+	private Event event3 = new Event("EventName3", "21 Oct 2015", "30 Oct 2015", "17:00", "02:00", "");
 	
 	// Use SimpleDateFormat because of the millisecond difference when comparing the Calendar Objects
 	private SimpleDateFormat testingFormat = new SimpleDateFormat ("dd MMM yyyy HH:mm");
@@ -84,7 +84,7 @@ public class TestEvent {
 	@Test
 	public void testToString() throws AssertionError {
 		try {
-			String isString = event1.toString();
+			String isString = event3.toString();
 			assertEquals("Failed toString()",  "2\nEventName3\n21 Oct 2015\n30 Oct 2015\n17:00\n20:00", isString);
 			
 		} catch (AssertionError AE) {
@@ -94,11 +94,11 @@ public class TestEvent {
 	}
 	
 	@Test
-	public void testFormattedStringWithParameters() throws AssertionError {
+	public void testFormattedStringWithParameters() throws AssertionError, Exception {
 		try {
-			
-			
-			
+			String formattedWithParameters = event3.toFormattedString("9 Nov 1993");
+			System.out.println(formattedWithParameters);
+			System.out.println(event3.toFormattedString());
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
 			throw AE;
@@ -106,10 +106,10 @@ public class TestEvent {
 	}
 	
 	@Test
-	public void testFormattedString() throws AssertionError {
+	public void testFormattedString() throws AssertionError, Exception {
 		try {
-			
-			
+			String formatted = event3.toFormattedString();
+			assertEquals("Fail toFormattedString", "21 Oct 2015 17:00-30 Oct 2015 02:00 EventName3", formatted);
 			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
