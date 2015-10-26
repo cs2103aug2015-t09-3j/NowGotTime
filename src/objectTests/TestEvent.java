@@ -8,9 +8,8 @@ import static org.junit.Assert.*;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
-import object.Todo;
 import object.Event;
-import object.Item;
+
 import storage.FileHandler;
 
 public class TestEvent {
@@ -39,7 +38,7 @@ public class TestEvent {
 	}
 	
 	@Test
-	public void testUpdateAndGetMethods() throws Exception {
+	public void testUpdateAndGetMethods() throws AssertionError {
 		try {
 			assertTrue("Failed updateStart()", event1.updateStart("03 May 1995 07:00"));
 			Calendar retrievedStartCalendar = event1.getStartCalendar();
@@ -79,19 +78,42 @@ public class TestEvent {
 			System.out.println(AE.getMessage());
 			throw AE;
 		}
-	}
+	}	
 	
-	/*
 	@Test
-	public void () throws Exception {
+	public void testToString() throws AssertionError {
 		try {
 			
 			
 			
-		} catch (AssertionException AE) {
+		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
 			throw AE;
 		}
-	}*/
+	}
+	
+	@Test
+	public void testFormattedStringWithParameters() throws AssertionError {
+		try {
+			
+			
+			
+		} catch (AssertionError AE) {
+			System.out.println(AE.getMessage());
+			throw AE;
+		}
+	}
+	
+	@Test
+	public void testFormattedString() throws AssertionError {
+		try {
+			
+			
+			
+		} catch (AssertionError AE) {
+			System.out.println(AE.getMessage());
+			throw AE;
+		}
+	}
 
 }
