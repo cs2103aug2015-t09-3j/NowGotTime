@@ -29,14 +29,14 @@ public class TestItem {
 	public static void setUpBeforeTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Files Cleared for Testing");
+		System.out.println("Files Cleared for Item Testing");
 	}
 	
 	@AfterClass
 	public static void tearDownAfterTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Test Files Cleared");
+		System.out.println("Test Files used in Item Testing Cleared");
 	}
 	
 	@Test
