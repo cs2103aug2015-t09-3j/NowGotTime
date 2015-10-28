@@ -122,8 +122,8 @@ public class serviceHandlerTest{
 			service.createItem(floatingTodo2);
 			service.createItem(floatingTodo1);
 			ArrayList<Todo> expectedListTodo = new ArrayList<Todo>();
-			expectedListTodo.add(floatingTodo2);
 			expectedListTodo.add(floatingTodo1);
+			expectedListTodo.add(floatingTodo2);
 			assertEquals("View task by date", expectedListTodo, service.viewTaskNoDate());
 		} catch (Exception e) {
 			fail("exception should not be thrown");
