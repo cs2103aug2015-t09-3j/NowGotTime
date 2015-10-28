@@ -1,13 +1,17 @@
 package objectTests;
 
-import org.junit.Test;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import static org.junit.Assert.*;
-
-import object.Todo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import object.Event;
 import object.Item;
+import object.Todo;
+
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import storage.FileHandler;
 
 
@@ -39,6 +43,32 @@ public class TestItem {
 		System.out.println("Test Files used in Item Testing Cleared");
 	}
 	
+	// CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! 
+	// CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!!
+	// CLOUDI!!! LOOK INTO THIS CLASS!!!!!!
+	@Before
+	public void beforeTestClass(){
+		//Delete this after viewing:
+		//Start Delete
+		/** 
+		 * Cloudi. I am not 100% sure, but I think when you declare
+		 * an object as a global variable, it doesn't get instantiated in 
+		 * the sequence you arrange it to be. Do uncomment the print statements
+		 * and run the test to see which events/items/todos get instantiated first.
+		 */
+//		System.out.println(item.getId() + " " + item.getName());
+//		System.out.println(event1.getId() + " " + event1.getName());
+//		System.out.println(event2.getId() + " " + event2.getName());
+//		System.out.println(todo1.getId() + " " + todo1.getName());
+//		System.out.println(todo2.getId() + " " + todo2.getName());
+//		System.out.println(todo3.getId() + " " + todo3.getName());
+//		System.out.println(item2.getId() + " " + item2.getName());
+		
+		// Stop delete. so keep the Item.setCounter(0) can already
+		
+		Item.setCounter(0);  	//reset count
+	}
+		
 	@Test
 	public void testGetAndSetMethods() throws AssertionError {
 		
@@ -76,6 +106,7 @@ public class TestItem {
 		
 	}
 	
+	
 	@Test
 	public void testEventCompareTo() throws AssertionError {
 		
@@ -103,6 +134,7 @@ public class TestItem {
 			throw AE;
 		}
 	}
+	
 	@Test
 	public void testTodoCompareTo() throws AssertionError {
 		
@@ -171,7 +203,7 @@ public class TestItem {
 	@Test
 	public void testCounter() throws AssertionError {
 		try {
-			assertEquals("Fail counter", 6, todo1.getId());
+			assertEquals("Fail counter", 2, todo1.getId());
 		} catch (AssertionError AE) {
 			System.out.println (AE.getMessage());
 			throw AE;
