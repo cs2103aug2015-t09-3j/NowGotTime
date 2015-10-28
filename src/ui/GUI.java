@@ -1,6 +1,8 @@
 package ui;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -175,6 +177,9 @@ public class GUI extends Application {
     
     private HBox getPromptBox() {
         prompt = new TextField();
+        prompt.setStyle(""
+                + "-fx-font-size: 16px;"
+                + "-fx-font-family: Lucida Grande;");
 
         HBox promptBox = new HBox(prompt);
         HBox.setHgrow(prompt, Priority.ALWAYS);
@@ -210,6 +215,18 @@ public class GUI extends Application {
         });
     }
     
+    private void addMaxLengthHandler(TextField tf, int maxLength) {
+        tf.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (tf.getText().length() > maxLength) {
+                    String s = tf.getText().substring(0, maxLength);
+                    tf.setText(s);
+                }
+            }
+        });
+    }
+    
     private Scene getUserInterface() {
         
         // setup ui
@@ -226,6 +243,7 @@ public class GUI extends Application {
 
         // add enter key handler;
         addEnterHandler(prompt);
+        addMaxLengthHandler(prompt, 40);
         
         // setup input output box
         VBox ioBox = new VBox();

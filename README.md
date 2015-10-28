@@ -274,10 +274,10 @@ Command | Description | Status
 ### Editing
 Command | Description | Status 
 --------| ----------- | -------
-`edit "<INDEX>" name "<NAME>"` | edit name of an item with index `<INDEX>` | ✅ |
-`edit "<INDEX>" start <START>` | edit start date/time/both of an item with index `<INDEX>` | ✅ |
-`edit "<INDEX>" end <END>` | edit end date/time/both of an item with index `<INDEX>` | ✅ |
-`edit "<INDEX>" due <DEADLINE>` | edit deadline date/time/both of an item with index `<INDEX>` | ✅ |
+`edit <INDEX> name "<NAME>"` | edit name of an item with index `<INDEX>` | ✅ |
+`edit <INDEX> start <START>` | edit start date/time/both of an item with index `<INDEX>` | ✅ |
+`edit <INDEX> end <END>` | edit end date/time/both of an item with index `<INDEX>` | ✅ |
+`edit <INDEX> due <DEADLINE>` | edit deadline date/time/both of an item with index `<INDEX>` | ✅ |
 `edit "<KEYWORD>" name "<NAME>"` | edit name of an item with keyword `<KEYWORD>` | ✅ |
 `edit "<KEYWORD>" start <START>` | edit start date/time/both of an item with keyword `<KEYWORD>` | ✅ |
 `edit "<KEYWORD>" end <END>` | edit end date/time/both of an item with keyword `<KEYWORD>` | ✅ |
@@ -316,7 +316,7 @@ Command | Description | Status
 Command | Description | Status 
 --------| ----------- | -------
 `delete project "<PROJECT>"` | delete a project with name `<PROJECT>` | ✅ |
-`delete "<EVENT>" from "<PROJECT>"` | delete an event from project with name `<PROJECT>` | ❌ |
+`delete <INDEX> from "<PROJECT>"` | delete an event from project with name `<PROJECT>` | ✅ |
 `delete progress "<PROGRESS>" <INDEX>` | delete progress from index | ❌ |
 
 ### Editing
