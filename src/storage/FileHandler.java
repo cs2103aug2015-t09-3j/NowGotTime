@@ -228,7 +228,7 @@ public class FileHandler implements FileManager{
 	
 	private void readCounter(){
 //		System.out.println("Counter is " + Item.getCounter()); //for checking
-
+		Item.setCounter(0);
 		inputFile = new File(COUNTER);	
 		
 		try {
