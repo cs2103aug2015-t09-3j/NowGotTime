@@ -322,7 +322,7 @@ Command | Description | Status
 ### Editing
 Command | Description | Status 
 --------| ----------- | -------
-`edit project "<PROJECT>" name "<NAME>"` | edit name of a project | ❌ | 
+`edit project "<PROJECT>" name "<NAME>"` | edit name of a project | ✅ | 
 
 ### Viewing
 Command | Description | Status 

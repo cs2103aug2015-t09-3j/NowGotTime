@@ -188,6 +188,7 @@ public class ServiceHandler implements ServiceManager{
 			item.setDone(true);
 			itemHandler.saveEditedEventHandler();
             itemHandler.saveEditedTodoHandler();
+            itemHandler.saveAllEditedTodo();
 			return true;
 		}
 	}
@@ -202,6 +203,7 @@ public class ServiceHandler implements ServiceManager{
 			item.setDone(false);
             itemHandler.saveEditedEventHandler();
             itemHandler.saveEditedTodoHandler();
+            itemHandler.saveAllEditedTodo();
 			return true;
 		}
 	}

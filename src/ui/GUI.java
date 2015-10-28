@@ -243,7 +243,7 @@ public class GUI extends Application {
 
         // add enter key handler;
         addEnterHandler(prompt);
-        addMaxLengthHandler(prompt, 40);
+        addMaxLengthHandler(prompt, 80);
         
         // setup input output box
         VBox ioBox = new VBox();
