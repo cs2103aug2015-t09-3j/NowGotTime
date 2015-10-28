@@ -28,6 +28,9 @@ public class CalendarHelper {
         timeString = timeString.trim();
         Calendar time = Calendar.getInstance();
         time.setTime(FORMAT_TIME.parse(timeString));
+        if (!getTimeString(time).equals(timeString)) {
+            throw new ParseException(timeString, 0);
+        }
         return time;
     }
     
@@ -35,9 +38,13 @@ public class CalendarHelper {
      * Returns a Calendar object with parsed dateString as the date
      */
     public static Calendar parseDate(String dateString) throws ParseException {
+        FORMAT_DATE.setLenient(false);
         dateString = dateString.trim();
         Calendar date = Calendar.getInstance();
         date.setTime(FORMAT_DATE.parse(dateString));
+        if (!getDateString(date).equals(dateString)) {
+            throw new ParseException(dateString, 0);
+        }
         return date;
     }
     
@@ -45,9 +52,13 @@ public class CalendarHelper {
      * Returns a Calendar object with parsed dateTimeString as the date and time
      */
     public static Calendar parseDateTime(String dateTimeString) throws ParseException {
+        FORMAT_DATE_TIME.setLenient(false);
         dateTimeString = dateTimeString.trim();
         Calendar datetime = Calendar.getInstance();
         datetime.setTime(FORMAT_DATE_TIME.parse(dateTimeString));
+        if (!getDateTimeString(datetime).equals(dateTimeString)) {
+            throw new ParseException(dateTimeString, 0);
+        }
         return datetime;
     }
     
