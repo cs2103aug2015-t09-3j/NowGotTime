@@ -94,6 +94,34 @@ public class Parser {
             } catch (IllegalArgumentException iae) {
             }
             
+            try {
+                if (regexMatcher.group(TAG_NAME).length() > 40) {
+                    return null;
+                }
+            } catch (IllegalArgumentException iae) {
+            }
+            
+            try {
+                if (regexMatcher.group(TAG_KEYWORD).length() > 40) {
+                    return null;
+                }
+            } catch (IllegalArgumentException iae) {
+            }
+            
+            try {
+                if (regexMatcher.group(TAG_VALUE).length() > 40) {
+                    return null;
+                }
+            } catch (IllegalArgumentException iae) {
+            }
+            
+            try {
+                if (regexMatcher.group(TAG_PROGRESS).length() > 40) {
+                    return null;
+                }
+            } catch (IllegalArgumentException iae) {
+            }
+            
             return regexMatcher;
         }
         else {

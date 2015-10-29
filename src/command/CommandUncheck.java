@@ -5,7 +5,9 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
+import object.Event;
 import object.Item;
+import object.Todo;
 import project.Projects;
 import service.ServiceHandler;
 
@@ -82,9 +84,19 @@ public class CommandUncheck implements Command, Revertible {
         if (item == null) {
             // TODO Refactor this
             return new CommandSearch("\"" + itemKey + "\"");
-        }
-        else {
+        } else if (itemKey == null) {
+            // refresh current display if edit by index
             return null;
+        } else {
+            // TODO Refactor : implement this on item class
+            String date;
+            if (item instanceof Event) {
+                date = ((Event)item).getStartDateString();
+            }
+            else {
+                date = ((Todo)item).getDeadlineDateString();
+            }
+            return new CommandViewDate(date);
         }
     }
 
