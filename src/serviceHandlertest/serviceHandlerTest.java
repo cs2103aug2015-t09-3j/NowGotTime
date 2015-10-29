@@ -200,6 +200,8 @@ public class serviceHandlerTest{
 			ArrayList<Item> expectedListItem2 = new ArrayList<Item>();
 			assertEquals("Search empty", expectedListItem2, service.search(NAMENOTFOUND));
 		} catch (Exception e) {
+		    System.out.println(event2);
+            e.printStackTrace();
 			fail("exception should not be thrown");
 		}	
 	}

@@ -70,20 +70,20 @@ public class CommandAddTest extends CommandTest {
     @Test
     public void testCanParseEvent() {
         // Can parse valid format
-        testParseEvent("\"eat again!\" on 21 September 2016 10:00 to 22 September 2016 23:00",
+        testParseEvent("\"eat again!\" on 21 Sep 2016 10:00 to 22 Sep 2016 23:00",
                 "eat again!", "21 Sep 2016", "10:00", "22 Sep 2016", "23:00");
         // Can parse valid format with whitespace
-        testParseEvent("  \"eat again!\"  on  21 September 2016 10:00 to  22 September 2016 23:00  ",
+        testParseEvent("  \"eat again!\"  on  21 Sep 2016 10:00 to  22 Sep 2016 23:00  ",
                 "eat again!", "21 Sep 2016", "10:00", "22 Sep 2016", "23:00");   
     }
     
     @Test
     public void testCanParseTodo() {
         // Can parse valid format
-        testParseTodo("\"eat again\" on 21 September 2016 10:00",
+        testParseTodo("\"eat again\" on 21 Sep 2016 10:00",
                 "eat again", "21 Sep 2016", "10:00");
         // Can parse valid format with whitespace
-        testParseTodo("  \"eat again\"   on   21 September 2016 10:00  ",
+        testParseTodo("  \"eat again\"   on   21 Sep 2016 10:00  ",
                 "eat again", "21 Sep 2016", "10:00");
     }
     

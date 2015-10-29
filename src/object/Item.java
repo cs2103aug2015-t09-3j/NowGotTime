@@ -126,7 +126,7 @@ public abstract class Item implements Comparable<Item> {
                 return 1;
             }
             else {
-                return this.getName().compareTo(other.getName());
+                return Integer.valueOf(this.getId()).compareTo(Integer.valueOf(other.getId()));
             }
         }
     }

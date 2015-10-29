@@ -28,7 +28,7 @@ public class CalendarHelper {
         timeString = timeString.trim();
         Calendar time = Calendar.getInstance();
         time.setTime(FORMAT_TIME.parse(timeString));
-        if (!getTimeString(time).equals(timeString)) {
+        if (!getTimeString(time).toLowerCase().equals(timeString.toLowerCase())) {
             throw new ParseException(timeString, 0);
         }
         return time;
@@ -42,7 +42,7 @@ public class CalendarHelper {
         dateString = dateString.trim();
         Calendar date = Calendar.getInstance();
         date.setTime(FORMAT_DATE.parse(dateString));
-        if (!getDateString(date).equals(dateString)) {
+        if (!getDateString(date).toLowerCase().equals(dateString.toLowerCase())) {
             throw new ParseException(dateString, 0);
         }
         return date;
@@ -56,7 +56,7 @@ public class CalendarHelper {
         dateTimeString = dateTimeString.trim();
         Calendar datetime = Calendar.getInstance();
         datetime.setTime(FORMAT_DATE_TIME.parse(dateTimeString));
-        if (!getDateTimeString(datetime).equals(dateTimeString)) {
+        if (!getDateTimeString(datetime).toLowerCase().equals(dateTimeString.toLowerCase())) {
             throw new ParseException(dateTimeString, 0);
         }
         return datetime;
