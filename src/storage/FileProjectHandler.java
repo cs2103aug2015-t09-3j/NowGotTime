@@ -107,6 +107,10 @@ public class FileProjectHandler {
 	 * there are no events in the project
 	 */
 	public ArrayList<Integer> retrieveProject(String name){
+		
+		if(name == null){
+			return null;
+		}
 		name = name.toLowerCase();
 		
 		ArrayList<Integer> projectBook = new ArrayList<Integer>();
@@ -175,6 +179,9 @@ public class FileProjectHandler {
 	 */
 	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, 
 				HashMap<Integer, String> progressBook, String projectName){
+		if(projectBook == null || progressBook == null || projectName == null){
+			return false;
+		}
 		
 		projectName = projectName.toLowerCase();
 		

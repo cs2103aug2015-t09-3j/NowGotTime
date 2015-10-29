@@ -75,6 +75,7 @@ public class DirectoryHandlerTest {
 
 	private void testIfDirectoriesExist() {
 		String baseDirectory = System.getProperty("user.dir").toString() + "/" + ALTERNATE_TEST_FILES;
+		
 		File file = new File(baseDirectory + "/" + DATABASE + "/Event");
 		assertEquals("Test with valid new directory",
 				true, file.exists());

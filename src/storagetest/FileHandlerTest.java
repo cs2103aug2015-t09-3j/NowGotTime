@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import object.Event;
 import object.Item;
@@ -18,6 +19,7 @@ import storage.FileHandler;
 public class FileHandlerTest {
 	private static FileHandler fh;
 	private static String newBaseDirectory;
+	private static final String DATABASE = "database";
 	
 	private Todo todo1 = new Todo("Floating todo");
 	private Todo todo2 = new Todo("Normal todo1", "", "20 Oct 2100");
@@ -281,20 +283,40 @@ public class FileHandlerTest {
 /***************************************************************************/
 	
 	public void testProjectOperation(){
-		testGetListOfExistingProjectWithProject();
+		testGetListOfExistingProjectWithNoProject();
 		testCreateNewProject();
 		testGetListOfExistingProject();
+		testSaveEditedProjectDetails();
+		testDeleteProject();
+		
 	}
 	
-//	@Test
-//	public void testRetrieveProjectTimeLine() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testRetrieveProjectProgress() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void testRetrieveProjectTimeLine() {
+		assertEquals("Test retrieval of project with null",
+				null, fh.retrieveProjectTimeLine(null));
+		
+		assertEquals("Test retrieval of project with empty string",
+				new ArrayList<Integer>(), fh.retrieveProjectTimeLine(""));
+		
+		assertEquals("Test retrieval of project with non-existing project name",
+				new ArrayList<Integer>(), fh.retrieveProjectTimeLine("Non-existing"));
+		
+		fh.createNewProject("new project");
+		ArrayList<Integer> projectBook = new ArrayList<Integer>();
+		projectBook.add(0);
+		fh.saveEditedProjectDetails(projectBook, new HashMap<Integer, String>(), "new project");
+		
+		assertEquals("Test retrieval of existing project",
+				projectBook, fh.retrieveProjectTimeLine("new project"));
+		
+	}
+
+	@Test
+	public void testRetrieveProjectProgress() {
+		assertEquals("Test retrieval without have to first retrieve project",
+				new HashMap<Integer, String>(), fh.retrieveProjectProgress());
+	}
 	
 	public void testCreateNewProject() {
 		
@@ -320,13 +342,44 @@ public class FileHandlerTest {
 				true, fh.createNewProject("1234567890"));
 			
 	}
-//
-//	@Test
-//	public void testSaveEditedProjectDetails() {
-//		fail("Not yet implemented");
-//	}
 
-	public void testGetListOfExistingProjectWithProject() {	
+	public void testSaveEditedProjectDetails() {
+				
+		HashMap<Integer, String> progressBook  = new HashMap<Integer, String>();
+		progressBook.put(1, "progress1");
+		progressBook.put(4, "this index should not exist");
+		ArrayList<Integer> projectBook = new ArrayList<Integer>();
+		projectBook.add(1);
+		String projectName = "proj1";
+		
+		assertEquals("Testing of editing with null projectBook",
+				false, fh.saveEditedProjectDetails(null, progressBook, projectName) );
+		
+		assertEquals("Testing of editing with null progressBook",
+				false, fh.saveEditedProjectDetails(projectBook, null, projectName) );
+		
+		assertEquals("Testing of editing with null name",
+				false, fh.saveEditedProjectDetails(projectBook, progressBook, null) );
+		
+		assertEquals("Testing of editing with empty name",
+				false, fh.saveEditedProjectDetails(projectBook, progressBook, "") );
+		
+		assertEquals("Testing of editing with non-existing project name",
+				false, fh.saveEditedProjectDetails(projectBook, progressBook, "non-existing"));
+		
+		assertEquals("Testing of editing with valid parameters",
+				true, fh.saveEditedProjectDetails(projectBook, progressBook, projectName) );
+		
+		progressBook.put(4, "this index should not exist");
+		
+		//In this case, FileHandler does not check if the id is valid, Logic will handle it.
+		assertEquals("Testing of editing with hashmap having ID that does not exist in projectBook",
+				true, fh.saveEditedProjectDetails(projectBook, progressBook, projectName) );
+		
+		Item.setCounter(0); 	//reset Counter for other test cases
+	}
+
+	public void testGetListOfExistingProjectWithNoProject() {	
 		assertEquals("Test the retrieval of list when there is no existing project",
 				new ArrayList<String>(), fh.getListOfExistingProject());
 	}
@@ -338,12 +391,29 @@ public class FileHandlerTest {
 		expectedList.add("1234567890");
 		assertEquals("Test the retrieval of list when there is no existing project",
 				expectedList, fh.getListOfExistingProject());
+		
 	}
 
-//	@Test
-//	public void testDeleteProject() {
-//		fail("Not yet implemented");
-//	}
+	public void testDeleteProject() {
+		assertEquals("Test deleting of project with null",
+				false, fh.deleteProject(null));
+		assertEquals("Test deleting of project with empty string",
+				false, fh.deleteProject(""));
+		assertEquals("Test deleting of non-existing project",
+				false, fh.deleteProject("non-existing project name"));
+			
+		assertEquals("Test deleting of existing project with number names",
+				true, fh.deleteProject("1234567890"));
+		assertEquals("Test deleting of project with similar names",
+				true, fh.deleteProject("proj12"));
+		assertEquals("Test deleting of project",
+				true, fh.deleteProject("proj1"));
+		
+
+		testGetListOfExistingProjectWithNoProject(); 
+		// test if the projects names are also deleted from the project overview file
+		
+	}
 
 /***************************************************************************/
 	
@@ -390,26 +460,78 @@ public class FileHandlerTest {
 
 //	@Test
 //	public void testSaveAll() {
-//		fail("Not yet implemented");
+//		assertEquals("testing of saving all",
+//				true, fh.saveAll());
 //	}
-	
-	public void checkDirectoryFile(){
-		//this is to test saveAll and clearAll
+			
+	@Test
+	public void testClearAll() {
+		fh.clearAll();
+		checkIfDirectoriesExist(false);	// expect false since fh has clear all files
+		fh = new FileHandler();	
+		checkIfDirectoriesExist(true);	// fh will re-create files
+	}
+
+	@Test
+	public void testRetrieveEventById() {
+		
+		Event event = new Event("Event1", "31 aug 2100 23:00", "1 sep 2100 02:00");
+		assertEquals("Test save of new event",
+				true, fh.saveNewEventHandler(event));
+		
+		assertEquals("Test retrieval of event with a valid index",
+				event, fh.retrieveEventById(event.getId()));
+		
+		assertEquals("Test retrieval of event with negative index number",
+				null, fh.retrieveEventById(-1));
+		
+		assertEquals("Test retrieval of event with an invalid index",
+				null, fh.retrieveEventById(1000));
+		
+		Item.setCounter(0);
+	}
+
+	@Test
+	public void testRetrieveTaskById() {
+		Item.setCounter(0);
+		Todo todo1 = new Todo("Floating todo");
+		Todo todo2 = new Todo("Normal todo1", "", "20 Oct 2100");		
+		
+		assertEquals("Test creation of new floating todo",
+				true, fh.saveNewTodoHandler(todo1));
+		
+		assertEquals("Test creation of new normal todo",
+				true, fh.saveNewTodoHandler(todo2));
+		
+		assertEquals("Test retrieval of floating todo with valid index",
+				todo1, fh.retrieveTaskById(todo1.getId()));
+		
+		assertEquals("Test retrieval of normal todo with valid index",
+				todo2, fh.retrieveTaskById(todo2.getId()));
+		
+		assertEquals("Test retrieval of todo with negative index",
+				null, fh.retrieveTaskById(-1));
+		
+		assertEquals("Test retrieval of todo with invalid index",
+				null, fh.retrieveTaskById(1000));
+		
+		
 	}
 	
-//	@Test
-//	public void testClearAll() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testRetrieveEventById() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testRetrieveTaskById() {
-//		fail("Not yet implemented");
-//	}
+	public void checkIfDirectoriesExist(boolean expected){
+		String baseDirectory = System.getProperty("user.dir").toString();
+		
+		File file = new File(baseDirectory + "/" + DATABASE + "/Event");
+		assertEquals("Test if event storage directory exist",
+				expected, file.exists());
+		
+		file = new File(baseDirectory + "/" + DATABASE + "/Todo");
+		assertEquals("Test if todo storage directory exist",
+				expected, file.exists());
+		
+		file = new File(baseDirectory + "/" + DATABASE + "/Project");
+		assertEquals("Test if project directory directory exist",
+				expected, file.exists());
 
+	}
 }

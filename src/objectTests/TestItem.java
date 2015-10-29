@@ -90,7 +90,7 @@ public class TestItem {
 			assertEquals("Fail getAdditionalInfo() and setAdditionalInfo()", "testingAddInfo", gottenAddInfo);
 			
 			int gottenId = item.getId();
-			assertEquals("Fail getId() and setId()", 0, gottenId);
+			assertEquals("Fail getId() and setId()", 1, gottenId);
 			
 			//Item.setCounter(2);
 			//int gottenCounter = Item.getCounter();
