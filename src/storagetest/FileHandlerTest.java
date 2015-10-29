@@ -20,12 +20,12 @@ public class FileHandlerTest {
 	private static String newBaseDirectory;
 	
 	private Todo todo1 = new Todo("Floating todo");
-	private Todo todo2 = new Todo("Normal todo1", "", "20 oct 2100");
-	private Todo todo3 = new Todo("Past todo1", "", "20 oct 2000");
-	private Todo todo4 = new Todo("Normal todo2", "", "20 oct 2100", "10:00");
-	private Todo todo5 = new Todo("past todo2", "", "20 oct 2000", "10:00");
-	private Todo todo6 = new Todo("Normal todo3", "", "20 oct 2100", "07:30");
-	private Todo todo7 = new Todo("Past todo3", "", "20 oct 2000", "07:30");
+	private Todo todo2 = new Todo("Normal todo1", "", "20 Oct 2100");
+	private Todo todo3 = new Todo("Past todo1", "", "20 Oct 2000");
+	private Todo todo4 = new Todo("Normal todo2", "", "20 Oct 2100", "10:00");
+	private Todo todo5 = new Todo("past todo2", "", "20 Oct 2000", "10:00");
+	private Todo todo6 = new Todo("Normal todo3", "", "20 Oct 2100", "07:30");
+	private Todo todo7 = new Todo("Past todo3", "", "20 Oct 2000", "07:30");
 	
 	private ArrayList<Todo> expectedList;
 	private ArrayList<Todo> actualList;

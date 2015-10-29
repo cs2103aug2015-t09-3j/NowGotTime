@@ -28,10 +28,10 @@ public class serviceHandlerTest{
 	 private static final String NEWNAME = "its over 9000";
 	 private static final String INCORRECTTIME = "18:00";
 	 private static final String CORRECTTIME = "16:30";
-	 private static final String OLDSTARTTIMEEVENT = "23 oct 2015 14:00";
-	 private static final String OLDENDTIMEEVENT = "23 oct 2015 13:00";
-	 private static final String OLDDUETIMETODO = "23 oct 2015 10:00";
-	 private static final String TODAYDATE = "23 oct 2015";
+	 private static final String OLDSTARTTIMEEVENT = "23 Oct 2015 14:00";
+	 private static final String OLDENDTIMEEVENT = "23 Oct 2015 13:00";
+	 private static final String OLDDUETIMETODO = "23 Oct 2015 10:00";
+	 private static final String TODAYDATE = "23 Oct 2015";
 	 
 	 private Todo floatingTodo1 = new Todo("Floating todo1");
 	 private Todo floatingTodo2 = new Todo("Floating todo2");

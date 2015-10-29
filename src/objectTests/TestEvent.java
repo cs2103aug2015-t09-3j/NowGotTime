@@ -2,6 +2,7 @@ package objectTests;
 
 import org.junit.Test;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import static org.junit.Assert.*;
 
@@ -9,7 +10,7 @@ import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
 import object.Event;
-
+import object.Item;
 import storage.FileHandler;
 
 public class TestEvent {
@@ -23,6 +24,11 @@ public class TestEvent {
 	
 	// Use SimpleDateFormat because of the millisecond difference when comparing the Calendar Objects
 	private SimpleDateFormat testingFormat = new SimpleDateFormat ("dd MMM yyyy HH:mm");
+	
+	@Before
+	public void beforeTest() {
+	    Item.setCounter(0);
+	}
 	
 	@BeforeClass
 	public static void setUpBeforeTesting() throws Exception {

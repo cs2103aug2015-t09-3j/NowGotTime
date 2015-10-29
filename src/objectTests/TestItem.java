@@ -24,8 +24,8 @@ public class TestItem {
 	
 	private Event event1 = new Event("EventName1", "25 Oct 2015", "10:00", "21:00", "");
 	private Event event2 = new Event("EventName2", "21 Oct 2015", "19:00", "23:00", "");
-	private Todo todo1 = new Todo("Todo1", "", "9 Nov 1993", "16:00");
-	private Todo todo2 = new Todo("Todo2", "", "3 May 1995", "11:00");
+	private Todo todo1 = new Todo("Todo1", "", "09 Nov 1993", "16:00");
+	private Todo todo2 = new Todo("Todo2", "", "03 May 1995", "11:00");
 	private Todo todo3 = new Todo("Todo3", "", "25 Oct 2015", "10:00");
 	private Item item2 = new Todo("testingName2", "testingAddInfo2");
 	
@@ -176,9 +176,11 @@ public class TestItem {
 			assertEquals("Fail Item to Item Return -1 (A earlier than B)", -1, ItemToItemReturnNeg1);
 			
 			int ItemToEventReturnPos1 = item.compareTo(event1);
+
 			assertEquals("Fail Item to Event Return 1 (A later than B)", 1, ItemToEventReturnPos1);
 			
 			int ItemToTodoReturnPos1 = item.compareTo(todo1);
+			
 			assertEquals("Fail Item to Todo Return 1 (A earlier than B)", 1, ItemToTodoReturnPos1);
 			
 		} catch (AssertionError AE) {
