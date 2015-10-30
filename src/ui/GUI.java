@@ -283,7 +283,6 @@ public class GUI extends Application {
 	    configureHandler();
 	    
 	    primaryStage.setTitle(GUI_TITLE);
-	    primaryStage.initStyle(StageStyle.UNIFIED);
 	    
 	    Scene ui = getUserInterface();
 	    
