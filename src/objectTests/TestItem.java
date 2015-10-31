@@ -19,15 +19,15 @@ import storage.FileHandler;
 public class TestItem {
 
 	//Instantiate using Todo because Item is an Abstract Class and cannot be instantiated
-	protected static Item item = new Todo("testingName", "testingAddInfo"); 
+	protected static Item item; 
 	protected static FileHandler clear;
 	
-	private Event event1 = new Event("EventName1", "25 Oct 2015", "10:00", "21:00", "");
-	private Event event2 = new Event("EventName2", "21 Oct 2015", "19:00", "23:00", "");
-	private Todo todo1 = new Todo("Todo1", "", "09 Nov 1993", "16:00");
-	private Todo todo2 = new Todo("Todo2", "", "03 May 1995", "11:00");
-	private Todo todo3 = new Todo("Todo3", "", "25 Oct 2015", "10:00");
-	private Item item2 = new Todo("testingName2", "testingAddInfo2");
+	private static Event event1;
+	private static Event event2;
+	private static Todo todo1;
+	private static Todo todo2;
+	private static Todo todo3;
+	private static Item item2;
 	
 	@BeforeClass
 	public static void setUpBeforeTesting() throws Exception {
@@ -40,22 +40,22 @@ public class TestItem {
 	public static void tearDownAfterTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
+		Item.setCounter(0);  
 		System.out.println("Test Files used in Item Testing Cleared");
 	}
 	
-	// CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! 
-	// CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!! CLOUDI!!!
-	// CLOUDI!!! LOOK INTO THIS CLASS!!!!!!
-	@Before
-	public void beforeTestClass(){
-		//Delete this after viewing:
-		//Start Delete
-		/** 
-		 * Cloudi. I am not 100% sure, but I think when you declare
-		 * an object as a global variable, it doesn't get instantiated in 
-		 * the sequence you arrange it to be. Do uncomment the print statements
-		 * and run the test to see which events/items/todos get instantiated first.
-		 */
+	@BeforeClass
+	public static void beforeTestClass(){
+		
+		Item.setCounter(0);  	//reset count
+		item = new Todo("testingName", "testingAddInfo");
+		event1 = new Event("EventName1", "25 Oct 2015", "10:00", "21:00", "");
+		event2 = new Event("EventName2", "21 Oct 2015", "19:00", "23:00", "");
+		todo1 = new Todo("Todo1", "", "09 Nov 1993", "16:00");
+		todo2 = new Todo("Todo2", "", "03 May 1995", "11:00");
+		todo3 = new Todo("Todo3", "", "25 Oct 2015", "10:00");
+		item2 = new Todo("testingName2", "testingAddInfo2");
+		
 //		System.out.println(item.getId() + " " + item.getName());
 //		System.out.println(event1.getId() + " " + event1.getName());
 //		System.out.println(event2.getId() + " " + event2.getName());
@@ -63,10 +63,6 @@ public class TestItem {
 //		System.out.println(todo2.getId() + " " + todo2.getName());
 //		System.out.println(todo3.getId() + " " + todo3.getName());
 //		System.out.println(item2.getId() + " " + item2.getName());
-		
-		// Stop delete. so keep the Item.setCounter(0) can already
-		
-		Item.setCounter(0);  	//reset count
 	}
 		
 	@Test
@@ -90,7 +86,7 @@ public class TestItem {
 			assertEquals("Fail getAdditionalInfo() and setAdditionalInfo()", "testingAddInfo", gottenAddInfo);
 			
 			int gottenId = item.getId();
-			assertEquals("Fail getId() and setId()", 1, gottenId);
+			assertEquals("Fail getId() and setId()", 0, gottenId);
 			
 			//Item.setCounter(2);
 			//int gottenCounter = Item.getCounter();
@@ -205,7 +201,7 @@ public class TestItem {
 	@Test
 	public void testCounter() throws AssertionError {
 		try {
-			assertEquals("Fail counter", 2, todo1.getId());
+			assertEquals("Fail counter", 3, todo1.getId());
 		} catch (AssertionError AE) {
 			System.out.println (AE.getMessage());
 			throw AE;
