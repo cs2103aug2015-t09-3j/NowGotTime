@@ -25,4 +25,7 @@ public interface ProjectManager {
 	public boolean addProgressMessage(Event event, String progressMessage);
 	public boolean addProgressMessage(int id, String progressMessage);
 	public boolean addProgressMessage(int index, String progressMessage, String projectName);
+	public boolean deleteProgressMessage(Event event);
+	public boolean deleteProgressMessage(int id);
+	public boolean deleteProgressMessage(int index, String projectName);
 	}
