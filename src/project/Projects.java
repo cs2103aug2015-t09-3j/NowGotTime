@@ -231,14 +231,14 @@ public class Projects {
 	
 	public boolean deleteProgressMessage(int index, String projectName) {
 		if (listExistingProjects().contains(projectName)) {
-			return pHandler.addProgressMessage(index, projectName);
+			return pHandler.deleteProgressMessage(index, projectName);
 		} 
 		return false;
 	}
 	
 	public boolean deleteProgressMessage(Event event, String projectName) {
 		if (listExistingProjects().contains(projectName)) {
-			return pHandler.addProgressMessage(event, projectName);
+			return pHandler.deleteProgressMessage(event);
 		} 
 		return false;
 	}

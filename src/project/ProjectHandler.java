@@ -342,8 +342,7 @@ public class ProjectHandler implements ProjectManager{
 		return addProgressMessage(id, progressMessage);	
 	}
 	
-	@Override
-	public boolean addProgressMessage(int id, String progressMessage) {
+	private boolean addProgressMessage(int id, String progressMessage) {
 		try {
 			map.put(id, progressMessage);
 			return true;
@@ -365,8 +364,7 @@ public class ProjectHandler implements ProjectManager{
 		return deleteProgressMessage(id);
 	}
 	
-	@Override 
-	public boolean deleteProgressMessage(int id) {
+	private boolean deleteProgressMessage(int id) {
 		try {
 			map.remove(id);
 			return true;
@@ -388,8 +386,7 @@ public class ProjectHandler implements ProjectManager{
 		return editProgressMessage(id, newProgressMessage);
 	}
 	
-	@Override
-	public boolean editProgressMessage(int id, String newProgressMessage) {
+	private boolean editProgressMessage(int id, String newProgressMessage) {
 		return addProgressMessage(id, newProgressMessage);
 	}
 	
