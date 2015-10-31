@@ -42,6 +42,7 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public boolean deleteProjectEvent(Event event, String projectName) {
+		viewProjectTimeline(projectName);
 		int id = event.getId();
 		int index = 0;
 		for (int savedId : projectBook) {
@@ -90,6 +91,7 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public boolean deleteProjectEvent(int index, String projectName) {
+		viewProjectTimeline(projectName);
 		if (index < projectBook.size()) {
 			int id = projectBook.get(index);
 			Event event = project.retrieveEventById(id);
@@ -333,5 +335,34 @@ public class ProjectHandler implements ProjectManager{
 		
 		return percentageDone;
 	}
+	
+	@Override
+	public boolean addProgressMessage(Event event, String progressMessage) {
+		try {
+			int id = event.getId();
+			map.put(id, progressMessage);
+			return true;
+		} catch (Exception Ex) {
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean addProgressMessage(int id, String progressMessage) {
+		try {
+			map.put(id, progressMessage);
+			return true;
+		} catch (Exception Ex) {
+			return false;
+		}
+	}
+	
+	@Override
+	public boolean addProgressMessage(int index, String progressMessage, String projectName) {
+		ArrayList<Integer> eventList = viewProjectTimeline(projectName);
+		int id = eventList.get(index);
+		return addProgressMessage(id, progressMessage);
+	}
+	
 	
 }

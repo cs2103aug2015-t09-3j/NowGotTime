@@ -214,4 +214,18 @@ public class Projects {
 		}
 		return -1;
 	}
+	
+	public boolean addProgressMessage(Event event, String projectName, String progressMessage) {
+		if (listExistingProjects().contains(projectName)) {
+			return pHandler.addProgressMessage(event, progressMessage);
+		} 
+		return false;
+	}
+	
+	public boolean addProgressMessage(int index, String projectName, String progressMessage) {
+		if (listExistingProjects().contains(projectName)) {
+			return pHandler.addProgressMessage(index, progressMessage, projectName);
+		} 
+		return false;
+	}
 }
