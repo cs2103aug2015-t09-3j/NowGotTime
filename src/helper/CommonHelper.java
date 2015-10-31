@@ -30,6 +30,9 @@ public class CommonHelper {
     public static final String SUCCESS_ITEM_CHECKED          = "marked done '%1$s'";
     public static final String SUCCESS_ITEM_UNCHECKED        = "marked not done '%1$s'";
     public static final String SUCCESS_SET_DIRECTORY         = "save directory moved to '%1$s'";
+    public static final String SUCCESS_PROGRESS_ADDED        = "progress added";
+    public static final String SUCCESS_PROGRESS_DELETED        = "progress deleted";
+    
     
     /* Error messages */
     public static final String ERROR_INVALID_COMMAND     = "unknown command '%1$s'";
@@ -45,6 +48,9 @@ public class CommonHelper {
     public static final String ERROR_ALREADY_CHECKED     = "'%1$s' already checked";
     public static final String ERROR_ALREADY_UNCHECKED   = "'%1$s' already unchecked";
     public static final String ERROR_TODO_ON_PROJECT     = "only event can be added to project";
+    public static final String ERROR_FAIL_ADD_PROGRESS   = "progress already exist";
+    public static final String ERROR_FAIL_DEL_PROGRESS   = "progress doesn't exist";
+    
     
     
     public static final String FORMATTED_EVENT         = "[%1$s-%2$s] %3$s";

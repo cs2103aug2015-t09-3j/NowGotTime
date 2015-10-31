@@ -15,26 +15,33 @@ public class CommandDeleteProgress implements CommandDelete {
     public CommandDeleteProgress(String args) {
         
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DELETE_PROGRESS);
-        index = Integer.parseInt(matcher.group(Parser.TAG_INDEX));
+        index = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
         projectName = matcher.group(Parser.TAG_NAME);
+    }
+    
+    public CommandDeleteProgress(int index, String projectName) {
+        this.index = index;
+        this.projectName = projectName;
     }
 
     @Override
     public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
-        if (projectHandler.deleteProject(projectName)) {
-            return String.format(CommonHelper.SUCCESS_PROJECT_DELETED, projectName);
+        if (projectHandler.deleteProgressMessage(index, projectName)) {
+            return CommonHelper.SUCCESS_PROGRESS_DELETED;
         } else {
-            throw new Exception(CommonHelper.ERROR_PROJECT_NOT_FOUND);
+            // TODO: different error when project not found
+            throw new Exception(CommonHelper.ERROR_FAIL_DEL_PROGRESS);
         }
     }
 
     @Override
     public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
             throws Exception {
-        // TODO Add all previous events to project
-        CommandAddProject commandAddProject = new CommandAddProject("\"" + projectName + "\"");
-        return commandAddProject.execute(serviceHandler, projectHandler, null, currentDisplay);
+        // TODO: save old value
+        Command revertDeleteProgressCommand = new CommandAddProgress(index, projectName, "");
+        return revertDeleteProgressCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
+ 
     }
 
     @Override

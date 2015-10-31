@@ -215,13 +215,6 @@ public class Projects {
 		return -1;
 	}
 	
-	public boolean addProgressMessage(Event event, String projectName, String progressMessage) {
-		if (listExistingProjects().contains(projectName)) {
-			return pHandler.addProgressMessage(event, progressMessage);
-		} 
-		return false;
-	}
-	
 	public boolean addProgressMessage(int index, String projectName, String progressMessage) {
 		if (listExistingProjects().contains(projectName)) {
 			return pHandler.addProgressMessage(index, progressMessage, projectName);
@@ -232,20 +225,6 @@ public class Projects {
 	public boolean deleteProgressMessage(int index, String projectName) {
 		if (listExistingProjects().contains(projectName)) {
 			return pHandler.deleteProgressMessage(index, projectName);
-		} 
-		return false;
-	}
-	
-	public boolean deleteProgressMessage(Event event, String projectName) {
-		if (listExistingProjects().contains(projectName)) {
-			return pHandler.deleteProgressMessage(event);
-		} 
-		return false;
-	}
-	
-	public boolean editProgressMessage(Event event, String newProgressMessage, String projectName) {
-		if (listExistingProjects().contains(projectName)) {
-			return pHandler.editProgressMessage(event, newProgressMessage);
 		} 
 		return false;
 	}

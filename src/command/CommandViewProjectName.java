@@ -25,6 +25,7 @@ public class CommandViewProjectName implements CommandView {
     }
     
     String projectName = null;
+    double projectProgress;
     ArrayList<Event> projectEvents;
 
     public String getProjectName() {
@@ -38,6 +39,7 @@ public class CommandViewProjectName implements CommandView {
         if (projectEvents == null) {
             throw new Exception(String.format(CommonHelper.ERROR_PROJECT_NOT_FOUND, projectName));
         }
+        projectProgress = projectHandler.progressBar(projectName);
         return "Got it!";
     }
 
@@ -51,8 +53,7 @@ public class CommandViewProjectName implements CommandView {
         
         int rowIndex = 0;
         int listNumber = 0;
-        
-        HBox title = new HBox(GUI.getText(projectName, Color.ORANGE, 20));
+        HBox title = new HBox(GUI.getText(projectName + " (" + String.valueOf(projectProgress)+"%)", Color.ORANGE, 20));
         title.setAlignment(Pos.CENTER);
         
         displayBox.add(title, 0, rowIndex++, 5, 1);
@@ -78,7 +79,14 @@ public class CommandViewProjectName implements CommandView {
             if (!item.getDone()) {
                 markText = GUI.getText("\u2610", Color.GREY, 18);
             }
-            Text nameText = GUI.getText(item.getName(), Color.GREY, 16);
+            
+            Text nameText;
+            
+            if (!item.getAdditionalInfo().isEmpty()) {
+                nameText = GUI.getText(item.getName() + " (" + item.getAdditionalInfo() + ")", Color.GREY, 16);
+            } else {
+                nameText = GUI.getText(item.getName(), Color.GREY, 16);
+            }
             
             String timeString = "";
             timeString += item.getStartTimeString();

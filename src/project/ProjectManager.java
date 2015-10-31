@@ -22,10 +22,7 @@ public interface ProjectManager {
 	public ArrayList<Event> viewProjectTimelineInEvents(String projectName);
 	public boolean deleteProjectEvent(int index, String projectName);
 	public Event editEvent(int arrayIndex, String projectName);
-	public boolean addProgressMessage(Event event, String progressMessage);
 	public boolean addProgressMessage(int index, String progressMessage, String projectName);
-	public boolean deleteProgressMessage(Event event);
 	public boolean deleteProgressMessage(int index, String projectName);
 	public boolean editProgressMessage(int index, String newProgressMessage, String projectName);
-	public boolean editProgressMessage(Event event, String newProgressMessage);
 	}

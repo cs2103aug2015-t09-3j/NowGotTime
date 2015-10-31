@@ -18,11 +18,16 @@ public class CommandViewProject implements CommandView {
     }
     
     ArrayList<String> projectList;
+    ArrayList<Double> progressList;
 
     @Override
     public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         projectList = projectHandler.listExistingProjects();
+        progressList = new ArrayList<Double>();
+        for (String projectName : projectList) {
+            progressList.add(projectHandler.progressBar(projectName));
+        }
         return "Got it!";
     }
 
@@ -43,11 +48,13 @@ public class CommandViewProject implements CommandView {
         Separator separator = new Separator();
         displayBox.add(separator, 0, rowIndex++, 5, 1);
         
-        for (String projectName : projectList) {
+        for (int i = 0; i < projectList.size(); i++) {
+            String projectName = projectList.get(i);
+            double progress = progressList.get(i);
             
             Text bulletText = GUI.getText("\u2022", Color.GREY, 18);
             Text nameText = GUI.getText(projectName, Color.GREY, 16);
-            Text progressText = GUI.getText("0%", Color.RED, 16);
+            Text progressText = GUI.getText(String.valueOf(progress)+"%", Color.GREEN, 16);
 
             displayBox.add(bulletText, 1, rowIndex);
             displayBox.add(nameText, 2, rowIndex);

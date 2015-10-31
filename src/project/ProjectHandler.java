@@ -1,4 +1,5 @@
 package project;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -268,6 +269,7 @@ public class ProjectHandler implements ProjectManager{
 			Event event = project.retrieveEventById(id);
 			String progressMessage = map.get(id);
 			event.setAdditionalInfo(progressMessage);
+            System.out.println(event.getName() + " " + event.getAdditionalInfo());
 			eventProgress.add(event);
 		}
 		return eventProgress;
@@ -310,6 +312,7 @@ public class ProjectHandler implements ProjectManager{
 		ArrayList<Integer> projectIdTimeline = viewProjectTimeline(projectName);
 		// ArrayList<Event> projectEventTimeline = new ArrayList<Event>();
 		int totalEvents = projectIdTimeline.size();
+		if (totalEvents == 0) return 0;
 		int eventsDone = 0;
 		double percentageDone = 0;
 		
@@ -331,37 +334,25 @@ public class ProjectHandler implements ProjectManager{
 			}
 		} */
 		
-		percentageDone = (eventsDone/totalEvents)*100;
+		percentageDone = 100.0*(eventsDone/totalEvents);
+
+        DecimalFormat df = new DecimalFormat("#.##");      
+        percentageDone = Double.valueOf(df.format(percentageDone));
 		
 		return percentageDone;
 	}
 	
 	@Override
-	public boolean addProgressMessage(Event event, String progressMessage) {
-		int id = event.getId();
-		return addProgressMessage(id, progressMessage);	
-	}
-	
-	private boolean addProgressMessage(int id, String progressMessage) {
-		try {
-			map.put(id, progressMessage);
-			return true;
-		} catch (Exception Ex) {
-			return false;
-		}
-	}
-	
-	@Override
 	public boolean addProgressMessage(int index, String progressMessage, String projectName) {
-		ArrayList<Integer> eventList = viewProjectTimeline(projectName);
-		int id = eventList.get(index);
-		return addProgressMessage(id, progressMessage);
-	}
-	
-	@Override
-	public boolean deleteProgressMessage(Event event) {
-		int id = event.getId();
-		return deleteProgressMessage(id);
+	    viewProjectTimeline(projectName);
+        
+        if (0 <= index && index < projectBook.size()) {
+            int id = projectBook.get(index);
+            map.put(id, progressMessage);
+            return project.saveEditedProjectDetails(projectBook, map, projectName);
+        } else {
+            return false;
+        }
 	}
 	
 	private boolean deleteProgressMessage(int id) {
@@ -375,25 +366,26 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public boolean deleteProgressMessage(int index, String projectName) {
-		ArrayList<Integer> eventList = viewProjectTimeline(projectName);
-		int id = eventList.get(index);
-		return deleteProgressMessage(id);
+	    viewProjectTimeline(projectName);
+        if (0 <= index && index < projectBook.size()) {
+            int id = projectBook.get(index);
+            if (map.remove(id) == null) {
+                return false;
+            }
+            return project.saveEditedProjectDetails(projectBook, map, projectName);
+        
+        } else {
+            return false;
+        }
 	}
 	
-	@Override
-	public boolean editProgressMessage(Event event, String newProgressMessage) {
-		int id = event.getId();
-		return editProgressMessage(id, newProgressMessage);
-	}
-	
-	private boolean editProgressMessage(int id, String newProgressMessage) {
-		return addProgressMessage(id, newProgressMessage);
-	}
 	
 	@Override
 	public boolean editProgressMessage(int index, String newProgressMessage, String projectName) {
-		ArrayList<Integer> eventList = viewProjectTimeline(projectName);
-		int id = eventList.get(index);
-		return editProgressMessage(id, newProgressMessage);
+        if (deleteProgressMessage(index, projectName)) {
+            return addProgressMessage(index, newProgressMessage, projectName);
+        } else {
+            return false;
+        }
 	}
 }
