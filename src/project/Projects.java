@@ -21,7 +21,7 @@ public class Projects {
 	 * Creates a Project ArrayList
 	 */
 	public boolean createProject(String projectName) {
-		return project.createNewProject(projectName.toLowerCase());
+		return project.createNewProject(projectName.toLowerCase().trim());
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class Projects {
 		*/
 		ArrayList<String> checkExistingProject = new ArrayList<String>();
 		checkExistingProject = listExistingProjects();
-		if (newProjectName.equals(oldProjectName) || checkExistingProject.contains(oldProjectName)) {
+		if (newProjectName.equals(oldProjectName) || !(checkExistingProject.contains(oldProjectName))) {
 			return false;
 		}
 		
@@ -66,85 +66,24 @@ public class Projects {
 		return project.getListOfExistingProject();
 	}
 	
-	/**
-	 * View Project timeline (ArrayList of Events) by the Project name
-	 */
-	public ArrayList<Integer> viewProjectTimeline(String projectName) {
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
-			return null;
-		} else {
-		return pHandler.viewProjectTimeline(projectName);
-		}
-	}
-
-	/**
-	 * View Project timeline (ArrayList of Events) by the Project index
-	 */
-	public ArrayList<Integer> viewProjectTimeline(int index) {
-		projectList = listExistingProjects();
-		if (index < projectList.size()) {
-			String projectName = projectList.get(index);
-			return viewProjectTimeline(projectName);
-		} else {
-			return null;
-		}
-	}
 	
-	public ArrayList<Event> viewProjectTimelineInEvents(String projectName) {
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
-			return null;
-		} else {
-		return pHandler.viewProjectTimelineInEvents(projectName);
-		}
-	}
-	
-	public ArrayList<Event> viewProjectTimelineInEvents(int index) {
-		projectList = listExistingProjects();
-		if (index < projectList.size()) {
-			String projectName = projectList.get(index);
-			return viewProjectTimelineInEvents(projectName);
-		} else {
-			return null;
-		}
-	}
-	
-	public ArrayList<Event> viewEventProgressTimeline(String projectName) {
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
-			return null;
-		} else {
-		return pHandler.viewEventProgressTimeline(projectName);
-		}
-	}
-	
-	public ArrayList<Event> viewEventProgressTimeline(int index) {
-		projectList = listExistingProjects();
-		if (index < projectList.size()) {
-			String projectName = projectList.get(index);
-			return viewEventProgressTimeline(projectName);
-		} else {
-			return null;
-		}
-	}
-	
-	/*
-	public boolean editProjectEvent(Event event, int infoIndex, String newValue, String projectName) {
+	public boolean addProjectEvent(Event event, String projectName) {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return false;
 		} else {
-		return pHandler.editProjectEvent(event, infoIndex, newValue, projectName);
+		return pHandler.addProjectEvent(event, projectName);
 		}
 	}
 	
-	public boolean editProjectEvent(Event event, int infoIndex, String newValue, int index) {
+	public boolean addProjectEvent(Event event, int index) {
 		projectList = listExistingProjects();
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
-			return editProjectEvent(event, infoIndex, newValue, projectName);
+			return addProjectEvent(event, projectName);
 		} else {
 			return false;
 		}
 	}
-	*/
 	
 	public boolean deleteProjectEvent(Event event, String projectName) {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
@@ -180,23 +119,69 @@ public class Projects {
 		}
 	}
 	
-	public boolean addProjectEvent(Event event, String projectName) {
+	/**
+	 * View Project timeline (ArrayList of Events) by the Project name
+	 */
+	public ArrayList<Integer> viewProjectTimeline(String projectName) {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
-			return false;
+			return null;
 		} else {
-		return pHandler.addProjectEvent(event, projectName);
+		return pHandler.viewProjectTimeline(projectName);
 		}
 	}
 	
-	public boolean addProjectEvent(Event event, int index) {
+	/**
+	 * View Project timeline (ArrayList of Events) by the Project index
+	 */
+	public ArrayList<Integer> viewProjectTimeline(int index) {
 		projectList = listExistingProjects();
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
-			return addProjectEvent(event, projectName);
+			return viewProjectTimeline(projectName);
+		} else {
+			return null;
+		}
+	}
+	
+	public ArrayList<Event> viewProjectTimelineInEvents(String projectName) {
+		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+			return null;
+		} else {
+		return pHandler.viewProjectTimelineInEvents(projectName);
+		}
+	}
+	
+	public ArrayList<Event> viewProjectTimelineInEvents(int index) {
+		projectList = listExistingProjects();
+		if (index < projectList.size()) {
+			String projectName = projectList.get(index);
+			return viewProjectTimelineInEvents(projectName);
+		} else {
+			return null;
+		}
+	}
+	
+	
+	
+	/*
+	public boolean editProjectEvent(Event event, int infoIndex, String newValue, String projectName) {
+		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+			return false;
+		} else {
+		return pHandler.editProjectEvent(event, infoIndex, newValue, projectName);
+		}
+	}
+	
+	public boolean editProjectEvent(Event event, int infoIndex, String newValue, int index) {
+		projectList = listExistingProjects();
+		if (index < projectList.size()) {
+			String projectName = projectList.get(index);
+			return editProjectEvent(event, infoIndex, newValue, projectName);
 		} else {
 			return false;
 		}
 	}
+	*/
 	
 	public ArrayList<String> searchProjects (String name) {
 		ArrayList<String> searchedNames = new ArrayList<String>();
@@ -234,5 +219,23 @@ public class Projects {
 			return pHandler.editProgressMessage(index, newProgressMessage, projectName);
 		} 
 		return false;
+	}
+	
+	public ArrayList<Event> viewEventProgressTimeline(String projectName) {
+		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+			return null;
+		} else {
+		return pHandler.viewEventProgressTimeline(projectName);
+		}
+	}
+	
+	public ArrayList<Event> viewEventProgressTimeline(int index) {
+		projectList = listExistingProjects();
+		if (index < projectList.size()) {
+			String projectName = projectList.get(index);
+			return viewEventProgressTimeline(projectName);
+		} else {
+			return null;
+		}
 	}
 }

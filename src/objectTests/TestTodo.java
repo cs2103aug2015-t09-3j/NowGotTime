@@ -28,7 +28,7 @@ public class TestTodo {
 	public static void setUpBeforeTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Files Cleared for Item Testing");
+		System.out.println("Files Cleared for Todo Testing");
 	
 		Item.setCounter(0);
 		todo1 = new Todo("Todo1");
@@ -44,7 +44,7 @@ public class TestTodo {
 		clear = new FileHandler();
 		clear.clearAll();
 		Item.setCounter(0);
-		System.out.println("Test Files used in Item Testing Cleared");
+		System.out.println("Test Files used in Todo Testing Cleared");
 	}
 	
 	@Test
