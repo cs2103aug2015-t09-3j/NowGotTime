@@ -381,4 +381,22 @@ public class ProjectHandler implements ProjectManager{
 		int id = eventList.get(index);
 		return deleteProgressMessage(id);
 	}
+	
+	@Override
+	public boolean editProgressMessage(Event event, String newProgressMessage) {
+		int id = event.getId();
+		return editProgressMessage(id, newProgressMessage);
+	}
+	
+	@Override
+	public boolean editProgressMessage(int id, String newProgressMessage) {
+		return addProgressMessage(id, newProgressMessage);
+	}
+	
+	@Override
+	public boolean editProgressMessage(int index, String newProgressMessage, String projectName) {
+		ArrayList<Integer> eventList = viewProjectTimeline(projectName);
+		int id = eventList.get(index);
+		return editProgressMessage(id, newProgressMessage);
+	}
 }

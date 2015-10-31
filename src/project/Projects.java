@@ -242,4 +242,18 @@ public class Projects {
 		} 
 		return false;
 	}
+	
+	public boolean editProgressMessage(Event event, String newProgressMessage, String projectName) {
+		if (listExistingProjects().contains(projectName)) {
+			return pHandler.editProgressMessage(event, newProgressMessage);
+		} 
+		return false;
+	}
+	
+	public boolean editProgressMessage(int index, String newProgressMessage, String projectName) {
+		if (listExistingProjects().contains(projectName)) {
+			return pHandler.editProgressMessage(index, newProgressMessage, projectName);
+		} 
+		return false;
+	}
 }
