@@ -310,14 +310,14 @@ Command | Description | Status
 --------| ----------- | -------
 `add project "<PROJECT>"` | add a project with name `<PROJECT>` | ✅ |
 `add "<EVENT>" to "<PROJECT>"` | add `<EVENT>` to `<PROJECT>` | ✅ |
-`add progress "<PROGRESS>" <INDEX>` | add progress to project | ❌ |
+`add progress "<PROGRESS>" <INDEX> to "<PROJECT>"` | add progress to project | ✅ |
 
 ### Deleting
 Command | Description | Status 
 --------| ----------- | -------
 `delete project "<PROJECT>"` | delete a project with name `<PROJECT>` | ✅ |
 `delete <INDEX> from "<PROJECT>"` | delete an event from project with name `<PROJECT>` | ✅ |
-`delete progress "<PROGRESS>" <INDEX>` | delete progress from index | ❌ |
+`delete progress "<PROGRESS>" <INDEX> from "<PROJECT>` | delete progress from index | ✅ |
 
 ### Editing
 Command | Description | Status 

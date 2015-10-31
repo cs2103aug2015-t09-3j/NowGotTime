@@ -31,7 +31,7 @@ public class CommonHelper {
     public static final String SUCCESS_ITEM_UNCHECKED        = "marked not done '%1$s'";
     public static final String SUCCESS_SET_DIRECTORY         = "save directory moved to '%1$s'";
     public static final String SUCCESS_PROGRESS_ADDED        = "progress added";
-    public static final String SUCCESS_PROGRESS_DELETED        = "progress deleted";
+    public static final String SUCCESS_PROGRESS_DELETED      = "progress deleted";
     
     
     /* Error messages */
