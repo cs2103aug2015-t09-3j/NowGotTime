@@ -334,7 +334,7 @@ public class ProjectHandler implements ProjectManager{
 			}
 		} */
 		
-		percentageDone = 100.0*(eventsDone/totalEvents);
+		percentageDone = 100.0*((double)eventsDone/(double)totalEvents);
 
         DecimalFormat df = new DecimalFormat("#.##");      
         percentageDone = Double.valueOf(df.format(percentageDone));
