@@ -81,9 +81,12 @@ public class CommandViewProjectName implements CommandView {
             }
             
             Text nameText;
+            Text additionalText = null;
             
             if (!item.getAdditionalInfo().isEmpty()) {
-                nameText = GUI.getText(item.getName() + " (" + item.getAdditionalInfo() + ")", Color.GREY, 16);
+                nameText = GUI.getText(item.getName(), Color.BLACK, 16);
+                additionalText = GUI.getText(item.getAdditionalInfo(), Color.GREY, 14);
+                
             } else {
                 nameText = GUI.getText(item.getName(), Color.GREY, 16);
             }
@@ -108,6 +111,12 @@ public class CommandViewProjectName implements CommandView {
             displayBox.add(timeText, 3, rowIndex);
             
             rowIndex++;
+            
+            if (additionalText != null) {
+                displayBox.add(additionalText, 2, rowIndex);
+                rowIndex++;
+            }
+            
             previousDate = date;
         }
         
