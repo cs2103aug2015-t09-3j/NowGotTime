@@ -129,7 +129,12 @@ public class GUI extends Application {
         return Font.font("Lucida Grande", FontWeight.NORMAL, size);
     }
     
+    private static Font getBoldFont(int size) {
+        return Font.font("Lucida Grande", FontWeight.BOLD, size);
+    }
+    
     public static Text getText(String string, Color color, int size) {
+        size += 4;
         Text text = new Text(string);
         text.setFill(color);
         text.setFont(getFont(size));
@@ -140,7 +145,7 @@ public class GUI extends Application {
     private HBox getTitleBox() {
         title = new Text("Welcome to NowGotTime");
         title.setFill(Color.WHITE);
-        title.setFont(getFont(20));
+        title.setFont(getFont(22));
         title.setTextAlignment(TextAlignment.CENTER);
         
         HBox titleBox = new HBox(title);
@@ -164,12 +169,12 @@ public class GUI extends Application {
         displayBox.setVgap(3);
         displayBox.setStyle("-fx-background-color: white; -fx-background-radius: 3;");
         displayBox.setPadding(BOX_PADDING);
-        displayBox.setMinHeight(GUI_HEIGHT-130);
+        displayBox.setMinHeight(GUI_HEIGHT-142);
 
         displayBox.getColumnConstraints().add(getColumn(7.0));
         displayBox.getColumnConstraints().add(getColumn(5.0));
-        displayBox.getColumnConstraints().add(getColumn(40.0));
-        displayBox.getColumnConstraints().add(getColumn(48.0));
+        displayBox.getColumnConstraints().add(getColumn(57.0));
+        displayBox.getColumnConstraints().add(getColumn(31.0));
         displayBox.getColumnConstraints().add(getColumn(1.0));
         
         return displayBox;
@@ -178,7 +183,7 @@ public class GUI extends Application {
     private HBox getPromptBox() {
         prompt = new TextField();
         prompt.setStyle(""
-                + "-fx-font-size: 16px;"
+                + "-fx-font-size: 18px;"
                 + "-fx-font-family: Lucida Grande;");
 
         HBox promptBox = new HBox(prompt);
@@ -191,7 +196,7 @@ public class GUI extends Application {
     
     private HBox getStatusBox() {
         status = new Text("Hi there!");
-        status.setFont(getFont(14));
+        status.setFont(getBoldFont(20));
         status.setFill(Color.WHITE);
         status.setTextAlignment(TextAlignment.CENTER);
         
@@ -257,7 +262,7 @@ public class GUI extends Application {
         ScrollPane scrollBox = new ScrollPane();
         scrollBox.setContent(displayBox);
         scrollBox.fitToHeightProperty();
-        scrollBox.setPrefSize(200, GUI_HEIGHT-128);
+        scrollBox.setPrefSize(200, GUI_HEIGHT-140);
         scrollBox.setHbarPolicy(ScrollBarPolicy.NEVER);
         scrollBox.setFitToWidth(true);
         scrollBox.setStyle("-fx-background-radius: 4;");
