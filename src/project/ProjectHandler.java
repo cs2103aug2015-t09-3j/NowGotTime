@@ -291,7 +291,7 @@ public class ProjectHandler implements ProjectManager{
 	private void sortEvents() {
 		ArrayList<Event> eventsToBeSorted = new ArrayList<Event>();
 		ArrayList<Integer> newProjectBook = new ArrayList<Integer>();
-	
+		
 		for (int id : projectBook) {
 			Event event = project.retrieveEventById(id);
 			eventsToBeSorted.add(event);
