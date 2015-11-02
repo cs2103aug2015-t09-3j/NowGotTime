@@ -95,28 +95,28 @@ public class Parser {
             }
             
             try {
-                if (regexMatcher.group(TAG_NAME).length() > 40) {
+                if (regexMatcher.group(TAG_NAME).length() > 60) {
                     return null;
                 }
             } catch (IllegalArgumentException iae) {
             }
             
             try {
-                if (regexMatcher.group(TAG_KEYWORD).length() > 40) {
+                if (regexMatcher.group(TAG_KEYWORD).length() > 60) {
                     return null;
                 }
             } catch (IllegalArgumentException iae) {
             }
             
             try {
-                if (regexMatcher.group(TAG_VALUE).length() > 40) {
+                if (regexMatcher.group(TAG_VALUE).length() > 60) {
                     return null;
                 }
             } catch (IllegalArgumentException iae) {
             }
             
             try {
-                if (regexMatcher.group(TAG_PROGRESS).length() > 40) {
+                if (regexMatcher.group(TAG_PROGRESS).length() > 60) {
                     return null;
                 }
             } catch (IllegalArgumentException iae) {

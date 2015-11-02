@@ -182,6 +182,7 @@ public class ServiceHandler implements ServiceManager{
 	 */
 	@Override
 	public boolean mark(Item item){
+	    item = getItemFromItemHandler(item);
 		if (item.getDone() == true){
 			return false;
 		}else {
@@ -197,6 +198,7 @@ public class ServiceHandler implements ServiceManager{
 	 */
 	@Override
 	public boolean unmark(Item item){
+        item = getItemFromItemHandler(item);
 		if (item.getDone() == false){
 			return false;
 		}else {
@@ -295,6 +297,7 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	private String editEvent(Event _event, String fieldName, String newInputs) throws Exception {
+	    _event = (Event) getItemFromItemHandler(_event);
 		String oldValue = null;
 
 		switch(fieldName) {
@@ -337,6 +340,7 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	private String editTask(Todo _task, String fieldName, String newInputs) throws Exception{
+        _task = (Todo) getItemFromItemHandler(_task);
 		String oldValue = null;
 
 		switch(fieldName) {
@@ -362,6 +366,7 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	private boolean deleteTask(Todo _task) {
+        _task = (Todo) getItemFromItemHandler(_task);
 		ArrayList<Todo> completeTodoList = itemHandler.retrieveAllTodo();      
 		boolean check = completeTodoList.remove(_task);
 		itemHandler.saveAllEditedTodo(); //saves no matter if an item is deleted
@@ -369,6 +374,7 @@ public class ServiceHandler implements ServiceManager{
 	}
 
 	private boolean deleteEvent(Event _event) {
+        _event = (Event) getItemFromItemHandler(_event);
 		ArrayList<Event> completeEventBook = itemHandler.retrieveAllEvents();
 		boolean check = completeEventBook.remove(_event);
 		itemHandler.saveEditedEventHandler(); //saves no matter if an item is deleted
@@ -397,5 +403,14 @@ public class ServiceHandler implements ServiceManager{
 	
 	private void addDate(Calendar calendar) {
 		calendar.add(Calendar.DAY_OF_MONTH,1);
+	}
+	
+	private Item getItemFromItemHandler(Item item) {
+	    int id = item.getId();
+	    if (item instanceof Event) {
+	        return itemHandler.retrieveEventById(id);
+	    } else {
+            return itemHandler.retrieveTaskById(id);
+	    }
 	}
 }

@@ -43,10 +43,14 @@ public class CommandUncheck implements Command, Revertible {
             throws Exception {
         if (item == null) {
             if (itemKey == null) {
-                if (currentDisplay instanceof CommandViewDate
+                if (currentDisplay instanceof CommandViewProjectName) {
+                    String projectName = ((CommandViewProjectName)currentDisplay).getProjectName();
+                    item = projectHandler.editEvent(itemIndex, projectName);
+                } else if (currentDisplay instanceof CommandViewDate
                         || currentDisplay instanceof CommandSearch) {
                     item = serviceHandler.viewItemByIndex(itemIndex);
                 }
+                
                 if (item == null) {
                     throw new Exception(CommonHelper.ERROR_INDEX_OUT_OF_BOUND);
                 }
