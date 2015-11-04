@@ -1,4 +1,4 @@
-package objectTests;
+package test.object;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

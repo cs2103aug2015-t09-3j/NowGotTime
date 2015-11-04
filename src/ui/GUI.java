@@ -25,7 +25,6 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import project.Projects;
 import service.ServiceHandler;
 
@@ -91,7 +90,7 @@ public class GUI extends Application {
         }
     }
     
-    private String executeResponse(String userResponse) {
+    public String executeResponse(String userResponse, boolean textMode) {
         Command command = null;
         String feedback;
         
@@ -99,12 +98,13 @@ public class GUI extends Application {
             command = Command.parseCommand(userResponse);
             feedback = command.execute(serviceHandler, projectHandler, getMostRecentRevertible(), display);
             
-            statusBox.setStyle(CSS_SUCCESS);
-            prompt.clear();
-            
             // Show on display
-            display = updateDisplay(display, command.getDisplayable());
-            showDisplay(display);
+            if (!textMode) {
+                prompt.clear();
+                statusBox.setStyle(CSS_SUCCESS);
+                display = updateDisplay(display, command.getDisplayable());
+                showDisplay(display);
+            }
             
             if (command instanceof Revertible) {
                 // add to history list if project revertible
@@ -113,16 +113,13 @@ public class GUI extends Application {
             
         } catch (Exception e) {
             // catch error message
-            statusBox.setStyle(CSS_ERROR);
+            if (!textMode) {
+                statusBox.setStyle(CSS_ERROR);
+            }
             feedback = e.getMessage();
-            e.printStackTrace();
         }
         
         return feedback;
-    }
-    
-    private void displayText(Text field, String text) {
-        field.setText(text);
     }
     
     private static Font getFont(int size) {
@@ -161,6 +158,10 @@ public class GUI extends Application {
         column.setPercentWidth(percentage);
         
         return column;
+    }
+
+    private void displayText(Text field, String text) {
+        field.setText(text);
     }
     
     private GridPane getDisplayBox() {
@@ -214,7 +215,7 @@ public class GUI extends Application {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode().equals(KeyCode.ENTER)) {
-                    displayText(status, executeResponse(prompt.getText()));
+                    displayText(status, executeResponse(prompt.getText(), false));
                 }
             }
         });
@@ -277,7 +278,7 @@ public class GUI extends Application {
     }
     
     
-    private void configureHandler() {
+    public void initiateHandler() {
         serviceHandler = new ServiceHandler();
         projectHandler = new Projects();
         historyList = new Stack<Revertible>();
@@ -285,7 +286,7 @@ public class GUI extends Application {
     
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-	    configureHandler();
+	    initiateHandler();
 	    
 	    primaryStage.setTitle(GUI_TITLE);
 	    

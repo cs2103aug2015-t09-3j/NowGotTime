@@ -1,4 +1,4 @@
-package objectTests;
+package test.object;
 
 import org.junit.Test;
 import org.junit.AfterClass;

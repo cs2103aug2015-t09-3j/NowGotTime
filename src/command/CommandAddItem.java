@@ -20,7 +20,6 @@ public class CommandAddItem implements CommandAdd {
      * Parses the arguments for add command
      */
     public CommandAddItem(String args) throws Exception {
-        
         // try to parse command arguments in one of these
         if (Parser.matches(args, Parser.PATTERN_ADD_EVENT)) {
             item = parseAsEvent(args);
@@ -55,6 +54,7 @@ public class CommandAddItem implements CommandAdd {
         String name = matcher.group(Parser.TAG_NAME);
         String start = matcher.group(Parser.TAG_START);
         String end = matcher.group(Parser.TAG_END);
+        
         
         Calendar startCalendar = Calendar.getInstance();
         CalendarHelper.updateCalendar(startCalendar, start);
