@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import helper.CommonHelper;
+import object.Item;
+import storage.FileHandler;
 import ui.GUI;
 
 public class IntegrationTest {
@@ -14,6 +16,9 @@ public class IntegrationTest {
 
     @Before
     public void setUp() throws Exception {
+        FileHandler clear = new FileHandler();
+        clear.clearAll();
+        Item.setCounter(0);
         gui = new GUI();
         gui.initiateHandler();
     }
