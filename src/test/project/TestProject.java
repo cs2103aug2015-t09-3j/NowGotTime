@@ -171,4 +171,42 @@ public class TestProject {
 		}
 	}
 	
+	@Test
+	public void testProgressBar() throws AssertionError{
+		try {
+			
+			project.createProject("Project");
+			project.addProjectEvent(event1, "Project");
+			project.addProjectEvent(event2, "Project");
+			project.addProjectEvent(event3, "Project");
+			
+			event1.setDone(true);
+			
+			FileHandler fHandler = new FileHandler();
+			fHandler.saveNewEventHandler(event1);
+			
+			assertEquals("Failed to calculate percentage", 33.33, project.progressBar("Project"), 0.01);
+			assertEquals("Successfully calculated percentage of a non-existent project", -1, project.progressBar("nonexistent"), 0.01);
+			
+		} catch (AssertionError AE) {
+			System.out.println(AE.getMessage());
+			throw AE;
+		}
+	}		
+	
+	@Test
+	public void testAddEditDeleteViewProgress() throws AssertionError{
+		try {
+			project.createProject("Project");
+			project.addProjectEvent(event1, "Project");
+			project.addProjectEvent(event2, "Project");
+			project.addProjectEvent(event3, "Project");
+			
+			
+			
+		} catch (AssertionError AE) {
+			System.out.println(AE.getMessage());
+			throw AE;
+		}
+	}
 }

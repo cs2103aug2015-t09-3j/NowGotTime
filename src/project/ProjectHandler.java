@@ -312,6 +312,7 @@ public class ProjectHandler implements ProjectManager{
 		ArrayList<Integer> projectIdTimeline = viewProjectTimeline(projectName);
 		// ArrayList<Event> projectEventTimeline = new ArrayList<Event>();
 		int totalEvents = projectIdTimeline.size();
+		
 		if (totalEvents == 0) return 0;
 		int eventsDone = 0;
 		double percentageDone = 0;
@@ -322,6 +323,7 @@ public class ProjectHandler implements ProjectManager{
 				eventsDone++;
 			}
 		}
+		System.out.println(eventsDone);
 		
 		/* for (int id : projectIdTimeline) {
 			Event event = project.retrieveEventById(id);

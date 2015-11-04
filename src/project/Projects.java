@@ -8,6 +8,7 @@ import object.Item;
 
 public class Projects {
 
+	private static final int INVALID_PROGRESS_PERCENTAGE = -1;
 	private FileHandler project;
 	private ProjectHandler pHandler;
 	private ArrayList<String> projectList; 
@@ -196,10 +197,10 @@ public class Projects {
 	}
 	
 	public double progressBar(String projectName) {
-		if (listExistingProjects().contains(projectName)) {
-			return pHandler.progressBar(projectName);
+		if (listExistingProjects().contains(projectName.toLowerCase())) {
+			return pHandler.progressBar(projectName.toLowerCase());
 		}
-		return -1;
+		return INVALID_PROGRESS_PERCENTAGE;
 	}
 	
 	public boolean addProgressMessage(int index, String projectName, String progressMessage) {
