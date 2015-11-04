@@ -185,9 +185,10 @@ public class Projects {
 	*/
 	
 	public ArrayList<String> searchProjects (String name) {
+		projectList = project.getListOfExistingProject();
 		ArrayList<String> searchedNames = new ArrayList<String>();
 		for (String projectName : projectList) {
-			if (projectName.contains(name)) {
+			if (projectName.contains(name)) {	
 				searchedNames.add(projectName);
 			}
 		}

@@ -66,8 +66,6 @@ public class CommandSearch implements Command, Displayable {
     public void display(GridPane displayBox) {
         
         displayBox.getChildren().clear();
-        displayBox.setGridLinesVisible(true);
-        System.out.println(displayBox.isGridLinesVisible());
         
         Collections.sort(filteredItem);
         

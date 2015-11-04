@@ -183,13 +183,16 @@ public class ServiceHandler implements ServiceManager{
 	@Override
 	public boolean mark(Item item){
 	    item = getItemFromItemHandler(item);
-		if (item.getDone() == true){
+	    if (item.getDone() == true){
 			return false;
-		}else {
+		} else {
 			item.setDone(true);
-			itemHandler.saveEditedEventHandler();
-            itemHandler.saveEditedTodoHandler();
-            itemHandler.saveAllEditedTodo();
+			if (item instanceof Event) {
+			    itemHandler.saveEditedEventHandler();
+			} else {
+			    itemHandler.saveEditedTodoHandler();
+			    itemHandler.saveAllEditedTodo();
+			}
 			return true;
 		}
 	}
@@ -203,9 +206,12 @@ public class ServiceHandler implements ServiceManager{
 			return false;
 		}else {
 			item.setDone(false);
-            itemHandler.saveEditedEventHandler();
-            itemHandler.saveEditedTodoHandler();
-            itemHandler.saveAllEditedTodo();
+			if (item instanceof Event) {
+                itemHandler.saveEditedEventHandler();
+            } else {
+                itemHandler.saveEditedTodoHandler();
+                itemHandler.saveAllEditedTodo();
+            }
 			return true;
 		}
 	}
