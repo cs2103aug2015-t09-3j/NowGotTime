@@ -32,6 +32,12 @@ public class TestProject {
 	    event2 = new Event("EventName2", "21 Oct 2015", "31 Oct 2015", "19:00", "23:00", "");
 	    event3 = new Event("EventName3", "21 Oct 2015", "30 Oct 2015", "17:00", "02:00", "");
 	    project = new Projects();
+	    
+	    clear.saveNewEventHandler(event1);
+	    clear.saveNewEventHandler(event2);
+	    clear.saveNewEventHandler(event3);
+	    
+	    
 	}
 	
 	@After
@@ -78,6 +84,7 @@ public class TestProject {
 	@Test
 	public void testlistExistingProjects() throws AssertionError {
 		try {
+			
 			String[] strArray = new String[]{};
 			assertArrayEquals("Failed to list empty existing projects", strArray, project.listExistingProjects().toArray());
 			
@@ -95,18 +102,37 @@ public class TestProject {
 	@Test
 	public void testAddViewEditDeleteProjectTimeline() throws AssertionError {
 		try {
+			
+			
 			project.createProject("helloAll");
 			project.createProject("helloWorld");
 			
+			//Add
 			assertTrue("Failed to add event to project by index", project.addProjectEvent(event1, 0));
 			assertTrue("Failed to add event to project by name", project.addProjectEvent(event2, "helloall"));
 			
-			Integer[] intArray = new Integer[]{0, 1};
+			//View
+			Integer[] intArray = new Integer[]{1, 0}; //Sorted by timing
 			assertArrayEquals("Failed to view project timeline by name", intArray, project.viewProjectTimeline("helloall").toArray());
 			assertArrayEquals("Failed to view project timeline by index", intArray, project.viewProjectTimeline(0).toArray());
+		
+			Event[] eventArray = new Event[]{event2, event1}; //Sorted too!
+			assertArrayEquals("Failed to view project event timeline by name", eventArray, project.viewProjectTimelineInEvents("helloAll").toArray());
+			assertArrayEquals("Failed to view project event timeline by index", eventArray, project.viewProjectTimelineInEvents(0).toArray());
+			
+			//Pass to-be-edited Event to Parser to call editing in Event Class.
+			assertEquals("Failed to edit Event", event2, project.editEvent(0, "helloAll"));
+			
+			//Delete
+			assertTrue("Failed to delete Event by event, projectname", project.deleteProjectEvent(event1, "helloAll"));
+			assertFalse("Successfully deleted non-existent Event by event, projectname", project.deleteProjectEvent(event3, "helloAll"));
+			
+			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
 			throw AE;
 		}
 	}
+	
+	
 }
