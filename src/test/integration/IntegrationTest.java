@@ -9,6 +9,7 @@ import helper.CommonHelper;
 import object.Item;
 import storage.FileHandler;
 import ui.GUI;
+import ui.Main;
 
 public class IntegrationTest {
 	 protected static GUI gui;
@@ -45,6 +46,7 @@ public class IntegrationTest {
         Item.setCounter(0);
         gui = new GUI();
         gui.initiateHandler();
+        Main.mode = "GUI";
     }
 
     @Test
