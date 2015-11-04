@@ -323,7 +323,7 @@ public class ProjectHandler implements ProjectManager{
 				eventsDone++;
 			}
 		}
-		System.out.println(eventsDone);
+		
 		
 		/* for (int id : projectIdTimeline) {
 			Event event = project.retrieveEventById(id);
@@ -357,14 +357,14 @@ public class ProjectHandler implements ProjectManager{
         }
 	}
 	
-	private boolean deleteProgressMessage(int id) {
-		try {
-			map.remove(id);
-			return true;
-		} catch (Exception Ex) {
-			return false;
-		}
-	}
+//	private boolean deleteProgressMessage(int id) {
+//		try {
+//			map.remove(id);
+//			return true;
+//		} catch (Exception Ex) {
+//			return false;
+//		}
+//	}
 	
 	@Override
 	public boolean deleteProgressMessage(int index, String projectName) {

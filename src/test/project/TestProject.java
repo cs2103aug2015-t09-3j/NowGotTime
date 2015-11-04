@@ -202,11 +202,37 @@ public class TestProject {
 			project.addProjectEvent(event2, "Project");
 			project.addProjectEvent(event3, "Project");
 			
+			// sorted event 3,2,1
 			
+			assertTrue("Failed to add progress message", project.addProgressMessage(0, "Project", "Progress message here"));
+			assertFalse("Successfully added progress message to non-existent project", project.addProgressMessage(0, "nonexistent", "progress Message here"));
+			
+			assertTrue("Failed to edit progress message", project.editProgressMessage(0, "this is new", "Project"));
+			assertFalse("Successfully edited progress message in non-existent project", project.editProgressMessage(0, "this is new", "nonexistent"));
+	
+			assertEquals("Failed to view progress message by index", "this is new", project.viewEventProgressTimeline(0).get(0).getAdditionalInfo());
+			assertEquals("Failed to view progress message by name", "this is new", project.viewEventProgressTimeline("Project").get(0).getAdditionalInfo());
+			assertNull("Successfully viewed progress message in nonexistent project by index", project.viewEventProgressTimeline(2));
+			assertNull("Successfully viewed progress message in nonexistent project by name", project.viewEventProgressTimeline("nonexistent"));
+			
+			assertTrue("Failed to delete progress message", project.deleteProgressMessage(0, "Project"));
+			assertFalse("Successfully deleted progress message in non-existent project", project.deleteProgressMessage(0, "nonexistent"));
 			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
 			throw AE;
 		}
 	}
+	
+	@Test
+	public void testSearchItem() throws AssertionError{
+		try {
+			
+			
+			
+		} catch (AssertionError AE) {
+			System.out.println(AE.getMessage());
+			throw AE;
+		}
+	}		
 }
