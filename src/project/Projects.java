@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import storage.FileHandler;
 import object.Event;
+import object.Item;
 
 public class Projects {
 
@@ -237,5 +238,19 @@ public class Projects {
 		} else {
 			return null;
 		}
+	}
+	
+	public String searchItem(Item item) {
+	    int id = item.getId();
+	    
+	    projectList = listExistingProjects();
+	    
+	    for (String project : projectList) {
+	        if (pHandler.findItem(id, project)) {
+	            return project;
+	        }
+	    }
+	    
+	    return null;
 	}
 }

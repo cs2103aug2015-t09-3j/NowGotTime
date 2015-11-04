@@ -18,14 +18,31 @@ public class CalendarHelper {
     public static final String TYPE_DATE = "date";
     public static final String TYPE_TIME = "time";
     public static final String TYPE_DATE_TIME = "datetime";
+    public static final String TODAY = "today";
+    public static final String TOMORROW = "tomorrow";
+    
     
     /* Calendar Helper functions */
+    
+    private static String denaturalizeString(String dateTimeString) {
+        dateTimeString = dateTimeString.trim();
+        
+        Calendar today = Calendar.getInstance();
+        Calendar tomorrow = Calendar.getInstance();
+        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+        
+        dateTimeString = dateTimeString.replaceAll(TODAY, getDateString(today));
+        dateTimeString = dateTimeString.replaceAll(TOMORROW, getDateString(tomorrow));
+        
+        return dateTimeString;
+    }
     
     /**
      * Returns a Calendar object with parsed timeString as the time
      */
     public static Calendar parseTime(String timeString) throws ParseException {
-        timeString = timeString.trim();
+        FORMAT_TIME.setLenient(false);
+        timeString = denaturalizeString(timeString);
         Calendar time = Calendar.getInstance();
         time.setTime(FORMAT_TIME.parse(timeString));
         if (!getTimeString(time).toLowerCase().equals(timeString.toLowerCase())) {
@@ -39,7 +56,7 @@ public class CalendarHelper {
      */
     public static Calendar parseDate(String dateString) throws ParseException {
         FORMAT_DATE.setLenient(false);
-        dateString = dateString.trim();
+        dateString = denaturalizeString(dateString);
         Calendar date = Calendar.getInstance();
         date.setTime(FORMAT_DATE.parse(dateString));
         if (!getDateString(date).toLowerCase().equals(dateString.toLowerCase())) {
@@ -53,7 +70,7 @@ public class CalendarHelper {
      */
     public static Calendar parseDateTime(String dateTimeString) throws ParseException {
         FORMAT_DATE_TIME.setLenient(false);
-        dateTimeString = dateTimeString.trim();
+        dateTimeString = denaturalizeString(dateTimeString);
         Calendar datetime = Calendar.getInstance();
         datetime.setTime(FORMAT_DATE_TIME.parse(dateTimeString));
         if (!getDateTimeString(datetime).toLowerCase().equals(dateTimeString.toLowerCase())) {

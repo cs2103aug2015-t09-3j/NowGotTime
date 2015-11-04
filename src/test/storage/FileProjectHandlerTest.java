@@ -1,4 +1,4 @@
-package storagetest;
+package test.storage;
 
 import static org.junit.Assert.assertEquals;
 

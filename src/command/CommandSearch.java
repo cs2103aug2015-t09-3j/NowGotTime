@@ -66,6 +66,8 @@ public class CommandSearch implements Command, Displayable {
     public void display(GridPane displayBox) {
         
         displayBox.getChildren().clear();
+        displayBox.setGridLinesVisible(true);
+        System.out.println(displayBox.isGridLinesVisible());
         
         Collections.sort(filteredItem);
         
@@ -75,7 +77,7 @@ public class CommandSearch implements Command, Displayable {
         int listNumber = 0;
         int matchesNumber = filteredItem.size();
         
-        displayBox.add(GUI.getText("Found " + matchesNumber + " item(s):", Color.GREEN, 16), 0, rowIndex++, 5, 1);
+        displayBox.add(GUI.getText("Found " + matchesNumber + " item(s):", Color.GREEN, 16), 0, rowIndex++, 4, 1);
         
         for (Item item : filteredItem) {
             String date;
@@ -99,8 +101,8 @@ public class CommandSearch implements Command, Displayable {
                 else {
                     dateString = GUI.getText(date, Color.BLACK, 18);
                 }
-                displayBox.add(dateString, 1, rowIndex++, 5, 1);
-                displayBox.add(separator, 0, rowIndex++, 5, 1);
+                displayBox.add(dateString, 1, rowIndex++, 4, 1);
+                displayBox.add(separator, 0, rowIndex++, 4, 1);
             }
             listNumber++;
             

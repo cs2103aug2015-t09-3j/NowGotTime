@@ -19,18 +19,26 @@ public class CommandAddProgress implements CommandAdd {
         
         progress = matcher.group(Parser.TAG_PROGRESS);
         index = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
-        projectName = matcher.group(Parser.TAG_NAME);
     }
     
     public CommandAddProgress(int index, String projectName, String progress) {
         this.index = index;
-        this.projectName = projectName;
         this.progress = progress;
+        this.projectName = projectName;
     }
 
     @Override
     public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
+        
+        if (projectName == null) {
+            if (currentDisplay instanceof CommandViewProjectName) {
+                projectName = ((CommandViewProjectName) currentDisplay).getProjectName();
+            } else {
+                throw new Exception(CommonHelper.ERROR_INDEX_OUT_OF_BOUND);
+            }
+        }
+        
         if (projectHandler.addProgressMessage(index, projectName, progress)) {
             return CommonHelper.SUCCESS_PROGRESS_ADDED;
         } else {

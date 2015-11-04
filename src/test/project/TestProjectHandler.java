@@ -1,4 +1,4 @@
-package projectTests;
+package test.project;
 
 import org.junit.Test;
 

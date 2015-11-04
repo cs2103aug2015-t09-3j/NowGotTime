@@ -1,4 +1,4 @@
-package storagetest;
+package test.storage;
 
 import java.io.File;
 import java.nio.file.Files;

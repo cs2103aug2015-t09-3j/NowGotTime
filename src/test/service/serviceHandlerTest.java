@@ -1,4 +1,4 @@
-package serviceHandlertest;
+package test.service;
 
 import static org.junit.Assert.*;
 

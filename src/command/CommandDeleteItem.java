@@ -78,7 +78,15 @@ public class CommandDeleteItem implements CommandDelete {
             }
         }
         
+        // Check if item is inside a project
+        String project = projectHandler.searchItem(item);
+        
+        if (project != null) {
+            throw new Exception(String.format(CommonHelper.ERROR_ITEM_INSIDE_PROJECT, project));
+        }
+        
         serviceHandler.deleteItem(item);
+        
         return String.format(CommonHelper.SUCCESS_ITEM_DELETED, item.getName());
     }
 

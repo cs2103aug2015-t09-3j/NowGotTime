@@ -45,23 +45,20 @@ public class ParserTest {
         assertEquals(name, result.group(Parser.TAG_NAME));
     }
     
-    public void testPatternAddProgress(String s, String progress, String index, String name) {
+    public void testPatternAddProgress(String s, String progress, String index) {
         Matcher result = Parser.matchRegex(s, Parser.PATTERN_ADD_PROGRESS);
         assertEquals(progress, result.group(Parser.TAG_PROGRESS));
         assertEquals(index, result.group(Parser.TAG_INDEX));
-        assertEquals(name, result.group(Parser.TAG_NAME));
     }
     
-    public void testPatternDeleteIndexFromProject(String s, String index, String name) {
+    public void testPatternDeleteIndexFromProject(String s, String index) {
         Matcher result = Parser.matchRegex(s, Parser.PATTERN_DELETE_INDEX_FROM_PROJECT);
         assertEquals(index, result.group(Parser.TAG_INDEX));
-        assertEquals(name, result.group(Parser.TAG_NAME));
     }
     
-    public void testPatternDeleteProgress(String s, String index, String name) {
+    public void testPatternDeleteProgress(String s, String index) {
         Matcher result = Parser.matchRegex(s, Parser.PATTERN_DELETE_PROGRESS);
         assertEquals(index, result.group(Parser.TAG_INDEX));
-        assertEquals(name, result.group(Parser.TAG_NAME));
     }
     
     public void testPatternEditNameByKey(String s, String keyword, String field, String name) {
@@ -137,14 +134,14 @@ public class ParserTest {
         testPatternAddIndexToProject("2348 to \"project ini\"",
                 "2348", "project ini");
         
-        testPatternAddProgress("progress \"sleep \" 2348 to \"project ini\"",
-                "sleep ", "2348", "project ini");
+        testPatternAddProgress("progress 2348 \"sleep \"",
+                "sleep ", "2348");
         
-        testPatternDeleteIndexFromProject("898 from \"lewat gan\"",
-                "898", "lewat gan");
+        testPatternDeleteIndexFromProject("898 from project",
+                "898");
         
-        testPatternDeleteProgress("progress 898 from \"lewat gan\"",
-                "898", "lewat gan");
+        testPatternDeleteProgress("progress 898 ",
+                "898");
         
         testPatternEditNameByKey(" \"sleep\"  name  \"sleep again\"",
                 "sleep", "name", "sleep again");

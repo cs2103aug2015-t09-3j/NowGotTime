@@ -17,7 +17,6 @@ public class CommandDeleteFromProject implements CommandDelete {
     public CommandDeleteFromProject(String args) {
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DELETE_INDEX_FROM_PROJECT);
         index = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
-        projectName = matcher.group(Parser.TAG_NAME);
     }
     
     public CommandDeleteFromProject(Item item, String projectName) {
@@ -29,7 +28,14 @@ public class CommandDeleteFromProject implements CommandDelete {
     public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
         
-        // TODO: refactor this ????
+        if (projectName == null) {
+            if (currentDisplay instanceof CommandViewProjectName) {
+                projectName = ((CommandViewProjectName) currentDisplay).getProjectName();
+            } else {
+                throw new Exception(CommonHelper.ERROR_INDEX_OUT_OF_BOUND);
+            }
+        }
+        
         if (item == null) {
             if (currentDisplay instanceof CommandViewProjectName) {
                 item = projectHandler.editEvent(index, projectName);

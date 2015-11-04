@@ -1,4 +1,4 @@
-package projectTests;
+package test.project;
 
 import static org.junit.Assert.*;
 
@@ -32,6 +32,10 @@ public class TestProject {
 	    event2 = new Event("EventName2", "21 Oct 2015", "31 Oct 2015", "19:00", "23:00", "");
 	    event3 = new Event("EventName3", "21 Oct 2015", "30 Oct 2015", "17:00", "02:00", "");
 	    project = new Projects();
+	    
+	    clear.saveNewEventHandler(event1);
+	    clear.saveNewEventHandler(event2);
+	    clear.saveNewEventHandler(event3);
 	}
 	
 	@After
@@ -78,6 +82,7 @@ public class TestProject {
 	@Test
 	public void testlistExistingProjects() throws AssertionError {
 		try {
+			
 			String[] strArray = new String[]{};
 			assertArrayEquals("Failed to list empty existing projects", strArray, project.listExistingProjects().toArray());
 			
@@ -95,18 +100,53 @@ public class TestProject {
 	@Test
 	public void testAddViewEditDeleteProjectTimeline() throws AssertionError {
 		try {
+			
+			
 			project.createProject("helloAll");
 			project.createProject("helloWorld");
 			
+			//Add
 			assertTrue("Failed to add event to project by index", project.addProjectEvent(event1, 0));
+			assertFalse("Successfully added even into non-existent project by index", project.addProjectEvent(event3, 3));
 			assertTrue("Failed to add event to project by name", project.addProjectEvent(event2, "helloall"));
+			assertFalse("Successfully added even into non-existent project by projectname", project.addProjectEvent(event3, "projnotexist"));
 			
-			Integer[] intArray = new Integer[]{0, 1};
+			//View
+			Integer[] intArray = new Integer[]{1, 0}; //Sorted by timing
 			assertArrayEquals("Failed to view project timeline by name", intArray, project.viewProjectTimeline("helloall").toArray());
+			assertNull("Successfully view non-existent project's timeline by name", project.viewProjectTimeline("nonexistent"));
 			assertArrayEquals("Failed to view project timeline by index", intArray, project.viewProjectTimeline(0).toArray());
+			assertNull("Successfully view non-existent project's timeline by index", project.viewProjectTimeline(3));
+			
+			Event[] eventArray = new Event[]{event2, event1}; //Sorted too!
+			assertArrayEquals("Failed to view project event timeline by name", eventArray, project.viewProjectTimelineInEvents("helloAll").toArray());
+			assertNull("Successfully viewed non-existent project event timeline by name", project.viewEventProgressTimeline("nonexistent"));
+			assertArrayEquals("Failed to view project event timeline by index", eventArray, project.viewProjectTimelineInEvents(0).toArray());
+			assertNull("Successfully viewed non-existent project event timeline by index", project.viewEventProgressTimeline(3));
+			
+			//Pass to-be-edited Event to Parser to call editing in Event Class.
+			assertEquals("Failed to edit Event", event2, project.editEvent(0, "helloAll"));
+			assertNull("Successfully edited event in non-existent project", project.editEvent(0, "nonexistent"));
+			
+			//Delete
+			assertTrue("Failed to delete Event by event, projectname", project.deleteProjectEvent(event1, "helloAll"));
+			assertFalse("Successfully deleted event in non-existent project (event, projectname)", project.deleteProjectEvent(event2, "nonexistent"));
+			assertFalse("Successfully deleted non-existent Event by event, projectname", project.deleteProjectEvent(event3, "helloAll"));
+			
+			assertTrue("Failed to delete Event by event, index", project.deleteProjectEvent(event2, 0));
+			assertFalse("Successfully deleted event in non-existent project (event, index)", project.deleteProjectEvent(event2, 3));
+			assertFalse("Successfully deleted non-existent Event by event, index", project.deleteProjectEvent(event3, 0));
+			
+			project.addProjectEvent(event3, "helloworld");
+			assertTrue("Failed to delete Event by eventArrayListindex, projectname", project.deleteProjectEvent(0, "helloworld"));
+			assertFalse("Successfully deleted event in non-existent project (eventALindex, projectname)", project.deleteProjectEvent(0, "nonexistent"));
+			assertFalse("Successfully deleted non-existent Event by eventArrayListindex, projectname", project.deleteProjectEvent(1, "helloworld"));		
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
 			throw AE;
 		}
 	}
+	
+	
+	
 }
