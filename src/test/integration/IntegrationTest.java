@@ -32,7 +32,7 @@ public class IntegrationTest {
     
     @Test
     public void testCanAddEvent() {
-        String command = "add \"sleep\" on 10 Sep 2016 10:00 to 23:00";
+        String command = "add \"sleep\" from 10 Sep 2016 10:00 to 23:00";
         assertEquals(String.format(CommonHelper.SUCCESS_ITEM_CREATED, "sleep"),
                 gui.executeResponse(command, true));
     

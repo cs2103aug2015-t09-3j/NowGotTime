@@ -119,10 +119,10 @@ public class ParserTest {
     
     @Test
     public void testParser() {
-        testPatternAddEvent("\"sleep yo\" on 15 Sep 2015 10:00 to 23 Sep 2016",
+        testPatternAddEvent("\"sleep yo\" from 15 Sep 2015 10:00 to 23 Sep 2016",
                 "sleep yo", "15 Sep 2015 10:00", "23 Sep 2016");
         
-        testPatternAddTask("\"sleep yo\" on 15 Sep 2015 10:00",
+        testPatternAddTask("\"sleep yo\" by 15 Sep 2015 10:00",
                 "sleep yo", "15 Sep 2015 10:00");
         
         testPatternProject("project \"sleep and eat\" ",
