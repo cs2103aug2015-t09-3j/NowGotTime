@@ -9,14 +9,13 @@ import service.ServiceHandler;
 
 public class CommandDeleteProgress implements CommandDelete {
 
-    String projectName;
     int index;
+    String projectName;
     
     public CommandDeleteProgress(String args) {
         
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DELETE_PROGRESS);
         index = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
-        projectName = matcher.group(Parser.TAG_NAME);
     }
     
     public CommandDeleteProgress(int index, String projectName) {
@@ -27,6 +26,15 @@ public class CommandDeleteProgress implements CommandDelete {
     @Override
     public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
             throws Exception {
+        
+        if (projectName == null) {
+            if (currentDisplay instanceof CommandViewProjectName) {
+                projectName = ((CommandViewProjectName) currentDisplay).getProjectName();
+            } else {
+                throw new Exception(CommonHelper.ERROR_INDEX_OUT_OF_BOUND);
+            }
+        }
+        
         if (projectHandler.deleteProgressMessage(index, projectName)) {
             return CommonHelper.SUCCESS_PROGRESS_DELETED;
         } else {

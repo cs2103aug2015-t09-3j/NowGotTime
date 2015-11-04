@@ -42,7 +42,7 @@ public class GUI extends Application {
     
     private String GUI_TITLE = "NowGotTime";
     private int GUI_HEIGHT = 650;
-    private int GUI_WIDTH = 600; 
+    private int GUI_WIDTH = 800; 
     private Insets BOX_PADDING = new Insets(10, 10, 10, 10);
     HBox statusBox;
     GridPane displayBox;
@@ -173,8 +173,8 @@ public class GUI extends Application {
 
         displayBox.getColumnConstraints().add(getColumn(7.0));
         displayBox.getColumnConstraints().add(getColumn(5.0));
-        displayBox.getColumnConstraints().add(getColumn(57.0));
-        displayBox.getColumnConstraints().add(getColumn(31.0));
+        displayBox.getColumnConstraints().add(getColumn(50.0));
+        displayBox.getColumnConstraints().add(getColumn(38.0));
         displayBox.getColumnConstraints().add(getColumn(1.0));
         
         return displayBox;

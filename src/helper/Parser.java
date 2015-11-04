@@ -15,12 +15,12 @@ public class Parser {
     public static final String PATTERN_ADD_KEYWORD_TO_PROJECT    = "\\s*\"(?<keyword>.+)\"\\s+to\\s+\"(?<name>.+)\"\\s*";
     // <index> to "<name>"
     public static final String PATTERN_ADD_INDEX_TO_PROJECT      = "\\s*(?<index>\\d+)\\s+to\\s+\"(?<name>.+)\"\\s*";
-    // progress "<progress>" <index> to "<name>"
-    public static final String PATTERN_ADD_PROGRESS              = "\\s*progress\\s+\"(?<progress>.+)\"\\s+(?<index>\\d+)\\s+to\\s+\"(?<name>.+)\"\\s*";
+    // progress <index> "<progress>"
+    public static final String PATTERN_ADD_PROGRESS              = "\\s*progress\\s+(?<index>\\d+)\\s+\"(?<progress>.+)\"\\s*";
     // <index> from "<project>"
     public static final String PATTERN_DELETE_INDEX_FROM_PROJECT = "\\s*(?<index>\\d+)\\s+from\\s+\"(?<name>.+)\"\\s*";
     // progress <index>
-    public static final String PATTERN_DELETE_PROGRESS           = "\\s*progress\\s+(?<index>\\d+)\\s+from\\s+\"(?<name>.+)\"\\s*";
+    public static final String PATTERN_DELETE_PROGRESS           = "\\s*progress\\s+(?<index>\\d+)\\s*";
     // "<keyword>" <field>(name) "<name>"
     public static final String PATTERN_EDIT_NAME_BY_KEY          = "\\s*\"(?<keyword>.+)\"\\s+(?<field>name)\\s+\"(?<name>.+)\"\\s*";
     // "<keyword>" <field>(start|end|due) <date>
