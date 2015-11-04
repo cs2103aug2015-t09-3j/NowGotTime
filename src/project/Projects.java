@@ -8,6 +8,7 @@ import object.Item;
 
 public class Projects {
 
+	private static final int INVALID_PROGRESS_PERCENTAGE = -1;
 	private FileHandler project;
 	private ProjectHandler pHandler;
 	private ArrayList<String> projectList; 
@@ -185,9 +186,10 @@ public class Projects {
 	*/
 	
 	public ArrayList<String> searchProjects (String name) {
+		projectList = project.getListOfExistingProject();
 		ArrayList<String> searchedNames = new ArrayList<String>();
 		for (String projectName : projectList) {
-			if (projectName.contains(name)) {
+			if (projectName.contains(name)) {	
 				searchedNames.add(projectName);
 			}
 		}
@@ -195,29 +197,29 @@ public class Projects {
 	}
 	
 	public double progressBar(String projectName) {
-		if (listExistingProjects().contains(projectName)) {
-			return pHandler.progressBar(projectName);
+		if (listExistingProjects().contains(projectName.toLowerCase())) {
+			return pHandler.progressBar(projectName.toLowerCase());
 		}
-		return -1;
+		return INVALID_PROGRESS_PERCENTAGE;
 	}
 	
 	public boolean addProgressMessage(int index, String projectName, String progressMessage) {
-		if (listExistingProjects().contains(projectName)) {
-			return pHandler.addProgressMessage(index, progressMessage, projectName);
+		if (listExistingProjects().contains(projectName.toLowerCase())) {
+			return pHandler.addProgressMessage(index, progressMessage, projectName.toLowerCase());
 		} 
 		return false;
 	}
 	
 	public boolean deleteProgressMessage(int index, String projectName) {
-		if (listExistingProjects().contains(projectName)) {
-			return pHandler.deleteProgressMessage(index, projectName);
+		if (listExistingProjects().contains(projectName.toLowerCase())) {
+			return pHandler.deleteProgressMessage(index, projectName.toLowerCase());
 		} 
 		return false;
 	}
 	
 	public boolean editProgressMessage(int index, String newProgressMessage, String projectName) {
-		if (listExistingProjects().contains(projectName)) {
-			return pHandler.editProgressMessage(index, newProgressMessage, projectName);
+		if (listExistingProjects().contains(projectName.toLowerCase())) {
+			return pHandler.editProgressMessage(index, newProgressMessage, projectName.toLowerCase());
 		} 
 		return false;
 	}
@@ -226,7 +228,7 @@ public class Projects {
 		if (!listExistingProjects().contains(projectName.toLowerCase())) {
 			return null;
 		} else {
-		return pHandler.viewEventProgressTimeline(projectName);
+		return pHandler.viewEventProgressTimeline(projectName.toLowerCase());
 		}
 	}
 	

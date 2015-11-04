@@ -286,8 +286,11 @@ public class serviceHandlerTest{
 //	chanageDirectory() not tested because already tested in storagetest
 	
 	@Test
-	public void testMark() {
-		assertEquals("Mark event1 success", true, service.mark(event1));
+	public void testMark() throws Exception {
+	    service.createItem(event1);
+        service.createItem(todo1);
+        service.createItem(floatingTodo1);
+        assertEquals("Mark event1 success", true, service.mark(event1));
 		assertEquals("Mark todo1 success", true, service.mark(todo1));
 		assertEquals("Mark floating todo1 success", true, service.mark(floatingTodo1));
 		
@@ -297,7 +300,10 @@ public class serviceHandlerTest{
 	}
 	
 	@Test
-	public void testUnmark() {
+	public void testUnmark() throws Exception {
+	    service.createItem(event1);
+        service.createItem(todo1);
+        service.createItem(floatingTodo1);
 		assertEquals("Unmark event1 fail", false, service.unmark(event1));
 		assertEquals("Unmark todo1 fail", false, service.unmark(todo1));
 		assertEquals("Unmark floating todo1 fail", false, service.unmark(floatingTodo1));

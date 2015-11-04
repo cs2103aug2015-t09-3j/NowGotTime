@@ -35,6 +35,10 @@ public class CommandViewDate implements CommandView {
             dateString = matcher.group(Parser.TAG_DATE).trim();
         }
     }
+    
+    public CommandViewDate() {
+        dateString = CalendarHelper.getDateString(Calendar.getInstance());
+    }
 
     /**
      * Executes view command, returns feedback string

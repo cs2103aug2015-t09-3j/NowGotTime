@@ -43,21 +43,21 @@ public class CommandTest {
     }
     
     public void addTodo(String name, String deadlineDateTime) throws Exception {
-        String args = "\"" + name + "\" on " + deadlineDateTime;
+        String args = "\"" + name + "\" by " + deadlineDateTime;
         CommandAddItem cmd = new CommandAddItem(args);
         history.add(cmd);
         cmd.execute(service, project, getMostRecentRevertible(), null);
     }
     
     public void addTodo(String name, String deadlineDate, String deadlineTime) throws Exception {
-        String args = "\"" + name + "\" on " + deadlineDate + " " + deadlineTime;
+        String args = "\"" + name + "\" by " + deadlineDate + " " + deadlineTime;
         CommandAddItem cmd = new CommandAddItem(args);
         history.add(cmd);
         cmd.execute(service, project, getMostRecentRevertible(), null);
     }
     
     public void addEvent(String name, String startDateTime, String endDateTime) throws Exception {
-        String args = "\"" + name + "\" on " + startDateTime + " to " + endDateTime;
+        String args = "\"" + name + "\" from " + startDateTime + " to " + endDateTime;
         CommandAddItem cmd = new CommandAddItem(args);
         history.add(cmd);
         cmd.execute(service, project, getMostRecentRevertible(), null);
