@@ -27,7 +27,7 @@ public class TestProject {
 	public void setUpBeforeTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Files Cleared for Event Class Testing");
+		System.out.println("Files Cleared for Project Class Testing");
 		
 		Item.setCounter(0);
 	    event1 = new Event("EventName1", "25 Oct 2015", "26 Oct 2015", "10:00", "21:00", "");
@@ -44,7 +44,7 @@ public class TestProject {
 	public void tearDownAfterTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Test Files used in Event Testing Cleared");
+		System.out.println("Test Files used in Project Testing Cleared");
 	}
 	
 	@Test
@@ -122,9 +122,9 @@ public class TestProject {
 			
 			Event[] eventArray = new Event[]{event2, event1}; //Sorted too!
 			assertArrayEquals("Failed to view project event timeline by name", eventArray, project.viewProjectTimelineInEvents("helloAll").toArray());
-			assertNull("Successfully viewed non-existent project event timeline by name", project.viewEventProgressTimeline("nonexistent"));
+			assertNull("Successfully viewed non-existent project event timeline by name", project.viewProjectTimelineInEvents("nonexistent"));
 			assertArrayEquals("Failed to view project event timeline by index", eventArray, project.viewProjectTimelineInEvents(0).toArray());
-			assertNull("Successfully viewed non-existent project event timeline by index", project.viewEventProgressTimeline(3));
+			assertNull("Successfully viewed non-existent project event timeline by index", project.viewProjectTimelineInEvents(3));
 			
 			//Pass to-be-edited Event to Parser to call editing in Event Class.
 			assertEquals("Failed to edit Event", event2, project.editEvent(0, "helloAll"));

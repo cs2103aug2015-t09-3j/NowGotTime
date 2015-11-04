@@ -24,22 +24,30 @@ public class ProjectHandler implements ProjectManager{
 	 */
 	@Override
 	public boolean addProjectEvent(Event event, String projectName) {
-		int id = event.getId();
-		if (id < 0) {
-			return false;
-			
-		} else {
+		try {
 			projectBook = viewProjectTimeline(projectName.toLowerCase());
-			projectBook.add(id);
+			projectBook.add(event.getId());
 			sortEvents();
 			project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
 			return true;
+		} catch (Exception E) {
+			return false;
 		}
 	}
 
-	/**
-	 * Deletes an existing Event in the Project ArrayList by the ID
-	 */
+	
+	@Override
+	public boolean deleteProjectEvent(int index, String projectName) {
+		viewProjectTimeline(projectName);
+		if (index < projectBook.size()) {
+			int id = projectBook.get(index);
+			Event event = project.retrieveEventById(id);
+			return deleteProjectEvent(event, projectName);
+		} else {
+			return false;
+		}
+	}
+	
 	
 	@Override
 	public boolean deleteProjectEvent(Event event, String projectName) {
@@ -85,22 +93,7 @@ public class ProjectHandler implements ProjectManager{
 	}
 	*/
 
-	/**
-	 * Deletes an existing Event in the Project ArrayList by the index
-	 */
 	
-	
-	@Override
-	public boolean deleteProjectEvent(int index, String projectName) {
-		viewProjectTimeline(projectName);
-		if (index < projectBook.size()) {
-			int id = projectBook.get(index);
-			Event event = project.retrieveEventById(id);
-			return deleteProjectEvent(event, projectName);
-		} else {
-			return false;
-		}
-	}
 	
 	
 	/**
