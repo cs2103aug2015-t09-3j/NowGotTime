@@ -388,4 +388,9 @@ public class ProjectHandler implements ProjectManager{
             return false;
         }
 	}
+
+    public boolean findItem(int id, String projectName) {
+        projectBook = viewProjectTimeline(projectName.toLowerCase());
+        return projectBook.contains(id);
+    }
 }

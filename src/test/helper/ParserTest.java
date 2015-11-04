@@ -51,10 +51,9 @@ public class ParserTest {
         assertEquals(index, result.group(Parser.TAG_INDEX));
     }
     
-    public void testPatternDeleteIndexFromProject(String s, String index, String name) {
+    public void testPatternDeleteIndexFromProject(String s, String index) {
         Matcher result = Parser.matchRegex(s, Parser.PATTERN_DELETE_INDEX_FROM_PROJECT);
         assertEquals(index, result.group(Parser.TAG_INDEX));
-        assertEquals(name, result.group(Parser.TAG_NAME));
     }
     
     public void testPatternDeleteProgress(String s, String index) {
@@ -138,8 +137,8 @@ public class ParserTest {
         testPatternAddProgress("progress 2348 \"sleep \"",
                 "sleep ", "2348");
         
-        testPatternDeleteIndexFromProject("898 from \"lewat gan\"",
-                "898", "lewat gan");
+        testPatternDeleteIndexFromProject("898 from project",
+                "898");
         
         testPatternDeleteProgress("progress 898 ",
                 "898");

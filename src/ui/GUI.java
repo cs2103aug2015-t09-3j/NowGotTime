@@ -117,6 +117,7 @@ public class GUI extends Application {
                 statusBox.setStyle(CSS_ERROR);
             }
             feedback = e.getMessage();
+            e.printStackTrace();
         }
         
         return feedback;

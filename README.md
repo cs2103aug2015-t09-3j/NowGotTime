@@ -316,7 +316,7 @@ Command | Description | Status
 Command | Description | Status 
 --------| ----------- | -------
 `delete project "<PROJECT>"` | delete a project with name `<PROJECT>` | ✅ |
-`delete <INDEX> from "<PROJECT>"` | delete an event from project with name `<PROJECT>` | ✅ |
+`delete <INDEX> from project` | delete an event from project with name `<PROJECT>` | ✅ |
 `delete progress <INDEX>` | delete progress from index | ✅ |
 
 ### Editing

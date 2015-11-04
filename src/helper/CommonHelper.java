@@ -50,6 +50,7 @@ public class CommonHelper {
     public static final String ERROR_TODO_ON_PROJECT     = "only event can be added to project";
     public static final String ERROR_FAIL_ADD_PROGRESS   = "progress already exist";
     public static final String ERROR_FAIL_DEL_PROGRESS   = "progress doesn't exist";
+    public static final String ERROR_ITEM_INSIDE_PROJECT = "cannot delete, item is inside project '%1$s'";
     
     
     
