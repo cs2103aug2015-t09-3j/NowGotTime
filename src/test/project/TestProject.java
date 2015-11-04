@@ -227,8 +227,13 @@ public class TestProject {
 	@Test
 	public void testSearchItem() throws AssertionError{
 		try {
+			project.createProject("Project");
+			project.addProjectEvent(event1, "Project");
+			project.addProjectEvent(event2, "Project");
 			
-			
+			//tolowercase
+			assertEquals("Failed to search item", "project", project.searchItem(event1));
+			assertNull("Successfully searched non exiting item", project.searchItem(event3));
 			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
