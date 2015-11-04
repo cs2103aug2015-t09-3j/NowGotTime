@@ -2,6 +2,8 @@ package test.project;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -147,6 +149,26 @@ public class TestProject {
 		}
 	}
 	
-	
+	@Test
+	public void testSearch() throws AssertionError{
+		try {
+			ArrayList<String> searchedNames = new ArrayList<String>();
+			ArrayList<String> emptyArray = new ArrayList<String>();
+			searchedNames.add("project1");
+			searchedNames.add("project2");
+			searchedNames.add("project3");
+			
+			project.createProject("project1");
+			project.createProject("project2");
+			project.createProject("project3");
+			
+			assertEquals("Failed to search existing projects", searchedNames, project.searchProjects("project"));
+			assertEquals("Successfully searched non existing project", emptyArray, project.searchProjects("lala"));
+			
+		} catch (AssertionError AE) {
+			System.out.println(AE.getMessage());
+			throw AE;
+		}
+	}
 	
 }
