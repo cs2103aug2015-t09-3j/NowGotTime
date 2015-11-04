@@ -64,7 +64,7 @@ public class CommandAddToProject implements CommandAdd {
             }
         }
         
-        // TODO: handle item already on the list, check if item is event
+        // TODO: handle item already on the list
         if (!(item instanceof Event)) {
             throw new Exception(CommonHelper.ERROR_TODO_ON_PROJECT);
         } else if (projectHandler.addProjectEvent(((Event)item), projectName)) {

@@ -38,7 +38,6 @@ public class CommandDeleteProgress implements CommandDelete {
         if (projectHandler.deleteProgressMessage(index, projectName)) {
             return CommonHelper.SUCCESS_PROGRESS_DELETED;
         } else {
-            // TODO: different error when project not found
             throw new Exception(CommonHelper.ERROR_FAIL_DEL_PROGRESS);
         }
     }
@@ -54,7 +53,6 @@ public class CommandDeleteProgress implements CommandDelete {
 
     @Override
     public Displayable getDisplayable() {
-        // TODO what to show
         return null;
     }
 

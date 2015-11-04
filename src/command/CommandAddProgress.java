@@ -58,7 +58,6 @@ public class CommandAddProgress implements CommandAdd {
 
     @Override
     public Displayable getDisplayable() {
-        // TODO Auto-generated method stub
         return null;
     }
 
