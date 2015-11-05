@@ -264,7 +264,7 @@ public class ProjectHandler implements ProjectManager{
 			Event event = project.retrieveEventById(id);
 			String progressMessage = map.get(id);
 			event.setAdditionalInfo(progressMessage);
-            System.out.println(event.getName() + " " + event.getAdditionalInfo());
+           // System.out.println(event.getName() + " " + event.getAdditionalInfo());
 			eventProgress.add(event);
 		}
 		return eventProgress;
@@ -366,7 +366,8 @@ public class ProjectHandler implements ProjectManager{
 	    viewProjectTimeline(projectName);
         if (0 <= index && index < projectBook.size()) {
             int id = projectBook.get(index);
-            if (map.remove(id) == null) {
+            //System.out.println(map.remove(id));
+            if (map.remove(id).equals("")) {
                 return false;
             }
             return project.saveEditedProjectDetails(projectBook, map, projectName);
