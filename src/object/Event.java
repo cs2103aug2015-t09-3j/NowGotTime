@@ -144,14 +144,13 @@ public class Event extends Item {
             endTime = getEndTimeString();
         }
 
-        return String.format(CommonHelper.FORMATTED_EVENT, startTime, endTime, getName());
+        return getName();
     }
     
     public String toFormattedString() throws ParseException {
-        String startDateTime = getStartDateTimeString();
-        String endDateTime = getEndDateTimeString();
         
-        return String.format(CommonHelper.FORMATTED_EVENT, startDateTime, endDateTime, getName());
+
+        return getName();
     }
 
 }
