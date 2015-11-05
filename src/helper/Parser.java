@@ -1,3 +1,5 @@
+//@@author A0126509E
+
 package helper;
 
 import java.util.regex.Matcher;
@@ -6,9 +8,9 @@ import java.util.regex.Pattern;
 public class Parser {
     
     // "<name>" on <start> to <end>
-    public static final String PATTERN_ADD_EVENT                 = "\\s*\"(?<name>.+)\"\\s+on (?<start>.+) to (?<end>.+)\\s*";
+    public static final String PATTERN_ADD_EVENT                 = "\\s*\"(?<name>.+)\"\\s+from (?<start>.+) to (?<end>.+)\\s*";
     // "<name>" on <due>
-    public static final String PATTERN_ADD_TASK                  = "\\s*\"(?<name>.+)\"\\s+on (?<datetime>.+)\\s*";
+    public static final String PATTERN_ADD_TASK                  = "\\s*\"(?<name>.+)\"\\s+by (?<datetime>.+)\\s*";
     // project "<name>"
     public static final String PATTERN_PROJECT                   = "\\s*project\\s+\"(?<name>.+)\"\\s*";
     // "<keyword>" to "<name>"

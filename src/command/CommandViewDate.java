@@ -1,3 +1,5 @@
+//@@author A0126509E
+
 package command;
 
 import java.text.ParseException;
@@ -34,6 +36,10 @@ public class CommandViewDate implements CommandView {
             Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DATE);
             dateString = matcher.group(Parser.TAG_DATE).trim();
         }
+    }
+    
+    public CommandViewDate() {
+        dateString = CalendarHelper.getDateString(Calendar.getInstance());
     }
 
     /**

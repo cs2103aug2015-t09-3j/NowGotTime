@@ -263,8 +263,8 @@ To delete, simply type `del` followed by the event number of the event you wish 
 ### Adding
 Command | Description | Status 
 --------| ----------- | -------
-`add "<EVENT>" on <START> to <END>` | add an event with name `<EVENT>`, start date `<START>` and end date `<END>` | ✅
-`add "<TODO>" on <DEADLINE>` | add a todo with name `<TODO>` and deadline `<DEADLINE>` | ✅ | 
+`add "<EVENT>" from <START> to <END>` | add an event with name `<EVENT>`, start date `<START>` and end date `<END>` | ✅
+`add "<TODO>" by <DEADLINE>` | add a todo with name `<TODO>` and deadline `<DEADLINE>` | ✅ | 
 `add "<TODO>"` | add a floating todo with name `<TODO>` | ✅ | 
 ### Deleting
 Command | Description | Status 

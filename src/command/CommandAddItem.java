@@ -1,3 +1,5 @@
+//@@author A0126509E
+
 package command;
 
 import java.util.Calendar;
@@ -122,7 +124,7 @@ public class CommandAddItem implements CommandAdd {
             if (((Todo)item).hasDate()) {
                 date = ((Todo)item).getDeadlineDateString();
             } else {
-                return null;
+                return new CommandViewDate();
             }
         }
         
