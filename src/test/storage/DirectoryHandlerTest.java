@@ -15,11 +15,6 @@ import org.junit.Test;
 import storage.DirectoryHandler;
 
 //TODO: test creation of files when there are already files of the same name
-/**
- * 
- * @author A0124402Y
- *
- */
 public class DirectoryHandlerTest {
 
 	private static final String ALTERNATE_TEST_FILES = "alternateTestFiles";
@@ -44,20 +39,21 @@ public class DirectoryHandlerTest {
 	public void testDirectoryHandler() {
 		String baseDirectory = System.getProperty("user.dir").toString() + "/database";
 		File file = new File(baseDirectory + "/Event");
-		assertEquals("Test with valid new directory",
+		assertEquals("Test if Event directory exist",
 				true, file.exists());
 		
 		file = new File(baseDirectory + "/Todo");
-		assertEquals("Test with valid new directory",
+		assertEquals("Test if todo directory exist",
 				true, file.exists());
 		
 		file = new File(baseDirectory + "/Project");
-		assertEquals("Test with valid new directory",
+		assertEquals("Test if project directory exist",
 				true, file.exists());
 	}
 
 	@Test
 	public void testSetNewBaseDirectory() {
+		
 		newBaseDirectory = null;
 		assertEquals("Test change to null directory",
 				false, dirHand.setNewBaseDirectory(newBaseDirectory));
@@ -70,13 +66,19 @@ public class DirectoryHandlerTest {
 		assertEquals("Test change to non-existing directory",
 				false, dirHand.setNewBaseDirectory(newBaseDirectory));
 		
+		newBaseDirectory = "!@#$%^&*()";
+		assertEquals("Test change to wrong format directory",
+				false, dirHand.setNewBaseDirectory(newBaseDirectory));
+		
 		newBaseDirectory = System.getProperty("user.dir").toString() + "/" + ALTERNATE_TEST_FILES + "/";
 		PreparationCleanUp.makeNewDirectory(newBaseDirectory);
 		assertEquals("Test with valid new directory",
 				true, dirHand.setNewBaseDirectory(newBaseDirectory));
-		
 		testIfDirectoriesExist();
 		
+		assertEquals("Test with the same directory",
+				false, dirHand.setNewBaseDirectory(newBaseDirectory));
+		testIfDirectoriesExist();
 	}
 
 	private void testIfDirectoriesExist() {

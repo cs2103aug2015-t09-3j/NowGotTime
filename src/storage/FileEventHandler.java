@@ -75,12 +75,13 @@ public class FileEventHandler {
 		if(dateString != null){
 			Calendar date = Calendar.getInstance();
 			if( (date = createDate(dateString, date)) == null){
-				return eventBookByDate;
+				return null;
 			}
 			
 			extractEventByDate(eventBookByDate, date);
+			return eventBookByDate;
 		}
-		return eventBookByDate;
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

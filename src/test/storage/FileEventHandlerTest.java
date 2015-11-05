@@ -1,5 +1,4 @@
 //@@author A0124402Y
-
 package test.storage;
 
 import static org.junit.Assert.assertEquals;
@@ -16,11 +15,6 @@ import org.junit.Test;
 
 import storage.FileEventHandler;
 
-/**
- * 
- * @author A0124402Y
- *
- */
 public class FileEventHandlerTest {
 
 	private static String baseDirectory;
@@ -75,21 +69,30 @@ public class FileEventHandlerTest {
 	}
 	
 	private void testSaveNewEventHandler() {
+		
 		assertEquals("Test saving null event",
 				false, fEventH.saveNewEventHandler(null));
 		
 		assertEquals("Test saving valid event",
 				true, fEventH.saveNewEventHandler(event));
 		
-		assertEquals("Test saving valid past event",
+		assertEquals("Test saving valid passed event",
 				true, fEventH.saveNewEventHandler(event2));
-		
-		//TODO: test adding of event with current time.
 	}
 	
 	private void testRetrieveEventByDate() {
-		assertEquals("Test retrieving from null date",
-				new ArrayList<Event>(), fEventH.retrieveEventByDate(null));
+		
+		assertEquals("Test retrieving with a null date",
+				null, fEventH.retrieveEventByDate(null));
+		
+		assertEquals("Test retrieving from a date with wrong format: numbers",
+				null, fEventH.retrieveEventByDate("1234567"));
+		
+		assertEquals("Test retrieving from a date with wrong format: symbols",
+				null, fEventH.retrieveEventByDate(")(*&^%$#@!"));
+		
+		assertEquals("Test retrieving from a non-existing date",
+				null, fEventH.retrieveEventByDate("95 mar 2100"));
 		
 		assertEquals("Test retrieving from a date with no event",
 				new ArrayList<Event>(), fEventH.retrieveEventByDate("12 mar 2100"));
@@ -105,10 +108,15 @@ public class FileEventHandlerTest {
 	private void testChangeDirectory(){
 		PreparationCleanUp.cleanUp(baseDirectory);
 		testSetNewDirectory();
+		// new directory would be set at this point.
 		PreparationCleanUp.makeNewDirectory(baseDirectory + "/Event");
-		fEventH.saveEventBook();
+		testSaveEventBook(true);
 		
-		//reset
+		//test if data has been transferred.
+		testRetrieveEventByDate();
+		testRetrieveAllEvents();
+		
+		// pseudo-reset to re-start up FileEventHandler to test for data persistence.
 		fEventH = new FileEventHandler(baseDirectory + "/Event");
 		testRetrieveEventByDate();
 		testRetrieveAllEvents();
@@ -142,7 +150,11 @@ public class FileEventHandlerTest {
 			
 	}
 	
-	//TODO: testSaveEventBook
+	private void testSaveEventBook(boolean bool){
+		assertEquals("Test saveEventBook",
+				bool, fEventH.saveEventBook());
+	}
+	
 }
 
 
