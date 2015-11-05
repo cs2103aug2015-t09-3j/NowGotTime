@@ -1,4 +1,7 @@
+//@@author A0124402Y
+
 package storage;
+
 import helper.CalendarHelper;
 import helper.MyLogger;
 
@@ -17,6 +20,11 @@ import java.util.logging.Level;
 
 import object.Todo;
 
+/**
+ * 
+ * @author A0124402Y
+ *
+ */
 public class FileTodoHandler {
 	
 	private MyLogger myLogger = new MyLogger();

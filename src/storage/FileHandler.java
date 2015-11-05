@@ -1,4 +1,7 @@
+//@@author A0124402Y
+
 package storage;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,20 +22,10 @@ import object.Item;
 import object.Todo;
 
 /**
- * The class will be in charge of data storage of events by month.
- * It works with an overview page which will keep track of the months that have
- * already created.
- *  
- *  Assumption: 
- *  1) There is a parser to ensure that all inputs are all valid.
- *  
- *  Cases:
- *  1) Spill over dates.
- *  
- * @author RX.huang
+ * 
+ * @author A0124402Y
  *
  */
-
 public class FileHandler implements FileManager{
 	
 	private static final String FLOATING_TODO = "Floating_Todo.txt";

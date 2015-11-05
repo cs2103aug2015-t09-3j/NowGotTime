@@ -1,3 +1,5 @@
+//@@author A0124402Y
+
 package test.storage;
 
 import static org.junit.Assert.assertEquals;
@@ -14,6 +16,11 @@ import org.junit.Test;
 
 import storage.FileEventHandler;
 
+/**
+ * 
+ * @author A0124402Y
+ *
+ */
 public class FileEventHandlerTest {
 
 	private static String baseDirectory;

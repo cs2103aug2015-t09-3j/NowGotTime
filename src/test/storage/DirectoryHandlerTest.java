@@ -1,3 +1,5 @@
+//@@author A0124402Y
+
 package test.storage;
 
 import static org.junit.Assert.assertEquals;
@@ -13,7 +15,11 @@ import org.junit.Test;
 import storage.DirectoryHandler;
 
 //TODO: test creation of files when there are already files of the same name
-
+/**
+ * 
+ * @author A0124402Y
+ *
+ */
 public class DirectoryHandlerTest {
 
 	private static final String ALTERNATE_TEST_FILES = "alternateTestFiles";

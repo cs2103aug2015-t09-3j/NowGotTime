@@ -1,3 +1,4 @@
+//@@author A0124402Y
 package storage;
 import helper.MyLogger;
 
@@ -11,8 +12,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 /**
- * @author RX.huang
- * 
+ *
  * This class is responsible for:
  * 1) Creation of directories for
  * 		i) event, 

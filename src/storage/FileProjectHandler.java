@@ -1,4 +1,7 @@
+//@@author A0124402Y
+
 package storage;
+
 import helper.MyLogger;
 
 import java.io.BufferedReader;
@@ -17,7 +20,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-
+/**
+ * 
+ * @author A0124402Y
+ *
+ */
 public class FileProjectHandler {
 	
 	private MyLogger myLogger = new MyLogger();
