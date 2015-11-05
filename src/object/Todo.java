@@ -1,3 +1,5 @@
+//@@author A0130445R
+
 package object;
 
 import helper.CalendarHelper;
@@ -123,23 +125,13 @@ public class Todo extends Item {
 
     public String toFormattedString(String dateString) throws ParseException {
         
-        if (hasDate) {
-            return String.format(CommonHelper.FORMATTED_TODO, getDeadlineTimeString(), getName());
-        }
-        else {
-            return String.format(CommonHelper.FORMATTED_FLOATING_TODO, getName());
-        }
+
+        return getName();
     }
     
     public String toFormattedString() throws ParseException {
-        String dueDateTime = getDeadlineDateTimeString();
         
-        if (hasDate) {
-            return String.format(CommonHelper.FORMATTED_TODO, dueDateTime, getName());
-        }
-        else {
-            return String.format(CommonHelper.FORMATTED_FLOATING_TODO, getName());
-        }
+        return getName();
     }
 
 }

@@ -1,3 +1,5 @@
+//@@author Jonathan Sim Zhuang Wei A0122432X
+
 package test.integration;
 
 import static org.junit.Assert.*;
@@ -46,18 +48,18 @@ public class IntegrationTest {
         Item.setCounter(0);
         gui = new GUI();
         gui.initiateHandler();
-        Main.mode = "GUI";
+        Main.mode = "CLI";
     }
 
     @Test
-    public void testTypeInvalidCommand() {
+    public void testAddItemsInvalid() {
         assertEquals("Invalid1 success" ,String.format(CommonHelper.ERROR_INVALID_COMMAND, INVALIDONE),gui.executeResponse(INVALIDONE, true));
         assertEquals("Invalid2 success" ,String.format(CommonHelper.ERROR_INVALID_COMMAND, FIRSTWORDINVALIDLINE),gui.executeResponse(INVALIDTWO, true));
         assertEquals("Invalid3 success" ,String.format(CommonHelper.ERROR_START_AFTER_END),gui.executeResponse(INVALIDTHREE, true));
     }
     
     @Test
-    public void testCanAddItems() {
+    public void testAddItemsValid() {
         assertEquals("Add event1 success", String.format(CommonHelper.SUCCESS_ITEM_CREATED, "event1"),gui.executeResponse(EVENTONE, true));
         assertEquals("Add event2 success", String.format(CommonHelper.SUCCESS_ITEM_CREATED, "event2"),gui.executeResponse(EVENTTWO, true));
         assertEquals("Add event3 success", String.format(CommonHelper.SUCCESS_ITEM_CREATED, "event3 with jack and jill"),gui.executeResponse(EVENTTHREE, true));

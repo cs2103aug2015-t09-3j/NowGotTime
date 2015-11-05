@@ -3,8 +3,6 @@ package test.project;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -81,6 +79,67 @@ public class TestProjectHandler {
 			project.createProject("new name");
 			assertTrue("Failed to rename project", pH.editProjectName("new name", "helloall"));
 
+		} catch (AssertionError AE) {
+			System.out.println(AE.getMessage());
+			throw AE;
+		}
+	}
+	
+	@Test
+	public void testProgressMessageAndProgressBar() throws AssertionError {
+		try {
+			
+			project.createProject("Project");
+			
+			// Sort method is tested in add. Sort is private.
+			pH.addProjectEvent(event1, "Project");
+			pH.addProjectEvent(event2, "Project");
+			pH.addProjectEvent(event3, "Project");
+			
+			//Add prog msg
+			//Events sorted: event3,2,1
+			assertTrue("Failed to add progress message", pH.addProgressMessage(0, "hello", "Project"));
+			assertFalse("Successfully added progress message in nonexistent event", pH.addProgressMessage(3, "Harro", "Project"));
+			
+			//Edit prog msg
+			assertTrue("Failed to edit progress message", pH.editProgressMessage(0, "This is new", "Project"));
+			assertFalse("Successfully edited progress message in nonexistent event", pH.editProgressMessage(3, "new message", "Project"));
+			
+			//View prog msg
+			assertEquals("Failed to view Event progress timeline", "This is new", pH.viewEventProgressTimeline("Project").get(0).getAdditionalInfo());
+			
+			//Delete prog msg
+			assertTrue("Failed to delete progress message", pH.deleteProgressMessage(0, "Project"));
+			assertFalse("Successfully deleted progress message in nonexistent event", pH.deleteProgressMessage(3,"Project"));
+			assertFalse("Successfully deleted progress message in event that has no message", pH.deleteProgressMessage(0, "Project"));
+			
+			event1.setDone(true);
+			
+			FileHandler fHandler = new FileHandler();
+			fHandler.saveNewEventHandler(event1);
+			
+			assertEquals("Failed to calculate percentage in project handler", 33.33, pH.progressBar("Project"), 0.01);
+			assertEquals("Successfully calculated percentage of a non-existent project in project handler", 0.0, pH.progressBar("nonexistent"), 0.01);
+			
+		} catch (AssertionError AE) {
+			System.out.println(AE.getMessage());
+			throw AE;
+		}
+	}
+	
+	@Test
+	public void testFindItem() throws AssertionError {
+		try {
+			
+			project.createProject("Project");
+			
+			pH.addProjectEvent(event1, "Project");
+			pH.addProjectEvent(event2, "Project");
+			pH.addProjectEvent(event3, "Project");
+			
+			assertTrue("Failed to search for existing event in project", pH.findItem(0, "Project"));
+			assertFalse("Successfully search for non-existing event in project", pH.findItem(3, "Project"));
+			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
 			throw AE;
