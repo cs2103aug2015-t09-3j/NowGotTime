@@ -100,14 +100,9 @@ public class CommonHelper {
      * @return formatted list of events
      */
     public static String getFormattedEventList(ArrayList<Event> eventList, String dateString) throws ParseException {
-        if (eventList.isEmpty()) return "   [ No events on this day ]\n";
         StringBuilder formattedString = new StringBuilder();
         
-        int index = 0;
         for (Event event : eventList) {
-            index++;
-            formattedString.append(index);
-            formattedString.append(". ");
             formattedString.append(event.toFormattedString(dateString));
             formattedString.append("\n");
         }
@@ -122,14 +117,9 @@ public class CommonHelper {
      * @return formatted list of todos
      */
     public static String getFormattedTodoList(ArrayList<Todo> todoList, String dateString) throws ParseException {
-        if (todoList.isEmpty()) return "   [ No todos on this day ]\n";
         StringBuilder formattedString = new StringBuilder();
         
-        int index = 0;
         for (Todo todo : todoList) {
-            index++;
-            formattedString.append(index);
-            formattedString.append(". ");
             formattedString.append(todo.toFormattedString(dateString));
             formattedString.append("\n");
         }
@@ -138,14 +128,9 @@ public class CommonHelper {
     }
     
     public static String getFormattedItemList(ArrayList<Item> list) throws ParseException {
-        if (list.isEmpty()) return "   [ No results found ]\n";
         StringBuilder formattedString = new StringBuilder();
         
-        int index = 0;
         for (Item item : list) {
-            index++;
-            formattedString.append(index);
-            formattedString.append(". ");
             formattedString.append(item.toFormattedString());
             formattedString.append("\n");
         }
