@@ -10,7 +10,7 @@ import object.Event;
 import object.Item;
 
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import storage.FileEventHandler;
@@ -23,8 +23,9 @@ public class FileEventHandlerTest {
 	private Event event = new Event("Event1", "31 aug 2100 23:00", "1 sep 2100 02:00");
 	private Event event2 = new Event("Event2", "20 aug 2000 23:00", "21 aug 2000 02:00");
 	
-	@BeforeClass
- 	public static void setUpBeforeClass() throws Exception {
+	
+	@Before
+	public void setUpBeforeMethod() throws Exception{
 		Item.setCounter(0);
 		baseDirectory = System.getProperty("user.dir").toString() + "/testFiles";
 		PreparationCleanUp.manualCleanUp();
@@ -46,6 +47,15 @@ public class FileEventHandlerTest {
 		testRetrieveEventByDate();
 		testRetrieveAllEvents();
 		testChangeDirectory();
+	}
+	
+	@Test
+	public void testRetrieveEventByDateWithNoExistingEvent(){
+		fEventH = new FileEventHandler(baseDirectory);
+		ArrayList<Event> actualEventBook = fEventH.retrieveEventByDate("20 aug 2000");
+		
+		assertEquals("Test retrieving from a date with no event",
+				new ArrayList<Event>(), actualEventBook);
 	}
 	
 	@Test

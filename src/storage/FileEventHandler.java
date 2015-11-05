@@ -114,8 +114,7 @@ public class FileEventHandler {
 		return event;
 	}
 	
-	private void extractEventByDate(ArrayList<Event> eventBookByDate, 
-			Calendar date) {
+	private void extractEventByDate(ArrayList<Event> eventBookByDate, Calendar date) {
 		ArrayList<Event> eventBook = allEvents;
 		Calendar startDate, endDate;
 		
