@@ -144,11 +144,11 @@ public class FileProjectHandler {
 		}catch(FileNotFoundException e){
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"retrieveProject", e.getMessage());
-			return projectBook;
+			return null;
 		}catch(IOException e){
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"retrieveProject", e.getMessage());
-			return projectBook;
+			return null;
 		}
 		 
 	}

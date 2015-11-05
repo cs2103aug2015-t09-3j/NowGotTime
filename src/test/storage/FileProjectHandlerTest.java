@@ -15,11 +15,6 @@ import org.junit.Test;
 
 import storage.FileProjectHandler;
 
-/**
- * 
- * //@author A0124402Y
- *
- */
 public class FileProjectHandlerTest {
 	
 	private static final String PROJECT_OVERVIEWER = "/projectOverviewer.txt";
@@ -121,7 +116,13 @@ public class FileProjectHandlerTest {
 				expectedProjEventId, fProjH.retrieveProject("project1"));
 		
 		assertEquals("Test retrieval of non-existing project", 
-				new ArrayList<Integer>(), fProjH.retrieveProject("non-existing project"));
+				null, fProjH.retrieveProject("non-existing project"));
+		
+		assertEquals("Test retrieval with null",
+				null, fProjH.retrieveProject(null));
+		
+		assertEquals("Test retrieval with projects name with symbols",
+				null, fProjH.retrieveProject("!@#$"));
 	}
 
 	public void testRetrieveProjectProgress() {
@@ -189,6 +190,7 @@ public class FileProjectHandlerTest {
 		testReadAll();
 		PreparationCleanUp.cleanUp(baseDirectory);
 		testSetNewDirectory();
+		//new directory would be set at this point
 		PreparationCleanUp.makeNewDirectory(baseDirectory + "/Project");
 		testWriteAll();
 		
