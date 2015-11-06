@@ -3,7 +3,6 @@
 package command;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Matcher;
 
 import helper.CommonHelper;
@@ -46,25 +45,27 @@ public class CommandViewProjectName implements CommandView {
             throw new Exception(String.format(CommonHelper.ERROR_PROJECT_NOT_FOUND, projectName));
         }
         projectProgress = projectHandler.progressBar(projectName);
-        return "Got it!";
+        return CommonHelper.SUCCESS_EXECUTED;
     }
 
     @Override
     public void display(GridPane displayBox) {
         displayBox.getChildren().clear();
         
-        Collections.sort(projectEvents);
-        
         String previousDate = null;
         
         int rowIndex = 0;
         int listNumber = 0;
-        HBox title = new HBox(GUI.getText(projectName + " (" + String.valueOf(projectProgress)+"%)", Color.ORANGE, 20));
+        HBox title = new HBox(
+                GUI.getText(projectName + " (" + String.valueOf(projectProgress)+"%)",
+                        Color.ORANGE, GUI.FONT_SIZE_HEADER));
+        
         title.setAlignment(Pos.CENTER);
         
         displayBox.add(title, 0, rowIndex++, 5, 1);
         
         for (Event item : projectEvents) {
+            listNumber++;
             String date = item.getStartDateString();
             
             if (!date.equals(previousDate)) {
@@ -72,44 +73,40 @@ public class CommandViewProjectName implements CommandView {
                 rowIndex++;
                 rowIndex++;
                 
-                Text dateString = GUI.getText(date, Color.BLACK, 18);
+                Text dateString = GUI.getText(date, Color.BLACK, GUI.FONT_SIZE_TITLE);
                 
                 displayBox.add(dateString, 1, rowIndex++, 5, 1);
                 displayBox.add(separator, 0, rowIndex++, 5, 1);
             }
-            listNumber++;
             
-            Text numberingText = GUI.getText(String.valueOf(listNumber), Color.BLACK, 16);
-            Text markText = GUI.getText("\u2714", Color.GREEN, 18);
+            Text markText;
             
-            if (!item.getDone()) {
-                markText = GUI.getText("\u2610", Color.GREY, 18);
+            if (item.getDone()) {
+                markText = GUI.getText(GUI.TEXT_CHECK, 
+                        Color.GREEN, GUI.FONT_SIZE_TITLE);
+            } else {
+                markText = GUI.getText(GUI.TEXT_BOX, 
+                        Color.GREY, GUI.FONT_SIZE_TITLE);
             }
             
             Text nameText;
             Text additionalText = null;
             
             if (!item.getAdditionalInfo().isEmpty()) {
-                nameText = GUI.getText(item.getName(), Color.BLACK, 16);
-                additionalText = GUI.getText(item.getAdditionalInfo(), Color.GREY, 14);
+                nameText = GUI.getText(item.getName(),
+                        Color.BLACK, GUI.FONT_SIZE_TEXT);
+                additionalText = GUI.getText(item.getAdditionalInfo(), 
+                        Color.GREY, GUI.FONT_SIZE_TEXT);
                 
             } else {
-                nameText = GUI.getText(item.getName(), Color.GREY, 16);
+                nameText = GUI.getText(item.getName(), 
+                        Color.GREY, GUI.FONT_SIZE_TEXT);
             }
             
-            String timeString = "";
-            timeString += item.getStartTimeString();
-            timeString += " to ";
-            
-            if (item.getEndDateString().equals(date)) {
-                timeString += ((Event)item).getEndTimeString();
-            }
-            else {
-                timeString += ((Event)item).getEndDateTimeString();
-            }
-            
-
-            Text timeText = GUI.getText(timeString, Color.GREY, 16);
+            Text numberingText = GUI.getText(String.valueOf(listNumber),
+                    Color.BLACK, GUI.FONT_SIZE_TEXT);
+            Text timeText = GUI.getText(item.getTimeStringOn(date),
+                    Color.GREY, GUI.FONT_SIZE_TEXT);
 
             displayBox.add(numberingText, 0, rowIndex);
             displayBox.add(markText, 1, rowIndex);

@@ -132,5 +132,13 @@ public class Todo extends Item {
         
         return getName();
     }
+    
+    public String getTimeStringOn(String dateString) {
+        if (hasDate()) {
+            return getDeadlineTimeString();
+        } else {
+            return "";
+        }
+    }
 
 }

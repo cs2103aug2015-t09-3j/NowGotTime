@@ -27,8 +27,8 @@ public class CommonHelper {
     public static final String SUCCESS_PROJECT_EDITED        = "project '%1$s' changed to '%2$s'";
     public static final String SUCCESS_ADDED_TO_PROJECT      = "'%1$s' added to project '%2$s'";
     public static final String SUCCESS_DELETED_FROM_PROJECT  = "'%1$s' deleted from project '%2$s'";
-    
-    public static final String SUCCESS_SEARCHED              = "Got it!";
+    public static final String SUCCESS_EXECUTED              = "Got it!";
+
     public static final String SUCCESS_ITEM_CHECKED          = "marked done '%1$s'";
     public static final String SUCCESS_ITEM_UNCHECKED        = "marked not done '%1$s'";
     public static final String SUCCESS_SET_DIRECTORY         = "save directory moved to '%1$s'";
@@ -54,6 +54,8 @@ public class CommonHelper {
     public static final String ERROR_FAIL_ADD_PROGRESS   = "progress already exist";
     public static final String ERROR_FAIL_DEL_PROGRESS   = "progress doesn't exist";
     public static final String ERROR_ITEM_INSIDE_PROJECT = "cannot delete, item is inside project '%1$s'";
+    
+    public static final String FORMAT_SEARCH = "Found %1$s item(s):";
     
     public static final String FIELD_NAME     = "name";
     public static final String FIELD_START    = "start";

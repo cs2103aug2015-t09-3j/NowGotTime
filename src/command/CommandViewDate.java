@@ -14,15 +14,17 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import object.Event;
 import object.Item;
 import object.State;
-import object.Todo;
 import service.ServiceHandler;
 import ui.GUI;
 
 public class CommandViewDate implements CommandView {
 
+    
+    private static int TODAY_INDEX = 0;
+    private static int TASK_INDEX = 1;
+    private static String EMPTY_LIST_TEXT = "Nothing to do!";
     
     String dateString = null;
     ArrayList< ArrayList<Item> > mergedList;
@@ -52,7 +54,7 @@ public class CommandViewDate implements CommandView {
         
         mergedList = serviceHandler.viewMultipleDays(dateString);
         if (!state.isTextMode()) {
-            return "Got it!";
+            return CommonHelper.SUCCESS_EXECUTED;
         } else {
             String formattedString = "";
             boolean isFirstList = true;
@@ -73,85 +75,70 @@ public class CommandViewDate implements CommandView {
     
     @Override
     public void display(GridPane displayBox) {
-        // TODO Refactor this messy code
         displayBox.getChildren().clear();
         
         Calendar date = null;
         try {
             date = CalendarHelper.parseDate(dateString);
         } catch (ParseException e) {
+            assert(false);
         }
-        int rowIndex = 0;
+        
+        // start from second row
+        int rowIndex = 2;
         int listingNumber = 0;
         
-        rowIndex++;
-        rowIndex++;
-        
         for (int i = 0; i < mergedList.size(); i++) {
+            
             ArrayList<Item> itemList = mergedList.get(i);
             int size = itemList.size();
             String dateString = CalendarHelper.getDateString(date);
             
-            if (size > 0 || i == 0) {
+            // Only display if list not empty or this is today's date
+            if (size > 0 || i == TODAY_INDEX) {
             
                 Text dateText;
-                
-                if (i != 1) {
-                    dateText = GUI.getText(dateString, Color.BLACK, 16);
+                if (i == TASK_INDEX) {
+                    dateText = GUI.getText(GUI.TEXT_FLOATING_TASK, 
+                            Color.BLACK, GUI.FONT_SIZE_TITLE);
                 } else {
-                    dateText = GUI.getText("Task", Color.BLACK, 16);
+                    dateText = GUI.getText(dateString, 
+                            Color.BLACK, GUI.FONT_SIZE_TITLE);
+                    
                 }
                 
+                // Add the date header to display box
                 displayBox.add(dateText, 1, rowIndex++, 4, 1);
-                displayBox.add(new Separator(), 0, rowIndex++, 5, 1);
+                displayBox.add(new Separator(), 0, rowIndex++, 4, 1);
                 
+                // Check if empty
                 if (size == 0) {
-                    Text freeText = GUI.getText("Nothing to do!", Color.GREY, 16);
+                    
+                    Text freeText = GUI.getText(EMPTY_LIST_TEXT, 
+                            Color.GREY, GUI.FONT_SIZE_TEXT);
                     displayBox.add(freeText, 1, rowIndex++, 4, 1);
+                    
                 } else {
                     
-                    
                     for (Item item : itemList) {
+                        listingNumber++;
                         
-                        String timeString = "";
+                        Text nameText = GUI.getText(item.getName(), 
+                                Color.GREY, GUI.FONT_SIZE_TEXT);
+                        Text timeText = GUI.getText(item.getTimeStringOn(dateString),
+                                Color.GREY, GUI.FONT_SIZE_TEXT);
+                        Text numberingText = GUI.getText(String.valueOf(listingNumber),
+                                Color.BLACK, GUI.FONT_SIZE_TEXT);
                         
-                        if (item instanceof Event) {
-                            
-                            if (((Event)item).getStartDateString().equals(dateString)) {
-                                timeString += ((Event)item).getStartTimeString();
-                            }
-                            else {
-                                timeString += "00:00";
-                            }
-                            
-                            timeString += " to ";
-                            
-                            if (((Event)item).getEndDateString().equals(dateString)) {
-                                timeString += ((Event)item).getEndTimeString();
-                            }
-                            else {
-                                timeString += "23:59";
-                            }
-                            
-                        } else {
-                            if (((Todo)item).hasDate())
-                                timeString += ((Todo)item).getDeadlineTimeString();
-                        }
-                        
-                        Text nameText = GUI.getText(item.getName(), Color.GREY, 16);
                         Text markText;
                         
                         if (item.getDone()) {
-                            markText = GUI.getText("\u2714", Color.GREEN, 18);
+                            markText = GUI.getText(GUI.TEXT_CHECK, 
+                                    Color.GREEN, GUI.FONT_SIZE_TITLE);
                         } else {
-                            markText = GUI.getText("\u2610", Color.GREY, 18);
+                            markText = GUI.getText(GUI.TEXT_BOX, 
+                                    Color.GREY, GUI.FONT_SIZE_TITLE);
                         }
-                        
-                        Text timeText = GUI.getText(timeString, Color.GREY, 16);
-                        
-                        listingNumber++;
-                        
-                        Text numberingText = GUI.getText(String.valueOf(listingNumber), Color.BLACK, 16);
                         
                         displayBox.add(numberingText, 0, rowIndex);
                         displayBox.add(markText, 1, rowIndex);
@@ -166,7 +153,7 @@ public class CommandViewDate implements CommandView {
             
             }
                 
-            if (i != 1) {
+            if (i != TASK_INDEX) {
                 date.add(Calendar.DAY_OF_MONTH, 1);
             }
         }

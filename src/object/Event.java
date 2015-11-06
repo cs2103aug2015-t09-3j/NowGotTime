@@ -147,9 +147,41 @@ public class Event extends Item {
     }
     
     public String toFormattedString() throws ParseException {
-        
 
         return getName();
     }
+    
+    public String getStartTimeStringOn(String dateString) {
+        String timeString;
+        if (this.getStartDateString().equals(dateString)) {
+            timeString = this.getStartTimeString();
+        }
+        else {
+            timeString = "00:00";
+        }
+        return timeString;
+    }
+    
+    public String getEndTimeStringOn(String dateString) {
+        String timeString;
+        if (this.getEndDateString().equals(dateString)) {
+            timeString = this.getEndTimeString();
+        }
+        else {
+            timeString = "23:59";
+        }
+        return timeString;
+    }
+    
+    public String getTimeStringOn(String dateString) {
+        String timeString = "";
+        timeString += getStartTimeStringOn(dateString);
+        timeString += " to ";
+        timeString += getEndTimeStringOn(dateString);
+        
+        return timeString;
+    }
+    
+    
 
 }

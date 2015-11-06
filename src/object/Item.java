@@ -155,4 +155,6 @@ public abstract class Item implements Comparable<Item> {
         return date;
     }
     
+    public abstract String getTimeStringOn(String dateString);
+    
 }
