@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 
 import helper.CalendarHelper;
+import helper.CommonHelper;
 import helper.Parser;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
@@ -19,6 +20,7 @@ import object.Todo;
 import project.Projects;
 import service.ServiceHandler;
 import ui.GUI;
+import ui.Main;
 
 public class CommandViewDate implements CommandView {
 
@@ -50,7 +52,24 @@ public class CommandViewDate implements CommandView {
             throws Exception {
         
         mergedList = serviceHandler.viewMultipleDays(dateString);
-        return "Got it!";
+        if (Main.mode == "GUI") {
+            return "Got it!";
+        } else {
+            String formattedString = "";
+            boolean isFirstList = true;
+            for (ArrayList<Item> list : mergedList) {
+                if (list.isEmpty()) {
+                    continue;
+                }
+                if (isFirstList) {
+                    isFirstList = false;
+                } else {
+                    formattedString += "\n";
+                }
+                formattedString += CommonHelper.getFormattedItemList(list);
+            }
+            return formattedString;
+        }
     }
     
     @Override
