@@ -175,18 +175,20 @@ public class FileHandlerTest {
 		assertEquals("Test retrieval of todo on date with no todo", 
 				expectedList, actualList);
 		
+		expectedList.add(todo3);
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		expectedList.add(todo3);
+		
 		
 		actualList = fh.retrieveTodoByDate("20 oct 2000");
 		assertEquals("Test retrieval of passed todo by date", 
 				expectedList, actualList);
 		
 		expectedList.clear();
+		expectedList.add(todo2);
 		expectedList.add(todo6);
 		expectedList.add(todo4);
-		expectedList.add(todo2);
+		
 		
 		actualList = fh.retrieveTodoByDate("20 oct 2100");
 		assertEquals("Test retrieval of future todo by date", 
@@ -195,14 +197,14 @@ public class FileHandlerTest {
 
 	public void testRetrieveAllTodo() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		
+		expectedList.add(todo3);
 		expectedList.add(todo7);
 		expectedList.add(todo5);
-		expectedList.add(todo3);
 		
+		expectedList.add(todo2);
 		expectedList.add(todo6);
 		expectedList.add(todo4);
-		expectedList.add(todo2);
+		
 		expectedList.add(todo1);
 		
 		ArrayList<Todo> actualList = fh.retrieveAllTodo();

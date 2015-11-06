@@ -79,6 +79,21 @@ public class FileTodoHandlerTest {
 	
 /****************************************************************************/
 	
+	// Todo without time specified will be set to the current time, hence sorted order may differ.
+	// Use this method to compare todo arrayList instead.
+	private boolean compareArrayList(ArrayList<Todo> list1, ArrayList<Todo> list2){
+		if(list1.size() == list2.size()){
+			for(Todo todo: list1){
+				if(!list2.contains(todo)){
+					return false;
+				}
+			}
+			return true;
+		}else{
+			return false;
+		}	
+	}
+	
 	private void testFileTodoHandlerConstructor() {
 		fTodoH = new FileTodoHandler(baseDirectory);
 		
@@ -135,8 +150,8 @@ public class FileTodoHandlerTest {
 		
 		ArrayList<Todo> actualList = fTodoH.retrieveAllTodo();
 		
-		assertEquals("Test retrieval of all todo", 
-				expectedList, actualList);
+		assertEquals("Test retrieval of all todo",
+				true, compareArrayList(expectedList, actualList));
 	}
 
 	private void testRetrieveTodoByDate() {
@@ -151,7 +166,7 @@ public class FileTodoHandlerTest {
 		
 		actualList = fTodoH.retrieveTodoByDate("20 oct 2000");
 		assertEquals("Test retrieval of todo by date",
-				expectedList, actualList);
+				true, compareArrayList(expectedList, actualList));
 	}
 
 	private void testRetrieveFloatingTodo() {
@@ -197,5 +212,5 @@ public class FileTodoHandlerTest {
 		assertEquals("Test saving normal task",
 				true, fTodoH.saveChange(NORMAL_TODO));
 	}
-		
+	
 }
