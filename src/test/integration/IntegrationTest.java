@@ -22,21 +22,22 @@ public class IntegrationTest {
 	 private static final String INVALIDONE = "hello";
 	 private static final String INVALIDTWO = "20 Jan 2016";
 	 private static final String FIRSTWORDINVALIDLINE = "20";
-	 private static final String INVALIDTHREE = "add \"hahaha\" on 10 Sep 2016 23:00 to 11 Sep 2015 07:00"; // start date before end date
+	 private static final String INVALIDTHREE = "add \"hahaha\" from 20 Sep 2016 23:00 to 11 Sep 2015 07:00"; // start date before end date
 	 
-	 private static final String EVENTONE = "add \"event1\" on 10 Sep 2016 23:00 to 11 Sep 2016 07:00"; // event with duration going into the next day
-	 private static final String EVENTTWO = "add \"event2\" on 22 Sep 2016 10:00 to 11:30";// event on the day itself
-	 private static final String EVENTTHREE = "add \"event3 with jack and jill\" on 20 Sep 2016 10:00 to 11:30";// event with spaces in name
+	 private static final String EVENTONE = "add \"event1\" from 10 Sep 2016 23:00 to 11 Sep 2016 07:00"; // event with duration going into the next day
+	 private static final String EVENTTWO = "add \"event2\" from 22 Sep 2016 10:00 to 11:30";// event on the day itself
+	 private static final String EVENTTHREE = "add \"event3 with jack and jill\" from 20 Sep 2016 10:00 to 11:30";// event with spaces in name
 	 
-	 private static final String TASKONE = "add \"task1\" on 22 Sep 2016 18:00";// normal task
-	 private static final String TASKTWO = "add \"task2 with jack and jill\" on 22 Sep 2016 23:00";// task with spaces in name
+	 private static final String TASKONE = "add \"task1\" by 22 Sep 2016 18:00";// normal task
+	 private static final String TASKTWO = "add \"task2 with jack and jill\" by 22 Sep 2016 23:00";// task with spaces in name
 	 
 	 private static final String FLOATINGONE = "add \"floating1Task\"";// normal floating task
 	 private static final String FLOATINGTWO = "add \"floating2Task Singapore alone\"";// floating task with spaces in name
 	 
 	 private static final String DELETEINDEXNEGATIVETHREE = "delete -3"; //negative number
 	 private static final String DELETEINDEXZERO = "delete 0"; //zero
-	 private static final String DELETEINDEXTWO = "delete 2";
+	 private static final String DELETEINDEXONE = "delete 1"; // one
+	 private static final String DELETEINDEXTWO = "delete 2"; //two
 	 
 	 private static final String DELETEKEYWORDONE = "delete \"1\"";
 	 private static final String DELETEKEYWORDTASK = "delete \"task\"";
@@ -48,7 +49,7 @@ public class IntegrationTest {
         Item.setCounter(0);
         gui = new GUI();
         gui.initiateHandler();
-        Main.mode = "CLI";
+        //Main.mode = "CLI";
     }
 
     @Test
@@ -99,27 +100,44 @@ public class IntegrationTest {
     
     @Test
     public void testDeleteIndexValid() {
-    	
-    }
-    
-    @Test
-    public void testSearchInvaild() {
-    	assertEquals("Search keyword \"task\" invalid success", null, gui.executeResponse(SEARCHKEYWORDTASK, true));// no event or task added for search
-    	gui.executeResponse(EVENTTHREE, true);
-    	gui.executeResponse(FLOATINGTWO, true);
-    	gui.executeResponse(TASKTWO, true);
-    	assertEquals("Search keyword \"1\" invalid success", null, gui.executeResponse(SEARCHKEYWORDONE, true));// no event or task with "1" added for search
-    }
-    
-    @Test
-    public void testSearchVaild() {
     	gui.executeResponse(EVENTTHREE, true);
     	gui.executeResponse(FLOATINGTWO, true);
     	gui.executeResponse(TASKTWO, true);
     	gui.executeResponse(EVENTONE, true);
     	gui.executeResponse(TASKONE, true);
     	gui.executeResponse(FLOATINGONE, true);
-    	assertEquals("Search keyword \"1\" valid success", "STUB", gui.executeResponse(SEARCHKEYWORDONE, true));
-    	assertEquals("Search keyword \"task\" valid success", "STUB", gui.executeResponse(SEARCHKEYWORDTASK, true));
+    	
+    	gui.executeResponse(SEARCHKEYWORDONE, true);
+    	assertEquals("Delete 2 \"task1\" valid success", String.format(CommonHelper.SUCCESS_ITEM_DELETED,"task1"),gui.executeResponse(DELETEINDEXTWO, true));//delete task
+    	assertEquals("Delete 2 \"event1\" valid success", String.format(CommonHelper.SUCCESS_ITEM_DELETED,"event1"),gui.executeResponse(DELETEINDEXONE, true));//delete event
+    	
+    	gui.executeResponse(SEARCHKEYWORDTASK, true);
+    	assertEquals("Delete 2 \"floating2Task Singapore alone\" valid success", String.format(CommonHelper.SUCCESS_ITEM_DELETED,"floating2Task Singapore alone"),gui.executeResponse(DELETEINDEXTWO, true));//delete floating task
+    }
+    
+    @Test
+    public void testSearchInvaild() {
+    	Main.mode = "CLI";
+    	
+    	assertEquals("Search keyword \"task\" invalid success", "", gui.executeResponse(SEARCHKEYWORDTASK, true));// no event or task added for search
+    	gui.executeResponse(EVENTTHREE, true);
+    	gui.executeResponse(FLOATINGTWO, true);
+    	gui.executeResponse(TASKTWO, true);
+    	assertEquals("Search keyword \"1\" invalid success", "", gui.executeResponse(SEARCHKEYWORDONE, true));// no event or task with "1" added for search
+    }
+    
+    @Test
+    public void testSearchVaild() {
+    	Main.mode = "CLI";
+    	
+    	gui.executeResponse(EVENTTHREE, true);
+    	gui.executeResponse(FLOATINGTWO, true);
+    	gui.executeResponse(TASKTWO, true);
+    	gui.executeResponse(EVENTONE, true);
+    	gui.executeResponse(TASKONE, true);
+    	gui.executeResponse(FLOATINGONE, true);
+    	
+    	assertEquals("Search keyword \"1\" valid success", "event1" + "\n" + "task1" + "\n" + "floating1Task" + "\n", gui.executeResponse(SEARCHKEYWORDONE, true));
+    	assertEquals("Search keyword \"task\" valid success", "task1" + "\n" + "task2 with jack and jill" + "\n" + "floating2Task Singapore alone" + "\n" + "floating1Task" + "\n", gui.executeResponse(SEARCHKEYWORDTASK, true));
     }
 }
