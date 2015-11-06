@@ -15,7 +15,7 @@ import service.ServiceHandler;
 
 public class CommandUncheck implements Command, Revertible {
 
-    public static final String KEYWORD = "check";
+    public static final String KEYWORD = "uncheck";
     
     String itemKey = null;
     int itemIndex;
