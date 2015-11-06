@@ -299,10 +299,10 @@ public class FileHandlerTest {
 				null, fh.retrieveProjectTimeLine(null));
 		
 		assertEquals("Test retrieval of project with empty string",
-				null, fh.retrieveProjectTimeLine(""));
+				new ArrayList<Integer>(), fh.retrieveProjectTimeLine(""));
 		
 		assertEquals("Test retrieval of project with non-existing project name",
-				null, fh.retrieveProjectTimeLine("Non-existing"));
+				new ArrayList<Integer>(), fh.retrieveProjectTimeLine("Non-existing"));
 		
 		fh.createNewProject("new project");
 		ArrayList<Integer> projectBook = new ArrayList<Integer>();
