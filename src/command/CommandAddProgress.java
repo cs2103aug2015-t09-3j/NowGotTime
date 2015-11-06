@@ -45,8 +45,11 @@ public class CommandAddProgress implements CommandAdd {
         if (projectHandler.addProgressMessage(index, projectName, progress)) {
             return CommonHelper.SUCCESS_PROGRESS_ADDED;
         } else {
-            // TODO: different error when project not found
-            throw new Exception(CommonHelper.ERROR_FAIL_ADD_PROGRESS);
+            if (projectHandler.listExistingProjects().contains(projectName)) {
+                throw new Exception(CommonHelper.ERROR_PROJECT_NOT_FOUND);
+            } else {
+                throw new Exception(CommonHelper.ERROR_FAIL_ADD_PROGRESS);
+            }
         }
     }
 

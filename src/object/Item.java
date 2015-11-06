@@ -3,6 +3,9 @@
 package object;
 
 import java.text.ParseException;
+import java.util.Calendar;
+
+import helper.CalendarHelper;
 
 public abstract class Item implements Comparable<Item> {
     private String name;
@@ -135,6 +138,21 @@ public abstract class Item implements Comparable<Item> {
     
     public boolean equals(Object other) {
         return getId() == ((Item) other).getId();
+    }
+    
+    public String getDisplayDateString() {
+        String date;
+        if (this instanceof Event) {
+            date = ((Event)this).getStartDateString();
+        }
+        else {
+            if (((Todo)this).hasDate()) {
+                date = ((Todo)this).getDeadlineDateString();
+            } else {
+                date = CalendarHelper.getDateString(Calendar.getInstance());
+            }
+        }
+        return date;
     }
     
 }

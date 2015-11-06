@@ -15,8 +15,6 @@ public class CommandEditProject implements CommandEdit {
     String fieldName;
     String newValue;
     String oldValue;
-    // TODO: whats more to do with fieldname ?
-    // TODO: more flexible constructor
     public CommandEditProject(String args) {
 
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_EDIT_PROJECT);

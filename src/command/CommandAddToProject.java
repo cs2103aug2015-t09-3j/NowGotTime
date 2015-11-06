@@ -90,14 +90,12 @@ public class CommandAddToProject implements CommandAdd {
     @Override
     public Displayable getDisplayable() {
         if (item == null) {
-            // TODO Refactor this
-            return new CommandSearch("\"" + keyword + "\"");
+            return new CommandSearch(keyword);
         } else if (keyword == null) {
             // refresh current display if edit by index
             return null;
         } else {
-            // TODO Refactor this
-            return new CommandViewProjectName("\"" + projectName + "\"");
+            return new CommandViewProjectName(projectName);
         }
     }
 

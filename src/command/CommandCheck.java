@@ -91,21 +91,13 @@ public class CommandCheck implements Command, Revertible {
     @Override
     public Displayable getDisplayable() {
         if (item == null) {
-            // TODO Refactor this
-            return new CommandSearch("\"" + itemKey + "\"");
+            return new CommandSearch(itemKey);
         } else if (itemKey == null) {
             // refresh current display if edit by index
             return null;
         } else {
-            // TODO Refactor : implement this on item class
-            String date;
-            if (item instanceof Event) {
-                date = ((Event)item).getStartDateString();
-            }
-            else {
-                date = ((Todo)item).getDeadlineDateString();
-            }
-            return new CommandViewDate(date);
+            // display item's date
+            return new CommandViewDate(item.getDisplayDateString());
         }
     }
 

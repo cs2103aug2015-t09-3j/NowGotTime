@@ -13,11 +13,15 @@ public class CommandAddProject implements CommandAdd {
 
     String projectName;
     
-    // TODO: allow args without "" 
     public CommandAddProject(String args) {
         
-        Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_PROJECT);
-        projectName = matcher.group(Parser.TAG_NAME);
+        if (Parser.matches(args, Parser.PATTERN_PROJECT)) {
+            Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_PROJECT);
+            projectName = matcher.group(Parser.TAG_NAME);
+        } else {
+            projectName = args;
+        }
+        
     }
 
     @Override

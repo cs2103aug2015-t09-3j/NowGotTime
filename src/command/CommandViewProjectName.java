@@ -22,8 +22,12 @@ import ui.GUI;
 public class CommandViewProjectName implements CommandView {
 
     public CommandViewProjectName(String args) {
-        Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
-        projectName = matcher.group(Parser.TAG_NAME);
+        if (Parser.matches(args, Parser.PATTERN_NAME)) {
+            Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
+            projectName = matcher.group(Parser.TAG_NAME);
+        } else {
+            projectName = args;
+        }
     }
     
     String projectName = null;

@@ -9,7 +9,6 @@ import helper.Parser;
 import object.State;
 import service.ServiceHandler;
 
-// TODO: should this be made revertible ?
 public class CommandSet implements Command {
 
     public static final String KEYWORD = "set";

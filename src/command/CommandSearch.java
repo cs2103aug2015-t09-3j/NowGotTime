@@ -47,7 +47,7 @@ public class CommandSearch implements Command, Displayable {
             Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
             itemKey = matcher.group(Parser.TAG_NAME);
         } else {
-            assert(false);
+            itemKey = args;
         }
     }
     
