@@ -153,7 +153,7 @@ public class FileHandlerTest {
 	}
 
 /****************************************************************************/
-	
+		
 	public void testTodoOperation(){
 		testSaveNewTodoHandler();
 		testRetrieveUniversalTodo();
@@ -182,7 +182,7 @@ public class FileHandlerTest {
 		
 		actualList = fh.retrieveTodoByDate("20 oct 2000");
 		assertEquals("Test retrieval of passed todo by date", 
-				expectedList, actualList);
+				true, compareArrayList(expectedList, actualList));
 		
 		expectedList.clear();
 		expectedList.add(todo2);
@@ -192,25 +192,23 @@ public class FileHandlerTest {
 		
 		actualList = fh.retrieveTodoByDate("20 oct 2100");
 		assertEquals("Test retrieval of future todo by date", 
-				expectedList, actualList);
+				true, compareArrayList(expectedList, actualList));
 	}
 
 	public void testRetrieveAllTodo() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		expectedList.add(todo3);
-		expectedList.add(todo7);
-		expectedList.add(todo5);
-		
-		expectedList.add(todo2);
-		expectedList.add(todo6);
-		expectedList.add(todo4);
-		
 		expectedList.add(todo1);
+		expectedList.add(todo2);
+		expectedList.add(todo3);
+		expectedList.add(todo4);
+		expectedList.add(todo5);
+		expectedList.add(todo6);
+		expectedList.add(todo7);
 		
 		ArrayList<Todo> actualList = fh.retrieveAllTodo();
 		
 		assertEquals("Test retrieval of all todo", 
-				expectedList, actualList);
+				true, compareArrayList(expectedList, actualList));
 	}
 
 	public void testRetrieveUniversalTodo() {
@@ -537,5 +535,20 @@ public class FileHandlerTest {
 		assertEquals("Test if project directory directory exist",
 				expected, file.exists());
 
+	}
+
+	// Todo without time specified will be set to the current time, hence sorted order may differ.
+	// Use this method to compare todo arrayList instead.
+	private boolean compareArrayList(ArrayList<Todo> list1, ArrayList<Todo> list2){
+		if(list1.size() == list2.size()){
+			for(Todo todo: list1){
+				if(!list2.contains(todo)){
+					return false;
+				}
+			}
+			return true;
+		}else{
+			return false;
+		}	
 	}
 }
