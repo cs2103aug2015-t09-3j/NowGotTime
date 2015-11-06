@@ -16,11 +16,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import object.Event;
 import object.Item;
+import object.State;
 import object.Todo;
-import project.Projects;
 import service.ServiceHandler;
 import ui.GUI;
-import ui.Main;
 
 public class CommandViewDate implements CommandView {
 
@@ -48,11 +47,11 @@ public class CommandViewDate implements CommandView {
      * Executes view command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        ServiceHandler serviceHandler = state.getServiceHandler();
         
         mergedList = serviceHandler.viewMultipleDays(dateString);
-        if (Main.mode == "GUI") {
+        if (!state.isTextMode()) {
             return "Got it!";
         } else {
             String formattedString = "";
@@ -171,85 +170,6 @@ public class CommandViewDate implements CommandView {
                 date.add(Calendar.DAY_OF_MONTH, 1);
             }
         }
-        /*
-        String previousDate = dateString;
-        
-        
-        rowIndex++;
-        rowIndex++;
-        Text dateText = GUI.getText((dateString.equals("01 Jan 0001") ? "Task" : dateString), Color.BLACK, 16);
-        displayBox.add(dateText, 1, rowIndex++, 5, 1);
-        displayBox.add(new Separator(), 0, rowIndex++, 5, 1);
-        
-        for (Item item : mergedList) {
-            String date, time;
-            if (item instanceof Event) {
-                date = ((Event)item).getStartDateString();
-                time = ((Event)item).getStartTimeString();
-            
-                if (!date.equals(dateString)) {
-                    date = dateString;
-                    time = "00:00";
-                }
-                
-            }
-            else {
-                date = ((Todo)item).getDeadlineDateString();
-                time = ((Todo)item).getDeadlineTimeString();
-            }
-            
-            if (!date.equals(previousDate)) {
-                
-                // create row for date
-                Text dateString = null;
-                
-                if (item instanceof Todo && !((Todo)item).hasDate()) {
-                    dateString = GUI.getText("Task", Color.BLACK, 18);
-                }
-                else {
-                    dateString = GUI.getText(date, Color.BLACK, 18);
-                }
-                rowIndex++;
-                rowIndex++;
-                displayBox.add(dateString, 1, rowIndex++, 5, 1);
-                displayBox.add(new Separator(), 0, rowIndex++, 5, 1);
-            }
-            
-            Text markText = GUI.getText("\u2714", Color.GREEN, 18);
-            Text nameText = GUI.getText(item.getName(), Color.GREY, 16);
-            
-            if (!item.getDone()) {
-                markText = GUI.getText("\u2610", Color.GREY, 18);
-            }
-            
-            String timeString = "";
-            if (item instanceof Event) {
-                timeString += time;
-                timeString += " to ";
-                
-                if (((Event)item).getEndDateString().equals(date)) {
-                    timeString += ((Event)item).getEndTimeString();
-                }
-                else {
-                    timeString += "23:59";
-                }
-            }
-            else {
-                if (((Todo)item).hasDate())
-                    timeString += ((Todo)item).getDeadlineTimeString();
-            }
-
-            Text timeText = GUI.getText(timeString, Color.GREY, 16);
-
-            displayBox.add(markText, 1, rowIndex);
-            displayBox.add(nameText, 2, rowIndex);
-            displayBox.add(timeText, 3, rowIndex);
-            
-            rowIndex++;
-            previousDate = date;
-            
-        }
-        */
     }
 
     @Override

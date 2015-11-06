@@ -6,8 +6,8 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
+import object.State;
 import project.Projects;
-import service.ServiceHandler;
 
 public class CommandEditProject implements CommandEdit {
 
@@ -33,8 +33,9 @@ public class CommandEditProject implements CommandEdit {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
+    public String execute(State state)
             throws Exception {
+        Projects projectHandler = state.getProjectHandler();
         if (projectHandler.editProjectName(projectName, newValue)) {
             return String.format(CommonHelper.SUCCESS_PROJECT_EDITED, projectName, newValue);
         } else {
@@ -43,10 +44,10 @@ public class CommandEditProject implements CommandEdit {
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
+    public String revert(State state)
             throws Exception {
         CommandEditProject commandEditProject = new CommandEditProject(newValue, fieldName, projectName);
-        return commandEditProject.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return commandEditProject.execute(state);
     }
 
     @Override

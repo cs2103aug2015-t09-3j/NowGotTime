@@ -9,6 +9,7 @@ import helper.CommonHelper;
 import helper.Parser;
 import object.Event;
 import object.Item;
+import object.State;
 import object.Todo;
 import project.Projects;
 import service.ServiceHandler;
@@ -115,7 +116,10 @@ public class CommandEditItem implements CommandEdit {
      * Executes edit command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception {
+    public String execute(State state) throws Exception {
+        Displayable currentDisplay = state.getCurrentDisplay();
+        Projects projectHandler = state.getProjectHandler();
+        ServiceHandler serviceHandler = state.getServiceHandler();
         
         if (item == null) {
             if (itemKey == null) {
@@ -156,9 +160,9 @@ public class CommandEditItem implements CommandEdit {
      * Reverts to initial value
      */
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay) throws Exception {
+    public String revert(State state) throws Exception {
         Command revertEditCommand = new CommandEditItem(item, fieldName, oldValue);
-        return revertEditCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return revertEditCommand.execute(state);
     }
 
     @Override

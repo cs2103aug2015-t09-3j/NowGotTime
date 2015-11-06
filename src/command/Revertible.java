@@ -2,13 +2,12 @@
 
 package command;
 
-import project.Projects;
-import service.ServiceHandler;
+import object.State;
 
 public interface Revertible {
 
     /**
      * Reverts effect of this command
      */
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay) throws Exception;
+    public String revert(State state) throws Exception;
 }

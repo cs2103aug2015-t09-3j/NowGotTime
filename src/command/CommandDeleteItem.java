@@ -9,6 +9,7 @@ import helper.CommonHelper;
 import helper.Parser;
 import object.Event;
 import object.Item;
+import object.State;
 import object.Todo;
 import project.Projects;
 import service.ServiceHandler;
@@ -52,7 +53,10 @@ public class CommandDeleteItem implements CommandDelete {
      * Executes delete command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception {
+    public String execute(State state) throws Exception {
+        Displayable currentDisplay = state.getCurrentDisplay();
+        Projects projectHandler = state.getProjectHandler();
+        ServiceHandler serviceHandler = state.getServiceHandler();
         
         if (item == null) {
             if (itemKey == null) {
@@ -96,10 +100,10 @@ public class CommandDeleteItem implements CommandDelete {
      * Re-add the deleted command
      */
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay) throws Exception {
+    public String revert(State state) throws Exception {
         System.out.println(item);
         CommandAddItem revertDeleteCommand = new CommandAddItem(item);
-        return revertDeleteCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return revertDeleteCommand.execute(state);
     }
 
     @Override

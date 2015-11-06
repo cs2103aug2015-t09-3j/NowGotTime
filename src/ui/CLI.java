@@ -3,49 +3,36 @@
 package ui;
 
 import java.util.Scanner;
-import java.util.Stack;
 
 import command.Command;
 import command.CommandExit;
 import command.Revertible;
 import helper.CommonHelper;
-import project.Projects;
-import service.ServiceHandler;
+import object.State;
 
 public class CLI {
     
     private static Scanner stdin = null;
     private boolean shouldExit;
     
-    private ServiceHandler serviceHandler = null;
-    private Projects projectHandler = null;
-    private Stack<Revertible> historyList;
+    State currentState;
     
     public CLI() {
         stdin = new Scanner(System.in);
-        serviceHandler = new ServiceHandler();
-        projectHandler = new Projects();
-        historyList = new Stack<Revertible>();
+        currentState = new State(true);
         shouldExit = false;
     }
     
-    private Revertible getMostRecentRevertible() {
-        if (historyList.empty()) {
-            return null;
-        } else {
-            return historyList.pop();
-        }
-    }
     
     private String executeResponse(String userResponse) {
         Command command = null;
         String feedback;
         try {
             command = Command.parseCommand(userResponse);
-            feedback = command.execute(serviceHandler, projectHandler, getMostRecentRevertible(), null);
+            feedback = command.execute(currentState);
             if (command instanceof Revertible) {
                 // add to history list if project revertible
-                historyList.add((Revertible)command);
+                currentState.addUndoCommand((Revertible)command);
             }
             
         } catch (Exception e) {

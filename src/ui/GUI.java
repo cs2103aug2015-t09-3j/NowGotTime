@@ -27,17 +27,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import project.Projects;
-import service.ServiceHandler;
-
-import java.util.Calendar;
-import java.util.Stack;
+import object.State;
 
 import command.Command;
-import command.CommandViewDate;
-import command.Displayable;
+import command.CommandUndo;
 import command.Revertible;
-import helper.CalendarHelper;
 
 public class GUI extends Application {
     
@@ -51,71 +45,40 @@ public class GUI extends Application {
     Text title;
     TextField prompt;
     
-    private ServiceHandler serviceHandler = null;
-    private Projects projectHandler = null;
-    private Stack<Revertible> historyList;
-    Displayable display = getTodayDisplay();
+    private State currentState;
     
     private static String CSS_SUCCESS = "-fx-background-color: #5cb85c; -fx-background-radius: 3;";
     private static String CSS_ERROR = "-fx-background-color: #d9534f; -fx-background-radius: 3;";
     private static String CSS_WARNING = "-fx-background-color: #f0ad4e; -fx-background-radius: 3;";
     
-    private Displayable updateDisplay(Displayable display, Displayable newDisplay) {
-        if (newDisplay == null) {
-            return display;
-        } else {
-            return newDisplay;
-        }
-    }
-    
-    private Displayable getTodayDisplay() {
-        Calendar today = Calendar.getInstance();
-        return new CommandViewDate(CalendarHelper.getDateString(today));
-    }
-    
-    private Revertible getMostRecentRevertible() {
-        if (historyList.empty()) {
-            return null;
-        } else {
-            return historyList.pop();
-        }
-    }
-    
-    private void showDisplay(Displayable display) {
-        if (display != null) {
-            try {
-                ((Command)display).execute(serviceHandler, projectHandler, getMostRecentRevertible(), null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            display.display(displayBox);
-        }
-    }
-    
-    public String executeResponse(String userResponse, boolean textMode) {
+    public String executeResponse(String userResponse) {
         Command command = null;
         String feedback;
         
         try {
             command = Command.parseCommand(userResponse);
-            feedback = command.execute(serviceHandler, projectHandler, getMostRecentRevertible(), display);
+            feedback = command.execute(currentState);
             
             // Show on display
-            if (!textMode) {
+            if (!currentState.isTextMode()) {
                 prompt.clear();
                 statusBox.setStyle(CSS_SUCCESS);
-                display = updateDisplay(display, command.getDisplayable());
-                showDisplay(display);
+                currentState.updateDisplay(command.getDisplayable());
+                currentState.showCurrentDisplay(displayBox);
             }
             
+            if (!(command instanceof CommandUndo)) {
+                // clear redo stack when non undo command executed
+                currentState.clearRedoStack();
+            }
             if (command instanceof Revertible) {
                 // add to history list if project revertible
-                historyList.add((Revertible)command);
+                currentState.addUndoCommand((Revertible)command);
             }
             
         } catch (Exception e) {
             // catch error message
-            if (!textMode) {
+            if (!currentState.isTextMode()) {
                 statusBox.setStyle(CSS_ERROR);
             }
             feedback = e.getMessage();
@@ -218,7 +181,7 @@ public class GUI extends Application {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode().equals(KeyCode.ENTER)) {
-                    displayText(status, executeResponse(prompt.getText(), false));
+                    displayText(status, executeResponse(prompt.getText()));
                 }
             }
         });
@@ -280,22 +243,24 @@ public class GUI extends Application {
         return new Scene(ui, GUI_WIDTH, GUI_HEIGHT);
     }
     
+    public void initiateState(boolean textMode) {
+        currentState = new State(textMode);
+    }
     
-    public void initiateHandler() {
-        serviceHandler = new ServiceHandler();
-        projectHandler = new Projects();
-        historyList = new Stack<Revertible>();
+    public void initiateState() {
+        initiateState(false);
     }
     
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-	    initiateHandler();
+	    initiateState();
 	    
 	    primaryStage.setTitle(GUI_TITLE);
 	    
 	    Scene ui = getUserInterface();
 	    
-	    showDisplay(display);
+	    // Show current display to displaybox
+	    currentState.showCurrentDisplay(displayBox);
 	    
 	    primaryStage.setScene(ui);
 	    primaryStage.setResizable(false);
@@ -304,7 +269,6 @@ public class GUI extends Application {
 
 
     public static void main(String[] args) {
-        Main.mode = "GUI";
 		launch(args);
 	}
 }

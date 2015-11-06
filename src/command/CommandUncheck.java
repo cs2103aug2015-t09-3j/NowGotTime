@@ -9,6 +9,7 @@ import helper.CommonHelper;
 import helper.Parser;
 import object.Event;
 import object.Item;
+import object.State;
 import object.Todo;
 import project.Projects;
 import service.ServiceHandler;
@@ -41,8 +42,11 @@ public class CommandUncheck implements Command, Revertible {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        Displayable currentDisplay = state.getCurrentDisplay();
+        Projects projectHandler = state.getProjectHandler();
+        ServiceHandler serviceHandler = state.getServiceHandler();
+        
         if (item == null) {
             if (itemKey == null) {
                 if (currentDisplay instanceof CommandViewProjectName) {
@@ -78,10 +82,10 @@ public class CommandUncheck implements Command, Revertible {
     
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
+    public String revert(State state)
             throws Exception {
         CommandCheck commandCheck = new CommandCheck(item);
-        return commandCheck.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return commandCheck.execute(state);
     }
 
 

@@ -25,39 +25,39 @@ public class CommandEditTest extends CommandTest {
         Event event = null;
         
         // test can edit start date
-        new CommandEditItem(name, CommonHelper.FIELD_START, "19 Jan 2016").execute(service, project, getMostRecentRevertible(), null);
-        event = service.viewSpecificEvent(name);
+        new CommandEditItem(name, CommonHelper.FIELD_START, "19 Jan 2016").execute(state);
+        event = state.getServiceHandler().viewSpecificEvent(name);
         assertEquals(event.getStartDateTimeString(), "19 Jan 2016 10:00");
         
         // test can edit start time
-        new CommandEditItem(name, CommonHelper.FIELD_START, "13:00").execute(service, project, getMostRecentRevertible(), null);
-        event = service.viewSpecificEvent(name);
+        new CommandEditItem(name, CommonHelper.FIELD_START, "13:00").execute(state);
+        event = state.getServiceHandler().viewSpecificEvent(name);
         assertEquals(event.getStartDateTimeString(), "19 Jan 2016 13:00");
         
         // test can edit start date and time
-        new CommandEditItem(name, CommonHelper.FIELD_START, "20 Sep 2016 13:00").execute(service, project, getMostRecentRevertible(), null);
-        event = service.viewSpecificEvent(name);
+        new CommandEditItem(name, CommonHelper.FIELD_START, "20 Sep 2016 13:00").execute(state);
+        event = state.getServiceHandler().viewSpecificEvent(name);
         assertEquals(event.getStartDateTimeString(), "20 Sep 2016 13:00");
         
         // test can edit end date
-        new CommandEditItem(name, CommonHelper.FIELD_END, "19 Dec 2016").execute(service, project, getMostRecentRevertible(), null);
-        event = service.viewSpecificEvent(name);
+        new CommandEditItem(name, CommonHelper.FIELD_END, "19 Dec 2016").execute(state);
+        event = state.getServiceHandler().viewSpecificEvent(name);
         assertEquals(event.getEndDateTimeString(), "19 Dec 2016 23:00");
         
         // test can edit end time
-        new CommandEditItem(name, CommonHelper.FIELD_END, "13:00").execute(service, project, getMostRecentRevertible(), null);
-        event = service.viewSpecificEvent(name);
+        new CommandEditItem(name, CommonHelper.FIELD_END, "13:00").execute(state);
+        event = state.getServiceHandler().viewSpecificEvent(name);
         assertEquals(event.getEndDateTimeString(), "19 Dec 2016 13:00");
         
         // test can edit end date and time
-        new CommandEditItem(name, CommonHelper.FIELD_END, "20 Nov 2016 15:00").execute(service, project, getMostRecentRevertible(), null);
-        event = service.viewSpecificEvent(name);
+        new CommandEditItem(name, CommonHelper.FIELD_END, "20 Nov 2016 15:00").execute(state);
+        event = state.getServiceHandler().viewSpecificEvent(name);
         assertEquals(event.getEndDateTimeString(), "20 Nov 2016 15:00");
         
         // test can edit name
-        new CommandEditItem(name, CommonHelper.FIELD_NAME, "eat meh").execute(service, project, getMostRecentRevertible(), null);
-        assertNull(service.viewSpecificEvent(name));
-        assertNotNull(service.viewSpecificEvent("eat meh"));
+        new CommandEditItem(name, CommonHelper.FIELD_NAME, "eat meh").execute(state);
+        assertNull(state.getServiceHandler().viewSpecificEvent(name));
+        assertNotNull(state.getServiceHandler().viewSpecificEvent("eat meh"));
         
     }
     
@@ -69,24 +69,24 @@ public class CommandEditTest extends CommandTest {
         Todo todo = null;
         
         // test can edit due date
-        new CommandEditItem(name, CommonHelper.FIELD_DUE, "19 Dec 2016").execute(service, project, getMostRecentRevertible(), null);
-        todo = service.viewSpecificTask(name);
+        new CommandEditItem(name, CommonHelper.FIELD_DUE, "19 Dec 2016").execute(state);
+        todo = state.getServiceHandler().viewSpecificTask(name);
         assertEquals(todo.getDeadlineDateTimeString(), "19 Dec 2016 10:00");
         
         // test can edit due time
-        new CommandEditItem(name, CommonHelper.FIELD_DUE, "13:00").execute(service, project, getMostRecentRevertible(), null);
-        todo = service.viewSpecificTask(name);
+        new CommandEditItem(name, CommonHelper.FIELD_DUE, "13:00").execute(state);
+        todo = state.getServiceHandler().viewSpecificTask(name);
         assertEquals(todo.getDeadlineDateTimeString(), "19 Dec 2016 13:00");
         
         // test can edit due date and time
-        new CommandEditItem(name, CommonHelper.FIELD_DUE, "20 Nov 2016 13:00").execute(service, project, getMostRecentRevertible(), null);
-        todo = service.viewSpecificTask(name);
+        new CommandEditItem(name, CommonHelper.FIELD_DUE, "20 Nov 2016 13:00").execute(state);
+        todo = state.getServiceHandler().viewSpecificTask(name);
         assertEquals(todo.getDeadlineDateTimeString(), "20 Nov 2016 13:00");
         
         // test can edit name
-        new CommandEditItem(name, CommonHelper.FIELD_NAME, "eat meh meh").execute(service, project, getMostRecentRevertible(), null);
-        assertNull(service.viewSpecificTask(name));
-        assertNotNull(service.viewSpecificTask("eat meh meh"));
+        new CommandEditItem(name, CommonHelper.FIELD_NAME, "eat meh meh").execute(state);
+        assertNull(state.getServiceHandler().viewSpecificTask(name));
+        assertNotNull(state.getServiceHandler().viewSpecificTask("eat meh meh"));
     }
     
     @Test
@@ -94,9 +94,9 @@ public class CommandEditTest extends CommandTest {
         String name = "eat again lho";
         addTodo(name);
         
-        new CommandEditItem(name, CommonHelper.FIELD_NAME, "eat meh meh").execute(service, project, getMostRecentRevertible(), null);
-        assertNull(service.viewSpecificTask(name));
-        assertNotNull(service.viewSpecificTask("eat meh meh"));
+        new CommandEditItem(name, CommonHelper.FIELD_NAME, "eat meh meh").execute(state);
+        assertNull(state.getServiceHandler().viewSpecificTask(name));
+        assertNotNull(state.getServiceHandler().viewSpecificTask("eat meh meh"));
     }
     
    

@@ -54,12 +54,6 @@ public class CommonHelper {
     public static final String ERROR_FAIL_DEL_PROGRESS   = "progress doesn't exist";
     public static final String ERROR_ITEM_INSIDE_PROJECT = "cannot delete, item is inside project '%1$s'";
     
-    
-    
-    public static final String FORMATTED_EVENT         = "[%1$s-%2$s] %3$s";
-    public static final String FORMATTED_TODO          = "[   by %1$s] %2$s";
-    public static final String FORMATTED_FLOATING_TODO = "[           ] %1$s";
-    
     public static final String FIELD_NAME     = "name";
     public static final String FIELD_START    = "start";
     public static final String FIELD_END      = "end";

@@ -6,9 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.Matcher;
 
-import service.ServiceHandler;
 import ui.GUI;
-import ui.Main;
 import helper.CommonHelper;
 import helper.Parser;
 import javafx.scene.control.Separator;
@@ -17,8 +15,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import object.Event;
 import object.Item;
+import object.State;
 import object.Todo;
-import project.Projects;
+import service.ServiceHandler;
 
 public class CommandSearch implements Command, Displayable {
 
@@ -53,11 +52,11 @@ public class CommandSearch implements Command, Displayable {
     }
     
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        ServiceHandler serviceHandler = state.getServiceHandler();
         
         filteredItem = serviceHandler.search(itemKey);
-        if (Main.mode.equals("GUI")) {
+        if (!state.isTextMode()) {
             return "Got it!";
         } else {
             return CommonHelper.getFormattedItemList(filteredItem);

@@ -9,6 +9,7 @@ import helper.CommonHelper;
 import helper.Parser;
 import object.Event;
 import object.Item;
+import object.State;
 import project.Projects;
 import service.ServiceHandler;
 
@@ -41,8 +42,10 @@ public class CommandAddToProject implements CommandAdd {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        Displayable currentDisplay = state.getCurrentDisplay();
+        ServiceHandler serviceHandler = state.getServiceHandler();
+        Projects projectHandler = state.getProjectHandler();
         
         if (item == null) {
             if (keyword == null) {
@@ -78,10 +81,10 @@ public class CommandAddToProject implements CommandAdd {
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
+    public String revert(State state)
             throws Exception {
         Command revertAddToProjectCommand = new CommandDeleteFromProject(item, projectName);
-        return revertAddToProjectCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return revertAddToProjectCommand.execute(state);
     }
 
     @Override

@@ -4,8 +4,7 @@ package command;
 
 import helper.CommonHelper;
 import helper.Parser;
-import project.Projects;
-import service.ServiceHandler;
+import object.State;
 
 public class CommandUndo implements Command {
 
@@ -30,9 +29,13 @@ public class CommandUndo implements Command {
      * Executes undo command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception {
-        this.mostRecent = mostRecent;
-        return mostRecent.revert(serviceHandler, projectHandler, currentDisplay);
+    public String execute(State state) throws Exception {
+        mostRecent = state.getUndoCommand();
+        if (mostRecent != null) {
+            throw new Exception(CommonHelper.ERROR_EMPTY_HISTORY);
+        }
+        state.addRedoCommand(mostRecent);
+        return mostRecent.revert(null);
     }
 
     @Override

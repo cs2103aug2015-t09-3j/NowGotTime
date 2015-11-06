@@ -108,12 +108,12 @@ public class CommandAddTest extends CommandTest {
         String endDateTime = "22 Sep 2016 23:00";
         Event event = new Event(name, startDateTime, endDateTime);
         CommandAddItem command = new CommandAddItem(event);
-        String feedback = command.execute(service, project, getMostRecentRevertible(), null);
+        String feedback = command.execute(state);
         
         // The feedback message should be success
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_CREATED, name));
         // The added event should be the same event
-        assertEquals(service.viewSpecificEvent(name), event);
+        assertEquals(state.getServiceHandler().viewSpecificEvent(name), event);
     }
     
     @Test
@@ -122,12 +122,12 @@ public class CommandAddTest extends CommandTest {
         String deadlineDateTime = "21 Sep 2016 10:00";
         Todo todo = new Todo(name, deadlineDateTime);
         CommandAddItem command = new CommandAddItem(todo);
-        String feedback = command.execute(service, project, getMostRecentRevertible(), null);
+        String feedback = command.execute(state);
         
         // The feedback message should be success
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_CREATED, name));
         // The added todo should be the same todo
-        assertEquals(service.viewSpecificTask(name), todo);
+        assertEquals(state.getServiceHandler().viewSpecificTask(name), todo);
     }
     
     @Test
@@ -135,12 +135,12 @@ public class CommandAddTest extends CommandTest {
         String name = "eat again";
         Todo todo = new Todo(name);
         CommandAddItem command = new CommandAddItem(todo);
-        String feedback = command.execute(service, project, getMostRecentRevertible(), null);
+        String feedback = command.execute(state);
         
         // The feedback message should be success
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_CREATED, name));
         // The added todo should be the same todo
-        assertEquals(service.viewSpecificTask(name), todo);
+        assertEquals(state.getServiceHandler().viewSpecificTask(name), todo);
     }
 
 }

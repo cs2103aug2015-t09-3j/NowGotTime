@@ -9,8 +9,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import object.State;
 import project.Projects;
-import service.ServiceHandler;
 import ui.GUI;
 
 public class CommandViewProject implements CommandView {
@@ -23,8 +23,8 @@ public class CommandViewProject implements CommandView {
     ArrayList<Double> progressList;
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        Projects projectHandler = state.getProjectHandler();
         projectList = projectHandler.listExistingProjects();
         progressList = new ArrayList<Double>();
         for (String projectName : projectList) {

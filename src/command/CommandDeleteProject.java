@@ -6,8 +6,8 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
+import object.State;
 import project.Projects;
-import service.ServiceHandler;
 
 public class CommandDeleteProject implements CommandDelete {
 
@@ -20,8 +20,9 @@ public class CommandDeleteProject implements CommandDelete {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        Projects projectHandler = state.getProjectHandler();
+        
         if (projectHandler.deleteProject(projectName)) {
             return String.format(CommonHelper.SUCCESS_PROJECT_DELETED, projectName);
         } else {
@@ -30,11 +31,11 @@ public class CommandDeleteProject implements CommandDelete {
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
+    public String revert(State state)
             throws Exception {
         // TODO: re-add all events inside project
         Command commandAddProject = new CommandAddProject("project \"" + projectName + "\"");
-        return commandAddProject.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return commandAddProject.execute(state);
     }
 
     @Override

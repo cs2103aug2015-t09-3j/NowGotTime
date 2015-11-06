@@ -15,8 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import object.Event;
+import object.State;
 import project.Projects;
-import service.ServiceHandler;
 import ui.GUI;
 
 public class CommandViewProjectName implements CommandView {
@@ -35,8 +35,8 @@ public class CommandViewProjectName implements CommandView {
     }
     
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        Projects projectHandler = state.getProjectHandler();
         projectEvents = projectHandler.viewEventProgressTimeline(projectName);
         if (projectEvents == null) {
             throw new Exception(String.format(CommonHelper.ERROR_PROJECT_NOT_FOUND, projectName));

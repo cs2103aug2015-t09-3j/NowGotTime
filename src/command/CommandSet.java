@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
-import project.Projects;
+import object.State;
 import service.ServiceHandler;
 
 // TODO: should this be made revertible ?
@@ -27,8 +27,9 @@ public class CommandSet implements Command {
     String newDirectory;
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        ServiceHandler serviceHandler = state.getServiceHandler();
+        
         if (serviceHandler.changeDirectory(newDirectory)) {
             return String.format(CommonHelper.SUCCESS_SET_DIRECTORY, newDirectory);
         } else {

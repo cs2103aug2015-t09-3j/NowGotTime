@@ -6,8 +6,8 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
+import object.State;
 import project.Projects;
-import service.ServiceHandler;
 
 public class CommandAddProject implements CommandAdd {
 
@@ -21,8 +21,9 @@ public class CommandAddProject implements CommandAdd {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        Projects projectHandler = state.getProjectHandler();
+        
         if (projectHandler.createProject(projectName)) {
             return String.format(CommonHelper.SUCCESS_PROJECT_CREATED, projectName);
         } else {
@@ -31,10 +32,10 @@ public class CommandAddProject implements CommandAdd {
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
+    public String revert(State state)
             throws Exception {
         CommandDeleteProject commandDeleteProject = new CommandDeleteProject("project \"" + projectName + "\"");
-        return commandDeleteProject.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return commandDeleteProject.execute(state);
     }
 
     @Override

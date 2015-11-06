@@ -3,8 +3,7 @@
 package command;
 
 import helper.CommonHelper;
-import project.Projects;
-import service.ServiceHandler;
+import object.State;
 
 public interface Command {
 
@@ -57,9 +56,9 @@ public interface Command {
     
     /**
      * Executes this command
-     * @param currentDisplay TODO
+     * @param state TODO
      */
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception;
+    public String execute(State state) throws Exception;
     
     /**
      * Returns a displayable object
