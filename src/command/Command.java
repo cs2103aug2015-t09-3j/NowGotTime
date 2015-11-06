@@ -29,6 +29,9 @@ public interface Command {
             case CommandUndo.KEYWORD:
                 command = new CommandUndo(arguments);
                 break;
+            case CommandRedo.KEYWORD:
+                command = new CommandRedo(arguments);
+                break;
             case CommandView.KEYWORD:
                 command = CommandView.parseCommandView(arguments);
                 break;

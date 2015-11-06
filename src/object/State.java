@@ -60,7 +60,7 @@ public class State {
         if (redoStack.isEmpty()) {
             return null;
         } else {
-            return undoStack.pop();
+            return redoStack.pop();
         }
     }
     

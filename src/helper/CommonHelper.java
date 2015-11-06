@@ -45,7 +45,8 @@ public class CommonHelper {
     public static final String ERROR_INDEX_OUT_OF_BOUND  = "item with this index does not exists";
     public static final String ERROR_ITEM_NOT_FOUND      = "'%1$s' not found";
     public static final String ERROR_PROJECT_NOT_FOUND   = "project '%1$s' not found";
-    public static final String ERROR_EMPTY_HISTORY       = "cannot undo any previous command";
+    public static final String ERROR_EMPTY_UNDO          = "cannot undo any previous command";
+    public static final String ERROR_EMPTY_REDO          = "cannot reddo any previous command";
     public static final String ERROR_INVALID_PATH        = "invalid new save directory";
     public static final String ERROR_ALREADY_CHECKED     = "'%1$s' already checked";
     public static final String ERROR_ALREADY_UNCHECKED   = "'%1$s' already unchecked";

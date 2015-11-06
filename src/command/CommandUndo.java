@@ -31,11 +31,11 @@ public class CommandUndo implements Command {
     @Override
     public String execute(State state) throws Exception {
         mostRecent = state.getUndoCommand();
-        if (mostRecent != null) {
-            throw new Exception(CommonHelper.ERROR_EMPTY_HISTORY);
+        if (mostRecent == null) {
+            throw new Exception(CommonHelper.ERROR_EMPTY_UNDO);
         }
         state.addRedoCommand(mostRecent);
-        return mostRecent.revert(null);
+        return mostRecent.revert(state);
     }
 
     @Override
