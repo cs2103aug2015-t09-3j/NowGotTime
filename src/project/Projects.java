@@ -76,7 +76,7 @@ public class Projects {
 	 * Adds an existing Event into a Project by the Project Name
 	 */
 	public boolean addProjectEvent(Event event, String projectName) {
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+		if (!checkIfProjectExists(projectName)) {
 			return false;
 		} else {
 		return pHandler.addProjectEvent(event, projectName);
@@ -87,7 +87,7 @@ public class Projects {
 	 * Adds an existing Event into a Project by the Project Index
 	 */
 	public boolean addProjectEvent(Event event, int index) {
-		projectList = listExistingProjects();
+		updateProjectList();
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
 			return addProjectEvent(event, projectName);
@@ -100,7 +100,7 @@ public class Projects {
 	 * Removes an Event added into a Project by Project Name and Event
 	 */
 	public boolean deleteProjectEvent(Event event, String projectName) {
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+		if (!checkIfProjectExists(projectName)) {
 			return false;
 		} else {
 		return pHandler.deleteProjectEvent(event, projectName);
@@ -111,7 +111,7 @@ public class Projects {
 	 * Removes an Event added into a Project by Project Index and Event
 	 */
 	public boolean deleteProjectEvent(Event event, int index) {
-		projectList = listExistingProjects();
+		updateProjectList();
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
 			return deleteProjectEvent(event, projectName);
@@ -119,12 +119,19 @@ public class Projects {
 			return false;
 		}
 	}
+
+	/**
+	 * Updates Project List to its latest copy
+	 */
+	public void updateProjectList() {
+		projectList = listExistingProjects();
+	}
 	
 	/**
 	 * Removes an Event added into a Project by Project Name and Event Index
 	 */
 	public boolean deleteProjectEvent(int eventArrayListIndex, String projectName) {
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+		if (!checkIfProjectExists(projectName)) {
 			return false;
 		} else {
 		return pHandler.deleteProjectEvent(eventArrayListIndex, projectName);
@@ -135,7 +142,7 @@ public class Projects {
 	 * Extracts the Event to be edited by Project Name and Event Index
 	 */
 	public Event editEvent(int arrayIndex, String projectName) {
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+		if (!checkIfProjectExists(projectName)) {
 			return null;
 		} else {
 		return pHandler.editEvent(arrayIndex, projectName);
@@ -146,7 +153,7 @@ public class Projects {
 	 * View an ArrayList of Event IDs by Project Name
 	 */
 	public ArrayList<Integer> viewProjectTimeline(String projectName) {
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+		if (!checkIfProjectExists(projectName)) {
 			return null;
 		} else {
 		return pHandler.viewProjectTimeline(projectName);
@@ -157,7 +164,7 @@ public class Projects {
 	 * View an ArrayList of Event IDs by Project Index
 	 */
 	public ArrayList<Integer> viewProjectTimeline(int index) {
-		projectList = listExistingProjects();
+		updateProjectList();
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
 			return viewProjectTimeline(projectName);
@@ -170,7 +177,7 @@ public class Projects {
 	 * View an ArrayList of Events by Project Name
 	 */
 	public ArrayList<Event> viewProjectTimelineInEvents(String projectName) {
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+		if (!checkIfProjectExists(projectName)) {
 			return null;
 		} else {
 		return pHandler.viewProjectTimelineInEvents(projectName);
@@ -181,7 +188,7 @@ public class Projects {
 	 * View an ArrayList of Events by Project Index
 	 */
 	public ArrayList<Event> viewProjectTimelineInEvents(int index) {
-		projectList = listExistingProjects();
+		updateProjectList();
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
 			return viewProjectTimelineInEvents(projectName);
@@ -230,7 +237,7 @@ public class Projects {
 	 * Calculates the percentage of completed Events in a Project
 	 */
 	public double progressBar(String projectName) {
-		if (listExistingProjects().contains(projectName.toLowerCase())) {
+		if (checkIfProjectExists(projectName)) {
 			return pHandler.progressBar(projectName.toLowerCase());
 		}
 		return INVALID_PROGRESS_PERCENTAGE;
@@ -240,7 +247,7 @@ public class Projects {
 	 * Adds a message into a HashMap of a Project
 	 */
 	public boolean addProgressMessage(int index, String projectName, String progressMessage) {
-		if (listExistingProjects().contains(projectName.toLowerCase())) {
+		if (checkIfProjectExists(projectName)) {
 			return pHandler.addProgressMessage(index, progressMessage, projectName.toLowerCase());
 		} 
 		return false;
@@ -250,7 +257,7 @@ public class Projects {
 	 * Deletes a message from a HashMap of a Project
 	 */
 	public boolean deleteProgressMessage(int index, String projectName) {
-		if (listExistingProjects().contains(projectName.toLowerCase())) {
+		if (checkIfProjectExists(projectName)) {
 			return pHandler.deleteProgressMessage(index, projectName.toLowerCase());
 		} 
 		return false;
@@ -260,17 +267,24 @@ public class Projects {
 	 * Edits a message in a HashMap of a Project
 	 */
 	public boolean editProgressMessage(int index, String newProgressMessage, String projectName) {
-		if (listExistingProjects().contains(projectName.toLowerCase())) {
+		if (checkIfProjectExists(projectName)) {
 			return pHandler.editProgressMessage(index, newProgressMessage, projectName.toLowerCase());
 		} 
 		return false;
+	}
+
+	/**
+	 * Checks if Project exists in the ArrayList
+	 */
+	public boolean checkIfProjectExists(String projectName) {
+		return listExistingProjects().contains(projectName.toLowerCase());
 	}
 	
 	/**
 	 * Views by Project Name, a Project Timeline with the Progress Message each Event holds
 	 */
 	public ArrayList<Event> viewEventProgressTimeline(String projectName) {
-		if (!listExistingProjects().contains(projectName.toLowerCase())) {
+		if (!checkIfProjectExists(projectName)) {
 			return null;
 		} else {
 		return pHandler.viewEventProgressTimeline(projectName.toLowerCase());
@@ -281,7 +295,7 @@ public class Projects {
 	 * Views by Project Index, a Project Timeline with the Progress Message each Event holds
 	 */
 	public ArrayList<Event> viewEventProgressTimeline(int index) {
-		projectList = listExistingProjects();
+		updateProjectList();
 		if (index < projectList.size()) {
 			String projectName = projectList.get(index);
 			return viewEventProgressTimeline(projectName);
@@ -296,7 +310,7 @@ public class Projects {
 	public String searchItem(Item item) {
 	    int id = item.getId();
 	    
-	    projectList = listExistingProjects();
+	    updateProjectList();
 	    
 	    for (String project : projectList) {
 	        if (pHandler.findItem(id, project)) {

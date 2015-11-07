@@ -16,15 +16,53 @@ import storage.FileHandler;
 
 public class TestEvent {
 
+	private static final String EXPECTED_TO_STRING = "2\nEventName3\n21 Oct 2015\n30 Oct 2015\n17:00\n02:00";
+
+	private static final String MESSAGE_TEAR_DOWN = "Test Files used in Event Testing Cleared";
+
+	private static final String MESSAGE_SET_UP = "Files Cleared for Event Class Testing";
+
+	private static final String DATE_FORMAT = "dd MMM yyyy HH:mm";
+
+	private static final String ADD_INFO_BLANK = "";
+
+	private static final String EVENT3_END_TIME = "02:00";
+
+	private static final String EVENT2_END_TIME = "23:00";
+
+	private static final String EVENT1_END_TIME = "21:00";
+
+	private static final String EVENT3_START_TIME = "17:00";
+
+	private static final String EVENT2_START_TIME = "19:00";
+
+	private static final String EVENT1_START_TIME = "10:00";
+
+	private static final String EVENT3_END_DATE = "30 Oct 2015";
+
+	private static final String EVENT2_END_DATE = "31 Oct 2015";
+
+	private static final String EVENT1_END_DATE = "26 Oct 2015";
+
+	private static final String EVENT2_START_DATE = "21 Oct 2015";
+
+	private static final String EVENT1_START_DATE = "25 Oct 2015";
+
+	private static final String EVENT_NAME3 = "EventName3";
+
+	private static final String EVENT_NAME2 = "EventName2";
+
+	private static final String EVENT_NAME1 = "EventName1";
+
 	protected static FileHandler clear;
 	
 	// Make sure dates are in DD MMM YYY format 
-	private Event event1 = new Event("EventName1", "25 Oct 2015", "26 Oct 2015", "10:00", "21:00", "");
-	private Event event2 = new Event("EventName2", "21 Oct 2015", "31 Oct 2015", "19:00", "23:00", "");
-	private Event event3 = new Event("EventName3", "21 Oct 2015", "30 Oct 2015", "17:00", "02:00", "");
+	private Event event1 = new Event(EVENT_NAME1, EVENT1_START_DATE, EVENT1_END_DATE, EVENT1_START_TIME, EVENT1_END_TIME, ADD_INFO_BLANK);
+	private Event event2 = new Event(EVENT_NAME2, EVENT2_START_DATE, EVENT2_END_DATE, EVENT2_START_TIME, EVENT2_END_TIME, ADD_INFO_BLANK);
+	private Event event3 = new Event(EVENT_NAME3, EVENT2_START_DATE, EVENT3_END_DATE, EVENT3_START_TIME, EVENT3_END_TIME, ADD_INFO_BLANK);
 	
 	// Use SimpleDateFormat because of the millisecond difference when comparing the Calendar Objects
-	private SimpleDateFormat testingFormat = new SimpleDateFormat ("dd MMM yyyy HH:mm");
+	private SimpleDateFormat testingFormat = new SimpleDateFormat (DATE_FORMAT);
 	
 	@Before
 	public void beforeTest() {
@@ -35,14 +73,14 @@ public class TestEvent {
 	public static void setUpBeforeTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Files Cleared for Event Class Testing");
+		System.out.println(MESSAGE_SET_UP);
 	}
 	
 	@AfterClass
 	public static void tearDownAfterTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Test Files used in Event Testing Cleared");
+		System.out.println(MESSAGE_TEAR_DOWN);
 	}
 	
 	@Test
@@ -58,9 +96,9 @@ public class TestEvent {
 			//Use SimpleDateFormat because of the millisecond difference when comparing the Calendar Objects
 			assertEquals("Failed getEndCalendar()", "09 Nov 1993 19:00", testingFormat.format(retrievedEndCalendar.getTime()));
 			
-			assertTrue("Failed updateStartDate()", event1.updateStartDate("26 Oct 2015"));
+			assertTrue("Failed updateStartDate()", event1.updateStartDate(EVENT1_END_DATE));
 			String retrievedStartDate = event1.getStartDateString();
-			assertEquals("Failed getStartDateString()", "26 Oct 2015", retrievedStartDate);
+			assertEquals("Failed getStartDateString()", EVENT1_END_DATE, retrievedStartDate);
 			
 			assertTrue("Failed updateEndDate()", event1.updateEndDate("29 Oct 2015"));
 			String retrievedEndDate = event1.getEndDateString();
@@ -92,7 +130,7 @@ public class TestEvent {
 	public void testToString() throws AssertionError {
 		try {
 			String isString = event3.toString();
-			assertEquals("Failed toString()",  "2\nEventName3\n21 Oct 2015\n30 Oct 2015\n17:00\n02:00", isString);
+			assertEquals("Failed toString()",  EXPECTED_TO_STRING, isString);
 			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
@@ -104,7 +142,7 @@ public class TestEvent {
 	public void testFormattedStringWithParameters() throws AssertionError, Exception {
 		try {
 			String formattedWithParameters = event3.toFormattedString("09 Nov 1993");
-			assertEquals("Fail toFormattedString(para)", "EventName3", formattedWithParameters);
+			assertEquals("Fail toFormattedString(para)", EVENT_NAME3, formattedWithParameters);
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
 			throw AE;
@@ -115,7 +153,7 @@ public class TestEvent {
 	public void testFormattedString() throws AssertionError, Exception {
 		try {
 			String formatted = event3.toFormattedString();
-			assertEquals("Fail toFormattedString", "EventName3", formatted);
+			assertEquals("Fail toFormattedString", EVENT_NAME3, formatted);
 			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
