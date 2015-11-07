@@ -42,6 +42,13 @@ public class IntegrationTest {
 	 private static final String DELETEKEYWORDONE = "delete \"1\"";
 	 private static final String DELETEKEYWORDTASK = "delete \"task\"";
 	 
+	 private static final String CHECKONE = "check \"1\"";
+	 private static final String CHECKNEGATIVEONE = "check \"-1\"";
+	 
+	 private static final String UNCHECKONE = "uncheck \"1\"";
+	 
+	 private static final String VIEWDATE = "view 22 sep 2016";
+	 
     @Before
     public void setUp() throws Exception {
         FileHandler clear = new FileHandler();
@@ -80,7 +87,7 @@ public class IntegrationTest {
     }
     
     @Test
-    public void testKeywordInvalid() {
+    public void testDeleteKeywordInvalid() {
     	assertEquals("Delete keyword \"1\" invalid success", String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, "1"),gui.executeResponse(DELETEKEYWORDONE, true)); //keyword does not exist   	
     	assertEquals("Delete keyword \"task\" invalid success", String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, "task"),gui.executeResponse(DELETEKEYWORDTASK, true)); // keyword does not exist
     }
@@ -139,5 +146,50 @@ public class IntegrationTest {
     	
     	assertEquals("Search keyword \"1\" valid success", "event1" + "\n" + "task1" + "\n" + "floating1Task" + "\n", gui.executeResponse(SEARCHKEYWORDONE, true));
     	assertEquals("Search keyword \"task\" valid success", "task1" + "\n" + "task2 with jack and jill" + "\n" + "floating2Task Singapore alone" + "\n" + "floating1Task" + "\n", gui.executeResponse(SEARCHKEYWORDTASK, true));
+    }
+    
+    @Test
+    public void testCheckInvaild() {
+    	assertEquals("check \"1\" invalid success", String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, "1"), gui.executeResponse(CHECKONE, true)); // no items added to be checked
+    	assertEquals("check \"-1\" invalid success", String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, "-1"), gui.executeResponse(CHECKNEGATIVEONE, true));//negative number
+    	
+    	gui.executeResponse(FLOATINGONE, true);
+    	gui.executeResponse(CHECKONE, true);
+    	assertEquals("check \"1\" invalid because checked item success", String.format(CommonHelper.ERROR_ALREADY_CHECKED, "floating1Task"), gui.executeResponse(CHECKONE, true)); // checked item being checked    	
+    }
+    
+    @Test
+    public void testCheckVaild() {   	
+    	gui.executeResponse(EVENTONE, true);
+    	
+    	assertEquals("check \"1\" valid success", String.format(CommonHelper.SUCCESS_ITEM_CHECKED, "event1"), gui.executeResponse(CHECKONE, true));
+    }
+    
+    @Test
+    public void testUncheckVaild() {   	
+    	gui.executeResponse(TASKONE, true);
+    	gui.executeResponse(CHECKONE, true);
+    	
+    	assertEquals("uncheck \"1\" valid success", String.format(CommonHelper.SUCCESS_ITEM_UNCHECKED, "task1"), gui.executeResponse(UNCHECKONE, true));
+    }
+    
+    @Test
+    public void testUncheckInvaild() {  
+    	assertEquals("uncheck \"1\" valid success", String.format(CommonHelper.ERROR_ITEM_NOT_FOUND, "1"), gui.executeResponse(UNCHECKONE, true)); // no item to uncheck
+    	
+    	gui.executeResponse(TASKONE, true);
+    	assertEquals("uncheck \"1\" valid success", String.format(CommonHelper.ERROR_ALREADY_UNCHECKED, "task1"), gui.executeResponse(UNCHECKONE, true)); // item already unchecked
+    }
+    
+    @Test
+    public void testViewDateVaild() {
+    	//Main.mode = "CLI";
+    	
+    	gui.executeResponse(TASKONE, true);
+    	gui.executeResponse(TASKTWO, true);
+    	gui.executeResponse(EVENTTWO, true);
+    	gui.executeResponse(FLOATINGTWO, true);
+    	
+    	assertEquals("view date \"22 sep 2016\" valid success", "STUB", gui.executeResponse(VIEWDATE, true));
     }
 }
