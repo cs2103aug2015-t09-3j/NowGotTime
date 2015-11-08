@@ -80,8 +80,8 @@ public class FileEventHandlerTest {
 	
 	private void testSaveNewEventHandler() {
 		
-		assertEquals("Test saving null event",
-				false, fEventH.saveNewEventHandler(null));
+//		assertEquals("Test saving null event",
+//				false, fEventH.saveNewEventHandler(null));
 		
 		assertEquals("Test saving valid event",
 				true, fEventH.saveNewEventHandler(event));
@@ -91,10 +91,7 @@ public class FileEventHandlerTest {
 	}
 	
 	private void testRetrieveEventByDate() {
-		
-		assertEquals("Test retrieving with a null date",
-				null, fEventH.retrieveEventByDate(null));
-		
+				
 		assertEquals("Test retrieving from a date with wrong format: numbers",
 				null, fEventH.retrieveEventByDate("1234567"));
 		

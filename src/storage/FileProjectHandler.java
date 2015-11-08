@@ -85,7 +85,6 @@ public class FileProjectHandler {
 		} catch (DirectoryNotEmptyException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"deleteProject",  e.getMessage());
-			//TODO: use preparation clean up method to clear
 		    return false;
 		    
 		} catch (IOException e) {
@@ -113,12 +112,8 @@ public class FileProjectHandler {
 	 * there are no events in the project
 	 */
 	public ArrayList<Integer> retrieveProject(String name){
-		
-		if(name == null){
-			return null;
-		}
+	
 		name = name.toLowerCase();
-		
 		ArrayList<Integer> projectBook = new ArrayList<Integer>();
 		progressBook = new HashMap<Integer, String>();
 		String fileName = name + ".txt";
@@ -158,7 +153,7 @@ public class FileProjectHandler {
 	 * and the value is the String of the progress details
 	 */
 	public HashMap<Integer, String> retrieveProjectProgress(){
-		//TODO: what if user call this first before retrieveProject.
+		assert(progressBook != null);
 		return progressBook;
 	}
 	
@@ -184,13 +179,8 @@ public class FileProjectHandler {
 	 * @return true if the project has been successfully saved, else return false.
 	 */
 	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, 
-				HashMap<Integer, String> progressBook, String projectName){
-		if(projectBook == null || progressBook == null || projectName == null){
-			return false;
-		}
-		
-		projectName = projectName.toLowerCase();
-		
+					HashMap<Integer, String> progressBook, String projectName){
+					
 		try{
 			File outfile = new File(baseDirectory + projectName + ".txt");
 			

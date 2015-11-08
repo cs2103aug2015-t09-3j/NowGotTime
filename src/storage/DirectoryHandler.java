@@ -52,6 +52,10 @@ public class DirectoryHandler {
 		}
 	}
 	
+	public String getBaseDirectory(){
+		return baseDirectory.concat( "/" + DATABASE);
+	}
+	
 	public boolean setNewBaseDirectory(String theBaseDirectory){
 		if(theBaseDirectory != null && (new File(theBaseDirectory).exists())){
 			String oldDirectory = baseDirectory;			
@@ -132,10 +136,15 @@ public class DirectoryHandler {
 		try{
 			File outfile = new File(OVERVIEW);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
-					
-			writer.write(todoPath); writer.newLine();
-			writer.write(eventPath); writer.newLine();
-			writer.write(projectPath); writer.newLine();
+			
+			writer.write(baseDirectory); 
+			writer.newLine();
+			writer.write(todoPath); 
+			writer.newLine();
+			writer.write(eventPath); 
+			writer.newLine();
+			writer.write(projectPath); 
+			writer.newLine();
 			writer.write(END_OF_PATH_DIRECTORY);
 			writer.close();
 			return true;
@@ -174,6 +183,7 @@ public class DirectoryHandler {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(outfile));
 			
+			baseDirectory = reader.readLine();
 			todoPath = reader.readLine();
 			eventPath = reader.readLine();
 			projectPath = reader.readLine();

@@ -110,9 +110,6 @@ public class FileTodoHandlerTest {
 
 	private void testSaveNewTodoHandler() {
 		
-		assertEquals("Test adding of null",
-				false, fTodoH.saveNewTodoHandler(null));
-		
 		assertEquals("Test adding of todo1", 
 				true, fTodoH.saveNewTodoHandler(todo1));
 		
@@ -156,10 +153,7 @@ public class FileTodoHandlerTest {
 
 	private void testRetrieveTodoByDate() {
 		ArrayList<Todo> expectedList = new ArrayList<Todo>();
-		ArrayList<Todo> actualList = fTodoH.retrieveTodoByDate(null);
-		assertEquals("Test retrieval of todo with null",
-				expectedList, actualList);
-		
+				
 		expectedList.add(todo7);
 		expectedList.add(todo5);
 		expectedList.add(todo3);

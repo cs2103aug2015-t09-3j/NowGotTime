@@ -1,5 +1,4 @@
 //@@author A0124402Y
-
 package storage;
 
 import java.io.BufferedReader;
@@ -9,7 +8,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
@@ -21,11 +19,6 @@ import object.Event;
 import object.Item;
 import object.Todo;
 
-/**
- * 
- * @author A0124402Y
- *
- */
 public class FileHandler implements FileManager{
 	
 	private static final String FLOATING_TODO = "Floating_Todo.txt";
@@ -68,7 +61,11 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public ArrayList<Event> retrieveEventByDate(String date){
-		return fEventH.retrieveEventByDate(date);
+		if(date != null){
+			return fEventH.retrieveEventByDate(date);
+		}else{
+			return null;
+		}
 	}
 	
 	/**
@@ -83,8 +80,13 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean saveNewEventHandler(Event event){
-		writeCounter();
-		return fEventH.saveNewEventHandler(event);
+		if(event != null){
+			writeCounter();
+			return fEventH.saveNewEventHandler(event);
+			
+		}else{
+			return false;
+		}
 	}
 	
 	/**
@@ -104,7 +106,10 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public ArrayList<Todo> retrieveTodoByDate(String date) {
-		return fTodoH.retrieveTodoByDate(date);
+		if(date != null)
+			return fTodoH.retrieveTodoByDate(date);
+		else
+			return null;
 	}
 	
 	/**
@@ -127,8 +132,12 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean saveNewTodoHandler(Todo task) {
-		writeCounter();
+		if(task != null){
+			writeCounter();
 		return fTodoH.saveNewTodoHandler(task);
+		}else{
+			return false;
+		}
 	}
 	
 	/**
@@ -159,7 +168,11 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public ArrayList<Integer> retrieveProjectTimeLine(String projectName) {
-		return fProjH.retrieveProject(projectName);
+		if(projectName != null){
+			return fProjH.retrieveProject(projectName);
+		} else {
+			return null;
+		}
 	}
 	
 	@Override
@@ -180,7 +193,12 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, HashMap<Integer, String> progressBook, String projectName) {
-		return fProjH.saveEditedProjectDetails(projectBook, progressBook, projectName);
+		if(projectBook == null || progressBook == null || projectName == null){
+			return false;
+		} else{
+			projectName = projectName.toLowerCase();
+			return fProjH.saveEditedProjectDetails(projectBook, progressBook, projectName);
+		}
 	}
 
 	/**
@@ -196,10 +214,15 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean deleteProject(String projectName){
-		return fProjH.deleteProject(projectName);
+		if(projectName != null){
+			return fProjH.deleteProject(projectName);
+		} else{
+			return false;
+		}	
 	}
 	
 /****************************** Internal *************************************/	
+	
 	private void readOverviewerFile() {
 		inputFile = new File(EVENT_OVERVIEWER);	
 		
@@ -300,41 +323,71 @@ public class FileHandler implements FileManager{
 	 * Deletes all text files available
 	 */
 	public void clearAll(){
-		try {		
-			File dir = new File(todoPath);
-			if(dir.isDirectory() && dir.list().length > 0){
-				for(File file: dir.listFiles()) file.delete(); 
+		String baseDirectory = directHand.getBaseDirectory();
+		cleanUp(baseDirectory);
+		
+		
+//		try {		
+//			File dir = new File(todoPath);
+//			if(dir.isDirectory() && dir.list().length > 0){
+//				for(File file: dir.listFiles()) file.delete(); 
+//			}
+//			Path path = Paths.get(todoPath);
+//			Files.delete(path);
+//			
+//			dir = new File(eventPath);
+//			if(dir.isDirectory() && dir.list().length > 0){
+//				for(File file: dir.listFiles()) file.delete(); 
+//			}
+//			path = Paths.get(eventPath);
+//			Files.delete(path);
+//			
+//			dir = new File(projectPath);
+//			if(dir.isDirectory() && dir.list().length > 0){
+//				for(File file: dir.listFiles()) file.delete(); 
+//			}
+//			path = Paths.get(projectPath);
+//			Files.delete(path);
+//			
+//			path = Paths.get("overview.txt");
+//			Files.delete(path);
+//			
+//			path = Paths.get("counter.txt");
+//			Files.delete(path);
+//			
+//		} catch (NoSuchFileException x) {
+//			System.out.println("err no such file.");
+//		} catch (DirectoryNotEmptyException x) {
+//			System.out.println("err directory not empty.");
+//		} catch (IOException x) {
+//			System.out.println("err");
+//		}
+	}
+	
+	public boolean cleanUp(String baseDirectory){
+		
+		File dir = new File(baseDirectory);
+		if(dir.isDirectory() && dir.list().length > 0){
+			for(File file: dir.listFiles()) {
+				if(!file.isDirectory()){
+					file.delete(); 
+				}else{
+					cleanUp(file.getPath());
+				}
 			}
-			Path path = Paths.get(todoPath);
-			Files.delete(path);
-			
-			dir = new File(eventPath);
-			if(dir.isDirectory() && dir.list().length > 0){
-				for(File file: dir.listFiles()) file.delete(); 
-			}
-			path = Paths.get(eventPath);
-			Files.delete(path);
-			
-			dir = new File(projectPath);
-			if(dir.isDirectory() && dir.list().length > 0){
-				for(File file: dir.listFiles()) file.delete(); 
-			}
-			path = Paths.get(projectPath);
-			Files.delete(path);
-			
-			path = Paths.get("overview.txt");
-			Files.delete(path);
-			
-			path = Paths.get("counter.txt");
-			Files.delete(path);
-			
-		} catch (NoSuchFileException x) {
-			System.out.println("err no such file.");
-		} catch (DirectoryNotEmptyException x) {
-			System.out.println("err directory not empty.");
-		} catch (IOException x) {
-			System.out.println("err");
 		}
+		
+		Path path = Paths.get(baseDirectory);
+		
+		try {
+			Files.delete(path);
+			return true;
+		} catch(NoSuchFileException e) {
+			System.out.println("No such file exist to delete");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 /****************************** Item *****************************************/

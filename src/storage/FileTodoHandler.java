@@ -51,16 +51,17 @@ public class FileTodoHandler {
 	}
 	
 	public ArrayList<Todo> retrieveTodoByDate(String dateString){
-		ArrayList<Todo> toDoListByDate = new ArrayList<Todo>();
 		
-		if(dateString != null){
-			Calendar date = Calendar.getInstance();
-			if( (date = createDate(dateString, date)) == null){
-				return toDoListByDate;
-			}
-			extractTodoByDate(toDoListByDate, date);
+		assert(dateString != null); 	//checked by FileHandler first
+		
+		ArrayList<Todo> toDoListByDate = new ArrayList<Todo>();
+		Calendar date = Calendar.getInstance();
+		
+		if( (date = createDate(dateString, date)) == null){
+			return null;
 		}
 		
+		extractTodoByDate(toDoListByDate, date);
 		return toDoListByDate;	
 	}
 	
@@ -80,38 +81,46 @@ public class FileTodoHandler {
 	}
 	
 	public boolean saveNewTodoHandler(Todo todo){
-		if(todo != null){
-			if(todo.hasDate()){
-				allTodo.add(todo);
-				return saveChange(NORMAL_TODO);
-			}
-			else{
-				universalTodo.add(todo);
-				return saveChange(FLOATING_TODO);
-			}
-		}
-		return false;
 		
+		if(todo.hasDate()){
+			allTodo.add(todo);
+			return saveChange(NORMAL_TODO);
+			
+		} else{
+			universalTodo.add(todo);
+			return saveChange(FLOATING_TODO);
+		}	
 	}
 			
 	public boolean saveChange(String type){
+		
+		assert(type == NORMAL_TODO || type == FLOATING_TODO);
+		
 		ArrayList<Todo> tempTodo;
+		
 		if(type.equals(NORMAL_TODO)){
 			tempTodo = allTodo;
 		}else{
 			tempTodo = universalTodo;
 		}
+		
 		sortTodoByDate(tempTodo);
 		return writeToFile(type);	
 	}
 	
 	public boolean separateTodoTypes(){
+		
+		assert(allTodoClone != null);
+		assert(allTodo != null);
+		assert(universalTodo != null);
+		
 		allTodo.clear();
 		universalTodo.clear();
+		
 		for(Todo todo: allTodoClone){
 			if(todo.hasDate()){
 				allTodo.add(todo);
-			}else{
+			} else{
 				universalTodo.add(todo);
 			}
 		}
@@ -168,8 +177,11 @@ public class FileTodoHandler {
 		}
 	}
 	
-	private void extractTodoByDate(ArrayList<Todo> toDoListByDate,
-			Calendar date) {
+	private void extractTodoByDate(ArrayList<Todo> toDoListByDate, Calendar date) {
+		
+		assert(date != null);
+		assert(toDoListByDate != null);
+		
 		ArrayList<Todo> myTodo = allTodo;
 		Calendar todoDate;
 		for(Todo todo: myTodo){
@@ -277,6 +289,9 @@ public class FileTodoHandler {
 	}
 	
 	private void setZeroTime(Calendar date){
+		
+		assert(date != null);
+		
 		date.set(Calendar.HOUR_OF_DAY, 0);
 		date.set(Calendar.MINUTE, 0);
 		date.set(Calendar.SECOND, 0);
@@ -284,12 +299,18 @@ public class FileTodoHandler {
 	}
 	
 	private void sortTodoByDate(ArrayList<Todo> toDoList){
+		
+		assert(toDoList != null);
+		
 		if(!toDoList.isEmpty()){
 			Collections.sort(toDoList);
 		}		
 	}	
 	
 	private boolean writeToFile(String type){
+		
+		assert(type == NORMAL_TODO || type == FLOATING_TODO);
+		
 		try{
 			File outfile = new File(baseDirectory +  type);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	

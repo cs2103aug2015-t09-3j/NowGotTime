@@ -41,22 +41,20 @@ public class FileEventHandler {
 	}
 
 	public boolean saveNewEventHandler(Event event){
-		if(event != null){
-			allEventsClone.add(event);
-			saveEventBook();
-			return true;
-		}
-		return false;
+		allEventsClone.add(event);
+		return saveEventBook();
 	}
 			
 	@SuppressWarnings("unchecked")
 	public boolean saveEventBook(){
-		//TODO: change to flag instead? can improve efficiency
+		// ensure the the allEvents is updated to AllEventsClone
 		if(allEvents != allEventsClone){
 			allEvents = allEventsClone;
 		}
 		
 		sortEventsByDate(allEvents);
+		
+		// ensure that allEventsClone and allEvents do not have the same reference.
 		allEventsClone = (ArrayList<Event>) allEvents.clone();
 		return writeToFile();
 	}
@@ -71,17 +69,13 @@ public class FileEventHandler {
 	
 	public ArrayList<Event> retrieveEventByDate(String dateString){
 		ArrayList<Event> eventBookByDate = new ArrayList<Event>();
-		
-		if(dateString != null){
-			Calendar date = Calendar.getInstance();
-			if( (date = createDate(dateString, date)) == null){
-				return null;
-			}
-			
-			extractEventByDate(eventBookByDate, date);
-			return eventBookByDate;
+		Calendar date = Calendar.getInstance();
+		if( (date = createDate(dateString, date)) == null){
+			return null;
 		}
-		return null;
+		
+		extractEventByDate(eventBookByDate, date);
+		return eventBookByDate;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -99,7 +93,7 @@ public class FileEventHandler {
 			setZeroTime(date);
 		} catch (ParseException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
-					"retrieveEventByDate", e.getMessage());
+					"createDate", e.getMessage());
 			return null;
 		}
 		return date;
@@ -160,13 +154,13 @@ public class FileEventHandler {
 			
 		}catch (FileNotFoundException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(),
-					"retrieveEventHandler", e.getMessage());
+					"retrieveEvent", e.getMessage());
 			saveEventBook();
 			return eventBook;
 			
 		}catch (IOException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
-					"retrieveEventHandler", e.getMessage());
+					"retrieveEvent", e.getMessage());
 			return eventBook;
 			
 		}
@@ -188,6 +182,9 @@ public class FileEventHandler {
 	}
 	
 	private boolean writeToFile(){
+		
+		assert(allEvents != null);
+		
 		try{
 			File outfile = new File(baseDirectory + EVENTS);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));	

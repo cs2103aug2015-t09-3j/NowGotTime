@@ -169,7 +169,7 @@ public class FileHandlerTest {
 		
 		ArrayList<Todo> actualList = fh.retrieveTodoByDate(null);
 		assertEquals("Test retrieval of todo with null", 
-				expectedList, actualList);
+				null, actualList);
 		
 		actualList = fh.retrieveTodoByDate("01 Jan 2000");
 		assertEquals("Test retrieval of todo on date with no todo", 
