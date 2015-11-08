@@ -3,8 +3,7 @@
 package command;
 
 import helper.CommonHelper;
-import project.Projects;
-import service.ServiceHandler;
+import object.State;
 
 public interface Command {
 
@@ -18,34 +17,37 @@ public interface Command {
         Command command;
         
         switch (commandType.toLowerCase()) {
-            case "add":
+            case CommandAdd.KEYWORD:
                 command = CommandAdd.parseCommandAdd(arguments);
                 break;
-            case "edit":
+            case CommandEdit.KEYWORD:
                 command = CommandEdit.parseCommandEdit(arguments);
                 break;
-            case "delete":
+            case CommandDelete.KEYWORD:
                 command = CommandDelete.parseCommandDelete(arguments);
                 break;
-            case "undo":
+            case CommandUndo.KEYWORD:
                 command = new CommandUndo(arguments);
                 break;
-            case "view":
+            case CommandRedo.KEYWORD:
+                command = new CommandRedo(arguments);
+                break;
+            case CommandView.KEYWORD:
                 command = CommandView.parseCommandView(arguments);
                 break;
-            case "search":
+            case CommandSearch.KEYWORD:
                 command = CommandSearch.parseCommandSearch(arguments);
                 break;
-            case "check":
+            case CommandCheck.KEYWORD:
                 command = new CommandCheck(arguments);
                 break;
-            case "uncheck":
+            case CommandUncheck.KEYWORD:
                 command = new CommandUncheck(arguments);
                 break;
-            case "set":
+            case CommandSet.KEYWORD:
                 command = new CommandSet(arguments);
                 break;
-            case "exit":
+            case CommandExit.KEYWORD:
                 command = new CommandExit(arguments);
                 break;
             default:
@@ -57,9 +59,11 @@ public interface Command {
     
     /**
      * Executes this command
-     * @param currentDisplay TODO
      */
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception;
+    public String execute(State state) throws Exception;
     
+    /**
+     * Returns a displayable object
+     */
     public Displayable getDisplayable();
 }

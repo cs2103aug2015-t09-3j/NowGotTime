@@ -7,9 +7,8 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
-import object.Event;
 import object.Item;
-import object.Todo;
+import object.State;
 import project.Projects;
 import service.ServiceHandler;
 
@@ -41,8 +40,11 @@ public class CommandCheck implements Command, Revertible {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        Displayable currentDisplay = state.getCurrentDisplay();
+        ServiceHandler serviceHandler = state.getServiceHandler();
+        Projects projectHandler = state.getProjectHandler();
+        
         
         if (item == null) {
             if (itemKey == null) {
@@ -78,30 +80,22 @@ public class CommandCheck implements Command, Revertible {
     }
     
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
+    public String revert(State state)
             throws Exception {
         CommandUncheck commandUncheck = new CommandUncheck(item);
-        return commandUncheck.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return commandUncheck.execute(state);
     }
 
     @Override
     public Displayable getDisplayable() {
         if (item == null) {
-            // TODO Refactor this
-            return new CommandSearch("\"" + itemKey + "\"");
+            return new CommandSearch(itemKey);
         } else if (itemKey == null) {
             // refresh current display if edit by index
             return null;
         } else {
-            // TODO Refactor : implement this on item class
-            String date;
-            if (item instanceof Event) {
-                date = ((Event)item).getStartDateString();
-            }
-            else {
-                date = ((Todo)item).getDeadlineDateString();
-            }
-            return new CommandViewDate(date);
+            // display item's date
+            return new CommandViewDate(item.getDisplayDateString());
         }
     }
 

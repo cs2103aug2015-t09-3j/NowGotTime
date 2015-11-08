@@ -3,7 +3,6 @@
 package object;
 
 import helper.CalendarHelper;
-import helper.CommonHelper;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -132,6 +131,14 @@ public class Todo extends Item {
     public String toFormattedString() throws ParseException {
         
         return getName();
+    }
+    
+    public String getTimeStringOn(String dateString) {
+        if (hasDate()) {
+            return getDeadlineTimeString();
+        } else {
+            return "";
+        }
     }
 
 }

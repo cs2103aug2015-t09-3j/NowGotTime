@@ -27,95 +27,92 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import project.Projects;
-import service.ServiceHandler;
-
-import java.util.Calendar;
-import java.util.Stack;
+import object.State;
 
 import command.Command;
-import command.CommandViewDate;
-import command.Displayable;
+import command.CommandUndo;
 import command.Revertible;
-import helper.CalendarHelper;
 
 public class GUI extends Application {
     
-    private String GUI_TITLE = "NowGotTime";
-    private int GUI_HEIGHT = 650;
-    private int GUI_WIDTH = 800; 
+    private static final String GUI_TITLE          = "NowGotTime";
+    private static final String GUI_FONT           = "Lucida Grande";
+    public static final String TEXT_FLOATING_TASK  = "Task";
+    public static final String TEXT_CHECK          = "\u2714";
+    public static final String TEXT_BOX            = "\u2610";
+    public static final String TEXT_BULLET         = "\u2022";
+    public static final String TEXT_PROJECT        = "Projects";
+    public static final String TEXT_TITLE          = "Welcome to NowGotTime!";
+    public static final String TEXT_DEFAULT_STATUS = "Hi There!";
+    
+    private static final int GUI_HEIGHT      = 650;
+    private static final int GUI_WIDTH       = 800;
+    public static final int FONT_SIZE_HEADER = 24;
+    public static final int FONT_SIZE_TITLE  = 22;
+    public static final int FONT_SIZE_TEXT   = 20;
+    
+    
+    
+    // CSS constant
+    private static String CSS_SUCCESS     = "-fx-background-color: #5cb85c; -fx-background-radius: 3;";
+    private static String CSS_ERROR       = "-fx-background-color: #d9534f; -fx-background-radius: 3;";
+    private static String CSS_WARNING     = "-fx-background-color: #f0ad4e; -fx-background-radius: 3;";
+    private static String CSS_DISPLAY_BOX = "-fx-background-color: white; -fx-background-radius: 3;";
+    private static String CSS_PROMPT_BOX  = "-fx-font-size: 18px; -fx-font-family: Lucida Grande;";
     private Insets BOX_PADDING = new Insets(10, 10, 10, 10);
-    HBox statusBox;
+    
     GridPane displayBox;
+    TextField prompt;
+    HBox statusBox;
     Text status;
     Text title;
-    TextField prompt;
     
-    private ServiceHandler serviceHandler = null;
-    private Projects projectHandler = null;
-    private Stack<Revertible> historyList;
-    Displayable display = getTodayDisplay();
+    private State currentState;
     
-    private static String CSS_SUCCESS = "-fx-background-color: #5cb85c; -fx-background-radius: 3;";
-    private static String CSS_ERROR = "-fx-background-color: #d9534f; -fx-background-radius: 3;";
-    private static String CSS_WARNING = "-fx-background-color: #f0ad4e; -fx-background-radius: 3;";
-    
-    private Displayable updateDisplay(Displayable display, Displayable newDisplay) {
-        if (newDisplay == null) {
-            return display;
-        } else {
-            return newDisplay;
-        }
+    private static Font getNormalFont(int size) {
+        return Font.font(GUI_FONT, FontWeight.NORMAL, size);
     }
     
-    private Displayable getTodayDisplay() {
-        Calendar today = Calendar.getInstance();
-        return new CommandViewDate(CalendarHelper.getDateString(today));
+    private static Font getBoldFont(int size) {
+        return Font.font(GUI_FONT, FontWeight.BOLD, size);
     }
     
-    private Revertible getMostRecentRevertible() {
-        if (historyList.empty()) {
-            return null;
-        } else {
-            return historyList.pop();
-        }
+    public static Text getText(String string, Color color, int size) {
+        Text text = new Text(string);
+        text.setFill(color);
+        text.setFont(getNormalFont(size));
+        text.setTextAlignment(TextAlignment.CENTER);
+        return text;
     }
     
-    private void showDisplay(Displayable display) {
-        if (display != null) {
-            try {
-                ((Command)display).execute(serviceHandler, projectHandler, getMostRecentRevertible(), null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            display.display(displayBox);
-        }
-    }
-    
-    public String executeResponse(String userResponse, boolean textMode) {
+    public String executeResponse(String userResponse) {
         Command command = null;
         String feedback;
         
         try {
             command = Command.parseCommand(userResponse);
-            feedback = command.execute(serviceHandler, projectHandler, getMostRecentRevertible(), display);
+            feedback = command.execute(currentState);
             
             // Show on display
-            if (!textMode) {
+            if (!currentState.isTextMode()) {
                 prompt.clear();
                 statusBox.setStyle(CSS_SUCCESS);
-                display = updateDisplay(display, command.getDisplayable());
-                showDisplay(display);
+                currentState.updateDisplay(command.getDisplayable());
+                currentState.showCurrentDisplay(displayBox);
             }
             
+            if (!(command instanceof CommandUndo)) {
+                // clear redo stack when non undo command executed
+                currentState.clearRedoStack();
+            }
             if (command instanceof Revertible) {
                 // add to history list if project revertible
-                historyList.add((Revertible)command);
+                currentState.addUndoCommand((Revertible)command);
             }
             
         } catch (Exception e) {
             // catch error message
-            if (!textMode) {
+            if (!currentState.isTextMode()) {
                 statusBox.setStyle(CSS_ERROR);
             }
             feedback = e.getMessage();
@@ -125,27 +122,12 @@ public class GUI extends Application {
         return feedback;
     }
     
-    private static Font getFont(int size) {
-        return Font.font("Lucida Grande", FontWeight.NORMAL, size);
-    }
     
-    private static Font getBoldFont(int size) {
-        return Font.font("Lucida Grande", FontWeight.BOLD, size);
-    }
-    
-    public static Text getText(String string, Color color, int size) {
-        size += 4;
-        Text text = new Text(string);
-        text.setFill(color);
-        text.setFont(getFont(size));
-        text.setTextAlignment(TextAlignment.CENTER);
-        return text;
-    }
     
     private HBox getTitleBox() {
-        title = new Text("Welcome to NowGotTime");
+        title = new Text(TEXT_TITLE);
         title.setFill(Color.WHITE);
-        title.setFont(getFont(22));
+        title.setFont(getNormalFont(FONT_SIZE_TEXT));
         title.setTextAlignment(TextAlignment.CENTER);
         
         HBox titleBox = new HBox(title);
@@ -171,7 +153,7 @@ public class GUI extends Application {
         
         GridPane displayBox = new GridPane();
         displayBox.setVgap(3);
-        displayBox.setStyle("-fx-background-color: white; -fx-background-radius: 3;");
+        displayBox.setStyle(CSS_DISPLAY_BOX);
         displayBox.setPadding(BOX_PADDING);
         displayBox.setMinHeight(GUI_HEIGHT-142);
 
@@ -186,9 +168,7 @@ public class GUI extends Application {
     
     private HBox getPromptBox() {
         prompt = new TextField();
-        prompt.setStyle(""
-                + "-fx-font-size: 18px;"
-                + "-fx-font-family: Lucida Grande;");
+        prompt.setStyle(CSS_PROMPT_BOX);
 
         HBox promptBox = new HBox(prompt);
         HBox.setHgrow(prompt, Priority.ALWAYS);
@@ -199,7 +179,7 @@ public class GUI extends Application {
     }
     
     private HBox getStatusBox() {
-        status = new Text("Hi there!");
+        status = new Text(TEXT_DEFAULT_STATUS);
         status.setFont(getBoldFont(20));
         status.setFill(Color.WHITE);
         status.setTextAlignment(TextAlignment.CENTER);
@@ -218,7 +198,7 @@ public class GUI extends Application {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode().equals(KeyCode.ENTER)) {
-                    displayText(status, executeResponse(prompt.getText(), false));
+                    displayText(status, executeResponse(prompt.getText()));
                 }
             }
         });
@@ -280,22 +260,24 @@ public class GUI extends Application {
         return new Scene(ui, GUI_WIDTH, GUI_HEIGHT);
     }
     
+    public void initiateState(boolean textMode) {
+        currentState = new State(textMode);
+    }
     
-    public void initiateHandler() {
-        serviceHandler = new ServiceHandler();
-        projectHandler = new Projects();
-        historyList = new Stack<Revertible>();
+    public void initiateState() {
+        initiateState(false);
     }
     
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-	    initiateHandler();
+	    initiateState();
 	    
 	    primaryStage.setTitle(GUI_TITLE);
 	    
 	    Scene ui = getUserInterface();
 	    
-	    showDisplay(display);
+	    // Show current display to displaybox
+	    currentState.showCurrentDisplay(displayBox);
 	    
 	    primaryStage.setScene(ui);
 	    primaryStage.setResizable(false);
@@ -304,7 +286,6 @@ public class GUI extends Application {
 
 
     public static void main(String[] args) {
-        Main.mode = "GUI";
 		launch(args);
 	}
 }

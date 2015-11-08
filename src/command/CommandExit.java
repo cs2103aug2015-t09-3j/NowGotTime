@@ -5,8 +5,7 @@ package command;
 import helper.CommonHelper;
 import helper.Parser;
 import javafx.application.Platform;
-import project.Projects;
-import service.ServiceHandler;
+import object.State;
 
 public class CommandExit implements Command {
     
@@ -29,7 +28,7 @@ public class CommandExit implements Command {
      * Executes edit command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception {
+    public String execute(State state) throws Exception {
         Platform.exit();
         return "";
     }

@@ -7,9 +7,8 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
-import object.Event;
 import object.Item;
-import object.Todo;
+import object.State;
 import project.Projects;
 import service.ServiceHandler;
 
@@ -115,7 +114,10 @@ public class CommandEditItem implements CommandEdit {
      * Executes edit command, returns feedback string
      */
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay) throws Exception {
+    public String execute(State state) throws Exception {
+        Displayable currentDisplay = state.getCurrentDisplay();
+        Projects projectHandler = state.getProjectHandler();
+        ServiceHandler serviceHandler = state.getServiceHandler();
         
         if (item == null) {
             if (itemKey == null) {
@@ -156,29 +158,21 @@ public class CommandEditItem implements CommandEdit {
      * Reverts to initial value
      */
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay) throws Exception {
+    public String revert(State state) throws Exception {
         Command revertEditCommand = new CommandEditItem(item, fieldName, oldValue);
-        return revertEditCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return revertEditCommand.execute(state);
     }
 
     @Override
     public Displayable getDisplayable() {
         if (item == null) {
-            // TODO Refactor this
-            return new CommandSearch("\"" + itemKey + "\"");
+            return new CommandSearch(itemKey);
         } else if (itemKey == null) {
             // refresh current display if edit by index
             return null;
         } else {
-            // TODO Refactor : implement this on item class
-            String date;
-            if (item instanceof Event) {
-                date = ((Event)item).getStartDateString();
-            }
-            else {
-                date = ((Todo)item).getDeadlineDateString();
-            }
-            return new CommandViewDate(date);
+            // display item's date
+            return new CommandViewDate(item.getDisplayDateString());
         }
     }
 

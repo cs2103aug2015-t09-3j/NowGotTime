@@ -27,8 +27,8 @@ public class CommonHelper {
     public static final String SUCCESS_PROJECT_EDITED        = "project '%1$s' changed to '%2$s'";
     public static final String SUCCESS_ADDED_TO_PROJECT      = "'%1$s' added to project '%2$s'";
     public static final String SUCCESS_DELETED_FROM_PROJECT  = "'%1$s' deleted from project '%2$s'";
-    
-    public static final String SUCCESS_SEARCHED              = "Got it!";
+    public static final String SUCCESS_EXECUTED              = "Got it!";
+
     public static final String SUCCESS_ITEM_CHECKED          = "marked done '%1$s'";
     public static final String SUCCESS_ITEM_UNCHECKED        = "marked not done '%1$s'";
     public static final String SUCCESS_SET_DIRECTORY         = "save directory moved to '%1$s'";
@@ -45,7 +45,8 @@ public class CommonHelper {
     public static final String ERROR_INDEX_OUT_OF_BOUND  = "item with this index does not exists";
     public static final String ERROR_ITEM_NOT_FOUND      = "'%1$s' not found";
     public static final String ERROR_PROJECT_NOT_FOUND   = "project '%1$s' not found";
-    public static final String ERROR_EMPTY_HISTORY       = "cannot undo any previous command";
+    public static final String ERROR_EMPTY_UNDO          = "cannot undo any previous command";
+    public static final String ERROR_EMPTY_REDO          = "cannot reddo any previous command";
     public static final String ERROR_INVALID_PATH        = "invalid new save directory";
     public static final String ERROR_ALREADY_CHECKED     = "'%1$s' already checked";
     public static final String ERROR_ALREADY_UNCHECKED   = "'%1$s' already unchecked";
@@ -54,11 +55,7 @@ public class CommonHelper {
     public static final String ERROR_FAIL_DEL_PROGRESS   = "progress doesn't exist";
     public static final String ERROR_ITEM_INSIDE_PROJECT = "cannot delete, item is inside project '%1$s'";
     
-    
-    
-    public static final String FORMATTED_EVENT         = "[%1$s-%2$s] %3$s";
-    public static final String FORMATTED_TODO          = "[   by %1$s] %2$s";
-    public static final String FORMATTED_FLOATING_TODO = "[           ] %1$s";
+    public static final String FORMAT_SEARCH = "Found %1$s item(s):";
     
     public static final String FIELD_NAME     = "name";
     public static final String FIELD_START    = "start";

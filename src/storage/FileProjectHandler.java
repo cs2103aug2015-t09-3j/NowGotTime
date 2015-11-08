@@ -47,7 +47,6 @@ public class FileProjectHandler {
 	 * @param baseDirectory
 	 */
 	public FileProjectHandler(String baseDirectory){
-		//TODO: what if base directory is null?
 		this.baseDirectory = baseDirectory.concat("/");
 		
 		projectBookShelf = new ArrayList<ArrayList<Integer>>();
@@ -144,11 +143,11 @@ public class FileProjectHandler {
 		}catch(FileNotFoundException e){
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"retrieveProject", e.getMessage());
-			return null;
+			return projectBook;
 		}catch(IOException e){
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"retrieveProject", e.getMessage());
-			return null;
+			return projectBook;
 		}
 		 
 	}

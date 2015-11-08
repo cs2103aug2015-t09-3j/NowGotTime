@@ -6,8 +6,8 @@ import java.util.regex.Matcher;
 
 import helper.CommonHelper;
 import helper.Parser;
+import object.State;
 import project.Projects;
-import service.ServiceHandler;
 
 public class CommandAddProgress implements CommandAdd {
 
@@ -30,8 +30,9 @@ public class CommandAddProgress implements CommandAdd {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        Displayable currentDisplay = state.getCurrentDisplay();
+        Projects projectHandler = state.getProjectHandler();
         
         if (projectName == null) {
             if (currentDisplay instanceof CommandViewProjectName) {
@@ -44,16 +45,19 @@ public class CommandAddProgress implements CommandAdd {
         if (projectHandler.addProgressMessage(index, projectName, progress)) {
             return CommonHelper.SUCCESS_PROGRESS_ADDED;
         } else {
-            // TODO: different error when project not found
-            throw new Exception(CommonHelper.ERROR_FAIL_ADD_PROGRESS);
+            if (projectHandler.listExistingProjects().contains(projectName)) {
+                throw new Exception(CommonHelper.ERROR_PROJECT_NOT_FOUND);
+            } else {
+                throw new Exception(CommonHelper.ERROR_FAIL_ADD_PROGRESS);
+            }
         }
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
+    public String revert(State state)
             throws Exception {
         Command revertAddProgressCommand = new CommandDeleteProgress(index, projectName);
-        return revertAddProgressCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return revertAddProgressCommand.execute(state);
     
     }
 

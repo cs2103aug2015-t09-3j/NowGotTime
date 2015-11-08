@@ -94,8 +94,8 @@ public class TestTodo {
 	public void testFormattedStringWithParameters() throws AssertionError, Exception {
 		try {
 //			System.out.println("C");
-			assertEquals("Failed toFormattedStringWithPara (hasDatehasTime)", "[   by 14:52] Todo6", todo6.toFormattedString("25 Oct 2015"));
-			assertEquals("Failed toFormattedStringWithPara (hasNoDatehasNoTime)", "[           ] Todo5", todo5.toFormattedString("25 Oct 2015"));
+			assertEquals("Failed toFormattedStringWithPara (hasDatehasTime)", "Todo6", todo6.toFormattedString("25 Oct 2015"));
+			assertEquals("Failed toFormattedStringWithPara (hasNoDatehasNoTime)", "Todo5", todo5.toFormattedString("25 Oct 2015"));
 			
 //			System.out.println("1" + todo4.toFormattedString());
 //			System.out.println(todo2.toFormattedString());
@@ -111,8 +111,8 @@ public class TestTodo {
 		try {
 //			System.out.println("D");
 //			System.out.println("2" + todo4.toFormattedString());
-			assertEquals("Failed toFormattedString (hasDatehasTime)", "[   by 31 Oct 2015 14:52] Todo6", todo6.toFormattedString());
-			assertEquals("Failed toFormattedString (hasNoDatehasNoTime)", "[           ] Todo5", todo5.toFormattedString());
+			assertEquals("Failed toFormattedString (hasDatehasTime)", "Todo6", todo6.toFormattedString());
+			assertEquals("Failed toFormattedString (hasNoDatehasNoTime)", "Todo5", todo5.toFormattedString());
 			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());

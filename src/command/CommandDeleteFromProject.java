@@ -7,8 +7,8 @@ import java.util.regex.Matcher;
 import helper.CommonHelper;
 import helper.Parser;
 import object.Item;
+import object.State;
 import project.Projects;
-import service.ServiceHandler;
 
 public class CommandDeleteFromProject implements CommandDelete {
 
@@ -27,8 +27,9 @@ public class CommandDeleteFromProject implements CommandDelete {
     }
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        Displayable currentDisplay = state.getCurrentDisplay();
+        Projects projectHandler = state.getProjectHandler();
         
         if (projectName == null) {
             if (currentDisplay instanceof CommandViewProjectName) {
@@ -54,10 +55,10 @@ public class CommandDeleteFromProject implements CommandDelete {
     }
 
     @Override
-    public String revert(ServiceHandler serviceHandler, Projects projectHandler, Displayable currentDisplay)
+    public String revert(State state)
             throws Exception {
         Command revertDeleteFromProjectCommand = new CommandAddToProject(item, projectName);
-        return revertDeleteFromProjectCommand.execute(serviceHandler, projectHandler, null, currentDisplay);
+        return revertDeleteFromProjectCommand.execute(state);
     }
 
     @Override

@@ -116,13 +116,13 @@ public class FileProjectHandlerTest {
 				expectedProjEventId, fProjH.retrieveProject("project1"));
 		
 		assertEquals("Test retrieval of non-existing project", 
-				null, fProjH.retrieveProject("non-existing project"));
+				new ArrayList<Integer>(), fProjH.retrieveProject("non-existing project"));
 		
 		assertEquals("Test retrieval with null",
 				null, fProjH.retrieveProject(null));
 		
 		assertEquals("Test retrieval with projects name with symbols",
-				null, fProjH.retrieveProject("!@#$"));
+				new ArrayList<Integer>(), fProjH.retrieveProject("!@#$"));
 	}
 
 	public void testRetrieveProjectProgress() {

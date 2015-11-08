@@ -104,7 +104,7 @@ public class TestEvent {
 	public void testFormattedStringWithParameters() throws AssertionError, Exception {
 		try {
 			String formattedWithParameters = event3.toFormattedString("09 Nov 1993");
-			assertEquals("Fail toFormattedString(para)", "[17:00-23:59] EventName3", formattedWithParameters);
+			assertEquals("Fail toFormattedString(para)", "EventName3", formattedWithParameters);
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
 			throw AE;
@@ -115,7 +115,7 @@ public class TestEvent {
 	public void testFormattedString() throws AssertionError, Exception {
 		try {
 			String formatted = event3.toFormattedString();
-			assertEquals("Fail toFormattedString", "[21 Oct 2015 17:00-30 Oct 2015 02:00] EventName3", formatted);
+			assertEquals("Fail toFormattedString", "EventName3", formatted);
 			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());

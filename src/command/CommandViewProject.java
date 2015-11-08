@@ -4,13 +4,14 @@ package command;
 
 import java.util.ArrayList;
 
+import helper.CommonHelper;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import object.State;
 import project.Projects;
-import service.ServiceHandler;
 import ui.GUI;
 
 public class CommandViewProject implements CommandView {
@@ -23,14 +24,14 @@ public class CommandViewProject implements CommandView {
     ArrayList<Double> progressList;
 
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        Projects projectHandler = state.getProjectHandler();
         projectList = projectHandler.listExistingProjects();
         progressList = new ArrayList<Double>();
         for (String projectName : projectList) {
             progressList.add(projectHandler.progressBar(projectName));
         }
-        return "Got it!";
+        return CommonHelper.SUCCESS_EXECUTED;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class CommandViewProject implements CommandView {
         
         int rowIndex = 0;
         
-        HBox title = new HBox(GUI.getText("Projects", Color.PURPLE, 20));
+        HBox title = new HBox(GUI.getText(GUI.TEXT_PROJECT, Color.PURPLE, GUI.FONT_SIZE_HEADER));
         
         displayBox.add(title, 1, rowIndex++, 5, 1);
         Separator separator = new Separator();
@@ -54,9 +55,12 @@ public class CommandViewProject implements CommandView {
             String projectName = projectList.get(i);
             double progress = progressList.get(i);
             
-            Text bulletText = GUI.getText("\u2022", Color.GREY, 18);
-            Text nameText = GUI.getText(projectName, Color.GREY, 16);
-            Text progressText = GUI.getText(String.valueOf(progress)+"%", Color.GREEN, 16);
+            Text bulletText = GUI.getText(GUI.TEXT_BULLET,
+                    Color.GREY, GUI.FONT_SIZE_TITLE);
+            Text nameText = GUI.getText(projectName,
+                    Color.GREY, GUI.FONT_SIZE_TEXT);
+            Text progressText = GUI.getText(String.valueOf(progress)+"%",
+                    Color.GREEN, GUI.FONT_SIZE_TEXT);
 
             displayBox.add(bulletText, 1, rowIndex);
             displayBox.add(nameText, 2, rowIndex);

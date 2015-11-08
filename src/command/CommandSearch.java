@@ -3,12 +3,9 @@
 package command;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Matcher;
 
-import service.ServiceHandler;
 import ui.GUI;
-import ui.Main;
 import helper.CommonHelper;
 import helper.Parser;
 import javafx.scene.control.Separator;
@@ -17,8 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import object.Event;
 import object.Item;
+import object.State;
 import object.Todo;
-import project.Projects;
+import service.ServiceHandler;
 
 public class CommandSearch implements Command, Displayable {
 
@@ -48,17 +46,17 @@ public class CommandSearch implements Command, Displayable {
             Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_NAME);
             itemKey = matcher.group(Parser.TAG_NAME);
         } else {
-            assert(false);
+            itemKey = args;
         }
     }
     
     @Override
-    public String execute(ServiceHandler serviceHandler, Projects projectHandler, Revertible mostRecent, Displayable currentDisplay)
-            throws Exception {
+    public String execute(State state) throws Exception {
+        ServiceHandler serviceHandler = state.getServiceHandler();
         
         filteredItem = serviceHandler.search(itemKey);
-        if (Main.mode.equals("GUI")) {
-            return "Got it!";
+        if (!state.isTextMode()) {
+            return CommonHelper.SUCCESS_EXECUTED;
         } else {
             return CommonHelper.getFormattedItemList(filteredItem);
         }
@@ -69,15 +67,16 @@ public class CommandSearch implements Command, Displayable {
         
         displayBox.getChildren().clear();
         
-        Collections.sort(filteredItem);
-        
         String previousDate = null;
         
         int rowIndex = 0;
         int listNumber = 0;
         int matchesNumber = filteredItem.size();
         
-        displayBox.add(GUI.getText("Found " + matchesNumber + " item(s):", Color.GREEN, 16), 0, rowIndex++, 4, 1);
+        displayBox.add(
+                GUI.getText(String.format(CommonHelper.FORMAT_SEARCH, matchesNumber),
+                Color.GREEN, GUI.FONT_SIZE_TEXT), 
+                    0, rowIndex++, 4, 1);
         
         for (Item item : filteredItem) {
             String date;
@@ -96,24 +95,34 @@ public class CommandSearch implements Command, Displayable {
                 Text dateString = null;
                 
                 if (item instanceof Todo && !((Todo)item).hasDate()) {
-                    dateString = GUI.getText("Task", Color.BLACK, 18);
+                    dateString = GUI.getText(GUI.TEXT_FLOATING_TASK,
+                            Color.BLACK, GUI.FONT_SIZE_TITLE);
                 }
                 else {
-                    dateString = GUI.getText(date, Color.BLACK, 18);
+                    dateString = GUI.getText(date,
+                            Color.BLACK, GUI.FONT_SIZE_TITLE);
                 }
                 displayBox.add(dateString, 1, rowIndex++, 4, 1);
                 displayBox.add(separator, 0, rowIndex++, 4, 1);
             }
             listNumber++;
             
-            Text numberingText = GUI.getText(String.valueOf(listNumber), Color.BLACK, 16);
-            Text markText = GUI.getText("\u2714", Color.GREEN, 18);
+            Text numberingText = GUI.getText(String.valueOf(listNumber),
+                    Color.BLACK, GUI.FONT_SIZE_TEXT);
+            Text markText;
             
-            if (!item.getDone()) {
-                markText = GUI.getText("\u2610", Color.GREY, 18);
+            if (item.getDone()) {
+                markText = GUI.getText(GUI.TEXT_CHECK, 
+                        Color.GREEN, GUI.FONT_SIZE_TITLE);
+            } else {
+                markText = GUI.getText(GUI.TEXT_BOX, 
+                        Color.GREY, GUI.FONT_SIZE_TITLE);
             }
-            Text nameText = GUI.getText(item.getName(), Color.GREY, 16);
             
+            Text nameText = GUI.getText(item.getName(),
+                    Color.GREY, GUI.FONT_SIZE_TEXT);
+            
+            // get time string for this item
             String timeString = "";
             if (item instanceof Event) {
                 timeString += ((Event)item).getStartTimeString();
@@ -132,8 +141,9 @@ public class CommandSearch implements Command, Displayable {
             }
             
 
-            Text timeText = GUI.getText(timeString, Color.GREY, 16);
-
+            Text timeText = GUI.getText(timeString,
+                    Color.GREY, GUI.FONT_SIZE_TEXT);
+            
             displayBox.add(numberingText, 0, rowIndex);
             displayBox.add(markText, 1, rowIndex);
             displayBox.add(nameText, 2, rowIndex);

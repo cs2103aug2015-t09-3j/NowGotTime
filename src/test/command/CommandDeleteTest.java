@@ -23,16 +23,16 @@ public class CommandDeleteTest extends CommandTest {
         CommandDeleteItem cmd = new CommandDeleteItem("\"" + name + "\"");
         
         // new event exists on service
-        assertNotNull(service.viewSpecificEvent(name));
+        assertNotNull(state.getServiceHandler().viewSpecificEvent(name));
         
-        String feedback = cmd.execute(service, project, getMostRecentRevertible(), null);
+        String feedback = cmd.execute(state);
 
         // successfully deleted
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_DELETED, name));
         
 
         // new event removed from the service
-        assertNull(service.viewSpecificEvent(name));
+        assertNull(state.getServiceHandler().viewSpecificEvent(name));
         
     }
     
@@ -45,16 +45,16 @@ public class CommandDeleteTest extends CommandTest {
         CommandDeleteItem cmd = new CommandDeleteItem("\"" + name + "\"");
         
         // new todo exists on service
-        assertNotNull(service.viewSpecificTask(name));
+        assertNotNull(state.getServiceHandler().viewSpecificTask(name));
         
-        String feedback = cmd.execute(service, project, getMostRecentRevertible(), null);
+        String feedback = cmd.execute(state);
 
         // successfully deleted
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_DELETED, name));
         
 
         // new todo removed from the service
-        assertNull(service.viewSpecificTask(name));
+        assertNull(state.getServiceHandler().viewSpecificTask(name));
     }
     
     @Test
@@ -65,15 +65,15 @@ public class CommandDeleteTest extends CommandTest {
         CommandDeleteItem cmd = new CommandDeleteItem("\"" + name + "\"");
         
         // new todo exists on service
-        assertNotNull(service.viewSpecificTask(name));
+        assertNotNull(state.getServiceHandler().viewSpecificTask(name));
         
-        String feedback = cmd.execute(service, project, getMostRecentRevertible(), null);
+        String feedback = cmd.execute(state);
 
         // successfully deleted
         assertEquals(feedback, String.format(CommonHelper.SUCCESS_ITEM_DELETED, name));
         
 
         // new todo removed from the service
-        assertNull(service.viewSpecificTask(name));
+        assertNull(state.getServiceHandler().viewSpecificTask(name));
     }
 }
