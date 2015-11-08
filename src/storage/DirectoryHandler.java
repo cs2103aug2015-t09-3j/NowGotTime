@@ -47,17 +47,30 @@ public class DirectoryHandler {
 	public DirectoryHandler(){
 		if(!doesFileExist(OVERVIEW)){
 			setUpDirectory(null);
-		}else{
+		} else{
 			checkDirectories();
 		}
 	}
 	
+	/**
+	 * Retrieve the address of the base directory.
+	 * @return
+	 */
+	public String getBaseDirectory(){
+		return baseDirectory;
+	}
+	
+	/**
+	 * Set a new directory to where the data will be saved.
+	 * @param theBaseDirectory
+	 * @return
+	 */
 	public boolean setNewBaseDirectory(String theBaseDirectory){
 		if(theBaseDirectory != null && (new File(theBaseDirectory).exists())){
 			String oldDirectory = baseDirectory;			
 			if(setUpDirectory(theBaseDirectory)){
 				return true;
-			}else{
+			} else{
 				setUpDirectory(oldDirectory);	//revert back
 			}
 		}
@@ -66,7 +79,11 @@ public class DirectoryHandler {
 	
 /************************* Private class methods *****************************/
 	
-	//return true if directories have all been created, return false if some/all directories failed to be created.
+	/**
+	 * return true if directories have all been created, return false if some/all directories failed to be created.
+	 * @param theBaseDirectory
+	 * @return
+	 */
 	private boolean setUpDirectory(String theBaseDirectory){
 		if(theBaseDirectory != null){
 			baseDirectory = theBaseDirectory;
@@ -87,7 +104,10 @@ public class DirectoryHandler {
 		return false;
 	}
 	
-	//create directory if they are missing.
+	/**
+	 * create directory if they are missing.
+	 * @return
+	 */
 	private boolean checkDirectories() {	
 		readOverviewFile();
 		
@@ -110,9 +130,13 @@ public class DirectoryHandler {
 		return new File(path).exists();
 	}
 	
-	//return String of directory path if created, else return null
+	/**
+	 * return String of directory path if created, else return null
+	 * @param directoryName
+	 * @return
+	 */
 	private String createDirectory(String directoryName){
-		//this line is to differentiate setting up default dir, or changing to new dir
+		//this is to differentiate setting up default dir, or changing to new dir
 		if(baseDirectory == null){
 			baseDirectory = getDefaultDirectory();
 			if(baseDirectory == null){
@@ -123,7 +147,7 @@ public class DirectoryHandler {
 		String newDirectoryPath = baseDirectory.concat("/" + directoryName);
 		if(makeNewDirectory(newDirectoryPath)){
 			return newDirectoryPath;
-		}else{
+		} else{
 			return null;
 		}
 	}
@@ -132,15 +156,20 @@ public class DirectoryHandler {
 		try{
 			File outfile = new File(OVERVIEW);
 			BufferedWriter writer = new BufferedWriter(new FileWriter(outfile));
-					
-			writer.write(todoPath); writer.newLine();
-			writer.write(eventPath); writer.newLine();
-			writer.write(projectPath); writer.newLine();
+			
+			writer.write(baseDirectory); 
+			writer.newLine();
+			writer.write(todoPath); 
+			writer.newLine();
+			writer.write(eventPath); 
+			writer.newLine();
+			writer.write(projectPath); 
+			writer.newLine();
 			writer.write(END_OF_PATH_DIRECTORY);
 			writer.close();
 			return true;
 	
-		}catch(IOException e){
+		} catch(IOException e){
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"writeOverviewTextFile", e.getMessage());
 			return false;
@@ -174,6 +203,7 @@ public class DirectoryHandler {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(outfile));
 			
+			baseDirectory = reader.readLine();
 			todoPath = reader.readLine();
 			eventPath = reader.readLine();
 			projectPath = reader.readLine();
@@ -185,7 +215,7 @@ public class DirectoryHandler {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"readOverviewFile", e.getMessage());
 			return false;
-		}catch (IOException e) {
+		} catch (IOException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"readOverviewFile", e.getMessage());
 			return false;

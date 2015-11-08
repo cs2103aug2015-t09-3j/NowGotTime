@@ -1,6 +1,7 @@
 //@@author A0124402Y
-
 package storage;
+
+import helper.MyLogger;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,24 +10,20 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import object.Event;
 import object.Item;
 import object.Todo;
 
-/**
- * 
- * @author A0124402Y
- *
- */
 public class FileHandler implements FileManager{
+	
+	private MyLogger myLogger = new MyLogger();
 	
 	private static final String FLOATING_TODO = "Floating_Todo.txt";
 	private static final String NORMAL_TODO = "Normal_Todo.txt";
@@ -68,7 +65,11 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public ArrayList<Event> retrieveEventByDate(String date){
-		return fEventH.retrieveEventByDate(date);
+		if(date != null){
+			return fEventH.retrieveEventByDate(date);
+		}else{
+			return null;
+		}
 	}
 	
 	/**
@@ -83,8 +84,13 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean saveNewEventHandler(Event event){
-		writeCounter();
-		return fEventH.saveNewEventHandler(event);
+		if(event != null){
+			writeCounter();
+			return fEventH.saveNewEventHandler(event);
+			
+		}else{
+			return false;
+		}
 	}
 	
 	/**
@@ -104,7 +110,10 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public ArrayList<Todo> retrieveTodoByDate(String date) {
-		return fTodoH.retrieveTodoByDate(date);
+		if(date != null)
+			return fTodoH.retrieveTodoByDate(date);
+		else
+			return null;
 	}
 	
 	/**
@@ -127,8 +136,12 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean saveNewTodoHandler(Todo task) {
-		writeCounter();
+		if(task != null){
+			writeCounter();
 		return fTodoH.saveNewTodoHandler(task);
+		}else{
+			return false;
+		}
 	}
 	
 	/**
@@ -159,7 +172,11 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public ArrayList<Integer> retrieveProjectTimeLine(String projectName) {
-		return fProjH.retrieveProject(projectName);
+		if(projectName != null){
+			return fProjH.retrieveProject(projectName);
+		} else {
+			return null;
+		}
 	}
 	
 	@Override
@@ -180,7 +197,12 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean saveEditedProjectDetails(ArrayList<Integer> projectBook, HashMap<Integer, String> progressBook, String projectName) {
-		return fProjH.saveEditedProjectDetails(projectBook, progressBook, projectName);
+		if(projectBook == null || progressBook == null || projectName == null){
+			return false;
+		} else{
+			projectName = projectName.toLowerCase();
+			return fProjH.saveEditedProjectDetails(projectBook, progressBook, projectName);
+		}
 	}
 
 	/**
@@ -196,26 +218,31 @@ public class FileHandler implements FileManager{
 	 */
 	@Override
 	public boolean deleteProject(String projectName){
-		return fProjH.deleteProject(projectName);
+		if(projectName != null){
+			return fProjH.deleteProject(projectName);
+		} else{
+			return false;
+		}	
 	}
 	
 /****************************** Internal *************************************/	
+	
 	private void readOverviewerFile() {
 		inputFile = new File(EVENT_OVERVIEWER);	
 		
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 			
+			reader.readLine();
 			todoPath = reader.readLine();
 			eventPath = reader.readLine();
 			projectPath = reader.readLine();
 			
 			reader.close();		 
 		}
-		catch (FileNotFoundException e) {
-			// Do nothing
-		}catch (IOException e) {
-			// Do nothing
+		catch (Exception e) {
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"readOverViewerFile", e.getMessage());
 		}
 	}
 	
@@ -300,41 +327,40 @@ public class FileHandler implements FileManager{
 	 * Deletes all text files available
 	 */
 	public void clearAll(){
-		try {		
-			File dir = new File(todoPath);
+		String baseDirectory = directHand.getBaseDirectory();
+		cleanUp(baseDirectory);
+		cleanUp(EVENT_OVERVIEWER);
+		cleanUp(COUNTER);
+	}
+	
+	/**
+	 * Clean up directory, mainly for the purpose of the changing of directory
+	 * @param baseDirectory
+	 * @return
+	 */
+	public boolean cleanUp(String baseDirectory){
+		try {
+			File dir = new File(baseDirectory);
 			if(dir.isDirectory() && dir.list().length > 0){
-				for(File file: dir.listFiles()) file.delete(); 
+				for(File file: dir.listFiles()) {
+					if(!file.isDirectory()){
+						file.delete(); 
+					}else{
+						cleanUp(file.getPath());
+					}
+				}
+			} else{
+				dir.delete();
 			}
-			Path path = Paths.get(todoPath);
-			Files.delete(path);
 			
-			dir = new File(eventPath);
-			if(dir.isDirectory() && dir.list().length > 0){
-				for(File file: dir.listFiles()) file.delete(); 
-			}
-			path = Paths.get(eventPath);
+			Path path = Paths.get(baseDirectory);
 			Files.delete(path);
-			
-			dir = new File(projectPath);
-			if(dir.isDirectory() && dir.list().length > 0){
-				for(File file: dir.listFiles()) file.delete(); 
-			}
-			path = Paths.get(projectPath);
-			Files.delete(path);
-			
-			path = Paths.get("overview.txt");
-			Files.delete(path);
-			
-			path = Paths.get("counter.txt");
-			Files.delete(path);
-			
-		} catch (NoSuchFileException x) {
-			System.out.println("err no such file.");
-		} catch (DirectoryNotEmptyException x) {
-			System.out.println("err directory not empty.");
-		} catch (IOException x) {
-			System.out.println("err");
+			return true;
+		} catch(Exception e){
+			myLogger.logp(Level.WARNING, getClass().getName(), 
+					"cleanUp", e.getMessage());
 		}
+		return false;
 	}
 
 /****************************** Item *****************************************/

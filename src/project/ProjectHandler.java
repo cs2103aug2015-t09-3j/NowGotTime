@@ -54,7 +54,7 @@ public class ProjectHandler implements ProjectManager{
 	@Override
 	public boolean deleteProjectEvent(Event event, String projectName) {
 		viewProjectTimeline(projectName);
-		int id = event.getId();
+		int id = extractIdFromEvent(event);
 		int index = 0;
 		for (int savedId : projectBook) {
 			if (savedId == id) {
@@ -66,6 +66,11 @@ public class ProjectHandler implements ProjectManager{
 			}
 			index++;
 		} return false;
+	}
+
+	public int extractIdFromEvent(Event event) {
+		int id = event.getId();
+		return id;
 	}
 	
 	@Override
@@ -296,7 +301,7 @@ public class ProjectHandler implements ProjectManager{
 		Collections.sort(eventsToBeSorted, eventComparator);
 		
 		for (Event event : eventsToBeSorted) {
-			int id = event.getId();
+			int id = extractIdFromEvent(event);
 			newProjectBook.add(id);
 		}
 		projectBook = newProjectBook;

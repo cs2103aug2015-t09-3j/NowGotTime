@@ -118,9 +118,6 @@ public class FileProjectHandlerTest {
 		assertEquals("Test retrieval of non-existing project", 
 				new ArrayList<Integer>(), fProjH.retrieveProject("non-existing project"));
 		
-		assertEquals("Test retrieval with null",
-				null, fProjH.retrieveProject(null));
-		
 		assertEquals("Test retrieval with projects name with symbols",
 				new ArrayList<Integer>(), fProjH.retrieveProject("!@#$"));
 	}

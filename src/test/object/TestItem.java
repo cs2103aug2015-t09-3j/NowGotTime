@@ -18,6 +18,8 @@ import storage.FileHandler;
 
 public class TestItem {
 
+	private static final String MESSAGE_TEAR_DOWN = "Test Files used in Item Testing Cleared";
+	private static final String MESSAGE_SET_UP = "Files Cleared for Item Testing";
 	//Instantiate using Todo because Item is an Abstract Class and cannot be instantiated
 	protected static Item item; 
 	protected static FileHandler clear;
@@ -33,7 +35,7 @@ public class TestItem {
 	public static void setUpBeforeTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Files Cleared for Item Testing");
+		System.out.println(MESSAGE_SET_UP);
 	}
 	
 	@AfterClass
@@ -41,7 +43,7 @@ public class TestItem {
 		clear = new FileHandler();
 		clear.clearAll();
 		Item.setCounter(0);  
-		System.out.println("Test Files used in Item Testing Cleared");
+		System.out.println(MESSAGE_TEAR_DOWN);
 	}
 	
 	@BeforeClass

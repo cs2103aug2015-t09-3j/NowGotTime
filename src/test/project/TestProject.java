@@ -16,6 +16,18 @@ import storage.FileHandler;
 
 public class TestProject {
 
+	private static final String OLD_PROGRESS_MESSAGE = "Progress message here";
+	private static final String NEW_PROGRESS_MESSAGE = "this is new";
+	private static final String PROJECT_NAME_PROJECT = "Project";
+	private static final String NON_EXISTENT_PROJECT = "nonexistent";
+	private static final String PROJECT_NAME_HELLOWORLD = "helloWorld";
+	private static final String PROJECT_NAME_HELLOALL = "helloAll";
+	private static final String PROJECT_NAME_288_CHARACTERS = "welovedamith"
+			+ "welovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamith"
+			+ "welovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamith"
+			+ "welovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamith";
+	private static final String MESSAGE_TEAR_DOWN = "Test Files used in Project Testing Cleared";
+	private static final String MESSAGE_SET_UP = "Files Cleared for Project Class Testing";
 	protected static FileHandler clear;
 	private Projects project;
 	
@@ -28,7 +40,7 @@ public class TestProject {
 	public void setUpBeforeTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Files Cleared for Project Class Testing");
+		System.out.println(MESSAGE_SET_UP);
 		
 		Item.setCounter(0);
 	    event1 = new Event("EventName1", "25 Oct 2015", "26 Oct 2015", "10:00", "21:00", "");
@@ -45,7 +57,7 @@ public class TestProject {
 	public void tearDownAfterTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Test Files used in Project Testing Cleared");
+		System.out.println(MESSAGE_TEAR_DOWN);
 	}
 	
 	@Test
@@ -57,10 +69,7 @@ public class TestProject {
 			assertFalse("Successfully created project with symbols", project.createProject("A'\\/;*^<>|?"));
 			//Parser handles create null project and FileProjHandler handles "" as exception
 			assertFalse("Successfully created project with no project name", project.createProject(""));
-			assertFalse("Successfully created project with too long a name", project.createProject("welovedamith"
-					+ "welovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamith"
-					+ "welovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamith"
-					+ "welovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamithwelovedamith"));
+			assertFalse("Successfully created project with too long a name", project.createProject(PROJECT_NAME_288_CHARACTERS));
 			
 			//delete
 			assertTrue("Failed to delete project", project.deleteProject("cS2103t"));
@@ -89,8 +98,8 @@ public class TestProject {
 			String[] strArray = new String[]{};
 			assertArrayEquals("Failed to list empty existing projects", strArray, project.listExistingProjects().toArray());
 			
-			project.createProject("helloAll");
-			project.createProject("helloWorld");
+			project.createProject(PROJECT_NAME_HELLOALL);
+			project.createProject(PROJECT_NAME_HELLOWORLD);
 			String[] strArray2 = new String[]{"helloall", "helloworld"};
 			
 			assertArrayEquals("Failed to list existing projects", strArray2, project.listExistingProjects().toArray());	
@@ -105,8 +114,8 @@ public class TestProject {
 		try {
 			
 			
-			project.createProject("helloAll");
-			project.createProject("helloWorld");
+			project.createProject(PROJECT_NAME_HELLOALL);
+			project.createProject(PROJECT_NAME_HELLOWORLD);
 			
 			//Add
 			assertTrue("Failed to add event to project by index", project.addProjectEvent(event1, 0));
@@ -117,24 +126,24 @@ public class TestProject {
 			//View
 			Integer[] intArray = new Integer[]{1, 0}; //Sorted by timing
 			assertArrayEquals("Failed to view project timeline by name", intArray, project.viewProjectTimeline("helloall").toArray());
-			assertNull("Successfully view non-existent project's timeline by name", project.viewProjectTimeline("nonexistent"));
+			assertNull("Successfully view non-existent project's timeline by name", project.viewProjectTimeline(NON_EXISTENT_PROJECT));
 			assertArrayEquals("Failed to view project timeline by index", intArray, project.viewProjectTimeline(0).toArray());
 			assertNull("Successfully view non-existent project's timeline by index", project.viewProjectTimeline(3));
 			
 			Event[] eventArray = new Event[]{event2, event1}; //Sorted too!
-			assertArrayEquals("Failed to view project event timeline by name", eventArray, project.viewProjectTimelineInEvents("helloAll").toArray());
-			assertNull("Successfully viewed non-existent project event timeline by name", project.viewProjectTimelineInEvents("nonexistent"));
+			assertArrayEquals("Failed to view project event timeline by name", eventArray, project.viewProjectTimelineInEvents(PROJECT_NAME_HELLOALL).toArray());
+			assertNull("Successfully viewed non-existent project event timeline by name", project.viewProjectTimelineInEvents(NON_EXISTENT_PROJECT));
 			assertArrayEquals("Failed to view project event timeline by index", eventArray, project.viewProjectTimelineInEvents(0).toArray());
 			assertNull("Successfully viewed non-existent project event timeline by index", project.viewProjectTimelineInEvents(3));
 			
 			//Pass to-be-edited Event to Parser to call editing in Event Class.
-			assertEquals("Failed to edit Event", event2, project.editEvent(0, "helloAll"));
-			assertNull("Successfully edited event in non-existent project", project.editEvent(0, "nonexistent"));
+			assertEquals("Failed to edit Event", event2, project.editEvent(0, PROJECT_NAME_HELLOALL));
+			assertNull("Successfully edited event in non-existent project", project.editEvent(0, NON_EXISTENT_PROJECT));
 			
 			//Delete
-			assertTrue("Failed to delete Event by event, projectname", project.deleteProjectEvent(event1, "helloAll"));
-			assertFalse("Successfully deleted event in non-existent project (event, projectname)", project.deleteProjectEvent(event2, "nonexistent"));
-			assertFalse("Successfully deleted non-existent Event by event, projectname", project.deleteProjectEvent(event3, "helloAll"));
+			assertTrue("Failed to delete Event by event, projectname", project.deleteProjectEvent(event1, PROJECT_NAME_HELLOALL));
+			assertFalse("Successfully deleted event in non-existent project (event, projectname)", project.deleteProjectEvent(event2, NON_EXISTENT_PROJECT));
+			assertFalse("Successfully deleted non-existent Event by event, projectname", project.deleteProjectEvent(event3, PROJECT_NAME_HELLOALL));
 			
 			assertTrue("Failed to delete Event by event, index", project.deleteProjectEvent(event2, 0));
 			assertFalse("Successfully deleted event in non-existent project (event, index)", project.deleteProjectEvent(event2, 3));
@@ -142,7 +151,7 @@ public class TestProject {
 			
 			project.addProjectEvent(event3, "helloworld");
 			assertTrue("Failed to delete Event by eventArrayListindex, projectname", project.deleteProjectEvent(0, "helloworld"));
-			assertFalse("Successfully deleted event in non-existent project (eventALindex, projectname)", project.deleteProjectEvent(0, "nonexistent"));
+			assertFalse("Successfully deleted event in non-existent project (eventALindex, projectname)", project.deleteProjectEvent(0, NON_EXISTENT_PROJECT));
 			assertFalse("Successfully deleted non-existent Event by eventArrayListindex, projectname", project.deleteProjectEvent(1, "helloworld"));		
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
@@ -176,18 +185,18 @@ public class TestProject {
 	public void testProgressBar() throws AssertionError{
 		try {
 			
-			project.createProject("Project");
-			project.addProjectEvent(event1, "Project");
-			project.addProjectEvent(event2, "Project");
-			project.addProjectEvent(event3, "Project");
+			project.createProject(PROJECT_NAME_PROJECT);
+			project.addProjectEvent(event1, PROJECT_NAME_PROJECT);
+			project.addProjectEvent(event2, PROJECT_NAME_PROJECT);
+			project.addProjectEvent(event3, PROJECT_NAME_PROJECT);
 			
 			event1.setDone(true);
 			
 			FileHandler fHandler = new FileHandler();
 			fHandler.saveNewEventHandler(event1);
 			
-			assertEquals("Failed to calculate percentage", 33.33, project.progressBar("Project"), 0.01);
-			assertEquals("Successfully calculated percentage of a non-existent project", -1, project.progressBar("nonexistent"), 0.01);
+			assertEquals("Failed to calculate percentage", 33.33, project.progressBar(PROJECT_NAME_PROJECT), 0.01);
+			assertEquals("Successfully calculated percentage of a non-existent project", -1, project.progressBar(NON_EXISTENT_PROJECT), 0.01);
 			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
@@ -198,26 +207,26 @@ public class TestProject {
 	@Test
 	public void testAddEditDeleteViewProgress() throws AssertionError{
 		try {
-			project.createProject("Project");
-			project.addProjectEvent(event1, "Project");
-			project.addProjectEvent(event2, "Project");
-			project.addProjectEvent(event3, "Project");
+			project.createProject(PROJECT_NAME_PROJECT);
+			project.addProjectEvent(event1, PROJECT_NAME_PROJECT);
+			project.addProjectEvent(event2, PROJECT_NAME_PROJECT);
+			project.addProjectEvent(event3, PROJECT_NAME_PROJECT);
 			
 			// sorted event 3,2,1
 			
-			assertTrue("Failed to add progress message", project.addProgressMessage(0, "Project", "Progress message here"));
-			assertFalse("Successfully added progress message to non-existent project", project.addProgressMessage(0, "nonexistent", "progress Message here"));
+			assertTrue("Failed to add progress message", project.addProgressMessage(0, PROJECT_NAME_PROJECT, OLD_PROGRESS_MESSAGE));
+			assertFalse("Successfully added progress message to non-existent project", project.addProgressMessage(0, NON_EXISTENT_PROJECT, "progress message here"));
 			
-			assertTrue("Failed to edit progress message", project.editProgressMessage(0, "this is new", "Project"));
-			assertFalse("Successfully edited progress message in non-existent project", project.editProgressMessage(0, "this is new", "nonexistent"));
+			assertTrue("Failed to edit progress message", project.editProgressMessage(0, NEW_PROGRESS_MESSAGE, PROJECT_NAME_PROJECT));
+			assertFalse("Successfully edited progress message in non-existent project", project.editProgressMessage(0, NEW_PROGRESS_MESSAGE, NON_EXISTENT_PROJECT));
 	
-			assertEquals("Failed to view progress message by index", "this is new", project.viewEventProgressTimeline(0).get(0).getAdditionalInfo());
-			assertEquals("Failed to view progress message by name", "this is new", project.viewEventProgressTimeline("Project").get(0).getAdditionalInfo());
+			assertEquals("Failed to view progress message by index", NEW_PROGRESS_MESSAGE, project.viewEventProgressTimeline(0).get(0).getAdditionalInfo());
+			assertEquals("Failed to view progress message by name", NEW_PROGRESS_MESSAGE, project.viewEventProgressTimeline(PROJECT_NAME_PROJECT).get(0).getAdditionalInfo());
 			assertNull("Successfully viewed progress message in nonexistent project by index", project.viewEventProgressTimeline(2));
-			assertNull("Successfully viewed progress message in nonexistent project by name", project.viewEventProgressTimeline("nonexistent"));
+			assertNull("Successfully viewed progress message in nonexistent project by name", project.viewEventProgressTimeline(NON_EXISTENT_PROJECT));
 			
-			assertTrue("Failed to delete progress message", project.deleteProgressMessage(0, "Project"));
-			assertFalse("Successfully deleted progress message in non-existent project", project.deleteProgressMessage(0, "nonexistent"));
+			assertTrue("Failed to delete progress message", project.deleteProgressMessage(0, PROJECT_NAME_PROJECT));
+			assertFalse("Successfully deleted progress message in non-existent project", project.deleteProgressMessage(0, NON_EXISTENT_PROJECT));
 			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
@@ -228,9 +237,9 @@ public class TestProject {
 	@Test
 	public void testSearchItem() throws AssertionError{
 		try {
-			project.createProject("Project");
-			project.addProjectEvent(event1, "Project");
-			project.addProjectEvent(event2, "Project");
+			project.createProject(PROJECT_NAME_PROJECT);
+			project.addProjectEvent(event1, PROJECT_NAME_PROJECT);
+			project.addProjectEvent(event2, PROJECT_NAME_PROJECT);
 			
 			//tolowercase
 			assertEquals("Failed to search item", "project", project.searchItem(event1));

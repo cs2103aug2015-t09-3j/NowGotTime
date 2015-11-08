@@ -14,6 +14,10 @@ import storage.FileHandler;
 
 public class TestTodo {
 	
+	private static final String MESSAGE_TEAR_DOWN = "Test Files used in Todo Testing Cleared";
+
+	private static final String MESSAGE_SET_UP = "Files Cleared for Todo Testing";
+
 	protected static FileHandler clear;
 	
 	private static Todo todo1;
@@ -29,7 +33,7 @@ public class TestTodo {
 	public static void setUpBeforeTesting() throws Exception {
 		clear = new FileHandler();
 		clear.clearAll();
-		System.out.println("Files Cleared for Todo Testing");
+		System.out.println(MESSAGE_SET_UP);
 	
 		Item.setCounter(0);
 		todo1 = new Todo("Todo1");
@@ -45,7 +49,7 @@ public class TestTodo {
 		clear = new FileHandler();
 		clear.clearAll();
 		Item.setCounter(0);
-		System.out.println("Test Files used in Todo Testing Cleared");
+		System.out.println(MESSAGE_TEAR_DOWN);
 	}
 	
 	@Test
