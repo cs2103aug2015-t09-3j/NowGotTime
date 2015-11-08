@@ -12,9 +12,9 @@ import project.Projects;
 
 public class CommandDeleteFromProject implements CommandDelete {
 
-    int index;
-    String projectName;
-    Item item;
+    private int index;
+    private String projectName;
+    private Item item;
     
     public CommandDeleteFromProject(String args) {
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DELETE_INDEX_FROM_PROJECT);

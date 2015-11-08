@@ -11,9 +11,9 @@ import project.Projects;
 
 public class CommandAddProgress implements CommandAdd {
 
-    int index;
-    String progress;
-    String projectName;
+    private int index;
+    private String progress;
+    private String projectName;
     
     public CommandAddProgress(String args) {
         

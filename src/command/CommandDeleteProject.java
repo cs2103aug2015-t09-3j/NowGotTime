@@ -11,7 +11,7 @@ import project.Projects;
 
 public class CommandDeleteProject implements CommandDelete {
 
-    String projectName;
+    private String projectName;
     
     public CommandDeleteProject(String args) {
         

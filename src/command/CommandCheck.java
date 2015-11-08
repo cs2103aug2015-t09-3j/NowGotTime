@@ -16,9 +16,9 @@ public class CommandCheck implements Command, Revertible {
 
     public static final String KEYWORD = "check";
 
-    String itemKey = null;
-    int itemIndex;
-    Item item;
+    private String itemKey = null;
+    private int itemIndex;
+    private Item item;
     
     public CommandCheck(String args) throws Exception {
         Matcher matcher;

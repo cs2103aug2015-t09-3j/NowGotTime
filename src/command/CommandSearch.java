@@ -37,8 +37,8 @@ public class CommandSearch implements Command, Displayable {
         return commandSearch;
     }
     
-    String itemKey;
-    ArrayList<Item> filteredItem;
+    private String itemKey;
+    private ArrayList<Item> filteredItem;
 
     public CommandSearch(String args) {
         

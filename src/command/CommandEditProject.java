@@ -11,10 +11,10 @@ import project.Projects;
 
 public class CommandEditProject implements CommandEdit {
 
-    String projectName;
-    String fieldName;
-    String newValue;
-    String oldValue;
+    private String projectName;
+    private String fieldName;
+    private String newValue;
+    
     public CommandEditProject(String args) {
 
         Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_EDIT_PROJECT);
