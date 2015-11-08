@@ -333,6 +333,11 @@ public class FileHandler implements FileManager{
 		cleanUp(COUNTER);
 	}
 	
+	/**
+	 * Clean up directory, mainly for the purpose of the changing of directory
+	 * @param baseDirectory
+	 * @return
+	 */
 	public boolean cleanUp(String baseDirectory){
 		try {
 			File dir = new File(baseDirectory);
