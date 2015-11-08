@@ -11,7 +11,6 @@ import helper.CommonHelper;
 import object.Item;
 import storage.FileHandler;
 import ui.GUI;
-import ui.Main;
 
 public class IntegrationTest {
 	 protected static GUI gui;
@@ -53,7 +52,9 @@ public class IntegrationTest {
 	 
 	 private static final String REDO = "redo";
 	 
-	 
+	 private static final String VIEWPROJECT = "view project";
+	 private static final String PROJECT = "view \"123456\" ";
+	 private static final String ADDPROJECT = "add project \"123456\"";
 	 
     @Before
     public void setUp() throws Exception {
@@ -224,5 +225,22 @@ public class IntegrationTest {
     	gui.executeResponse(DELETEKEYWORDTASK);
     	gui.executeResponse(UNDO);
     	assertEquals("redo delete floating2Task Singapore alone valid", String.format(CommonHelper.SUCCESS_ITEM_DELETED, "floating2Task Singapore alone"),gui.executeResponse(REDO)); //redo delete floating, deleting a floating task
+    }
+    
+    @Test
+    public void testViewProjectNameInvaild() {
+    	assertEquals("view project 123456 invalid", String.format(CommonHelper.ERROR_PROJECT_NOT_FOUND, "123456"),gui.executeResponse(PROJECT)); // no project created yet
+    }
+    
+    @Test
+    public void testViewProjectNameVaild() {
+    	gui.executeResponse(ADDPROJECT);
+    	assertEquals("view project 123456 Valid", "Got it!",gui.executeResponse(PROJECT)); 
+    }
+    
+    @Test
+    public void testViewProjectVaild() {
+    	gui.executeResponse(ADDPROJECT);
+    	assertEquals("view all projects Valid", "Got it!",gui.executeResponse(VIEWPROJECT)); 
     }
 }
