@@ -11,21 +11,21 @@ import java.nio.file.Paths;
 public class PreparationCleanUp {
 	
 	public static boolean cleanUp(String baseDirectory){
-				
-		File dir = new File(baseDirectory);
-		if(dir.isDirectory() && dir.list().length > 0){
-			for(File file: dir.listFiles()) {
-				if(!file.isDirectory()){
-					file.delete(); 
-				}else{
-					cleanUp(file.getPath());
+		try {		
+			File dir = new File(baseDirectory);
+			if(dir.isDirectory() && dir.list().length > 0){
+				for(File file: dir.listFiles()) {
+					if(!file.isDirectory()){
+						file.delete(); 
+					}else{
+						cleanUp(file.getPath());
+					}
 				}
 			}
-		}
+			
+			Path path = Paths.get(baseDirectory);
 		
-		Path path = Paths.get(baseDirectory);
 		
-		try {
 			Files.delete(path);
 			return true;
 		} catch(NoSuchFileException e) {

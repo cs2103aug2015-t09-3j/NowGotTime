@@ -52,10 +52,19 @@ public class DirectoryHandler {
 		}
 	}
 	
+	/**
+	 * Retrieve the address of the base directory.
+	 * @return
+	 */
 	public String getBaseDirectory(){
-		return baseDirectory.concat( "/" + DATABASE);
+		return baseDirectory;
 	}
 	
+	/**
+	 * Set a new directory to where the data will be saved.
+	 * @param theBaseDirectory
+	 * @return
+	 */
 	public boolean setNewBaseDirectory(String theBaseDirectory){
 		if(theBaseDirectory != null && (new File(theBaseDirectory).exists())){
 			String oldDirectory = baseDirectory;			
@@ -70,7 +79,11 @@ public class DirectoryHandler {
 	
 /************************* Private class methods *****************************/
 	
-	//return true if directories have all been created, return false if some/all directories failed to be created.
+	/**
+	 * return true if directories have all been created, return false if some/all directories failed to be created.
+	 * @param theBaseDirectory
+	 * @return
+	 */
 	private boolean setUpDirectory(String theBaseDirectory){
 		if(theBaseDirectory != null){
 			baseDirectory = theBaseDirectory;
@@ -91,7 +104,10 @@ public class DirectoryHandler {
 		return false;
 	}
 	
-	//create directory if they are missing.
+	/**
+	 * create directory if they are missing.
+	 * @return
+	 */
 	private boolean checkDirectories() {	
 		readOverviewFile();
 		
@@ -114,7 +130,11 @@ public class DirectoryHandler {
 		return new File(path).exists();
 	}
 	
-	//return String of directory path if created, else return null
+	/**
+	 * return String of directory path if created, else return null
+	 * @param directoryName
+	 * @return
+	 */
 	private String createDirectory(String directoryName){
 		//this line is to differentiate setting up default dir, or changing to new dir
 		if(baseDirectory == null){
