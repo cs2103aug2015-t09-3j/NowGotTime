@@ -47,7 +47,7 @@ public class DirectoryHandler {
 	public DirectoryHandler(){
 		if(!doesFileExist(OVERVIEW)){
 			setUpDirectory(null);
-		}else{
+		} else{
 			checkDirectories();
 		}
 	}
@@ -70,7 +70,7 @@ public class DirectoryHandler {
 			String oldDirectory = baseDirectory;			
 			if(setUpDirectory(theBaseDirectory)){
 				return true;
-			}else{
+			} else{
 				setUpDirectory(oldDirectory);	//revert back
 			}
 		}
@@ -136,7 +136,7 @@ public class DirectoryHandler {
 	 * @return
 	 */
 	private String createDirectory(String directoryName){
-		//this line is to differentiate setting up default dir, or changing to new dir
+		//this is to differentiate setting up default dir, or changing to new dir
 		if(baseDirectory == null){
 			baseDirectory = getDefaultDirectory();
 			if(baseDirectory == null){
@@ -147,7 +147,7 @@ public class DirectoryHandler {
 		String newDirectoryPath = baseDirectory.concat("/" + directoryName);
 		if(makeNewDirectory(newDirectoryPath)){
 			return newDirectoryPath;
-		}else{
+		} else{
 			return null;
 		}
 	}
@@ -169,7 +169,7 @@ public class DirectoryHandler {
 			writer.close();
 			return true;
 	
-		}catch(IOException e){
+		} catch(IOException e){
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"writeOverviewTextFile", e.getMessage());
 			return false;
@@ -215,7 +215,7 @@ public class DirectoryHandler {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"readOverviewFile", e.getMessage());
 			return false;
-		}catch (IOException e) {
+		} catch (IOException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"readOverviewFile", e.getMessage());
 			return false;

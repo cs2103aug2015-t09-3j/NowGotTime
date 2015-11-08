@@ -1,6 +1,6 @@
 //@@author A0124402Y
-
 package storage;
+
 import helper.CalendarHelper;
 import helper.MyLogger;
 
@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.logging.Level;
 
 import object.Event;
+import object.Item;
 
 public class FileEventHandler {
 	
@@ -25,7 +26,6 @@ public class FileEventHandler {
 	
 	private static final String EVENTS = "All_Events.txt";
 	private static final String EVENT = "Event";
-	
 	private String baseDirectory;
 	
 	private ArrayList<Event> allEvents = new ArrayList<Event>();
@@ -129,6 +129,7 @@ public class FileEventHandler {
 		ArrayList<Event> eventBook = new ArrayList<Event>();
 		String eventName, startDate, endDate, startTime, endTime, addInfo, ID;
 		boolean isDone;
+		int counter = Item.getCounter();
 		
 		try {
 			File inputFile = new File(baseDirectory + EVENTS);
@@ -149,16 +150,19 @@ public class FileEventHandler {
 						startTime, endTime, addInfo, ID, isDone);
 				eventBook.add(event);
 			}
-			reader.close();	
+			reader.close();
+			
+			//prevent counter from incrementing
+			Item.setCounter(counter);
 			return eventBook;
 			
-		}catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(),
 					"retrieveEvent", e.getMessage());
 			saveEventBook();
 			return eventBook;
 			
-		}catch (IOException e) {
+		} catch (IOException e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"retrieveEvent", e.getMessage());
 			return eventBook;
