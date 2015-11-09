@@ -57,14 +57,6 @@ public class TestItem {
 		todo2 = new Todo("Todo2", "", "03 May 1995", "11:00");
 		todo3 = new Todo("Todo3", "", "25 Oct 2015", "10:00");
 		item2 = new Todo("testingName2", "testingAddInfo2");
-		
-//		System.out.println(item.getId() + " " + item.getName());
-//		System.out.println(event1.getId() + " " + event1.getName());
-//		System.out.println(event2.getId() + " " + event2.getName());
-//		System.out.println(todo1.getId() + " " + todo1.getName());
-//		System.out.println(todo2.getId() + " " + todo2.getName());
-//		System.out.println(todo3.getId() + " " + todo3.getName());
-//		System.out.println(item2.getId() + " " + item2.getName());
 	}
 		
 	@Test
@@ -76,24 +68,11 @@ public class TestItem {
 	
 			assertEquals("Fail getName() and setName()", "testingName", gottenName);
 			
-			/*
-			Item itemNullName = new Todo("", "testingAddInfo3");
-			System.out.println(itemNullName.getId());
-			String gottenNullName = itemNullName.getName();
-			assertEquals("Fail getName() and setName(), name is null", "", gottenNullName);	
-			
-			*/
-			
 			String gottenAddInfo = item.getAdditionalInfo();
 			assertEquals("Fail getAdditionalInfo() and setAdditionalInfo()", "testingAddInfo", gottenAddInfo);
 			
 			int gottenId = item.getId();
 			assertEquals("Fail getId() and setId()", 0, gottenId);
-			
-			//Item.setCounter(2);
-			//int gottenCounter = Item.getCounter();
-			//assertEquals("Fail getCounter() and setCounter()", 2, gottenCounter);
-			//assertNotEquals("Pass getCounter() and setCounter()", 2, gottenCounter);
 			
 			boolean gottenDone = item.getDone();
 			assertFalse("Fail getDone and setDone()", gottenDone);
@@ -118,10 +97,9 @@ public class TestItem {
 			
 			int eventToTodoReturnNeg1 = todo2.compareTo(event1);
 			int eventToTodoReturnPos1 = event1.compareTo(todo2);
-			//int eventToTodoReturn0 = event1.compareTo(todo3);
+
 			assertEquals("Fail Event to Todo Return 1 (A later than B)", 1, eventToTodoReturnPos1);
-			//test failed for event to todo return 0 because of millisecond difference in calendar.
-			//assertEquals("Fail Event to Todo Return 0 (A same as B)", 0, eventToTodoReturn0);
+
 			assertEquals("Fail Event to Todo Return -1 (A earlier than B)", -1, eventToTodoReturnNeg1);
 			
 			int eventToItemReturnNeg1 = event1.compareTo(item2);
@@ -138,11 +116,8 @@ public class TestItem {
 		
 		try {
 			int TodoToEventReturnNeg1 = todo1.compareTo(event2);
-			//int TodoToEventReturn0 = todo3.compareTo(event1);
 			int TodoToEventReturnPos1 = event2.compareTo(todo1);
 			assertEquals("Fail Todo to Event Return 1 (A later than B)", 1, TodoToEventReturnPos1);
-			//test failed for event to todo return 0 because of millisecond difference in calendar.
-			//assertEquals("Fail Todo to Event Return 0 (A same as B)", 0, TodoToEventReturn0);
 			assertEquals("Fail Todo to Event Return -1 (A earlier than B)", -1, TodoToEventReturnNeg1);
 			
 			int TodoToTodoReturnNeg1 = todo1.compareTo(todo2);

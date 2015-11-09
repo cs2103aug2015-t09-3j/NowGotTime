@@ -74,10 +74,8 @@ public class TestProject {
 			//delete
 			assertTrue("Failed to delete project", project.deleteProject("cS2103t"));
 			
-			//Cannot delete damithsucks because damithsucks does not exist = we love damith
-			assertFalse("Successfully deleted a non-existent project", project.deleteProject("damithsucks"));
+			assertFalse("Successfully deleted a non-existent project", project.deleteProject("nonexistent"));
 			
-			//System.out.println(project.listExistingProjects());
 			//edit
 			assertTrue("Failed to edit project name", project.editProjectName("cs2103T", "cs2101"));
 			

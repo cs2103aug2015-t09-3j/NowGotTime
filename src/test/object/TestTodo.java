@@ -55,7 +55,6 @@ public class TestTodo {
 	@Test
 	public void testUpdateGetAndHas() throws AssertionError {
 		try {
-//			System.out.println("A");
 			assertTrue("Failed hasDate()", todo3.hasDate());
 			assertFalse("Failed (Todo has no date) hasDate()", todo1.hasDate());
 			assertTrue("Failed hasTime()", todo4.hasTime());
@@ -85,7 +84,6 @@ public class TestTodo {
 	@Test
 	public void testToString() throws AssertionError {
 		try {
-//			System.out.println("B");
 			assertEquals("Failed toString() hasDatehasTime", "Todo4\n03 May 1995\n16:00", todo4.toString());
 			assertEquals("Failed toString() hasNoDatehasNoTime", "Todo2\nno date\nno time", todo2.toString());		
 		} catch (AssertionError AE) {
@@ -97,13 +95,8 @@ public class TestTodo {
 	@Test
 	public void testFormattedStringWithParameters() throws AssertionError, Exception {
 		try {
-//			System.out.println("C");
 			assertEquals("Failed toFormattedStringWithPara (hasDatehasTime)", "Todo6", todo6.toFormattedString("25 Oct 2015"));
 			assertEquals("Failed toFormattedStringWithPara (hasNoDatehasNoTime)", "Todo5", todo5.toFormattedString("25 Oct 2015"));
-			
-//			System.out.println("1" + todo4.toFormattedString());
-//			System.out.println(todo2.toFormattedString());
-			
 		} catch (AssertionError AE) {
 			System.out.println(AE.getMessage());
 			throw AE;
@@ -113,8 +106,6 @@ public class TestTodo {
 	@Test
 	public void testFormattedString() throws AssertionError, Exception {
 		try {
-//			System.out.println("D");
-//			System.out.println("2" + todo4.toFormattedString());
 			assertEquals("Failed toFormattedString (hasDatehasTime)", "Todo6", todo6.toFormattedString());
 			assertEquals("Failed toFormattedString (hasNoDatehasNoTime)", "Todo5", todo5.toFormattedString());
 			

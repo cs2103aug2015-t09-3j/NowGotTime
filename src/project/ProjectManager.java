@@ -7,17 +7,10 @@ import object.Event;
 
 public interface ProjectManager {
 	
-	public boolean addProjectEvent (Event event, String projectName); //works
-	
-	//public boolean deleteProjectEvent(String eventName, String projectName);//tested
-	//public boolean deleteProjectEvent(int index, String projectName);//tested
+	public boolean addProjectEvent (Event event, String projectName);
 	public boolean deleteProjectEvent(Event event, String projectName);
 	public boolean editProjectName(String newProjectName, String oldProjectName);
-	//public boolean editProjectEvent(Event event, int infoIndex, String newValue, String projectName); //works
-	//public boolean editProjectEvent(int eventIndex, int infoIndex, String newValue, String projectName);
-	//public boolean editProjectEvent(Event eventName, int infoIndex, String newValue, String projectName); //works
-	
-	public ArrayList<Integer> viewProjectTimeline(String name); //works
+	public ArrayList<Integer> viewProjectTimeline(String name);
 	public ArrayList<Event> viewEventProgressTimeline(String projectName);
 	public double progressBar(String projectName);
 	public ArrayList<Event> viewProjectTimelineInEvents(String projectName);
