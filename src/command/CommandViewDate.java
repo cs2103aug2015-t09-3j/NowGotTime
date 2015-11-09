@@ -33,12 +33,8 @@ public class CommandViewDate implements CommandView {
      * Parses the arguments for view command
      */
     public CommandViewDate(String args) {
-        if (Parser.matches(args, Parser.PATTERN_EMPTY)) {
-            dateString = CalendarHelper.getDateString(Calendar.getInstance());
-        } else {
-            Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DATE);
-            dateString = matcher.group(Parser.TAG_DATE).trim();
-        }
+        Matcher matcher = Parser.matchRegex(args, Parser.PATTERN_DATE);
+        dateString = matcher.group(Parser.TAG_DATE).trim();
     }
     
     public CommandViewDate() {

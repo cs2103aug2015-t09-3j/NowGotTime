@@ -73,43 +73,7 @@ public class CommandEditItem implements CommandEdit {
         this.item = item;
         this.fieldName = fieldName;
         this.newValue = newValue;
-    }
-
-    /**
-     * Returns name of item that wants to be edited
-     */
-    public String getItemKey() {
-        return itemKey;
-    }
-
-    /**
-     * Returns index of item that wants to be edited
-     */
-    public int getItemIndex() {
-        return itemIndex;
-    }
-
-    /**
-     * Returns name of field that wants to be edited
-     */
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    /**
-     * Returns the new value
-     */
-    public String getNewValue() {
-        return newValue;
-    }
-
-    /**
-     * Returns the old value
-     */
-    public String getOldValue() {
-        return oldValue;
-    }
-    
+    }    
     
     /**
      * Executes edit command, returns feedback string
