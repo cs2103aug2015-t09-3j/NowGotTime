@@ -113,7 +113,6 @@ public class ProjectHandler implements ProjectManager{
 			Event event = project.retrieveEventById(id);
 			String progressMessage = map.get(id);
 			event.setAdditionalInfo(progressMessage);
-           // System.out.println(event.getName() + " " + event.getAdditionalInfo());
 			eventProgress.add(event);
 		}
 		return eventProgress;
@@ -155,7 +154,7 @@ public class ProjectHandler implements ProjectManager{
 	public double progressBar(String projectName) {
 		assert(projectName != null); 	//checked by Projects first
 		ArrayList<Integer> projectIdTimeline = viewProjectTimeline(projectName);
-		// ArrayList<Event> projectEventTimeline = new ArrayList<Event>();
+
 		int totalEvents = projectIdTimeline.size();
 		
 		if (totalEvents == 0) return 0;

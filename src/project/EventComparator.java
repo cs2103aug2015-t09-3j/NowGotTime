@@ -15,13 +15,6 @@ public class EventComparator implements Comparator<Event> {
 	}
 	
 	private int compareStart() {
-		/*if (event1Start.compareTo(event2Start) == 1) {
-			return 1;
-		} else if (event1Start.compareTo(event2Start) == 0){
-			return compareEnd();
-		} else {
-			return -1;
-		}*/
 		if (event1Start.compareTo(event2Start) == 0){
 			return compareEnd();
 		} else {
@@ -30,13 +23,6 @@ public class EventComparator implements Comparator<Event> {
 	}
 	
 	private int compareEnd() {
-		/*if (event1End.compareTo(event2End) == 1) {
-			return 1;
-		} else if (event1End.compareTo(event2End) == 0){
-			return 0;
-		} else {
-			return -1;
-		}*/
 		return event1End.compareTo(event2End);
 	}
 	
