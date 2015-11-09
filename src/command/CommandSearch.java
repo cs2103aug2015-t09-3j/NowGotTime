@@ -40,6 +40,10 @@ public class CommandSearch implements Command, Displayable {
     private String itemKey;
     private ArrayList<Item> filteredItem;
 
+    public ArrayList<Item> getFilteredItem() {
+        return filteredItem;
+    }
+
     public CommandSearch(String args) {
         
         if (Parser.matches(args,Parser.PATTERN_NAME)) {

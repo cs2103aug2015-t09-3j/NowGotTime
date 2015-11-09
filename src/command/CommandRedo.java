@@ -1,3 +1,5 @@
+//@@author A0126509E
+
 package command;
 
 import helper.CommonHelper;
@@ -26,7 +28,6 @@ public class CommandRedo implements Command {
         if (redoCommand == null) {
             throw new Exception(CommonHelper.ERROR_EMPTY_REDO);
         }
-        state.addRedoCommand(redoCommand);
         return ((Command) redoCommand).execute(state);
     }
 

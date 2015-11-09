@@ -90,9 +90,13 @@ public class ProjectHandler implements ProjectManager{
 	public Event editEvent(int arrayIndex, String projectName) {
 		assert(projectName != null); 	//checked by Projects first
 		viewProjectTimeline(projectName);
-		int id = projectBook.get(arrayIndex);
-		Event event = project.retrieveEventById(id); 
-		return event;
+		if (0 <= arrayIndex && arrayIndex < projectBook.size()) {
+    		int id = projectBook.get(arrayIndex);
+    		Event event = project.retrieveEventById(id); 
+    		return event;
+		} else {
+		    return null;
+		}
 	}
 	
 	@Override

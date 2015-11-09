@@ -34,7 +34,7 @@ public class CommandEditProject implements CommandEdit {
     public String execute(State state)
             throws Exception {
         Projects projectHandler = state.getProjectHandler();
-        if (projectHandler.editProjectName(projectName, newValue)) {
+        if (projectHandler.editProjectName(newValue, projectName)) {
             return String.format(CommonHelper.SUCCESS_PROJECT_EDITED, projectName, newValue);
         } else {
             throw new Exception(String.format(CommonHelper.ERROR_DUPLICATE_PROJECT, newValue));

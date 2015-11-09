@@ -99,7 +99,6 @@ public class CommandDeleteItem implements CommandDelete {
      */
     @Override
     public String revert(State state) throws Exception {
-        System.out.println(item);
         CommandAddItem revertDeleteCommand = new CommandAddItem(item);
         return revertDeleteCommand.execute(state);
     }
