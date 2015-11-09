@@ -48,7 +48,6 @@ public class CommandDeleteProgress implements CommandDelete {
     @Override
     public String revert(State state)
             throws Exception {
-        // TODO: save old value
         Command revertDeleteProgressCommand = new CommandAddProgress(index, projectName, "");
         return revertDeleteProgressCommand.execute(state);
  

@@ -33,7 +33,6 @@ public class CommandDeleteProject implements CommandDelete {
     @Override
     public String revert(State state)
             throws Exception {
-        // TODO: re-add all events inside project
         Command commandAddProject = new CommandAddProject("project \"" + projectName + "\"");
         return commandAddProject.execute(state);
     }

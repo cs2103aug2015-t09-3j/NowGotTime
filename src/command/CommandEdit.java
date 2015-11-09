@@ -27,7 +27,6 @@ public interface CommandEdit extends Command, Revertible {
             
         }
         
-        
         return commandEdit;
     }
 }

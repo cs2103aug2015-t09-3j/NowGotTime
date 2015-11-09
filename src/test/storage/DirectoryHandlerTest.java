@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import storage.DirectoryHandler;
 
-//TODO: test creation of files when there are already files of the same name
 public class DirectoryHandlerTest {
 
 	private static final String ALTERNATE_TEST_FILES = "alternateTestFiles";

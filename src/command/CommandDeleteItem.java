@@ -31,6 +31,7 @@ public class CommandDeleteItem implements CommandDelete {
             matcher = Parser.matchRegex(args, Parser.PATTERN_INTEGER);
             itemIndex = Integer.parseInt(matcher.group(Parser.TAG_INDEX)) - 1;
         } else {
+            // should not reach here from GUI
             assert(false);
         }
     }
