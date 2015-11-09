@@ -4,7 +4,6 @@
 *.txt
 /bin/
 /doc/
-*.md
 /dist/
 /build/
 /projectRefs/
