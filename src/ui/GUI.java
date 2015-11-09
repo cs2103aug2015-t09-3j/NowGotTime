@@ -29,9 +29,12 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import object.State;
 
+import java.util.logging.Level;
+
 import command.Command;
 import command.CommandUndo;
 import command.Revertible;
+import helper.MyLogger;
 
 public class GUI extends Application {
     
@@ -51,7 +54,7 @@ public class GUI extends Application {
     public static final int FONT_SIZE_TITLE  = 22;
     public static final int FONT_SIZE_TEXT   = 20;
     
-    
+    private MyLogger logger;
     
     // CSS constant
     private static String CSS_SUCCESS     = "-fx-background-color: #5cb85c; -fx-background-radius: 3;";
@@ -89,6 +92,9 @@ public class GUI extends Application {
         Command command = null;
         String feedback;
         
+        // Log user response
+        logger.log(Level.FINE, userResponse);
+        
         try {
             command = Command.parseCommand(userResponse);
             feedback = command.execute(currentState);
@@ -109,6 +115,7 @@ public class GUI extends Application {
                 // add to history list if project revertible
                 currentState.addUndoCommand((Revertible)command);
             }
+            logger.log(Level.FINE, feedback);
             
         } catch (Exception e) {
             // catch error message
@@ -116,7 +123,7 @@ public class GUI extends Application {
                 statusBox.setStyle(CSS_ERROR);
             }
             feedback = e.getMessage();
-            e.printStackTrace();
+            logger.log(Level.WARNING, feedback);
         }
         
         return feedback;
@@ -261,6 +268,7 @@ public class GUI extends Application {
     }
     
     public void initiateState(boolean textMode) {
+        logger = new MyLogger();
         currentState = new State(textMode);
     }
     
