@@ -15,10 +15,10 @@ import service.ServiceHandler;
 
 public class CommandAddToProject implements CommandAdd {
 
-    int index;
-    String keyword = null;
-    String projectName;
-    Item item;
+    private int index;
+    private String keyword = null;
+    private String projectName;
+    private Item item;
     
     public CommandAddToProject(String args) {
         Matcher matcher;

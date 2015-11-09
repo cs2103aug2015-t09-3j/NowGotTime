@@ -29,9 +29,9 @@ public class CommandViewProjectName implements CommandView {
         }
     }
     
-    String projectName = null;
-    double projectProgress;
-    ArrayList<Event> projectEvents;
+    private String projectName = null;
+    private double projectProgress;
+    private ArrayList<Event> projectEvents;
 
     public String getProjectName() {
         return projectName;

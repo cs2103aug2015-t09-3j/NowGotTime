@@ -16,12 +16,8 @@ import ui.GUI;
 
 public class CommandViewProject implements CommandView {
 
-    public CommandViewProject() {
-        
-    }
-    
-    ArrayList<String> projectList;
-    ArrayList<Double> progressList;
+    private ArrayList<String> projectList;
+    private ArrayList<Double> progressList;
 
     @Override
     public String execute(State state) throws Exception {

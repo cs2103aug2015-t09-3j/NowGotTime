@@ -26,6 +26,7 @@ public class ProjectHandler implements ProjectManager{
 	 */
 	@Override
 	public boolean addProjectEvent(Event event, String projectName) {
+		assert(projectName != null); 	//checked by Projects first
 		try {
 			projectBook = viewProjectTimeline(projectName.toLowerCase());
 			projectBook.add(event.getId());
@@ -40,6 +41,7 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public boolean deleteProjectEvent(int index, String projectName) {
+		assert(projectName != null); 	//checked by Projects first
 		viewProjectTimeline(projectName);
 		if (index < projectBook.size()) {
 			int id = projectBook.get(index);
@@ -53,6 +55,7 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public boolean deleteProjectEvent(Event event, String projectName) {
+		assert(projectName != null); 	//checked by Projects first
 		viewProjectTimeline(projectName);
 		int id = extractIdFromEvent(event);
 		int index = 0;
@@ -75,33 +78,9 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public boolean editProjectName(String newProjectName, String oldProjectName) {
-		/*ArrayList<Integer> newProject = new ArrayList<Integer>();
-		newProject = project.retrieveProjectTimeLine(oldProjectName);
-		map = project.retrieveProjectProgress();
-		project.saveEditedProjectDetails(newProject, map, newProjectName);
-	 */
-		// ArrayList<Integer> newProject = new ArrayList<Integer>();
 		ArrayList<Integer> newProject = viewProjectTimeline(oldProjectName);
 		return project.saveEditedProjectDetails(newProject, map, newProjectName);
-		
-		// Can try: return project.saveEditedProjectDetails(viewProjectTimeline(oldProjectName), map, newProjectName);
 	}
-	/*
-	@Override
-	public boolean deleteProjectEvent(String eventName, String projectName) {
-		for (Event anEvent : projectBook) {
-			if (anEvent.getName().toLowerCase().equals(eventName.toLowerCase())) {
-				projectBook.remove(anEvent);
-				project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
-
-	
-	
 	
 	/**
 	 * Edits an existing Event in the Project ArrayList by the ID
@@ -109,129 +88,12 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public Event editEvent(int arrayIndex, String projectName) {
+		assert(projectName != null); 	//checked by Projects first
 		viewProjectTimeline(projectName);
 		int id = projectBook.get(arrayIndex);
 		Event event = project.retrieveEventById(id); 
 		return event;
 	}
-	
-	/*
-	@Override
-	public boolean editProjectEvent(Event event, int infoIndex, String newValue, String projectName) {
-		int id = event.getId();
-		if (id < 0 || !projectBook.contains(id)) {
-			return false;
-		} else {
-			
-			switch(infoIndex) {
-				case (1): {	
-					event.setName(newValue);
-					break;
-				}
-				
-				case (2): {
-					event.updateStartDate(newValue); 
-					break;
-				}
-				
-				case (3): {
-					event.updateEndDate(newValue);
-					break;
-				}
-				
-				case (4): {
-					event.updateStartTime(newValue);
-					break;
-				}
-				
-				case (5): {
-					event.updateEndTime(newValue);
-					break;
-				}
-				
-				case (6): {
-					map.put(id, newValue);
-					break;
-				}
-			}
-			sortEvents();
-			project.saveEditedProjectDetails(projectBook, map, projectName.toLowerCase());
-			return true;
-		}
-	}
-		*/
-	
-	/*
-	@Override
-	public boolean editProjectEvent(int eventIndex, int infoIndex, String newValue, String projectName) {
-		if (eventIndex < 0 || eventIndex > projectBook.size()) {
-			return false;
-		} else {
-			Event event = projectBook.get(eventIndex);
-			
-			switch(infoIndex) {
-				case (1): {	
-					event.setName(newValue);
-					break;
-				}
-				
-				case (2): {
-					event.updateStartDate(newValue); 
-					break;
-				}
-				
-				case (3): {
-					event.updateEndDate(newValue);
-					break;
-				}
-				
-				case (4): {
-					event.updateStartTime(newValue);
-					break;
-				}
-				
-				case (5): {
-					event.updateEndTime(newValue);
-					break;
-				}
-				
-				case (6): {
-					event.setAdditionalInfo(newValue);
-					break;
-				}
-			}
-			project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
-			return true;
-		}
-	}
-	*/
-	
-	/**
-	 * Edits an existing Event in the Project ArrayList by the event name
-	 */
-	
-	/*
-	@Override
-	public boolean editProjectEvent(Event eventName, int infoIndex, String newValue, String projectName) {
-		//for testing: System.out.println("1" + projectBook);
-	
-		for (int i=0; i<projectBook.size(); i++) {			//convert int to event: 
-			if (eventName.getName().toLowerCase().equals(projectbook.get(i).getName().toLowerCase())) {
-				int eventIndex = i;
-				
-				return editProjectEvent(eventIndex, infoIndex, newValue, projectName);
-				//project.saveEditedProjectDetails(projectBook, projectName.toLowerCase());
-				//return true;
-			}
-		} return false;
-	}*/
-	
-
-	
-	/**
-	 * View Project timeline (ArrayList of Events) by the Project name
-	 */
-	
 	
 	@Override
 	public ArrayList<Integer> viewProjectTimeline(String projectName) {
@@ -241,24 +103,6 @@ public class ProjectHandler implements ProjectManager{
 		return projectBook;
 	}
 
-	/**
-	 * View Project timeline (ArrayList of Events) by the Project index
-	 */
-	/*
-	@Override
-	public ArrayList<Integer> viewProjectTimeline(int index) {
-		
-		if (index < projectList.size()) {
-			String projectName = projectList.get(index);
-			projectBook = project.retrieveProjectTimeLine(projectName);
-			map = project.retrieveProjectProgress();
-			return projectBook;
-		} else {
-			return null;
-		}
-	}
-	*/
-	
 	@Override
 	public ArrayList<Event> viewEventProgressTimeline(String projectName) {
 		
@@ -309,6 +153,7 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public double progressBar(String projectName) {
+		assert(projectName != null); 	//checked by Projects first
 		ArrayList<Integer> projectIdTimeline = viewProjectTimeline(projectName);
 		// ArrayList<Event> projectEventTimeline = new ArrayList<Event>();
 		int totalEvents = projectIdTimeline.size();
@@ -324,18 +169,6 @@ public class ProjectHandler implements ProjectManager{
 			}
 		}
 		
-		
-		/* for (int id : projectIdTimeline) {
-			Event event = project.retrieveEventById(id);
-			projectEventTimeline.add(event);
-		}
-		
-		for (Event event : projectEventTimeline) {
-			if (event.getDone()) {
-				eventsDone++;
-			}
-		} */
-		
 		percentageDone = 100.0*((double)eventsDone/(double)totalEvents);
 
         DecimalFormat df = new DecimalFormat("#.##");      
@@ -346,7 +179,8 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public boolean addProgressMessage(int index, String progressMessage, String projectName) {
-	    viewProjectTimeline(projectName);
+		assert(projectName != null); 	//checked by Projects first
+		viewProjectTimeline(projectName);
         
         if (0 <= index && index < projectBook.size()) {
             int id = projectBook.get(index);
@@ -357,17 +191,9 @@ public class ProjectHandler implements ProjectManager{
         }
 	}
 	
-//	private boolean deleteProgressMessage(int id) {
-//		try {
-//			map.remove(id);
-//			return true;
-//		} catch (Exception Ex) {
-//			return false;
-//		}
-//	}
-	
 	@Override
 	public boolean deleteProgressMessage(int index, String projectName) {
+		assert(projectName != null); 	//checked by Projects first
 	    viewProjectTimeline(projectName);
         if (0 <= index && index < projectBook.size()) {
             int id = projectBook.get(index);
@@ -385,6 +211,7 @@ public class ProjectHandler implements ProjectManager{
 	
 	@Override
 	public boolean editProgressMessage(int index, String newProgressMessage, String projectName) {
+		assert(projectName != null); 	//checked by Projects first
         if (deleteProgressMessage(index, projectName)) {
             return addProgressMessage(index, newProgressMessage, projectName);
         } else {

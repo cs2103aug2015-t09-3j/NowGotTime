@@ -1,5 +1,4 @@
 //@@author A0124402Y
-
 package storage;
 
 import java.util.ArrayList;
@@ -10,9 +9,12 @@ import object.Todo;
 
 /**
  * 
- * @author A0124402Y
+ * @author RX.huang
  * 
- **/
+ * This is an interface implemented by FileHandler. The interface ensures that
+ * FileHandler contains fixed methods that can be used by the Logic component.
+ * 
+ */
 public interface FileManager {
 
 	public ArrayList<Event> retrieveEventByDate(String date); 

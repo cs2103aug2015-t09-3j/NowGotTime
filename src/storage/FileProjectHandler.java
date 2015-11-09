@@ -22,7 +22,10 @@ import java.util.logging.Level;
 
 /**
  * 
- * @author A0124402Y
+ * @author RX.huang
+ *
+ * This class is responsible for data storage and retrieval of project related 
+ * information.
  *
  */
 public class FileProjectHandler {
@@ -135,16 +138,11 @@ public class FileProjectHandler {
 			reader.close();
 			return projectBook;
 			
-		}catch(FileNotFoundException e){
+		}catch(Exception e){
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"retrieveProject", e.getMessage());
 			return projectBook;
-		}catch(IOException e){
-			myLogger.logp(Level.WARNING, getClass().getName(), 
-					"retrieveProject", e.getMessage());
-			return projectBook;
-		}
-		 
+		}		 
 	}
 	
 	/**
@@ -206,16 +204,11 @@ public class FileProjectHandler {
 			writer.close();
 			return true;
 	
-		}catch(IOException e){
+		}catch(Exception e){
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"saveEditedProjectDetails", e.getMessage());
 			return false;
-		}catch(NullPointerException e){
-			myLogger.logp(Level.WARNING, getClass().getName(), 
-					"saveEditedProjectDetails", e.getMessage());
-			return false;
-		}
-		
+		}	
 	}
 	
 	/**
@@ -322,7 +315,7 @@ public class FileProjectHandler {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"readOverviewerFile", e.getMessage());
 			updateOverviewFile();
-		}catch (IOException e) {
+		}catch (Exception e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"readOverviewerFile", e.getMessage());
 		}
@@ -345,11 +338,7 @@ public class FileProjectHandler {
 			writer.close();
 			return true;
 	
-		}catch(IOException e){
-			myLogger.logp(Level.WARNING, getClass().getName(), 
-					"updateOverviewFile", e.getMessage());
-			return false;
-		}catch(NullPointerException e){
+		}catch(Exception e){
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"updateOverviewFile", e.getMessage());
 			return false;

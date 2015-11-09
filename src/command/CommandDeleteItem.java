@@ -14,9 +14,9 @@ import service.ServiceHandler;
 
 public class CommandDeleteItem implements CommandDelete {
 
-    String itemKey = null;
-    int itemIndex;
-    Item item;
+    private String itemKey = null;
+    private int itemIndex;
+    private Item item;
     
     /**
      * Parses the arguments for delete command

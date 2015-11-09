@@ -21,6 +21,14 @@ import object.Event;
 import object.Item;
 import object.Todo;
 
+/**
+ * 
+ * @author RX.huang
+ *
+ * This is the main and only class that the logic components will interact with 
+ * for data storage and retrieval operations.
+ * 
+ */
 public class FileHandler implements FileManager{
 	
 	private MyLogger myLogger = new MyLogger();

@@ -1,5 +1,4 @@
 //@@author A0124402Y
-
 package storage;
 
 import helper.CalendarHelper;
@@ -22,7 +21,9 @@ import object.Todo;
 
 /**
  * 
- * @author A0124402Y
+ * @author RX.huang
+ *
+ * This class is responsible for data storage and retrieval of Todo objects.
  *
  */
 public class FileTodoHandler {
@@ -238,7 +239,7 @@ public class FileTodoHandler {
 			saveChange(NORMAL_TODO);
 			return false;
 			
-		}catch (IOException e) {
+		}catch (Exception e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"readTodoFile", e.getMessage());
 			return false;

@@ -16,9 +16,9 @@ public class CommandUncheck implements Command, Revertible {
 
     public static final String KEYWORD = "uncheck";
     
-    String itemKey = null;
-    int itemIndex;
-    Item item;
+    private String itemKey = null;
+    private int itemIndex;
+    private Item item;
     
     public CommandUncheck(String args) throws Exception {
         Matcher matcher;

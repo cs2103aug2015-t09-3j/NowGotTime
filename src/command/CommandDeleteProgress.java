@@ -11,8 +11,8 @@ import project.Projects;
 
 public class CommandDeleteProgress implements CommandDelete {
 
-    int index;
-    String projectName;
+    private int index;
+    private String projectName;
     
     public CommandDeleteProgress(String args) {
         

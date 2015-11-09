@@ -11,7 +11,7 @@ import project.Projects;
 
 public class CommandAddProject implements CommandAdd {
 
-    String projectName;
+    private String projectName;
     
     public CommandAddProject(String args) {
         

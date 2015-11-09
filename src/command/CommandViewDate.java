@@ -22,12 +22,12 @@ import ui.GUI;
 public class CommandViewDate implements CommandView {
 
     
-    private static int TODAY_INDEX = 0;
-    private static int TASK_INDEX = 1;
-    private static String EMPTY_LIST_TEXT = "Nothing to do!";
+    private static final int TODAY_INDEX = 0;
+    private static final int TASK_INDEX = 1;
+    private static final String EMPTY_LIST_TEXT = "Nothing to do!";
     
-    String dateString = null;
-    ArrayList< ArrayList<Item> > mergedList;
+    private String dateString = null;
+    private ArrayList< ArrayList<Item> > mergedList;
     
     /**
      * Parses the arguments for view command
