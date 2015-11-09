@@ -1,4 +1,4 @@
-//@@author Jonathan Sim Zhuang Wei A0122432X
+//@@author A0122432X
 
 package test.integration;
 
