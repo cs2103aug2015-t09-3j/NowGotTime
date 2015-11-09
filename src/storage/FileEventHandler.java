@@ -20,6 +20,14 @@ import java.util.logging.Level;
 import object.Event;
 import object.Item;
 
+/**
+ * 
+ * @author RX.huang
+ * 
+ * This class is responsible for data storage and retrieval of 
+ * Event objects.
+ * 
+ */
 public class FileEventHandler {
 	
 	private MyLogger myLogger = new MyLogger();

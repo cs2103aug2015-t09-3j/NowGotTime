@@ -5,25 +5,18 @@ import helper.MyLogger;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 
 /**
- *
- * This class is responsible for:
- * 1) Creation of directories for
- * 		i) event, 
- * 		ii) todo,
- * 		ii) project
- * 2) Creation of the overview file
  * 
- * if these files do not exist.
- *  
- **/
-
+ * @author RX.huang
+ * 
+ * This class is in-charge of creating, checking and changing of directories.
+ * 
+ */
 public class DirectoryHandler {
 	
 	private static final String DATABASE = "database";
@@ -211,11 +204,7 @@ public class DirectoryHandler {
 			reader.close();
 			return true;
 			
-		} catch (FileNotFoundException e) {
-			myLogger.logp(Level.WARNING, getClass().getName(), 
-					"readOverviewFile", e.getMessage());
-			return false;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			myLogger.logp(Level.WARNING, getClass().getName(), 
 					"readOverviewFile", e.getMessage());
 			return false;
