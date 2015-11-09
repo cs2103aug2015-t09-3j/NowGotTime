@@ -43,7 +43,7 @@ Command | Description
 --------| ----------- | -------
 `undo` | undo last add, delete, or edit command | ✅ | 
 `redo` | redo last undo command | ✅ | 
-`set "<DIRECTORY>"` | change save directory to <DIRECTORY> | ✅ |
+`set "<DIRECTORY>"` | change save directory to `<DIRECTORY>` | ✅ |
 `exit` | exit NowGotTime | ✅ |
 
 ## Project Commands
@@ -64,7 +64,7 @@ Command | Description
 ### Editing
 Command | Description  
 --------| ----------- | -------
-`edit project "<PROJECT>" name "<NAME>"` | edit name of a project | ✅ | 
+`edit project "<PROJECT>" name "<NAME>"` | edit name of a project with name `<PROJECT>` to `<NAME>`| ✅ | 
 
 ### Viewing
 Command | Description
