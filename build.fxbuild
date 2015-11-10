@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
-<anttasks:AntTask xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:anttasks="http://org.eclipse.fx.ide.jdt/1.0" buildDirectory="C:\Users\RX.huang\Desktop">
+<anttasks:AntTask xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:anttasks="http://org.eclipse.fx.ide.jdt/1.0" buildDirectory="/Users/zeulb/Dropbox/NUS/Sem 3/CS2103_CS2103T/main">
   <deploy>
-    <application name="NowGotTime" mainclass="ui.GUI" version="0.4"/>
+    <application name="NowGotTime" mainclass="ui.GUI" version="0.5"/>
     <info title="NowGotTime" vendor="NowGotTime"/>
   </deploy>
   <signjar/>
