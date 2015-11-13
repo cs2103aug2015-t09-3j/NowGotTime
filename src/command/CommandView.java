@@ -12,7 +12,9 @@ public interface CommandView extends Command, Displayable {
     public static CommandView parseCommandView(String text) throws Exception {
         
         CommandView commandView = null;
-        if (Parser.matches(text, Parser.PATTERN_VIEW_PROJECT)) {
+        if (Parser.matches(text, Parser.PATTERN_EMPTY)) {
+            commandView = new CommandViewDate();
+        } else if (Parser.matches(text, Parser.PATTERN_VIEW_PROJECT)) {
             commandView = new CommandViewProject();
         } else if (Parser.matches(text, Parser.PATTERN_NAME)) {
             commandView = new CommandViewProjectName(text);
